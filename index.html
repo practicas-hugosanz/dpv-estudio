@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Estudio — Dinamització del punt de venda</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -72,7 +73,7 @@
     border-radius: 20px;
     padding: 6px 14px;
   }
-  .streak-icon { font-size: 16px; }
+  .streak-icon { font-size: 18px; display: flex; align-items: center; color: #F97316; filter: drop-shadow(0 0 4px #FBBF24); }
   .streak-n { font-size: 18px; font-weight: 700; color: var(--green); }
   .streak-lbl { font-size: 11px; color: var(--green); font-weight: 500; }
 
@@ -247,20 +248,26 @@
 
   .btn-check {
     width: 100%;
-    background: var(--blue);
+    background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #1D4ED8 100%);
     color: var(--white);
     border: none;
     border-radius: var(--radius-sm);
     padding: 14px;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     font-family: 'Plus Jakarta Sans', sans-serif;
     cursor: pointer;
     margin-bottom: 8px;
-    transition: background 0.15s, transform 0.1s;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+    box-shadow: 0 4px 14px rgba(29,78,216,0.35);
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
-  .btn-check:hover { background: var(--blue-dark); }
-  .btn-check:active { transform: scale(0.98); }
+  .btn-check:hover { background: linear-gradient(135deg, #1e40af 0%, #1D4ED8 50%, #1e40af 100%); box-shadow: 0 6px 20px rgba(29,78,216,0.45); transform: translateY(-1px); }
+  .btn-check:active { transform: scale(0.98); box-shadow: 0 2px 8px rgba(29,78,216,0.3); }
   .btn-next {
     width: 100%;
     background: var(--white);
@@ -590,9 +597,9 @@
 <div class="app">
 
   <div class="header">
-    <div class="logo">⚡ <span>Rita</span> Botella Pomata</div>
+    <div class="logo"><i class="ri-bolt-line"></i> <span>Rita</span> Botella Pomata</div>
     <div class="streak">
-      <span class="streak-icon">🔥</span>
+      <span class="streak-icon"><i class="ri-fire-fill"></i></span>
       <span class="streak-n" id="streakN">0</span>
       <span class="streak-lbl">racha</span>
     </div>
@@ -603,7 +610,7 @@
     <p class="menu-sub">Practica los ejercicios y fórmulas para el examen del tema 2 de Dinamización del punto de venta.</p>
 
     <div class="menu-card" onclick="startMode(1)">
-      <div class="menu-icon ic1">🏪</div>
+      <div class="menu-icon ic1"><i class="ri-store-2-line ri-lg"></i></div>
       <div>
         <div class="menu-card-title">Góndola con referencias</div>
         <div class="menu-card-desc">Preguntas multi-parte: lineal desarrollado, facings, espacio por referencia. Como las actividades 2 y 6.</div>
@@ -611,7 +618,7 @@
     </div>
 
     <div class="menu-card" onclick="startMode(2)">
-      <div class="menu-icon ic2">📦</div>
+      <div class="menu-icon ic2"><i class="ri-box-3-line ri-lg"></i></div>
       <div>
         <div class="menu-card-title">Lineal Mínimo con stock</div>
         <div class="menu-card-desc">Calcula el lineal mínimo y una variante cambiando un dato. Como las actividades 7, 8 y 9.</div>
@@ -619,7 +626,7 @@
     </div>
 
     <div class="menu-card" onclick="startMode(3)">
-      <div class="menu-icon ic3">📏</div>
+      <div class="menu-icon ic3"><i class="ri-ruler-line ri-lg"></i></div>
       <div>
         <div class="menu-card-title">Cálculo de facings</div>
         <div class="menu-card-desc">Ejercicios rápidos: dado un lineal y un ancho, calcula los facings. Como la actividad 5.</div>
@@ -627,7 +634,7 @@
     </div>
 
     <div class="menu-card" onclick="startMode(0)">
-      <div class="menu-icon ic4">🎲</div>
+      <div class="menu-icon ic4"><i class="ri-shuffle-line ri-lg"></i></div>
       <div>
         <div class="menu-card-title">Modo Aleatorio</div>
         <div class="menu-card-desc">Mezcla de todos los tipos. ¡El más completo para preparar el examen!</div>
@@ -635,7 +642,7 @@
     </div>
 
     <div class="menu-card" onclick="openPdf()" style="margin-top:24px;">
-      <div class="menu-icon" style="background:#F3E8FF;">📄</div>
+      <div class="menu-icon" style="background:#F3E8FF;"><i class="ri-file-text-line ri-lg"></i></div>
       <div>
         <div class="menu-card-title">Revisar Apuntes</div>
         <div class="menu-card-desc">Abre tus apuntes del tema 2 en la página.</div>
@@ -662,18 +669,18 @@
       </div>
     </div>
 
-    <button class="btn-check" id="btnCheck" onclick="checkAnswer()">✔ Verificar respuesta</button>
-    <button class="btn-hint" id="btnHint" onclick="showHint()">💡 Pista — ¿qué fórmula uso?</button>
+    <button class="btn-check" id="btnCheck" onclick="checkAnswer()">Verificar respuesta</button>
+    <button class="btn-hint" id="btnHint" onclick="showHint()"><i class="ri-lightbulb-line"></i> Pista — ¿qué fórmula uso?</button>
     <div id="resultArea"></div>
-    <button class="btn-next" id="btnNext" onclick="handleNext()" style="display:none">→ Siguiente</button>
-    <button class="btn-home" onclick="goHome()">↩ Volver al menú</button>
+    <button class="btn-next" id="btnNext" onclick="handleNext()" style="display:none"><i class="ri-arrow-right-line"></i> Siguiente</button>
+    <button class="btn-home" onclick="goHome()"><i class="ri-arrow-left-line"></i> Volver al menú</button>
   </div>
 
 <div id="hintOverlay" onclick="closeHint()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;"></div>
 <div id="hintModal" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;background:#fff;border-radius:20px 20px 0 0;padding:24px 20px 36px;z-index:101;box-shadow:0 -8px 32px rgba(0,0,0,0.15);">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-    <div style="font-size:15px;font-weight:700;color:#1E293B;">💡 Pista de fórmula</div>
-    <button onclick="closeHint()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#94A3B8;line-height:1;">✕</button>
+    <div style="font-size:15px;font-weight:700;color:#1E293B;"><i class="ri-lightbulb-line"></i> Pista de fórmula</div>
+    <button onclick="closeHint()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#94A3B8;line-height:1;"><i class="ri-close-line"></i></button>
   </div>
   <div id="hintBody"></div>
 </div>
@@ -681,10 +688,20 @@
 <div id="pdfOverlay" onclick="closePdf()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;"></div>
 <div id="pdfModal" style="display:none;position:fixed;inset:12px;z-index:201;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 -4px 32px rgba(0,0,0,0.25);">
   <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#F8FAFC;border-bottom:1px solid #E2E8F0;">
-    <div style="font-size:14px;font-weight:700;color:#1E293B;">📄 Apuntes — UD 02 Zona de Venta</div>
-    <button onclick="closePdf()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#94A3B8;line-height:1;">✕</button>
+    <div style="font-size:14px;font-weight:700;color:#1E293B;"><i class="ri-file-text-line"></i> Apuntes — UD 02 Zona de Venta</div>
+    <button onclick="closePdf()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#94A3B8;line-height:1;"><i class="ri-close-line"></i></button>
   </div>
-  <iframe id="pdfFrame" src="" style="width:100%;height:calc(100% - 48px);border:none;"></iframe>
+  <div id="pdfContainer" style="width:100%;height:calc(100% - 48px);position:relative;">
+    <object id="pdfFrame" data="" type="application/pdf" style="width:100%;height:100%;border:none;">
+      <div id="pdfFallback" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;padding:24px;text-align:center;">
+        <i class="ri-file-pdf-line" style="font-size:48px;color:#E2E8F0;"></i>
+        <p style="font-size:14px;color:#64748B;margin:0;">Tu navegador no puede mostrar el PDF directamente.</p>
+        <a id="pdfDirectLink" href="" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:#1D4ED8;color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;">
+          <i class="ri-external-link-line"></i> Abrir PDF
+        </a>
+      </div>
+    </object>
+  </div>
 </div>
 
 </div>
@@ -980,11 +997,11 @@
     var totalQ = current.questions.length;
 
     if(current.type===1){
-      document.getElementById('typeBadge').innerHTML='<span class="type-badge t1">🏪 Góndola con referencias</span>';
+      document.getElementById('typeBadge').innerHTML='<span class="type-badge t1"><i class="ri-store-2-line"></i> Góndola con referencias</span>';
     } else if(current.type===2){
-      document.getElementById('typeBadge').innerHTML='<span class="type-badge t2">📦 Lineal Mínimo con stock</span>';
+      document.getElementById('typeBadge').innerHTML='<span class="type-badge t2"><i class="ri-box-3-line"></i> Lineal Mínimo con stock</span>';
     } else {
-      document.getElementById('typeBadge').innerHTML='<span class="type-badge t3">📏 Cálculo de facings</span>';
+      document.getElementById('typeBadge').innerHTML='<span class="type-badge t3"><i class="ri-ruler-line"></i> Cálculo de facings</span>';
     }
 
     renderProgress();
@@ -1006,7 +1023,7 @@
     document.getElementById('dataGrid').innerHTML = grid;
 
     var letterHtml = totalQ > 1 ? '<span class="q-letter">'+q.letter+'</span>' : '';
-    document.getElementById('questionText').innerHTML = '❓ '+letterHtml+q.q;
+    document.getElementById('questionText').innerHTML = letterHtml+q.q;
     document.getElementById('unitLbl').textContent = q.unit;
 
     var inp = document.getElementById('ansInput');
@@ -1083,12 +1100,12 @@
     var html = '';
     if(ok){
       html = '<div class="result-card result-ok fade-in">'+
-        '<div class="result-head ok-head">✅ ¡Correcto!</div>'+
+        '<div class="result-head ok-head"><i class="ri-check-line"></i> ¡Correcto!</div>'+
         '<div class="result-sub ok-sub">La respuesta es <strong>'+fmt(q.ans)+' '+q.unit+'</strong></div>'+
       '</div>';
     } else {
       html = '<div class="result-card result-ko fade-in">'+
-        '<div class="result-head ko-head">❌ Incorrecto</div>'+
+        '<div class="result-head ko-head"><i class="ri-close-line"></i> Incorrecto</div>'+
         '<div class="result-sub ko-sub">La respuesta correcta es <strong>'+fmt(q.ans)+' '+q.unit+'</strong></div>'+
         '<div class="steps-title">Solución paso a paso</div>';
       q.steps.forEach(function(s,i){
@@ -1100,7 +1117,7 @@
           '</div>'+
         '</div>';
       });
-      html += '<div class="final-ans">✔ '+q.final+'</div></div>';
+      html += '<div class="final-ans"><i class="ri-check-line"></i> '+q.final+'</div></div>';
     }
 
     if(qIdx === current.questions.length - 1){
@@ -1114,12 +1131,12 @@
     var total = current.results.length;
     var correct = current.results.filter(function(r){return r;}).length;
     var pct = Math.round(correct/total*100);
-    var cls, color, emoji;
-    if(pct===100){ cls='summary-perfect'; color='#15803D'; emoji='🏆'; }
-    else if(pct>=50){ cls='summary-good'; color='#92400E'; emoji='👍'; }
-    else { cls='summary-bad'; color='#991B1B'; emoji='📚'; }
+    var cls, color, icon;
+    if(pct===100){ cls='summary-perfect'; color='#15803D'; icon='ri-trophy-line'; }
+    else if(pct>=50){ cls='summary-good'; color='#92400E'; icon='ri-thumb-up-line'; }
+    else { cls='summary-bad'; color='#991B1B'; icon='ri-book-open-line'; }
     return '<div class="summary-card '+cls+' fade-in" style="color:'+color+';">'+
-      '<div style="font-size:16px;font-weight:700;">'+emoji+' Resultado: '+correct+'/'+total+' correctas ('+pct+'%)</div>'+
+      '<div style="font-size:16px;font-weight:700;"><i class="'+icon+'"></i> Resultado: '+correct+'/'+total+' correctas ('+pct+'%)</div>'+
       '<div style="font-size:12px;margin-top:4px;opacity:0.8;">'+(pct===100?'¡Perfecto! Has acertado todo.':pct>=50?'Bien, pero aún puedes mejorar.':'Sigue practicando, ¡tú puedes!')+'</div>'+
     '</div>';
   }
@@ -1185,7 +1202,7 @@
     for(var row = maxRem - 1; row >= 0; row--){
       html += '<div class="shelf-row" style="gap:3px;min-height:26px;">';
       for(var col = 0; col < facingsMin; col++){
-        html += '<div class="ref-cell" style="background:#86EFAC;border-color:#4ADE80;font-size:10px;">📦</div>';
+        html += '<div class="ref-cell" style="background:#86EFAC;border-color:#4ADE80;font-size:10px;"><i class="ri-box-3-line"></i></div>';
       }
       html += '</div>';
       if(row > 0) html += '<div class="shelf-divider"></div>';
@@ -1218,7 +1235,8 @@
 
   function openPdf(){
     if(pdfClosing) return;
-    document.getElementById('pdfFrame').src = 'UD_02_Zona_Venta_Apuntes.pdf';
+    document.getElementById('pdfFrame').data = 'UD_02_Zona_Venta_Apuntes.pdf';
+    document.getElementById('pdfDirectLink').href = 'UD_02_Zona_Venta_Apuntes.pdf';
     document.body.style.overflow = 'hidden';
     document.body.classList.add('footer-hidden');
     var overlay = document.getElementById('pdfOverlay');
@@ -1245,7 +1263,7 @@
       overlay.style.display = 'none';
       document.body.style.overflow = '';
       document.body.classList.remove('footer-hidden');
-      document.getElementById('pdfFrame').src = '';
+      document.getElementById('pdfFrame').data = '';
       overlay.className = '';
       modal.className = '';
       pdfClosing = false;
@@ -1265,7 +1283,7 @@
       overlay.style.display = 'none';
       document.body.style.overflow = '';
       document.body.classList.remove('footer-hidden');
-      document.getElementById('pdfFrame').src = '';
+      document.getElementById('pdfFrame').data = '';
       overlay.classList.remove('overlay-exit');
       modal.removeEventListener('animationend', handler);
     });
@@ -1291,8 +1309,8 @@
       title: 'Lineal Desarrollado',
       mainFormula: '<span class="hf-var">Lineal al suelo</span> <span class="hf-op">×</span> <span class="hf-var">Nº de baldas</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Lineal desarrollado</span>',
       steps: [
-        { icon: '📏', text: 'El <strong>lineal al suelo</strong> son los centímetros de largo que tiene la base del mueble.' },
-        { icon: '🔢', text: '<strong>Multiplica</strong> esos cm por cuántas baldas (estantes) tiene la góndola.' }
+        { icon: 'ri-ruler-line', text: 'El <strong>lineal al suelo</strong> son los centímetros de largo que tiene la base del mueble.' },
+        { icon: 'ri-calculator-line', text: '<strong>Multiplica</strong> esos cm por cuántas baldas (estantes) tiene la góndola.' }
       ],
       tip: 'Es como medir una estantería: si cada balda mide 120 cm y hay 4 baldas → 120 × 4 = <strong>480 cm</strong> de espacio total.'
     },
@@ -1300,9 +1318,9 @@
       title: 'Facings por balda',
       mainFormula: '<span class="hf-var">Largo de la balda</span> <span class="hf-op">÷</span> <span class="hf-var">Ancho del producto</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Facings</span>',
       steps: [
-        { icon: '📐', text: 'El <strong>largo de la balda</strong> es el lineal al suelo (los cm del mueble).' },
-        { icon: '📦', text: 'El <strong>ancho del producto</strong> es lo que ocupa de frente (lo que ves al mirar el lineal).' },
-        { icon: '⬇️', text: '<strong>Redondea SIEMPRE hacia abajo</strong> — no puedes poner medio producto.' }
+        { icon: 'ri-ruler-line', text: 'El <strong>largo de la balda</strong> es el lineal al suelo (los cm del mueble).' },
+        { icon: 'ri-box-3-line', text: 'El <strong>ancho del producto</strong> es lo que ocupa de frente (lo que ves al mirar el lineal).' },
+        { icon: 'ri-arrow-down-line', text: '<strong>Redondea SIEMPRE hacia abajo</strong> — no puedes poner medio producto.' }
       ],
       tip: 'Si la balda mide 100 cm y cada producto ocupa 12 cm → 100 ÷ 12 = 8,33 → caben <strong>8</strong> productos (no 9).'
     },
@@ -1310,8 +1328,8 @@
       title: 'Unidades totales en el mueble',
       mainFormula: '<span class="hf-var">Facings por balda</span> <span class="hf-op">×</span> <span class="hf-var">Nº de baldas</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Total unidades</span>',
       steps: [
-        { icon: '1️⃣', text: 'Primero calcula los <strong>facings por balda</strong>:<br>Lineal al suelo ÷ Ancho del producto' },
-        { icon: '2️⃣', text: 'Luego <strong>multiplica</strong> ese número por las baldas que tiene el mueble.' }
+        { icon: 'ri-1-circle', text: 'Primero calcula los <strong>facings por balda</strong>:<br>Lineal al suelo ÷ Ancho del producto' },
+        { icon: 'ri-2-circle', text: 'Luego <strong>multiplica</strong> ese número por las baldas que tiene el mueble.' }
       ],
       tip: 'Es como una tabla: primero cuántos caben en una fila, luego × cuántas filas hay. Si caben 8 por balda y hay 3 baldas → 8 × 3 = <strong>24 uds</strong>.'
     },
@@ -1319,8 +1337,8 @@
       title: 'Espacio por porcentaje',
       mainFormula: '<span class="hf-var">Lineal al suelo</span> <span class="hf-op">×</span> (<span class="hf-var">%</span> <span class="hf-op">÷</span> <span class="hf-var">100</span>) <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">cm</span>',
       steps: [
-        { icon: '🔄', text: 'Primero convierte el porcentaje a decimal: <strong>divide entre 100</strong>.<br>Ej: 25% → 25 ÷ 100 = 0,25' },
-        { icon: '✖️', text: 'Luego <strong>multiplica</strong> el lineal al suelo por ese decimal.' }
+        { icon: 'ri-refresh-line', text: 'Primero convierte el porcentaje a decimal: <strong>divide entre 100</strong>.<br>Ej: 25% → 25 ÷ 100 = 0,25' },
+        { icon: 'ri-close-line', text: 'Luego <strong>multiplica</strong> el lineal al suelo por ese decimal.' }
       ],
       tip: '25% de una balda de 120 cm → 120 × 0,25 = <strong>30 cm</strong>.<br>50% → 120 × 0,50 = <strong>60 cm</strong>.'
     },
@@ -1328,10 +1346,10 @@
       title: 'Lineal Mínimo con stock',
       mainFormula: '<span class="hf-var">Facings mínimos</span> <span class="hf-op">×</span> <span class="hf-var">Ancho producto</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Lineal mínimo</span>',
       steps: [
-        { icon: '1️⃣', text: '<strong>Total uds = Demanda + Stock de seguridad</strong><br>Suma lo que necesitas vender + el colchón de seguridad.' },
-        { icon: '2️⃣', text: '<strong>Capacidad 1 facing = Remonte máx. × Filas al fondo</strong><br>Cada facing (columna) puede tener varias alturas y profundidades.' },
-        { icon: '3️⃣', text: '<strong>Facings mínimos = Total ÷ Capacidad</strong><br>⚠️ Redondea <strong>SIEMPRE hacia arriba</strong> (si sale 4,1 → necesitas 5).' },
-        { icon: '4️⃣', text: '<strong>Lineal mínimo = Facings × Ancho del producto</strong><br>Esto te da los cm de lineal que necesitas.' }
+        { icon: 'ri-1-circle', text: '<strong>Total uds = Demanda + Stock de seguridad</strong><br>Suma lo que necesitas vender + el colchón de seguridad.' },
+        { icon: 'ri-2-circle', text: '<strong>Capacidad 1 facing = Remonte máx. × Filas al fondo</strong><br>Cada facing (columna) puede tener varias alturas y profundidades.' },
+        { icon: 'ri-3-circle', text: '<strong>Facings mínimos = Total ÷ Capacidad</strong><br>⚠️ Redondea <strong>SIEMPRE hacia arriba</strong> (si sale 4,1 → necesitas 5).' },
+        { icon: 'ri-4-circle', text: '<strong>Lineal mínimo = Facings × Ancho del producto</strong><br>Esto te da los cm de lineal que necesitas.' }
       ],
       tip: 'El Paso 3 es la clave: siempre redondea hacia ARRIBA. Si necesitas 4,1 facings, no te vale 4 — necesitas 5. <strong>Nunca puedes tener menos stock del necesario</strong>.'
     }
@@ -1346,10 +1364,10 @@
     html += '<div class="hf-steps">';
     h.steps.forEach(function(s, i){
       if(i > 0) html += '<div class="hf-arrow">↓</div>';
-      html += '<div class="hf-step"><div class="hf-step-icon">' + s.icon + '</div><div>' + s.text + '</div></div>';
+      html += '<div class="hf-step"><div class="hf-step-icon"><i class="' + s.icon + '"></i></div><div>' + s.text + '</div></div>';
     });
     html += '</div>';
-    html += '<div class="hf-tip">💡 ' + h.tip + '</div>';
+    html += '<div class="hf-tip"><i class="ri-lightbulb-line"></i> ' + h.tip + '</div>';
     document.getElementById('hintBody').innerHTML = html;
 
     var overlay = document.getElementById('hintOverlay');
