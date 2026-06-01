@@ -1010,7 +1010,7 @@
     document.getElementById('unitLbl').textContent = q.unit;
 
     var inp = document.getElementById('ansInput');
-    inp.value=''; inp.disabled=false; inp.focus();
+    inp.value=''; inp.disabled=false;
 
     document.getElementById('btnCheck').style.display='block';
     document.getElementById('btnHint').style.display='block';
@@ -1128,7 +1128,6 @@
     if(qIdx < current.questions.length - 1){
       qIdx++;
       renderQuestion();
-      window.scrollTo(0, 0);
     } else {
       nextExercise();
     }
