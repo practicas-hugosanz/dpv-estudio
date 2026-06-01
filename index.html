@@ -865,7 +865,7 @@
       questions.push({
         letter:'d',
         q:'Si las referencias se distribuyen <strong>a partes iguales</strong>, ¿cuántos facings tiene cada referencia en total (todas las baldas)?',
-        unit:'facings', ans:facEach*baldas, hint:'pct',
+        unit:'facings', ans:facEach*baldas, hint:'equal_facings',
         steps:[
           {t:"Paso 1 — Espacio por referencia", f:linSuelo+" cm ÷ "+nRefs+" refs = "+spaceEach+" cm/ref"},
           {t:"Paso 2 — Facings por balda", f:spaceEach+" cm ÷ "+ancho+" cm = "+facEach+" facings/balda"},
@@ -1340,9 +1340,9 @@
     },
     'facings': {
       title: 'Facings por balda',
-      mainFormula: '<span class="hf-var">Largo de la balda</span> <span class="hf-op">÷</span> <span class="hf-var">Ancho del producto</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Facings</span>',
+      mainFormula: '<span class="hf-var">Lineal al suelo</span> <span class="hf-op">÷</span> <span class="hf-var">Ancho del producto</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Facings</span>',
       steps: [
-        { icon: 'ri-ruler-line', text: 'El <strong>largo de la balda</strong> es el lineal al suelo (los cm del mueble).' },
+
         { icon: 'ri-box-3-line', text: 'El <strong>ancho del producto</strong> es lo que ocupa de frente (lo que ves al mirar el lineal).' },
         { icon: 'ri-arrow-down-line', text: '<strong>Redondea SIEMPRE hacia abajo</strong> — no puedes poner medio producto.' }
       ],
@@ -1383,13 +1383,30 @@
       ],
       tip: 'El resultado del Paso 1 se usa en el Paso 2, y el del Paso 2 en el Paso 3. ¡Son como eslabones de una cadena!'
     },
+    'equal_facings': {
+      title: 'Facings por reparto igual',
+      mainFormula: '<div style="display:flex;flex-direction:column;gap:6px;text-align:center;width:100%;">' +
+        '<div style="font-size:11px;font-weight:600;color:#64748B;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:2px;">3 pasos encadenados</div>' +
+        '<div><span class="hf-var">Lineal al suelo</span> <span class="hf-op">÷</span> <span class="hf-var">Nº referencias</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span></div>' +
+        '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
+        '<div><span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span> <span class="hf-op">÷</span> <span class="hf-var">Ancho</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span></div>' +
+        '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
+        '<div><span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span> <span class="hf-op">×</span> <span class="hf-var">Nº baldas</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Facings total</span></div>' +
+        '</div>',
+      steps: [
+        { icon: 'ri-layout-column-line', text: '<strong>Paso 1 — Espacio por referencia</strong><br>Lineal al suelo ÷ Nº de referencias<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">120 cm ÷ 4 refs = 30 cm/ref</span>' },
+        { icon: 'ri-ruler-line', text: '<strong>Paso 2 — Facings por balda</strong><br>Espacio de la ref. ÷ Ancho del producto<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">30 cm ÷ 14 cm = 2 facings/balda</span> <em>(redondea abajo)</em>' },
+        { icon: 'ri-stack-line', text: '<strong>Paso 3 — Total (todas las baldas)</strong><br>Facings por balda × Nº de baldas<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">2 × 3 baldas = 6 facings</span>' }
+      ],
+      tip: 'Reparto igual significa que cada referencia tiene el mismo espacio. Divide primero el lineal, luego calcula cuántos productos caben, y por último multiplica por las baldas.'
+    },
     'linmin': {
       title: 'Lineal Mínimo con stock',
       mainFormula: '<span class="hf-var">Facings mínimos</span> <span class="hf-op">×</span> <span class="hf-var">Ancho producto</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Lineal mínimo</span>',
       steps: [
         { icon: 'ri-stack-line', text: '<strong>Total uds = Demanda + Stock de seguridad</strong><br>Suma lo que necesitas vender + el colchón de seguridad.' },
         { icon: 'ri-box-3-line', text: '<strong>Capacidad 1 facing = Remonte máx. × Filas al fondo</strong><br>Cada facing (columna) puede tener varias alturas y profundidades.' },
-        { icon: 'ri-arrow-down-line', text: '<strong>Facings mínimos = Total ÷ Capacidad</strong><br>⚠️ Redondea <strong>SIEMPRE hacia arriba</strong> (si sale 4,1 → necesitas 5).' },
+        { icon: 'ri-arrow-down-line', text: '<strong>Facings mínimos = Total ÷ Capacidad</strong><br><i class="ri-alert-line" style="color:#D97706;vertical-align:-2px;margin-right:2px;"></i> Redondea <strong>SIEMPRE hacia arriba</strong> (si sale 4,1 → necesitas 5).' },
         { icon: 'ri-ruler-line', text: '<strong>Lineal mínimo = Facings × Ancho del producto</strong><br>Esto te da los cm de lineal que necesitas.' }
       ],
       tip: 'El Paso 3 es la clave: siempre redondea hacia ARRIBA. Si necesitas 4,1 facings, no te vale 4 — necesitas 5. <strong>Nunca puedes tener menos stock del necesario</strong>.'
@@ -1399,7 +1416,7 @@
   function openFormulas(){
     var body = document.getElementById('formulasBody');
     var html = '';
-    var keys = ['ld','facings','total','pct','pct_facings','linmin'];
+    var keys = ['ld','facings','total','pct','equal_facings','pct_facings','linmin'];
     keys.forEach(function(key){
       var h = HINTS[key];
       if(!h) return;
