@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Estudio — Dinamització del punt de venda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #2563EB;
+    --blue-light: #EFF6FF;
+    --blue-mid: #BFDBFE;
+    --blue-dark: #1E40AF;
+    --green: #16A34A;
+    --green-light: #F0FDF4;
+    --green-mid: #BBF7D0;
+    --amber: #D97706;
+    --amber-light: #FFFBEB;
+    --red: #DC2626;
+    --red-light: #FEF2F2;
+    --red-mid: #FECACA;
+    --gray-50: #F8FAFC;
+    --gray-100: #F1F5F9;
+    --gray-200: #E2E8F0;
+    --gray-400: #94A3B8;
+    --gray-600: #475569;
+    --gray-800: #1E293B;
+    --white: #FFFFFF;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--gray-50);
+    min-height: 100vh;
+    color: var(--gray-800);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .app {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 16px 14px 48px;
+    min-height: 100vh;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+  .logo { font-size: 16px; font-weight: 700; color: var(--gray-800); }
+  .logo span { color: var(--blue); }
+  .streak {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green-light);
+    border: 1px solid var(--green-mid);
+    border-radius: 20px;
+    padding: 6px 14px;
+  }
+  .streak-icon { font-size: 16px; }
+  .streak-n { font-size: 18px; font-weight: 700; color: var(--green); }
+  .streak-lbl { font-size: 11px; color: var(--green); font-weight: 500; }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  .menu-title { font-size: 20px; font-weight: 700; color: var(--gray-800); margin-bottom: 6px; }
+  .menu-sub { font-size: 14px; color: var(--gray-600); margin-bottom: 20px; line-height: 1.6; }
+  .menu-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    box-shadow: var(--shadow);
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+  }
+  .menu-card:hover { border-color: var(--blue); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .menu-card:active { transform: scale(0.98); }
+  .menu-icon {
+    width: 44px; height: 44px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .ic1 { background: var(--blue-light); }
+  .ic2 { background: var(--green-light); }
+  .ic3 { background: var(--amber-light); }
+  .ic4 { background: #F3E8FF; }
+  .menu-card-title { font-size: 14px; font-weight: 600; color: var(--gray-800); margin-bottom: 4px; }
+  .menu-card-desc { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+
+  .type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    letter-spacing: 0.03em;
+  }
+  .t1 { background: var(--blue-light); color: var(--blue-dark); border: 1px solid var(--blue-mid); }
+  .t2 { background: var(--green-light); color: var(--green); border: 1px solid var(--green-mid); }
+  .t3 { background: var(--amber-light); color: var(--amber); border: 1px solid #FCD34D; }
+
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 14px;
+    padding: 0 2px;
+  }
+  .progress-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    transition: all 0.2s;
+  }
+  .progress-dot.done-ok { background: var(--green); color: white; border: 2px solid var(--green); }
+  .progress-dot.done-ko { background: var(--red); color: white; border: 2px solid var(--red); }
+  .progress-dot.active { background: var(--blue); color: white; border: 2px solid var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.2); }
+  .progress-dot.pending { background: var(--gray-100); color: var(--gray-400); border: 2px solid var(--gray-200); }
+  .progress-line {
+    flex: 1;
+    height: 3px;
+    margin: 0 4px;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .progress-line.filled { background: var(--blue); }
+  .progress-line.empty { background: var(--gray-200); }
+
+  .problem-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  .problem-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-800);
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--gray-100);
+    line-height: 1.7;
+  }
+
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .data-badge {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+  .data-lbl { font-size: 10px; font-weight: 500; color: var(--gray-400); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .data-val { font-size: 16px; font-weight: 700; color: var(--gray-800); }
+  .data-val span { font-size: 11px; font-weight: 400; color: var(--gray-400); margin-left: 2px; }
+
+  .question-box {
+    background: var(--blue-light);
+    border: 1px solid var(--blue-mid);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--blue-dark);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  .q-letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    background: var(--blue);
+    color: white;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    margin-right: 6px;
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+
+  .input-section { margin-bottom: 10px; }
+  .input-lbl { font-size: 12px; font-weight: 500; color: var(--gray-600); margin-bottom: 6px; }
+  .input-row { display: flex; gap: 10px; align-items: center; }
+  .ans-input {
+    flex: 1;
+    min-width: 0;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 22px;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--white);
+    color: var(--gray-800);
+    text-align: center;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .ans-input:focus { border-color: var(--blue); }
+  .ans-input:focus::placeholder { color: transparent; }
+  .ans-input:disabled { background: var(--gray-100); color: var(--gray-400); }
+  .unit-pill {
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-600);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .btn-check {
+    width: 100%;
+    background: var(--blue);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .btn-check:hover { background: var(--blue-dark); }
+  .btn-check:active { transform: scale(0.98); }
+  .btn-next {
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--gray-600);
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .btn-next:hover { background: var(--gray-50); border-color: var(--gray-400); }
+  .btn-home {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 10px;
+    font-size: 13px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--gray-400);
+    cursor: pointer;
+  }
+  .btn-home:hover { color: var(--gray-600); }
+
+  .result-card {
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+  .result-ok { background: var(--green-light); border: 1px solid var(--green-mid); }
+  .result-ko { background: var(--red-light); border: 1px solid var(--red-mid); }
+  .result-head {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ok-head { color: var(--green); }
+  .ko-head { color: var(--red); }
+  .result-sub { font-size: 13px; line-height: 1.5; }
+  .ok-sub { color: #15803D; }
+  .ko-sub { color: #991B1B; margin-bottom: 14px; }
+
+  .steps-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .step-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .step-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-body { flex: 1; }
+  .step-t { font-size: 13px; font-weight: 600; color: var(--gray-800); margin-bottom: 4px; }
+  .step-formula {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--gray-800);
+    line-height: 1.5;
+  }
+  .final-ans {
+    background: var(--blue-light);
+    border: 1px solid var(--blue-mid);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .summary-card {
+    margin-top: 12px;
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+  }
+  .summary-perfect { background: var(--green-light); border: 1px solid var(--green-mid); }
+  .summary-good { background: var(--amber-light); border: 1px solid #FCD34D; }
+  .summary-bad { background: var(--red-light); border: 1px solid var(--red-mid); }
+
+  .btn-hint {
+    width: 100%;
+    background: #FFFBEB;
+    border: 1px solid #FCD34D;
+    border-radius: var(--radius-sm);
+    padding: 11px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #92400E;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: background 0.15s;
+  }
+  .btn-hint:hover { background: #FEF3C7; }
+
+  .hf-main {
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+    border: 2px solid #93C5FD;
+    border-radius: 14px;
+    padding: 18px 14px;
+    text-align: center;
+    margin: 10px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1E293B;
+    line-height: 2.4;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .hf-var {
+    display: inline-block;
+    background: #FFFFFF;
+    border: 2px solid #2563EB;
+    border-radius: 8px;
+    padding: 3px 10px;
+    font-size: 13px;
+    color: #1E40AF;
+    margin: 2px 2px;
+    box-shadow: 0 2px 6px rgba(37,99,235,0.12);
+    vertical-align: middle;
+  }
+  .hf-op {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 700;
+    color: #2563EB;
+    margin: 0 4px;
+    vertical-align: middle;
+  }
+  .hf-steps { margin: 12px 0; }
+  .hf-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.6;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .hf-step-icon {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    margin-top: 1px;
+  }
+  .hf-arrow {
+    text-align: center;
+    color: #94A3B8;
+    font-size: 16px;
+    margin: 2px 0;
+    line-height: 1;
+  }
+  .hf-tip {
+    background: #FFFBEB;
+    border: 1px solid #FCD34D;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: #92400E;
+    line-height: 1.7;
+    margin-top: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .hf-tip strong { color: #78350F; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+  .fade-in { animation: fadeIn 0.25s ease; }
+  @keyframes fireBurst {
+    0% { transform: scale(1); filter: brightness(1); }
+    15% { transform: scale(1.6) rotate(-8deg); filter: brightness(1.5) drop-shadow(0 0 6px #F97316); }
+    30% { transform: scale(1.4) rotate(6deg); filter: brightness(1.4) drop-shadow(0 0 8px #EF4444); }
+    50% { transform: scale(1.7) rotate(-4deg); filter: brightness(1.6) drop-shadow(0 0 10px #F97316); }
+    70% { transform: scale(1.3) rotate(3deg); filter: brightness(1.3) drop-shadow(0 0 6px #FBBF24); }
+    85% { transform: scale(1.5) rotate(-2deg); filter: brightness(1.4) drop-shadow(0 0 8px #EF4444); }
+    100% { transform: scale(1); filter: brightness(1); }
+  }
+  .fire-burst { animation: fireBurst 0.7s ease-out; }
+
+  @keyframes modalSlideUp {
+    from { transform: translateX(-50%) translateY(100%); }
+    to { transform: translateX(-50%) translateY(0); }
+  }
+  @keyframes modalSlideDown {
+    from { transform: translateX(-50%) translateY(0); }
+    to { transform: translateX(-50%) translateY(100%); }
+  }
+  @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes overlayOut { from { opacity: 1; } to { opacity: 0; } }
+  .modal-enter { animation: modalSlideUp 0.3s ease-out forwards; }
+  .modal-exit { animation: modalSlideDown 0.25s ease-in forwards; }
+  .overlay-enter { animation: overlayIn 0.3s ease-out forwards; }
+  .overlay-exit { animation: overlayOut 0.25s ease-in forwards; }
+  @keyframes pdfSlideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes pdfSlideDown {
+    from { transform: translateY(0); }
+    to { transform: translateY(100%); }
+  }
+  .pdf-enter { animation: pdfSlideUp 0.3s ease-out forwards; }
+  .pdf-exit { animation: pdfSlideDown 0.25s ease-in forwards; }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 11px;
+    color: var(--gray-400);
+    padding: 10px 0;
+    background: var(--gray-50);
+    border-top: 1px solid var(--gray-200);
+    z-index: 50;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  @media (max-width: 480px) {
+    .footer-hidden .footer { opacity: 0; pointer-events: none; }
+    .unit-pill { padding: 12px 8px; font-size: 11px; }
+    .ans-input { font-size: 18px; padding: 12px 10px; }
+  }
+  .gondola-wrap {
+    margin-bottom: 20px;
+  }
+  .gondola-lbl {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 6px;
+  }
+  .gondola-shelf {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    background: var(--gray-200);
+    border: 2px solid var(--gray-400);
+    border-radius: 6px;
+    padding: 4px;
+  }
+  .shelf-row {
+    display: flex;
+    gap: 2px;
+    align-items: stretch;
+    min-height: 32px;
+  }
+  .shelf-divider {
+    height: 3px;
+    background: var(--gray-400);
+    border-radius: 2px;
+  }
+  .ref-cell {
+    flex: 1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: rgba(0,0,0,0.65);
+    border: 1px solid rgba(0,0,0,0.12);
+    min-width: 0;
+    min-height: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 2px 1px;
+    cursor: default;
+    transition: transform 0.1s;
+  }
+  .ref-cell:hover { transform: scale(1.08); z-index: 1; position: relative; }
+  .gondola-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--gray-600);
+  }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.12);
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="logo">⚡ <span>Rita</span> Botella Pomata</div>
+    <div class="streak">
+      <span class="streak-icon">🔥</span>
+      <span class="streak-n" id="streakN">0</span>
+      <span class="streak-lbl">racha</span>
+    </div>
+  </div>
+
+  <div class="screen active" id="menuScreen">
+    <p class="menu-title">Elige tipo de ejercicio</p>
+    <p class="menu-sub">Practica los ejercicios y fórmulas para el examen del tema 2 de Dinamización del punto de venta.</p>
+
+    <div class="menu-card" onclick="startMode(1)">
+      <div class="menu-icon ic1">🏪</div>
+      <div>
+        <div class="menu-card-title">Góndola con referencias</div>
+        <div class="menu-card-desc">Preguntas multi-parte: lineal desarrollado, facings, espacio por referencia. Como las actividades 2 y 6.</div>
+      </div>
+    </div>
+
+    <div class="menu-card" onclick="startMode(2)">
+      <div class="menu-icon ic2">📦</div>
+      <div>
+        <div class="menu-card-title">Lineal Mínimo con stock</div>
+        <div class="menu-card-desc">Calcula el lineal mínimo y una variante cambiando un dato. Como las actividades 7, 8 y 9.</div>
+      </div>
+    </div>
+
+    <div class="menu-card" onclick="startMode(3)">
+      <div class="menu-icon ic3">📏</div>
+      <div>
+        <div class="menu-card-title">Cálculo de facings</div>
+        <div class="menu-card-desc">Ejercicios rápidos: dado un lineal y un ancho, calcula los facings. Como la actividad 5.</div>
+      </div>
+    </div>
+
+    <div class="menu-card" onclick="startMode(0)">
+      <div class="menu-icon ic4">🎲</div>
+      <div>
+        <div class="menu-card-title">Modo Aleatorio</div>
+        <div class="menu-card-desc">Mezcla de todos los tipos. ¡El más completo para preparar el examen!</div>
+      </div>
+    </div>
+
+    <div class="menu-card" onclick="openPdf()" style="margin-top:24px;">
+      <div class="menu-icon" style="background:#F3E8FF;">📄</div>
+      <div>
+        <div class="menu-card-title">Revisar Apuntes</div>
+        <div class="menu-card-desc">Abre tus apuntes del tema 2 en la página.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="gameScreen">
+    <div id="typeBadge"></div>
+    <div id="progressBar" class="progress-bar" style="display:none;"></div>
+
+    <div class="problem-card fade-in" id="problemCard">
+      <div class="problem-title" id="problemTitle"></div>
+      <div class="data-grid" id="dataGrid"></div>
+      <div id="gondolaViz"></div>
+      <div class="question-box" id="questionText"></div>
+    </div>
+
+    <div class="input-section">
+      <div class="input-lbl">Tu respuesta:</div>
+      <div class="input-row">
+        <input class="ans-input" type="number" id="ansInput" inputmode="decimal" placeholder="?" autocomplete="off" min="0" step="any">
+        <div class="unit-pill" id="unitLbl">cm</div>
+      </div>
+    </div>
+
+    <button class="btn-check" id="btnCheck" onclick="checkAnswer()">✔ Verificar respuesta</button>
+    <button class="btn-hint" id="btnHint" onclick="showHint()">💡 Pista — ¿qué fórmula uso?</button>
+    <div id="resultArea"></div>
+    <button class="btn-next" id="btnNext" onclick="handleNext()" style="display:none">→ Siguiente</button>
+    <button class="btn-home" onclick="goHome()">↩ Volver al menú</button>
+  </div>
+
+<div id="hintOverlay" onclick="closeHint()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;"></div>
+<div id="hintModal" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;background:#fff;border-radius:20px 20px 0 0;padding:24px 20px 36px;z-index:101;box-shadow:0 -8px 32px rgba(0,0,0,0.15);">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div style="font-size:15px;font-weight:700;color:#1E293B;">💡 Pista de fórmula</div>
+    <button onclick="closeHint()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#94A3B8;line-height:1;">✕</button>
+  </div>
+  <div id="hintBody"></div>
+</div>
+
+<div id="pdfOverlay" onclick="closePdf()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;"></div>
+<div id="pdfModal" style="display:none;position:fixed;inset:12px;z-index:201;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 -4px 32px rgba(0,0,0,0.25);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#F8FAFC;border-bottom:1px solid #E2E8F0;">
+    <div style="font-size:14px;font-weight:700;color:#1E293B;">📄 Apuntes — UD 02 Zona de Venta</div>
+    <button onclick="closePdf()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#94A3B8;line-height:1;">✕</button>
+  </div>
+  <iframe id="pdfFrame" src="" style="width:100%;height:calc(100% - 48px);border:none;"></iframe>
+</div>
+
+</div>
+
+<div class="footer">Hecho por Hugo Sanz Abad</div>
+
+</div>
+
+<script>
+  var mode = 0, streak = parseInt(localStorage.getItem('lt_streak')) || 0;
+  var current = null, qIdx = 0;
+  document.getElementById('streakN').textContent = streak;
+  document.getElementById('ansInput').value = '';
+
+  var prodsGondola = ["Cereales","Galletas","Café","Champú","Pasta de dientes","Zumo de naranja","Aceite de oliva","Arroz","Leche entera","Bollería","Yogur","Conservas"];
+  var prodsLineal = ["Pack de flanes","Caja de bombones","Pack de croissants","Estuche de galletas","Pack de natillas","Juego de mesa","Set de mermeladas","Caja de té","Pack de magdalenas","Bote de café","Lata de conserva","Botella de aceite"];
+  var prodsFacings = ["Café","Mermelada","Aceite","Zumo","Leche","Cereal","Miel","Yogur","Caldo","Atún","Tomate","Té"];
+
+  var REF_COLORS = ['#93C5FD','#6EE7B7','#FCA5A5','#FCD34D','#C4B5FD','#F9A8D4','#86EFAC','#FBB07E','#67E8F9','#A5B4FC'];
+
+  function rnd(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+  function pick(arr){ return arr[rnd(0,arr.length-1)]; }
+  function fmt(n){ return Number.isInteger(n) ? n : parseFloat(n.toFixed(2)); }
+
+  function startMode(m){ mode=m; nextExercise(); }
+
+  function goHome(){
+    document.getElementById('menuScreen').classList.add('active');
+    document.getElementById('gameScreen').classList.remove('active');
+    document.body.classList.remove('footer-hidden');
+  }
+
+  function nextExercise(){
+    document.getElementById('menuScreen').classList.remove('active');
+    document.getElementById('gameScreen').classList.add('active');
+    document.body.classList.add('footer-hidden');
+    qIdx = 0;
+    var t = mode===0 ? rnd(1,3) : mode;
+    if(t===1) genGondola();
+    else if(t===2) genLinealMin();
+    else genFacings();
+  }
+
+  // ===================== TYPE 1: GONDOLA MULTI-PARTE =====================
+  function genGondola(){
+    var prod = pick(prodsGondola);
+    var linSuelo = pick([60,80,90,100,120,150,180,200]);
+    var baldas = rnd(2,5);
+    var ancho = pick([6,7.5,8,9,10,12,14,15]);
+    var alto = pick([15,18,20,22,25,30]);
+    var prof = pick([8,10,12,14,15,20,25]);
+
+    var ld = linSuelo * baldas;
+    var facingsBal = Math.floor(linSuelo / ancho);
+    var totalUds = facingsBal * baldas;
+
+    var nRefs = rnd(2,4);
+    var refNames = [];
+    for(var i=0;i<nRefs;i++) refNames.push("Ref. "+(i+1));
+
+    var equalSplit = Math.random() < 0.5;
+    var refPcts = [], refSpaces = [], refFacings = [];
+
+    if(equalSplit){
+      var pctEach = Math.floor(100/nRefs);
+      for(var i=0;i<nRefs;i++){
+        refPcts.push(pctEach);
+        refSpaces.push(fmt(linSuelo*pctEach/100));
+        refFacings.push(Math.floor(Math.floor(linSuelo*pctEach/100)/ancho));
+      }
+    } else {
+      var left = 100;
+      for(var i=0;i<nRefs-1;i++){
+        var minP = Math.floor(100/nRefs/2);
+        var maxP = left - (nRefs-i-1)*minP;
+        var p = rnd(minP, Math.max(minP+1, maxP));
+        refPcts.push(p);
+        left -= p;
+      }
+      refPcts.push(left);
+      for(var i=0;i<nRefs;i++){
+        refSpaces.push(fmt(linSuelo*refPcts[i]/100));
+        refFacings.push(Math.floor(refSpaces[i]/ancho));
+      }
+    }
+
+    var scenario = 'En una góndola dedicada a <strong>'+prod.toLowerCase()+'</strong> se colocan <strong>'+nRefs+' referencias</strong> en <strong>'+baldas+' niveles</strong>. ';
+    scenario += 'Los productos expuestos tienen las siguientes medidas: <strong>'+ancho+' × '+alto+' × '+prof+' cm</strong> (ancho × alto × profundidad).';
+    if(!equalSplit){
+      scenario += '<br>En una de las baldas se colocan las referencias así: ';
+      for(var i=0;i<nRefs;i++){
+        if(i>0) scenario += ', ';
+        if(i===nRefs-1) scenario += 'y ';
+        scenario += refNames[i]+' ocupa el <strong>'+refPcts[i]+'%</strong>';
+      }
+      scenario += ' del lineal.';
+    }
+
+    var questions = [];
+
+    questions.push({
+      letter:'a',
+      q:'¿Cuál es el <strong>lineal desarrollado</strong> total de la góndola?',
+      unit:'cm', ans:ld, hint:'ld',
+      steps:[
+        {t:"Fórmula", f:"Lineal desarrollado = Lineal al suelo × Nº de baldas"},
+        {t:"Sustituye", f:linSuelo+" cm × "+baldas+" baldas = "+ld+" cm"}
+      ],
+      final:"Lineal desarrollado = "+ld+" cm"
+    });
+
+    questions.push({
+      letter:'b',
+      q:'¿Cuántos <strong>facings</strong> caben por balda?',
+      unit:'facings', ans:facingsBal, hint:'facings',
+      steps:[
+        {t:"Fórmula", f:"Facings = Lineal al suelo ÷ Ancho del producto"},
+        {t:"Sustituye", f:linSuelo+" cm ÷ "+ancho+" cm = "+fmt(linSuelo/ancho)+" → redondeamos a la baja = "+facingsBal}
+      ],
+      final:"Facings por balda = "+facingsBal
+    });
+
+    questions.push({
+      letter:'c',
+      q:'¿Cuántas <strong>unidades en total</strong> caben en el mueble ('+baldas+' baldas)?',
+      unit:'uds', ans:totalUds, hint:'total',
+      steps:[
+        {t:"Paso 1 — Facings por balda", f:linSuelo+" cm ÷ "+ancho+" cm = "+facingsBal+" facings/balda"},
+        {t:"Paso 2 — Total", f:facingsBal+" × "+baldas+" baldas = "+totalUds+" uds"}
+      ],
+      final:"Total unidades = "+totalUds
+    });
+
+    if(equalSplit){
+      var spaceEach = fmt(linSuelo/nRefs);
+      var facEach = Math.floor(spaceEach/ancho);
+      questions.push({
+        letter:'d',
+        q:'Si las referencias se distribuyen <strong>a partes iguales</strong>, ¿cuántos facings tiene cada referencia en total (todas las baldas)?',
+        unit:'facings', ans:facEach*baldas, hint:'pct',
+        steps:[
+          {t:"Paso 1 — Espacio por referencia", f:linSuelo+" cm ÷ "+nRefs+" refs = "+spaceEach+" cm/ref"},
+          {t:"Paso 2 — Facings por balda", f:spaceEach+" cm ÷ "+ancho+" cm = "+facEach+" facings/balda"},
+          {t:"Paso 3 — Total", f:facEach+" × "+baldas+" baldas = "+(facEach*baldas)+" facings"}
+        ],
+        final:"Facings por referencia = "+(facEach*baldas)
+      });
+    } else {
+      var rIdx = rnd(0,nRefs-1);
+      var rName = refNames[rIdx];
+      var rPct = refPcts[rIdx];
+      var rSpace = refSpaces[rIdx];
+      var rFac = refFacings[rIdx];
+      questions.push({
+        letter:'d',
+        q:'Si '+rName+' ocupa el <strong>'+rPct+'%</strong> del lineal al suelo, ¿cuántos <strong>facings</strong> tiene en total (todas las baldas)?',
+        unit:'facings', ans:rFac*baldas, hint:'pct',
+        steps:[
+          {t:"Paso 1 — Espacio de "+rName, f:linSuelo+" cm × ("+rPct+" ÷ 100) = "+rSpace+" cm"},
+          {t:"Paso 2 — Facings por balda", f:rSpace+" cm ÷ "+ancho+" cm = "+rFac+" facings/balda"},
+          {t:"Paso 3 — Total", f:rFac+" × "+baldas+" baldas = "+(rFac*baldas)+" facings"}
+        ],
+        final:rName+" tiene "+(rFac*baldas)+" facings en total"
+      });
+    }
+
+    current = {
+      type:1,
+      scenario:scenario,
+      questions:questions,
+      results:[],
+      data:{prod:prod, linSuelo:linSuelo, baldas:baldas, ancho:ancho, alto:alto, prof:prof, nRefs:nRefs, refNames:refNames, refFacings:refFacings}
+    };
+
+    renderQuestion();
+  }
+
+  // ===================== TYPE 2: LINEAL MINIMO + VARIANTE =====================
+  function genLinealMin(){
+    var prod = pick(prodsLineal);
+    var ancho = pick([6,7.5,8,9,10,12,14,15]);
+    var alto = pick([4,4.5,5,6,8,10,12,15]);
+    var prof = pick([10,12,14,15,20,25,30]);
+    var maxRem = rnd(2,5);
+    var filasFondo = rnd(2,5);
+    var demanda = rnd(20,80);
+    var ss = rnd(2,15);
+
+    var totalUds = demanda + ss;
+    var udsFacing = maxRem * filasFondo;
+    var facingsMin = Math.ceil(totalUds / udsFacing);
+    var linMin = facingsMin * ancho;
+
+    var scenario = 'Calcula el lineal mínimo de un <strong>'+prod.toLowerCase()+'</strong> que tiene las siguientes dimensiones: <strong>'+alto+' × '+ancho+' × '+prof+' cm</strong> (alto × ancho × profundidad). ';
+    scenario += 'Se recomienda remontar un máximo de <strong>'+maxRem+'</strong> unidades. ';
+    scenario += 'La profundidad del estante permite colocar <strong>'+filasFondo+' filas</strong>. ';
+    scenario += 'La demanda media entre dos reposiciones es de <strong>'+demanda+' unidades</strong> y el stock de seguridad es de <strong>'+ss+' unidades</strong>.';
+
+    var questions = [];
+
+    questions.push({
+      letter:'a',
+      q:'¿Cuál es el <strong>lineal mínimo</strong> necesario (en cm)?',
+      unit:'cm', ans:fmt(linMin), hint:'linmin',
+      steps:[
+        {t:"Paso 1 — Unidades totales", f:"Demanda + Stock seguridad = "+demanda+" + "+ss+" = "+totalUds+" uds"},
+        {t:"Paso 2 — Capacidad por facing", f:"Remonte × Filas = "+maxRem+" × "+filasFondo+" = "+udsFacing+" uds/facing"},
+        {t:"Paso 3 — Facings mínimos", f:"⌈"+totalUds+" ÷ "+udsFacing+"⌉ = "+facingsMin+" (redondea arriba)"},
+        {t:"Paso 4 — Lineal mínimo", f:facingsMin+" × "+ancho+" cm = "+fmt(linMin)+" cm"}
+      ],
+      final:"Lineal mínimo = "+fmt(linMin)+" cm"
+    });
+
+    var vType = rnd(1,3);
+    var vSs=ss, vFilas=filasFondo, vDemanda=demanda, vLabel='';
+    if(vType===1){
+      vSs = ss + rnd(5,20);
+      vLabel = 'Si el stock de seguridad fuera de <strong>'+vSs+' unidades</strong>';
+    } else if(vType===2){
+      vFilas = filasFondo + rnd(1,2);
+      vSs = 0;
+      vLabel = 'Si la profundidad permite <strong>'+vFilas+' filas</strong> y <strong>no hay stock de seguridad</strong>';
+    } else {
+      vDemanda = demanda + rnd(10,30);
+      vLabel = 'Si la demanda sube a <strong>'+vDemanda+' unidades</strong>';
+    }
+
+    var vTotalUds = vDemanda + vSs;
+    var vUdsFacing = maxRem * vFilas;
+    var vFacingsMin = Math.ceil(vTotalUds / vUdsFacing);
+    var vLinMin = vFacingsMin * ancho;
+
+    questions.push({
+      letter:'b',
+      q:vLabel+', ¿cuál sería el nuevo <strong>lineal mínimo</strong>?',
+      unit:'cm', ans:fmt(vLinMin), hint:'linmin',
+      steps:[
+        {t:"Paso 1 — Unidades totales", f:"Demanda + Stock seguridad = "+vDemanda+" + "+vSs+" = "+vTotalUds+" uds"},
+        {t:"Paso 2 — Capacidad por facing", f:"Remonte × Filas = "+maxRem+" × "+vFilas+" = "+vUdsFacing+" uds/facing"},
+        {t:"Paso 3 — Facings mínimos", f:"⌈"+vTotalUds+" ÷ "+vUdsFacing+"⌉ = "+vFacingsMin+" (redondea arriba)"},
+        {t:"Paso 4 — Lineal mínimo", f:vFacingsMin+" × "+ancho+" cm = "+fmt(vLinMin)+" cm"}
+      ],
+      final:"Lineal mínimo = "+fmt(vLinMin)+" cm"
+    });
+
+    current = {
+      type:2,
+      scenario:scenario,
+      questions:questions,
+      results:[],
+      data:{prod:prod, ancho:ancho, alto:alto, prof:prof, maxRem:maxRem, filasFondo:filasFondo, demanda:demanda, ss:ss, udsFacing:udsFacing, totalUds:totalUds, facingsMin:facingsMin}
+    };
+
+    renderQuestion();
+  }
+
+  // ===================== TYPE 3: FACINGS SIMPLES =====================
+  function genFacings(){
+    var prod = pick(prodsFacings);
+    var ancho = pick([6,7.5,8,9,10,12,14,15]);
+    var linSuelo = pick([60,80,90,100,120,150]);
+    var facings = Math.floor(linSuelo / ancho);
+
+    var scenario = 'Una tienda quiere exponer <strong>'+prod.toLowerCase()+'</strong>. ';
+    scenario += 'Se le asigna un espacio de <strong>'+linSuelo+' cm</strong> de lineal al suelo en una balda. ';
+    scenario += 'El ancho de cada producto es <strong>'+ancho+' cm</strong>.';
+
+    var questions = [{
+      letter:'a',
+      q:'¿Cuántos <strong>facings</strong> se podrán colocar a lo largo de esos '+linSuelo+' cm?',
+      unit:'facings', ans:facings, hint:'facings',
+      steps:[
+        {t:"Fórmula", f:"Facings = Lineal al suelo ÷ Ancho del producto"},
+        {t:"Sustituye", f:linSuelo+" cm ÷ "+ancho+" cm = "+fmt(linSuelo/ancho)+" → redondeamos a la baja = "+facings}
+      ],
+      final:"Facings = "+facings
+    }];
+
+    current = {
+      type:3,
+      scenario:scenario,
+      questions:questions,
+      results:[],
+      data:{prod:prod, ancho:ancho, linSuelo:linSuelo}
+    };
+
+    renderQuestion();
+  }
+
+  // ===================== RENDER =====================
+  function renderQuestion(){
+    var q = current.questions[qIdx];
+    var totalQ = current.questions.length;
+
+    if(current.type===1){
+      document.getElementById('typeBadge').innerHTML='<span class="type-badge t1">🏪 Góndola con referencias</span>';
+    } else if(current.type===2){
+      document.getElementById('typeBadge').innerHTML='<span class="type-badge t2">📦 Lineal Mínimo con stock</span>';
+    } else {
+      document.getElementById('typeBadge').innerHTML='<span class="type-badge t3">📏 Cálculo de facings</span>';
+    }
+
+    renderProgress();
+
+    document.getElementById('problemTitle').innerHTML = current.scenario;
+
+    var d = current.data;
+    var grid = '';
+    if(d.linSuelo!==undefined) grid += badge("Lineal al suelo",d.linSuelo,"cm");
+    if(d.baldas!==undefined) grid += badge("Nº de baldas",d.baldas,"");
+    if(d.ancho!==undefined) grid += badge("Ancho producto",d.ancho,"cm");
+    if(d.alto!==undefined) grid += badge("Alto producto",d.alto,"cm");
+    if(d.prof!==undefined) grid += badge("Profundidad producto",d.prof,"cm");
+    if(d.nRefs!==undefined) grid += badge("Referencias",d.nRefs,"");
+    if(d.maxRem!==undefined) grid += badge("Remonte máx.",d.maxRem,"niveles");
+    if(d.filasFondo!==undefined) grid += badge("Filas al fondo",d.filasFondo,"filas");
+    if(d.demanda!==undefined) grid += badge("Demanda media",d.demanda,"uds");
+    if(d.ss!==undefined) grid += badge("Stock seguridad",d.ss,"uds");
+    document.getElementById('dataGrid').innerHTML = grid;
+
+    var letterHtml = totalQ > 1 ? '<span class="q-letter">'+q.letter+'</span>' : '';
+    document.getElementById('questionText').innerHTML = '❓ '+letterHtml+q.q;
+    document.getElementById('unitLbl').textContent = q.unit;
+
+    var inp = document.getElementById('ansInput');
+    inp.value=''; inp.disabled=false; inp.focus();
+
+    document.getElementById('btnCheck').style.display='block';
+    document.getElementById('btnHint').style.display='block';
+    document.getElementById('btnNext').style.display='none';
+    document.getElementById('resultArea').innerHTML='';
+
+    if(current.type===1 && d.linSuelo!==undefined){
+      buildGondolaViz(d.linSuelo, d.baldas, d.ancho, d.refNames, d.refFacings);
+    } else if(current.type===2){
+      buildType2Viz(d.maxRem, d.filasFondo, d.udsFacing, d.totalUds, d.facingsMin);
+    } else {
+      clearViz();
+    }
+
+    document.getElementById('problemCard').classList.remove('fade-in');
+    void document.getElementById('problemCard').offsetWidth;
+    document.getElementById('problemCard').classList.add('fade-in');
+    window.scrollTo(0, 0);
+  }
+
+  function renderProgress(){
+    var bar = document.getElementById('progressBar');
+    var totalQ = current.questions.length;
+    if(totalQ <= 1){ bar.style.display='none'; return; }
+    bar.style.display='flex';
+    var html = '';
+    for(var i=0;i<totalQ;i++){
+      var cls;
+      if(i < current.results.length){
+        cls = current.results[i] ? 'done-ok' : 'done-ko';
+      } else if(i === qIdx){
+        cls = 'active';
+      } else {
+        cls = 'pending';
+      }
+      html += '<div class="progress-dot '+cls+'">'+current.questions[i].letter+'</div>';
+      if(i < totalQ-1){
+        var lineCls = i < qIdx ? 'filled' : 'empty';
+        html += '<div class="progress-line '+lineCls+'"></div>';
+      }
+    }
+    bar.innerHTML = html;
+  }
+
+  // ===================== CHECK / NEXT =====================
+  function checkAnswer(){
+    var raw = document.getElementById('ansInput').value.trim();
+    if(raw==='') return;
+    var user = parseFloat(raw);
+    var q = current.questions[qIdx];
+    var correct = parseFloat(q.ans);
+    var ok = Math.abs(user - correct) < 0.5;
+
+    current.results.push(ok);
+    document.getElementById('ansInput').disabled = true;
+    document.getElementById('btnCheck').style.display = 'none';
+    document.getElementById('btnHint').style.display = 'none';
+    document.getElementById('btnNext').style.display = 'block';
+
+    if(ok){ streak++; fireBurst(); }
+    else { streak=0; }
+    localStorage.setItem('lt_streak', streak);
+    document.getElementById('streakN').textContent = streak;
+
+    renderProgress();
+    showSubResult(ok, q);
+  }
+
+  function showSubResult(ok, q){
+    var html = '';
+    if(ok){
+      html = '<div class="result-card result-ok fade-in">'+
+        '<div class="result-head ok-head">✅ ¡Correcto!</div>'+
+        '<div class="result-sub ok-sub">La respuesta es <strong>'+fmt(q.ans)+' '+q.unit+'</strong></div>'+
+      '</div>';
+    } else {
+      html = '<div class="result-card result-ko fade-in">'+
+        '<div class="result-head ko-head">❌ Incorrecto</div>'+
+        '<div class="result-sub ko-sub">La respuesta correcta es <strong>'+fmt(q.ans)+' '+q.unit+'</strong></div>'+
+        '<div class="steps-title">Solución paso a paso</div>';
+      q.steps.forEach(function(s,i){
+        html += '<div class="step-row">'+
+          '<div class="step-num">'+(i+1)+'</div>'+
+          '<div class="step-body">'+
+            '<div class="step-t">'+s.t+'</div>'+
+            '<div class="step-formula">'+s.f+'</div>'+
+          '</div>'+
+        '</div>';
+      });
+      html += '<div class="final-ans">✔ '+q.final+'</div></div>';
+    }
+
+    if(qIdx === current.questions.length - 1){
+      html += buildSummary();
+    }
+
+    document.getElementById('resultArea').innerHTML = html;
+  }
+
+  function buildSummary(){
+    var total = current.results.length;
+    var correct = current.results.filter(function(r){return r;}).length;
+    var pct = Math.round(correct/total*100);
+    var cls, color, emoji;
+    if(pct===100){ cls='summary-perfect'; color='#15803D'; emoji='🏆'; }
+    else if(pct>=50){ cls='summary-good'; color='#92400E'; emoji='👍'; }
+    else { cls='summary-bad'; color='#991B1B'; emoji='📚'; }
+    return '<div class="summary-card '+cls+' fade-in" style="color:'+color+';">'+
+      '<div style="font-size:16px;font-weight:700;">'+emoji+' Resultado: '+correct+'/'+total+' correctas ('+pct+'%)</div>'+
+      '<div style="font-size:12px;margin-top:4px;opacity:0.8;">'+(pct===100?'¡Perfecto! Has acertado todo.':pct>=50?'Bien, pero aún puedes mejorar.':'Sigue practicando, ¡tú puedes!')+'</div>'+
+    '</div>';
+  }
+
+  function handleNext(){
+    if(qIdx < current.questions.length - 1){
+      qIdx++;
+      renderQuestion();
+      window.scrollTo(0, 0);
+    } else {
+      nextExercise();
+    }
+  }
+
+  function updateNextBtn(){
+    var btn = document.getElementById('btnNext');
+    if(qIdx < current.questions.length - 1){
+      btn.textContent = '→ Siguiente pregunta';
+    } else {
+      btn.textContent = '→ Nuevo ejercicio';
+    }
+  }
+
+  // ===================== VISUALIZATIONS =====================
+  function buildGondolaViz(ls, baldas, ancho, refNames, refFacings){
+    var container = document.getElementById('gondolaViz');
+    if(!container) return;
+
+    var refs = [];
+    for(var i=0; i<refNames.length; i++){
+      refs.push({
+        label: refNames[i],
+        short: 'R'+(i+1),
+        facings: refFacings[i],
+        color: REF_COLORS[i % REF_COLORS.length]
+      });
+    }
+
+    var html = '<div class="gondola-wrap"><div class="gondola-lbl">Vista de la góndola</div><div class="gondola-shelf">';
+    for(var b=0; b<baldas; b++){
+      if(b>0) html += '<div class="shelf-divider"></div>';
+      html += '<div class="shelf-row">';
+      refs.forEach(function(r){
+        for(var f=0; f<r.facings; f++){
+          html += '<div class="ref-cell" style="background:'+r.color+'" title="'+r.label+'">'+r.short+'</div>';
+        }
+      });
+      html += '</div>';
+    }
+    html += '</div><div class="gondola-legend">';
+    refs.forEach(function(r){
+      html += '<div class="legend-item"><div class="legend-dot" style="background:'+r.color+'"></div>'+r.label+' ('+r.facings+' facing'+(r.facings!==1?'s':'')+')</div>';
+    });
+    html += '</div></div>';
+    container.innerHTML = html;
+  }
+
+  function buildType2Viz(maxRem, filasFondo, udsFacing, totalUds, facingsMin){
+    var container = document.getElementById('gondolaViz');
+    if(!container) return;
+    var html = '<div class="gondola-wrap">';
+    html += '<div class="gondola-lbl">Vista del lineal mínimo necesario</div>';
+    html += '<div class="gondola-shelf" style="gap:4px;padding:6px;">';
+    for(var row = maxRem - 1; row >= 0; row--){
+      html += '<div class="shelf-row" style="gap:3px;min-height:26px;">';
+      for(var col = 0; col < facingsMin; col++){
+        html += '<div class="ref-cell" style="background:#86EFAC;border-color:#4ADE80;font-size:10px;">📦</div>';
+      }
+      html += '</div>';
+      if(row > 0) html += '<div class="shelf-divider"></div>';
+    }
+    html += '</div>';
+    html += '<div class="gondola-legend">';
+    html += '<div class="legend-item"><div class="legend-dot" style="background:#86EFAC"></div>'+facingsMin+' facing'+(facingsMin!==1?'s':'')+' de ancho</div>';
+    html += '<div class="legend-item"><div class="legend-dot" style="background:#93C5FD"></div>'+maxRem+' nivel'+(maxRem!==1?'es':'')+' de remonte</div>';
+    html += '<div class="legend-item"><div class="legend-dot" style="background:#FCD34D"></div>'+filasFondo+' fila'+(filasFondo!==1?'s':'')+' al fondo</div>';
+    html += '</div>';
+    html += '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:11px;color:#15803D;line-height:1.7;">';
+    html += 'Cada facing aguanta <strong>'+udsFacing+' uds</strong> ('+maxRem+' remonte × '+filasFondo+' filas). Necesitas <strong>'+totalUds+' uds</strong> → mínimo <strong>'+facingsMin+' facing'+(facingsMin!==1?'s':'')+'</strong>.';
+    html += '</div></div>';
+    container.innerHTML = html;
+  }
+
+  function clearViz(){
+    var c = document.getElementById('gondolaViz');
+    if(c) c.innerHTML='';
+  }
+
+  function fireBurst(){
+    var icon = document.querySelector('.streak-icon');
+    icon.classList.remove('fire-burst');
+    void icon.offsetWidth;
+    icon.classList.add('fire-burst');
+  }
+
+  var pdfClosing = false;
+
+  function openPdf(){
+    if(pdfClosing) return;
+    document.getElementById('pdfFrame').src = 'UD_02_Zona_Venta_Apuntes.pdf';
+    document.body.style.overflow = 'hidden';
+    document.body.classList.add('footer-hidden');
+    var overlay = document.getElementById('pdfOverlay');
+    var modal = document.getElementById('pdfModal');
+    overlay.className = '';
+    modal.className = '';
+    overlay.style.display = 'block';
+    modal.style.display = 'block';
+    overlay.classList.add('overlay-enter');
+    modal.classList.add('pdf-enter');
+  }
+
+  function closePdf(){
+    if(pdfClosing) return;
+    pdfClosing = true;
+    var overlay = document.getElementById('pdfOverlay');
+    var modal = document.getElementById('pdfModal');
+    overlay.classList.remove('overlay-enter');
+    modal.classList.remove('pdf-enter');
+    overlay.classList.add('overlay-exit');
+    modal.classList.add('pdf-exit');
+    function cleanup(){
+      modal.style.display = 'none';
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+      document.body.classList.remove('footer-hidden');
+      document.getElementById('pdfFrame').src = '';
+      overlay.className = '';
+      modal.className = '';
+      pdfClosing = false;
+    }
+    setTimeout(cleanup, 280);
+  }
+
+  function closePdf(){
+    var overlay = document.getElementById('pdfOverlay');
+    var modal = document.getElementById('pdfModal');
+    overlay.classList.remove('overlay-enter');
+    modal.classList.remove('pdf-enter');
+    overlay.classList.add('overlay-exit');
+    modal.classList.add('pdf-exit');
+    modal.addEventListener('animationend', function handler(){
+      modal.style.display = 'none';
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+      document.body.classList.remove('footer-hidden');
+      document.getElementById('pdfFrame').src = '';
+      overlay.classList.remove('overlay-exit');
+      modal.removeEventListener('animationend', handler);
+    });
+  }
+
+  function badge(lbl, val, u){
+    return '<div class="data-badge"><div class="data-lbl">'+lbl+'</div><div class="data-val">'+val+(u?' <span>'+u+'</span>':'')+'</div></div>';
+  }
+
+  // ===================== ENTER KEY =====================
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Enter'){
+      var btnCheck = document.getElementById('btnCheck');
+      var btnNext  = document.getElementById('btnNext');
+      if(btnCheck.style.display!=='none') checkAnswer();
+      else if(btnNext.style.display!=='none') handleNext();
+    }
+  });
+
+  // ===================== HINTS =====================
+  var HINTS = {
+    'ld': {
+      title: 'Lineal Desarrollado',
+      mainFormula: '<span class="hf-var">Lineal al suelo</span> <span class="hf-op">×</span> <span class="hf-var">Nº de baldas</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Lineal desarrollado</span>',
+      steps: [
+        { icon: '📏', text: 'El <strong>lineal al suelo</strong> son los centímetros de largo que tiene la base del mueble.' },
+        { icon: '🔢', text: '<strong>Multiplica</strong> esos cm por cuántas baldas (estantes) tiene la góndola.' }
+      ],
+      tip: 'Es como medir una estantería: si cada balda mide 120 cm y hay 4 baldas → 120 × 4 = <strong>480 cm</strong> de espacio total.'
+    },
+    'facings': {
+      title: 'Facings por balda',
+      mainFormula: '<span class="hf-var">Largo de la balda</span> <span class="hf-op">÷</span> <span class="hf-var">Ancho del producto</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Facings</span>',
+      steps: [
+        { icon: '📐', text: 'El <strong>largo de la balda</strong> es el lineal al suelo (los cm del mueble).' },
+        { icon: '📦', text: 'El <strong>ancho del producto</strong> es lo que ocupa de frente (lo que ves al mirar el lineal).' },
+        { icon: '⬇️', text: '<strong>Redondea SIEMPRE hacia abajo</strong> — no puedes poner medio producto.' }
+      ],
+      tip: 'Si la balda mide 100 cm y cada producto ocupa 12 cm → 100 ÷ 12 = 8,33 → caben <strong>8</strong> productos (no 9).'
+    },
+    'total': {
+      title: 'Unidades totales en el mueble',
+      mainFormula: '<span class="hf-var">Facings por balda</span> <span class="hf-op">×</span> <span class="hf-var">Nº de baldas</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Total unidades</span>',
+      steps: [
+        { icon: '1️⃣', text: 'Primero calcula los <strong>facings por balda</strong>:<br>Lineal al suelo ÷ Ancho del producto' },
+        { icon: '2️⃣', text: 'Luego <strong>multiplica</strong> ese número por las baldas que tiene el mueble.' }
+      ],
+      tip: 'Es como una tabla: primero cuántos caben en una fila, luego × cuántas filas hay. Si caben 8 por balda y hay 3 baldas → 8 × 3 = <strong>24 uds</strong>.'
+    },
+    'pct': {
+      title: 'Espacio por porcentaje',
+      mainFormula: '<span class="hf-var">Lineal al suelo</span> <span class="hf-op">×</span> (<span class="hf-var">%</span> <span class="hf-op">÷</span> <span class="hf-var">100</span>) <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">cm</span>',
+      steps: [
+        { icon: '🔄', text: 'Primero convierte el porcentaje a decimal: <strong>divide entre 100</strong>.<br>Ej: 25% → 25 ÷ 100 = 0,25' },
+        { icon: '✖️', text: 'Luego <strong>multiplica</strong> el lineal al suelo por ese decimal.' }
+      ],
+      tip: '25% de una balda de 120 cm → 120 × 0,25 = <strong>30 cm</strong>.<br>50% → 120 × 0,50 = <strong>60 cm</strong>.'
+    },
+    'linmin': {
+      title: 'Lineal Mínimo con stock',
+      mainFormula: '<span class="hf-var">Facings mínimos</span> <span class="hf-op">×</span> <span class="hf-var">Ancho producto</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Lineal mínimo</span>',
+      steps: [
+        { icon: '1️⃣', text: '<strong>Total uds = Demanda + Stock de seguridad</strong><br>Suma lo que necesitas vender + el colchón de seguridad.' },
+        { icon: '2️⃣', text: '<strong>Capacidad 1 facing = Remonte máx. × Filas al fondo</strong><br>Cada facing (columna) puede tener varias alturas y profundidades.' },
+        { icon: '3️⃣', text: '<strong>Facings mínimos = Total ÷ Capacidad</strong><br>⚠️ Redondea <strong>SIEMPRE hacia arriba</strong> (si sale 4,1 → necesitas 5).' },
+        { icon: '4️⃣', text: '<strong>Lineal mínimo = Facings × Ancho del producto</strong><br>Esto te da los cm de lineal que necesitas.' }
+      ],
+      tip: 'El Paso 3 es la clave: siempre redondea hacia ARRIBA. Si necesitas 4,1 facings, no te vale 4 — necesitas 5. <strong>Nunca puedes tener menos stock del necesario</strong>.'
+    }
+  };
+
+  function showHint(){
+    if(!current) return;
+    var q = current.questions[qIdx];
+    var h = HINTS[q.hint];
+    if(!h) return;
+    var html = '<div class="hf-main">' + h.mainFormula + '</div>';
+    html += '<div class="hf-steps">';
+    h.steps.forEach(function(s, i){
+      if(i > 0) html += '<div class="hf-arrow">↓</div>';
+      html += '<div class="hf-step"><div class="hf-step-icon">' + s.icon + '</div><div>' + s.text + '</div></div>';
+    });
+    html += '</div>';
+    html += '<div class="hf-tip">💡 ' + h.tip + '</div>';
+    document.getElementById('hintBody').innerHTML = html;
+
+    var overlay = document.getElementById('hintOverlay');
+    var modal = document.getElementById('hintModal');
+    document.body.style.overflow = 'hidden';
+    overlay.style.display = 'block';
+    modal.style.display = 'block';
+    overlay.classList.remove('overlay-exit');
+    modal.classList.remove('modal-exit');
+    overlay.classList.add('overlay-enter');
+    modal.classList.add('modal-enter');
+  }
+
+  function closeHint(){
+    var overlay = document.getElementById('hintOverlay');
+    var modal = document.getElementById('hintModal');
+    overlay.classList.remove('overlay-enter');
+    modal.classList.remove('modal-enter');
+    overlay.classList.add('overlay-exit');
+    modal.classList.add('modal-exit');
+    modal.addEventListener('animationend', function handler(){
+      modal.style.display = 'none';
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+      modal.classList.remove('modal-exit');
+      overlay.classList.remove('overlay-exit');
+      modal.removeEventListener('animationend', handler);
+    });
+  }
+</script>
+</body>
+</html>
