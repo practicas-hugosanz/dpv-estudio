@@ -438,10 +438,11 @@
     width: 30px; height: 30px;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 15px;
+    font-size: 16px;
+    color: #2563EB;
     flex-shrink: 0;
     background: #EFF6FF;
-    border: 1px solid #BFDBFE;
+    border: 1.5px solid #93C5FD;
     margin-top: 1px;
   }
   .hf-arrow {
@@ -677,12 +678,12 @@
   </div>
 
 <div id="hintOverlay" onclick="closeHint()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;"></div>
-<div id="hintModal" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;background:#fff;border-radius:20px 20px 0 0;padding:24px 20px 36px;z-index:101;box-shadow:0 -8px 32px rgba(0,0,0,0.15);">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+<div id="hintModal" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;max-height:88vh;background:#fff;border-radius:20px 20px 0 0;z-index:101;box-shadow:0 -8px 32px rgba(0,0,0,0.15);flex-direction:column;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 20px 14px;flex-shrink:0;border-bottom:1px solid #F1F5F9;">
     <div style="font-size:15px;font-weight:700;color:#1E293B;"><i class="ri-lightbulb-line"></i> Pista de fórmula</div>
     <button onclick="closeHint()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#94A3B8;line-height:1;"><i class="ri-close-line"></i></button>
   </div>
-  <div id="hintBody"></div>
+  <div id="hintBody" style="overflow-y:auto;padding:16px 20px 36px;-webkit-overflow-scrolling:touch;"></div>
 </div>
 
 <div id="pdfOverlay" onclick="closePdf()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;"></div>
@@ -858,7 +859,7 @@
       questions.push({
         letter:'d',
         q:'Si '+rName+' ocupa el <strong>'+rPct+'%</strong> del lineal al suelo, ¿cuántos <strong>facings</strong> tiene en total (todas las baldas)?',
-        unit:'facings', ans:rFac*baldas, hint:'pct',
+        unit:'facings', ans:rFac*baldas, hint:'pct_facings',
         steps:[
           {t:"Paso 1 — Espacio de "+rName, f:linSuelo+" cm × ("+rPct+" ÷ 100) = "+rSpace+" cm"},
           {t:"Paso 2 — Facings por balda", f:rSpace+" cm ÷ "+ancho+" cm = "+rFac+" facings/balda"},
@@ -1328,8 +1329,8 @@
       title: 'Unidades totales en el mueble',
       mainFormula: '<span class="hf-var">Facings por balda</span> <span class="hf-op">×</span> <span class="hf-var">Nº de baldas</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Total unidades</span>',
       steps: [
-        { icon: 'ri-1-circle', text: 'Primero calcula los <strong>facings por balda</strong>:<br>Lineal al suelo ÷ Ancho del producto' },
-        { icon: 'ri-2-circle', text: 'Luego <strong>multiplica</strong> ese número por las baldas que tiene el mueble.' }
+        { icon: 'ri-ruler-line', text: 'Primero calcula los <strong>facings por balda</strong>:<br>Lineal al suelo ÷ Ancho del producto' },
+        { icon: 'ri-calculator-line', text: 'Luego <strong>multiplica</strong> ese número por las baldas que tiene el mueble.' }
       ],
       tip: 'Es como una tabla: primero cuántos caben en una fila, luego × cuántas filas hay. Si caben 8 por balda y hay 3 baldas → 8 × 3 = <strong>24 uds</strong>.'
     },
@@ -1342,14 +1343,31 @@
       ],
       tip: '25% de una balda de 120 cm → 120 × 0,25 = <strong>30 cm</strong>.<br>50% → 120 × 0,50 = <strong>60 cm</strong>.'
     },
+    'pct_facings': {
+      title: 'Facings por porcentaje',
+      mainFormula: '<div style="display:flex;flex-direction:column;gap:6px;text-align:center;">' +
+        '<div style="font-size:11px;font-weight:600;color:#64748B;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:2px;">3 pasos encadenados</div>' +
+        '<div><span class="hf-var">Lineal al suelo</span> <span class="hf-op">×</span> (<span class="hf-var">%</span> <span class="hf-op">÷</span> <span class="hf-var">100</span>) <span class="hf-op">=</span> <span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span></div>' +
+        '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
+        '<div><span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span> <span class="hf-op">÷</span> <span class="hf-var">Ancho</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span></div>' +
+        '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
+        '<div><span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span> <span class="hf-op">×</span> <span class="hf-var">Nº baldas</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Facings total</span></div>' +
+        '</div>',
+      steps: [
+        { icon: 'ri-refresh-line', text: '<strong>Paso 1 — Espacio de la referencia</strong><br>Lineal al suelo × (% ÷ 100)<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">120 cm × (25 ÷ 100) = 30 cm</span>' },
+        { icon: 'ri-layout-column-line', text: '<strong>Paso 2 — Facings por balda</strong><br>Espacio de la ref. ÷ Ancho del producto<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">30 cm ÷ 14 cm = 2 facings/balda</span> <em>(redondea abajo)</em>' },
+        { icon: 'ri-stack-line', text: '<strong>Paso 3 — Total (todas las baldas)</strong><br>Facings por balda × Nº de baldas<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">2 × 3 baldas = 6 facings</span>' }
+      ],
+      tip: 'El resultado del Paso 1 se usa en el Paso 2, y el del Paso 2 en el Paso 3. ¡Son como eslabones de una cadena!'
+    },
     'linmin': {
       title: 'Lineal Mínimo con stock',
       mainFormula: '<span class="hf-var">Facings mínimos</span> <span class="hf-op">×</span> <span class="hf-var">Ancho producto</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Lineal mínimo</span>',
       steps: [
-        { icon: 'ri-1-circle', text: '<strong>Total uds = Demanda + Stock de seguridad</strong><br>Suma lo que necesitas vender + el colchón de seguridad.' },
-        { icon: 'ri-2-circle', text: '<strong>Capacidad 1 facing = Remonte máx. × Filas al fondo</strong><br>Cada facing (columna) puede tener varias alturas y profundidades.' },
-        { icon: 'ri-3-circle', text: '<strong>Facings mínimos = Total ÷ Capacidad</strong><br>⚠️ Redondea <strong>SIEMPRE hacia arriba</strong> (si sale 4,1 → necesitas 5).' },
-        { icon: 'ri-4-circle', text: '<strong>Lineal mínimo = Facings × Ancho del producto</strong><br>Esto te da los cm de lineal que necesitas.' }
+        { icon: 'ri-stack-line', text: '<strong>Total uds = Demanda + Stock de seguridad</strong><br>Suma lo que necesitas vender + el colchón de seguridad.' },
+        { icon: 'ri-box-3-line', text: '<strong>Capacidad 1 facing = Remonte máx. × Filas al fondo</strong><br>Cada facing (columna) puede tener varias alturas y profundidades.' },
+        { icon: 'ri-arrow-down-line', text: '<strong>Facings mínimos = Total ÷ Capacidad</strong><br>⚠️ Redondea <strong>SIEMPRE hacia arriba</strong> (si sale 4,1 → necesitas 5).' },
+        { icon: 'ri-ruler-line', text: '<strong>Lineal mínimo = Facings × Ancho del producto</strong><br>Esto te da los cm de lineal que necesitas.' }
       ],
       tip: 'El Paso 3 es la clave: siempre redondea hacia ARRIBA. Si necesitas 4,1 facings, no te vale 4 — necesitas 5. <strong>Nunca puedes tener menos stock del necesario</strong>.'
     }
@@ -1364,7 +1382,7 @@
     html += '<div class="hf-steps">';
     h.steps.forEach(function(s, i){
       if(i > 0) html += '<div class="hf-arrow">↓</div>';
-      html += '<div class="hf-step"><div class="hf-step-icon"><i class="' + s.icon + '"></i></div><div>' + s.text + '</div></div>';
+      html += '<div class="hf-step"><div class="hf-step-icon"><i class="' + s.icon + '" style="font-size:16px;color:#2563EB;"></i></div><div>' + s.text + '</div></div>';
     });
     html += '</div>';
     html += '<div class="hf-tip"><i class="ri-lightbulb-line"></i> ' + h.tip + '</div>';
@@ -1374,7 +1392,7 @@
     var modal = document.getElementById('hintModal');
     document.body.style.overflow = 'hidden';
     overlay.style.display = 'block';
-    modal.style.display = 'block';
+    modal.style.display = 'flex';
     overlay.classList.remove('overlay-exit');
     modal.classList.remove('modal-exit');
     overlay.classList.add('overlay-enter');
