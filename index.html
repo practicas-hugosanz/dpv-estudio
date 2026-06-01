@@ -1368,43 +1368,26 @@
       ],
       tip: '25% de una balda de 120 cm → 120 × 0,25 = <strong>30 cm</strong>.<br>50% → 120 × 0,50 = <strong>60 cm</strong>.'
     },
-    'pct_facings': {
-      title: 'Facings por porcentaje',
-      mainFormula: '<div style="display:flex;flex-direction:column;gap:6px;text-align:center;width:100%;">' +
-        '<div style="font-size:11px;font-weight:600;color:#64748B;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:2px;">3 pasos encadenados</div>' +
-        '<div><span class="hf-var">Lineal al suelo</span> <span class="hf-op">×</span> (<span class="hf-var">%</span> <span class="hf-op">÷</span> <span class="hf-var">100</span>) <span class="hf-op">=</span> <span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span></div>' +
-        '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
-        '<div><span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span> <span class="hf-op">÷</span> <span class="hf-var">Ancho</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span></div>' +
-        '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
-        '<div><span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span> <span class="hf-op">×</span> <span class="hf-var">Nº baldas</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Facings total</span></div>' +
-        '</div>',
-      steps: [
-        { icon: 'ri-refresh-line', text: '<strong>Paso 1 — Espacio de la referencia</strong><br>Lineal al suelo × (% ÷ 100)<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">120 cm × (25 ÷ 100) = 30 cm</span>' },
-        { icon: 'ri-layout-column-line', text: '<strong>Paso 2 — Facings por balda</strong><br>Espacio de la ref. ÷ Ancho del producto<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">30 cm ÷ 14 cm = 2 facings/balda</span> <em>(redondea abajo)</em>' },
-        { icon: 'ri-stack-line', text: '<strong>Paso 3 — Total (todas las baldas)</strong><br>Facings por balda × Nº de baldas<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">2 × 3 baldas = 6 facings</span>' }
-      ],
+    'pct_facings': 'facings_chain',
+    'equal_facings': 'facings_chain',
+    'facings_chain': {
+      title: 'Facings en 3 pasos',
+      mainFormula: '',
+      steps: [],
       tip: 'El resultado del Paso 1 se usa en el Paso 2, y el del Paso 2 en el Paso 3. ¡Son como eslabones de una cadena!'
-    },
-    'equal_facings': {
-      title: 'Facings por reparto igual',
-      mainFormula: '<div style="display:flex;flex-direction:column;gap:6px;text-align:center;width:100%;">' +
-        '<div style="font-size:11px;font-weight:600;color:#64748B;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:2px;">3 pasos encadenados</div>' +
-        '<div><span class="hf-var">Lineal al suelo</span> <span class="hf-op">÷</span> <span class="hf-var">Nº referencias</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span></div>' +
-        '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
-        '<div><span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span> <span class="hf-op">÷</span> <span class="hf-var">Ancho</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span></div>' +
-        '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
-        '<div><span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span> <span class="hf-op">×</span> <span class="hf-var">Nº baldas</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Facings total</span></div>' +
-        '</div>',
-      steps: [
-        { icon: 'ri-layout-column-line', text: '<strong>Paso 1 — Espacio por referencia</strong><br>Lineal al suelo ÷ Nº de referencias<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">120 cm ÷ 4 refs = 30 cm/ref</span>' },
-        { icon: 'ri-ruler-line', text: '<strong>Paso 2 — Facings por balda</strong><br>Espacio de la ref. ÷ Ancho del producto<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">30 cm ÷ 14 cm = 2 facings/balda</span> <em>(redondea abajo)</em>' },
-        { icon: 'ri-stack-line', text: '<strong>Paso 3 — Total (todas las baldas)</strong><br>Facings por balda × Nº de baldas<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">2 × 3 baldas = 6 facings</span>' }
-      ],
-      tip: 'Reparto igual significa que cada referencia tiene el mismo espacio. Divide primero el lineal, luego calcula cuántos productos caben, y por último multiplica por las baldas.'
     },
     'linmin': {
       title: 'Lineal Mínimo con stock',
-      mainFormula: '<span class="hf-var">Facings mínimos</span> <span class="hf-op">×</span> <span class="hf-var">Ancho producto</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Lineal mínimo</span>',
+      mainFormula: '<div style="display:flex;flex-direction:column;gap:6px;text-align:center;width:100%;">' +
+        '<div style="font-size:11px;font-weight:600;color:#64748B;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:2px;">4 pasos encadenados</div>' +
+        '<div><span class="hf-var">Demanda</span> <span class="hf-op">+</span> <span class="hf-var">Stock seguridad</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">Total uds</span></div>' +
+        '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
+        '<div><span class="hf-var">Remonte máx.</span> <span class="hf-op">×</span> <span class="hf-var">Filas al fondo</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#2563EB;color:#2563EB">Cap./facing</span></div>' +
+        '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
+        '<div><span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">Total uds</span> <span class="hf-op">÷</span> <span class="hf-var" style="border-color:#2563EB;color:#2563EB">Cap./facing</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#D97706;color:#D97706">Facings mín.</span></div>' +
+        '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
+        '<div><span class="hf-var" style="border-color:#D97706;color:#D97706">Facings mín.</span> <span class="hf-op">×</span> <span class="hf-var">Ancho</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Lineal mínimo</span></div>' +
+        '</div>',
       steps: [
         { icon: 'ri-stack-line', text: '<strong>Total uds = Demanda + Stock de seguridad</strong><br>Suma lo que necesitas vender + el colchón de seguridad.' },
         { icon: 'ri-box-3-line', text: '<strong>Capacidad 1 facing = Remonte máx. × Filas al fondo</strong><br>Cada facing (columna) puede tener varias alturas y profundidades.' },
@@ -1418,23 +1401,57 @@
   function openFormulas(){
     var body = document.getElementById('formulasBody');
     var html = '';
-    var keys = ['ld','facings','total','pct','equal_facings','pct_facings','linmin'];
+    var keys = ['ld','facings','total','pct','facings_chain','linmin'];
     keys.forEach(function(key){
       var h = HINTS[key];
-      if(!h) return;
+      if(!h || typeof h === 'string') return;
       html += '<div style="background:#fff;border-radius:14px;border:1px solid #E2E8F0;">';
       // Header
-      html += '<div style="padding:12px 14px 0;border-bottom:1px solid #F1F5F9;padding-bottom:14px;">' +
-        '<div style="font-size:13px;font-weight:700;color:#1E293B;margin-bottom:10px;">' + h.title + '</div>' +
-        '<div class="hf-main" style="margin:0;">' + h.mainFormula + '</div>' +
-      '</div>';
-      // Steps
-      html += '<div style="padding:10px 14px;display:flex;flex-direction:column;gap:0;">';
-      h.steps.forEach(function(s, i){
-        if(i > 0) html += '<div class="hf-arrow" style="margin:2px 0 2px 14px;">↓</div>';
-        html += '<div class="hf-step"><div class="hf-step-icon"><i class="' + s.icon + '" style="font-size:16px;color:#2563EB;"></i></div><div style="font-size:12.5px;">' + s.text + '</div></div>';
-      });
-      html += '</div>';
+      html += '<div style="padding:12px 14px 0;border-bottom:1px solid #F1F5F9;padding-bottom:14px;">';
+      html += '<div style="font-size:13px;font-weight:700;color:#1E293B;margin-bottom:10px;">' + h.title + '</div>';
+      if(key === 'facings_chain'){
+        html += '<div class="hf-main" style="margin:0;"><div style="display:flex;flex-direction:column;gap:6px;text-align:center;width:100%;">' +
+          '<div style="font-size:11px;font-weight:600;color:#64748B;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:2px;">3 pasos encadenados</div>' +
+          '<div style="background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:8px 12px;">' +
+            '<div style="font-size:10px;font-weight:700;color:#7C3AED;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.04em;">Si hay %</div>' +
+            '<div><span class="hf-var">Lineal al suelo</span> <span class="hf-op">×</span> (<span class="hf-var">%</span> <span class="hf-op">÷</span> <span class="hf-var">100</span>) <span class="hf-op">=</span> <span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span></div>' +
+          '</div>' +
+          '<div style="font-size:11px;font-weight:700;color:#94A3B8;text-align:center;padding:2px 0;">— o bien —</div>' +
+          '<div style="background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;padding:8px 12px;">' +
+            '<div style="font-size:10px;font-weight:700;color:#7C3AED;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.04em;">Si reparto igual</div>' +
+            '<div><span class="hf-var">Lineal al suelo</span> <span class="hf-op">÷</span> <span class="hf-var">Nº referencias</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span></div>' +
+          '</div>' +
+          '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
+          '<div><span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span> <span class="hf-op">÷</span> <span class="hf-var">Ancho</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span></div>' +
+          '<div style="color:#94A3B8;font-size:18px;">↓</div>' +
+          '<div><span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span> <span class="hf-op">×</span> <span class="hf-var">Nº baldas</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Facings total</span></div>' +
+          '</div></div>';
+        html += '</div>';
+        // Steps for facings_chain in openFormulas
+        html += '<div style="padding:10px 14px;display:flex;flex-direction:column;gap:0;">';
+        var fcSteps = [
+          { icon:'ri-refresh-line', text:'<strong>Paso 1a — Si hay porcentaje</strong><br>Lineal al suelo × (% ÷ 100)<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">120 cm × (25 ÷ 100) = 30 cm</span>' },
+          { icon:'ri-layout-column-line', text:'<strong>Paso 1b — Si es reparto igual</strong><br>Lineal al suelo ÷ Nº de referencias<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">120 cm ÷ 4 refs = 30 cm/ref</span>' },
+          { icon:'ri-ruler-line', text:'<strong>Paso 2 — Facings por balda</strong><br>Espacio de la ref. ÷ Ancho del producto<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">30 cm ÷ 14 cm = 2 facings/balda</span> <em>(redondea abajo)</em>' },
+          { icon:'ri-stack-line', text:'<strong>Paso 3 — Total (todas las baldas)</strong><br>Facings por balda × Nº de baldas<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">2 × 3 baldas = 6 facings</span>' }
+        ];
+        fcSteps.forEach(function(s, i){
+          if(i === 2) html += '<div class="hf-arrow" style="margin:2px 0 2px 14px;">↓</div>';
+          else if(i > 0) html += '<div style="margin:2px 0 2px 14px;font-size:10px;font-weight:600;color:#94A3B8;">— o bien —</div>';
+          html += '<div class="hf-step"><div class="hf-step-icon"><i class="' + s.icon + '" style="font-size:16px;color:#2563EB;"></i></div><div style="font-size:12.5px;">' + s.text + '</div></div>';
+        });
+        html += '</div>';
+      } else {
+        html += '<div class="hf-main" style="margin:0;">' + h.mainFormula + '</div>';
+        html += '</div>';
+        // Steps
+        html += '<div style="padding:10px 14px;display:flex;flex-direction:column;gap:0;">';
+        h.steps.forEach(function(s, i){
+          if(i > 0) html += '<div class="hf-arrow" style="margin:2px 0 2px 14px;">↓</div>';
+          html += '<div class="hf-step"><div class="hf-step-icon"><i class="' + s.icon + '" style="font-size:16px;color:#2563EB;"></i></div><div style="font-size:12.5px;">' + s.text + '</div></div>';
+        });
+        html += '</div>';
+      }
       // Tip
       html += '<div class="hf-tip" style="margin:0 12px 12px;font-size:12px;"><i class="ri-lightbulb-line"></i> ' + h.tip + '</div>';
       html += '</div>';
@@ -1471,16 +1488,59 @@
   function showHint(){
     if(!current) return;
     var q = current.questions[qIdx];
-    var h = HINTS[q.hint];
-    if(!h) return;
-    var html = '<div class="hf-main">' + h.mainFormula + '</div>';
-    html += '<div class="hf-steps">';
-    h.steps.forEach(function(s, i){
-      if(i > 0) html += '<div class="hf-arrow">↓</div>';
-      html += '<div class="hf-step"><div class="hf-step-icon"><i class="' + s.icon + '" style="font-size:16px;color:#2563EB;"></i></div><div>' + s.text + '</div></div>';
-    });
-    html += '</div>';
-    html += '<div class="hf-tip"><i class="ri-lightbulb-line"></i> ' + h.tip + '</div>';
+    var hintKey = q.hint;
+    var resolved = HINTS[hintKey];
+    // resolve alias
+    if(typeof resolved === 'string') resolved = HINTS[resolved];
+    if(!resolved) return;
+    var h = resolved;
+    var html = '';
+
+    if(hintKey === 'pct_facings' || hintKey === 'equal_facings'){
+      var isPct = hintKey === 'pct_facings';
+
+      // Formula visual
+      html += '<div class="hf-main"><div style="display:flex;flex-direction:column;gap:6px;text-align:center;width:100%;">';
+      html += '<div style="font-size:11px;font-weight:600;color:#64748B;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:2px;">3 pasos encadenados</div>';
+      // Step 1 — only the active one
+      if(isPct){
+        html += '<div><span class="hf-var">Lineal al suelo</span> <span class="hf-op">×</span> (<span class="hf-var">%</span> <span class="hf-op">÷</span> <span class="hf-var">100</span>) <span class="hf-op">=</span> <span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span></div>';
+      } else {
+        html += '<div><span class="hf-var">Lineal al suelo</span> <span class="hf-op">÷</span> <span class="hf-var">Nº referencias</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span></div>';
+      }
+      html += '<div style="color:#94A3B8;font-size:18px;">↓</div>';
+      html += '<div><span class="hf-var" style="border-color:#7C3AED;color:#7C3AED">cm ref.</span> <span class="hf-op">÷</span> <span class="hf-var">Ancho</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span></div>';
+      html += '<div style="color:#94A3B8;font-size:18px;">↓</div>';
+      html += '<div><span class="hf-var" style="border-color:#D97706;color:#D97706">facings/balda</span> <span class="hf-op">×</span> <span class="hf-var">Nº baldas</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Facings total</span></div>';
+      html += '</div></div>';
+
+      // Steps — only active Step 1 + steps 2 & 3
+      html += '<div class="hf-steps">';
+      html += '<div class="hf-step">';
+      html += '<div class="hf-step-icon"><i class="' + (isPct ? 'ri-refresh-line' : 'ri-layout-column-line') + '" style="font-size:16px;color:#2563EB;"></i></div>';
+      if(isPct){
+        html += '<div><strong>Paso 1 — Espacio de la referencia</strong><br>Lineal al suelo × (% ÷ 100)<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">120 cm × (25 ÷ 100) = 30 cm</span></div>';
+      } else {
+        html += '<div><strong>Paso 1 — Espacio por referencia</strong><br>Lineal al suelo ÷ Nº de referencias<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">120 cm ÷ 4 refs = 30 cm/ref</span></div>';
+      }
+      html += '</div>';
+      // Steps 2 & 3
+      html += '<div class="hf-arrow">↓</div>';
+      html += '<div class="hf-step"><div class="hf-step-icon"><i class="ri-layout-column-line" style="font-size:16px;color:#2563EB;"></i></div><div><strong>Paso 2 — Facings por balda</strong><br>Espacio de la ref. ÷ Ancho del producto<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">30 cm ÷ 14 cm = 2 facings/balda</span> <em>(redondea abajo)</em></div></div>';
+      html += '<div class="hf-arrow">↓</div>';
+      html += '<div class="hf-step"><div class="hf-step-icon"><i class="ri-stack-line" style="font-size:16px;color:#2563EB;"></i></div><div><strong>Paso 3 — Total (todas las baldas)</strong><br>Facings por balda × Nº de baldas<br><span style="font-family:monospace;background:#F1F5F9;padding:2px 6px;border-radius:4px;">2 × 3 baldas = 6 facings</span></div></div>';
+      html += '</div>';
+      html += '<div class="hf-tip"><i class="ri-lightbulb-line"></i> ' + h.tip + '</div>';
+    } else {
+      html = '<div class="hf-main">' + h.mainFormula + '</div>';
+      html += '<div class="hf-steps">';
+      h.steps.forEach(function(s, i){
+        if(i > 0) html += '<div class="hf-arrow">↓</div>';
+        html += '<div class="hf-step"><div class="hf-step-icon"><i class="' + s.icon + '" style="font-size:16px;color:#2563EB;"></i></div><div>' + s.text + '</div></div>';
+      });
+      html += '</div>';
+      html += '<div class="hf-tip"><i class="ri-lightbulb-line"></i> ' + h.tip + '</div>';
+    }
     document.getElementById('hintBody').innerHTML = html;
 
     var overlay = document.getElementById('hintOverlay');
