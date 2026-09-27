@@ -704,6 +704,31 @@
   }
   .pill-dpv { background: var(--blue-light); color: var(--blue-dark); border: 1px solid var(--blue-mid); }
   .pill-mkt { background: var(--purple-light); color: var(--purple); border: 1px solid var(--purple-mid); }
+  .pill-tal { background: #ECFEFF; color: #0E7490; border: 1px solid #A5F3FC; }
+
+  .curso-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 22px 0 10px;
+  }
+  .curso-label:first-of-type { margin-top: 0; }
+
+  .subject-card.tal { border-color: #A5F3FC; }
+  .subject-card.tal:hover { border-color: #0E7490; }
+  .subject-card.tal .subject-card-accent { background: linear-gradient(90deg, #0E7490, #22D3EE); }
+  .subject-card.tal .subject-icon { background: #ECFEFF; color: #0E7490; }
+  .subject-card.tal .subject-tag { background: #ECFEFF; color: #0E7490; border: 1px solid #A5F3FC; }
+
+  .t7 { background: #ECFEFF; color: #0E7490; border: 1px solid #A5F3FC; }
+
+  .merc-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .merc-table th, .merc-table td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--gray-200); }
+  .merc-table th { color: var(--gray-400); font-weight: 600; text-transform: uppercase; font-size: 9.5px; letter-spacing: 0.04em; }
+  .merc-table td { color: var(--gray-800); }
+  .merc-table tr.total-row td { font-weight: 700; border-top: 2px solid var(--gray-800); border-bottom: none; }
 </style>
 </head>
 <body>
@@ -722,6 +747,8 @@
   <div class="screen active" id="subjectScreen">
     <p class="menu-title">¿Qué quieres estudiar?</p>
     <p class="menu-sub">Elige una asignatura para practicar sus ejercicios.</p>
+
+    <div class="curso-label">Primer curso</div>
 
     <div class="subject-card dpv" onclick="goSubject('dpv')">
       <div class="subject-card-accent"></div>
@@ -755,6 +782,25 @@
         <span class="subject-tag">Costes y beneficio</span>
         <span class="subject-tag">Punto muerto</span>
         <span class="subject-tag">Precio objetivo</span>
+      </div>
+      <i class="ri-arrow-right-s-line subject-arrow"></i>
+    </div>
+
+    <div class="curso-label">Segundo curso</div>
+
+    <div class="subject-card tal" onclick="goSubject('tal')">
+      <div class="subject-card-accent"></div>
+      <div class="subject-header">
+        <div class="subject-icon"><i class="ri-truck-line"></i></div>
+        <div>
+          <div class="subject-name">Técnicas de almacenamiento</div>
+          <div class="subject-code">Tema 1 — Distribución y transporte</div>
+        </div>
+      </div>
+      <div class="subject-desc">Calcula cuántos vehículos de reparto necesitas según el peso y el volumen de la mercancía.</div>
+      <div class="subject-tags">
+        <span class="subject-tag">Peso y volumen</span>
+        <span class="subject-tag">Nº de vehículos</span>
       </div>
       <i class="ri-arrow-right-s-line subject-arrow"></i>
     </div>
@@ -872,6 +918,30 @@
     </div>
   </div>
 
+  <!-- =================== TAL MENU SCREEN (SEGUNDO CURSO) =================== -->
+  <div class="screen" id="talMenuScreen">
+    <button class="btn-back-subject" onclick="goBack()"><i class="ri-arrow-left-line"></i> Asignaturas</button>
+    <div class="subject-pill pill-tal"><i class="ri-truck-line"></i> Técnicas de almacenamiento</div>
+    <p class="menu-title">Elige tipo de ejercicio</p>
+    <p class="menu-sub">Aprende a calcular cuántos vehículos de reparto necesitas, paso a paso.</p>
+
+    <div class="menu-card" onclick="startTalMode('vehiculos')">
+      <div class="menu-icon" style="background:#ECFEFF;"><i class="ri-truck-line ri-lg" style="color:#0E7490;"></i></div>
+      <div>
+        <div class="menu-card-title">Nº de vehículos de reparto</div>
+        <div class="menu-card-desc">Dado el peso y el volumen de la mercancía, calcula cuántas furgonetas hacen falta.</div>
+      </div>
+    </div>
+
+    <div class="menu-card" onclick="openTalFormulas()" style="margin-top:24px;">
+      <div class="menu-icon" style="background:#ECFEFF;"><i class="ri-calculator-line ri-lg" style="color:#0E7490;"></i></div>
+      <div>
+        <div class="menu-card-title">Ver todas las fórmulas</div>
+        <div class="menu-card-desc">Resumen explicado paso a paso de cómo calcular el número de vehículos.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- =================== FORMULAS MODAL (DPV) =================== -->
   <div id="formulasOverlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.45);z-index:100;" onclick="closeFormulas()"></div>
   <div id="formulasModal" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;max-height:92vh;background:#F8FAFC;border-radius:20px 20px 0 0;z-index:101;box-shadow:0 -8px 32px rgba(0,0,0,0.15);flex-direction:column;">
@@ -890,6 +960,16 @@
       <button onclick="closeMktFormulas()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#94A3B8;line-height:1;"><i class="ri-close-line"></i></button>
     </div>
     <div id="mktFormulasBody" style="overflow-y:auto;padding:16px 16px 40px;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:12px;"></div>
+  </div>
+
+  <!-- =================== FORMULAS MODAL (TAL) =================== -->
+  <div id="talFormulasOverlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.45);z-index:100;" onclick="closeTalFormulas()"></div>
+  <div id="talFormulasModal" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;max-height:92vh;background:#F8FAFC;border-radius:20px 20px 0 0;z-index:101;box-shadow:0 -8px 32px rgba(0,0,0,0.15);flex-direction:column;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 20px 14px;flex-shrink:0;border-bottom:1px solid #E2E8F0;background:#fff;border-radius:20px 20px 0 0;">
+      <div style="font-size:15px;font-weight:700;color:#1E293B;"><i class="ri-calculator-line" style="color:#0E7490;"></i> Fórmulas de Almacenamiento</div>
+      <button onclick="closeTalFormulas()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#94A3B8;line-height:1;"><i class="ri-close-line"></i></button>
+    </div>
+    <div id="talFormulasBody" style="overflow-y:auto;padding:16px 16px 40px;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:12px;"></div>
   </div>
 
   <!-- =================== GAME SCREEN =================== -->
@@ -967,14 +1047,17 @@
     document.getElementById('subjectScreen').classList.remove('active');
     if (subj === 'dpv') {
       document.getElementById('menuScreen').classList.add('active');
-    } else {
+    } else if (subj === 'mkt') {
       document.getElementById('mktMenuScreen').classList.add('active');
+    } else {
+      document.getElementById('talMenuScreen').classList.add('active');
     }
   }
 
   function goBack() {
     document.getElementById('menuScreen').classList.remove('active');
     document.getElementById('mktMenuScreen').classList.remove('active');
+    document.getElementById('talMenuScreen').classList.remove('active');
     document.getElementById('gameScreen').classList.remove('active');
     document.getElementById('subjectScreen').classList.add('active');
     document.body.classList.remove('footer-hidden');
@@ -985,8 +1068,10 @@
     document.body.classList.remove('footer-hidden');
     if (currentSubject === 'dpv') {
       document.getElementById('menuScreen').classList.add('active');
-    } else {
+    } else if (currentSubject === 'mkt') {
       document.getElementById('mktMenuScreen').classList.add('active');
+    } else {
+      document.getElementById('talMenuScreen').classList.add('active');
     }
   }
 
@@ -1012,6 +1097,17 @@
     {nombre:"PedidosExpress",producto:"pedidos a domicilio",sector:"restauración"}
   ];
 
+  // ===================== TAL DATA =====================
+  var talEmpresas = [
+    {nombre:"Aelán SL", producto:"material de oficina"},
+    {nombre:"CasaHogar SL", producto:"electrodomésticos"},
+    {nombre:"ConstruMat SL", producto:"materiales de construcción"},
+    {nombre:"FrutasDelCampo SL", producto:"fruta y verdura"},
+    {nombre:"TextilNorte SL", producto:"ropa y textil"},
+    {nombre:"BebidasSur SL", producto:"bebidas embotelladas"}
+  ];
+  var talMercancias = ["Cajas de cartón","Palés","Sacos de cemento","Cajas de fruta","Bidones","Rollos de tela","Bolsas de pienso","Contenedores","Cajas de botellas","Paquetes de electrodomésticos"];
+
   function rnd(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
   function pick(arr){ return arr[rnd(0,arr.length-1)]; }
   function fmt(n){ return Number.isInteger(n) ? n : parseFloat(n.toFixed(2)); }
@@ -1027,11 +1123,16 @@
   function nextExercise(){
     document.getElementById('menuScreen').classList.remove('active');
     document.getElementById('mktMenuScreen').classList.remove('active');
+    document.getElementById('talMenuScreen').classList.remove('active');
     document.getElementById('gameScreen').classList.add('active');
     document.body.classList.add('footer-hidden');
     qIdx = 0;
     if (currentSubject === 'mkt') {
       nextMktExercise();
+      return;
+    }
+    if (currentSubject === 'tal') {
+      nextTalExercise();
       return;
     }
     var t = mode===0 ? rnd(1,3) : mode;
@@ -1057,6 +1158,18 @@
     if(t===1) genCostes();
     else if(t===2) genPuntoMuerto();
     else genPrecios();
+  }
+
+  // ===================== TAL MODES (SEGUNDO CURSO) =====================
+  var talMode = 'vehiculos';
+  function startTalMode(m){
+    currentSubject = 'tal';
+    talMode = m;
+    nextExercise();
+  }
+
+  function nextTalExercise(){
+    genVehiculos();
   }
 
   // ===================== MKT TYPE 1: COSTES Y BENEFICIO =====================
@@ -1501,6 +1614,82 @@
     renderQuestion();
   }
 
+  // ===================== TYPE 7: Nº DE VEHÍCULOS (TAL) =====================
+  function genVehiculos(){
+    var emp = pick(talEmpresas);
+    var nMerc = rnd(2,3);
+    var nombresDisponibles = talMercancias.slice();
+    var mercs = [];
+    for(var i=0;i<nMerc;i++){
+      var idx = rnd(0, nombresDisponibles.length-1);
+      var nombre = nombresDisponibles.splice(idx,1)[0];
+      var kg = pick([300,400,500,600,800,900,1000,1200,1500,1800,2000,2200]);
+      var vol = pick([3,4,5,6,7,8,9,10,12,14,15,18]);
+      mercs.push({nombre:nombre, kg:kg, vol:vol});
+    }
+    var pesoTotal = mercs.reduce(function(s,m){ return s+m.kg; }, 0);
+    var volTotal = mercs.reduce(function(s,m){ return s+m.vol; }, 0);
+
+    var pesoCap = pick([500,600,700,749,800,900,1000,1200]);
+    var volCap = pick([3,3.5,4,4.2,4.5,5,5.5,6]);
+
+    var vehVolExacto = volTotal/volCap;
+    var vehVolEntero = Math.ceil(vehVolExacto);
+    var vehPesoExacto = pesoTotal/pesoCap;
+    var vehPesoEntero = Math.ceil(vehPesoExacto);
+    var vehFinal = Math.max(vehVolEntero, vehPesoEntero);
+    var criterio = vehVolEntero >= vehPesoEntero ? 'volumen' : 'peso';
+
+    var scenario = 'La empresa <strong>'+emp.nombre+'</strong>, dedicada a <strong>'+emp.producto+'</strong>, debe calcular cuántos <strong>vehículos de reparto</strong> necesita para una ruta. Estas son las mercancías a transportar:';
+
+    var questions = [
+      {
+        letter:'a', q:'¿Cuál es el <strong>peso total</strong> de la mercancía?',
+        unit:'kg', ans:pesoTotal, hint:'peso_total',
+        steps:[{t:"Suma los kg de cada mercancía", f:mercs.map(function(m){return m.kg+' kg';}).join(' + ')+' = '+pesoTotal+' kg'}],
+        final:"Peso total = "+pesoTotal+" kg"
+      },
+      {
+        letter:'b', q:'¿Cuál es el <strong>volumen total</strong> de la mercancía?',
+        unit:'m³', ans:volTotal, hint:'vol_total',
+        steps:[{t:"Suma los m³ de cada mercancía", f:mercs.map(function(m){return m.vol+' m³';}).join(' + ')+' = '+volTotal+' m³'}],
+        final:"Volumen total = "+volTotal+" m³"
+      },
+      {
+        letter:'c', q:'Según el <strong>volumen</strong>, ¿cuántos vehículos se necesitan? (cada furgón carga hasta '+volCap+' m³)',
+        unit:'vehículos', ans:vehVolEntero, hint:'veh_vol',
+        steps:[
+          {t:"Fórmula", f:"Nº vehículos = Volumen total ÷ Volumen que carga 1 furgón"},
+          {t:"Sustituye", f:volTotal+" ÷ "+volCap+" = "+fmt(vehVolExacto)+" → redondeamos SIEMPRE hacia arriba = "+vehVolEntero}
+        ],
+        final:"Según volumen = "+vehVolEntero+" vehículos"
+      },
+      {
+        letter:'d', q:'Según el <strong>peso</strong>, ¿cuántos vehículos se necesitan? (cada furgón carga hasta '+pesoCap+' kg)',
+        unit:'vehículos', ans:vehPesoEntero, hint:'veh_peso',
+        steps:[
+          {t:"Fórmula", f:"Nº vehículos = Peso total ÷ Peso que carga 1 furgón"},
+          {t:"Sustituye", f:pesoTotal+" ÷ "+pesoCap+" = "+fmt(vehPesoExacto)+" → redondeamos SIEMPRE hacia arriba = "+vehPesoEntero}
+        ],
+        final:"Según peso = "+vehPesoEntero+" vehículos"
+      },
+      {
+        letter:'e', q:'Teniendo en cuenta <strong>ambos criterios a la vez</strong>, ¿cuántos vehículos serán necesarios en total?',
+        unit:'vehículos', ans:vehFinal, hint:'veh_final',
+        steps:[
+          {t:"Compara los dos resultados", f:"Según volumen = "+vehVolEntero+" · Según peso = "+vehPesoEntero},
+          {t:"Elige el número MAYOR", f:"El criterio de "+criterio+" es el que más vehículos exige → "+vehFinal+" vehículos"}
+        ],
+        final:"Son necesarias "+vehFinal+" furgonetas de reparto"
+      }
+    ];
+
+    current = {type:7, typeName:'Nº de vehículos de reparto', typeClass:'t7', typeIcon:'ri-truck-line',
+      scenario:scenario, questions:questions, results:[],
+      data:{mercs:mercs, pesoTotal:pesoTotal, volTotal:volTotal, pesoCap:pesoCap, volCap:volCap}};
+    renderQuestion();
+  }
+
   // ===================== RENDER =====================
   function renderQuestion(){
     var q = current.questions[qIdx];
@@ -1532,6 +1721,9 @@
     if(d.cvUnit!==undefined) grid += badge("CVU",d.cvUnit,"€");
     if(d.ctu!==undefined) grid += badge("CTU",d.ctu,"€");
     if(d.margenUnit!==undefined) grid += badge("Margen/ud",d.margenUnit,"€");
+    // TAL fields
+    if(d.pesoCap!==undefined) grid += badge("Capacidad peso",d.pesoCap,"kg");
+    if(d.volCap!==undefined) grid += badge("Capacidad volumen",d.volCap,"m³");
     document.getElementById('dataGrid').innerHTML = grid;
 
     var letterHtml = totalQ > 1 ? '<span class="q-letter">'+q.letter+'</span>' : '';
@@ -1550,6 +1742,8 @@
       buildGondolaViz(d.linSuelo, d.baldas, d.ancho, d.refNames, d.refFacings);
     } else if(current.type===2){
       buildType2Viz(d.maxRem, d.filasFondo, d.udsFacing, d.totalUds, d.facingsMin);
+    } else if(current.type===7){
+      buildMercTableViz(d.mercs, d.pesoTotal, d.volTotal);
     } else {
       clearViz();
     }
@@ -1650,6 +1844,7 @@
       renderQuestion();
     } else {
       if(currentSubject === 'mkt') nextMktExercise();
+      else if(currentSubject === 'tal') nextTalExercise();
       else nextExercise();
     }
   }
@@ -1691,6 +1886,19 @@
     html += '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:11px;color:#15803D;line-height:1.7;">';
     html += 'Cada facing aguanta <strong>'+udsFacing+' uds</strong> ('+maxRem+' remonte × '+filasFondo+' filas). Necesitas <strong>'+totalUds+' uds</strong> → mínimo <strong>'+facingsMin+' facing'+(facingsMin!==1?'s':'')+'</strong>.';
     html += '</div></div>';
+    container.innerHTML = html;
+  }
+
+  function buildMercTableViz(mercs, pesoTotal, volTotal){
+    var container = document.getElementById('gondolaViz');
+    if(!container) return;
+    var html = '<div class="gondola-wrap"><div class="gondola-lbl">Mercancía a transportar</div>';
+    html += '<table class="merc-table"><thead><tr><th>Mercancía</th><th>Kg</th><th>Volumen (m³)</th></tr></thead><tbody>';
+    mercs.forEach(function(m){
+      html += '<tr><td>'+m.nombre+'</td><td>'+m.kg+'</td><td>'+m.vol+'</td></tr>';
+    });
+    html += '<tr class="total-row"><td>Total</td><td>'+pesoTotal+'</td><td>'+volTotal+'</td></tr>';
+    html += '</tbody></table></div>';
     container.innerHTML = html;
   }
 
@@ -1779,7 +1987,13 @@
     'ctu': { title:'Coste Total Unitario', mainFormula:'<span class="hf-var">CVU</span> <span class="hf-op">+</span> (<span class="hf-var">CF</span> <span class="hf-op">÷</span> <span class="hf-var">Uds</span>) <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">CTU</span>', steps:[{icon:'ri-divide-line',text:'<strong>CFU = CF Total ÷ Unidades producidas</strong> — reparte los costes fijos entre todas las unidades.'},{icon:'ri-add-line',text:'<strong>CTU = CVU + CFU</strong> — suma el coste variable y el fijo por unidad.'}], tip:'CTU = lo que cuesta producir UNA unidad, incluyendo parte de los fijos.' },
     'pvp_coste': { title:'Precio con margen sobre coste', mainFormula:'<span class="hf-var">CTU</span> <span class="hf-op">×</span> (1 + <span class="hf-var">margen%</span> ÷ 100) <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">PVP</span>', steps:[{icon:'ri-percent-line',text:'El margen sobre coste significa: "gano X% de lo que me cuesta".'},{icon:'ri-calculator-line',text:'PVP = CTU × (1 + margen/100). Si margen = 20% → PVP = CTU × 1,20'}], tip:'Si el CTU es 10€ y el margen es 30% → PVP = 10 × 1,30 = <strong>13€</strong>.' },
     'pvp_pv': { title:'Precio con margen sobre precio de venta', mainFormula:'<span class="hf-var">CTU</span> <span class="hf-op">÷</span> (1 − <span class="hf-var">margen%</span> ÷ 100) <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">PVP</span>', steps:[{icon:'ri-percent-line',text:'El margen sobre PV significa: "el margen es X% del precio final".'},{icon:'ri-calculator-line',text:'PVP = CTU ÷ (1 − margen/100). Si margen = 20% → PVP = CTU ÷ 0,80'}], tip:'Si CTU = 8€ y margen sobre PV = 20% → PVP = 8 ÷ 0,80 = <strong>10€</strong>.' },
-    'precio_objetivo': { title:'Precio Objetivo', mainFormula:'((<span class="hf-var">CF</span> + <span class="hf-var">Bº deseado</span>) <span class="hf-op">÷</span> <span class="hf-var">Uds</span>) + <span class="hf-var">CVU</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">PVP</span>', steps:[{icon:'ri-flag-line',text:'Decide qué beneficio total quieres obtener.'},{icon:'ri-calculator-line',text:'PVP = (CF + Bº deseado) ÷ Uds + CVU'}], tip:'Es el precio que necesitas para ganar exactamente lo que te propones.' }
+    'precio_objetivo': { title:'Precio Objetivo', mainFormula:'((<span class="hf-var">CF</span> + <span class="hf-var">Bº deseado</span>) <span class="hf-op">÷</span> <span class="hf-var">Uds</span>) + <span class="hf-var">CVU</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">PVP</span>', steps:[{icon:'ri-flag-line',text:'Decide qué beneficio total quieres obtener.'},{icon:'ri-calculator-line',text:'PVP = (CF + Bº deseado) ÷ Uds + CVU'}], tip:'Es el precio que necesitas para ganar exactamente lo que te propones.' },
+    // TAL hints (Segundo curso — para tontos, explicado muy despacio)
+    'peso_total': { title:'Peso total de la mercancía', mainFormula:'<span class="hf-var">Kg mercancía 1</span> <span class="hf-op">+</span> <span class="hf-var">Kg mercancía 2</span> <span class="hf-op">+</span> ... <span class="hf-op">=</span> <span class="hf-var" style="border-color:#0E7490;color:#0E7490">Peso total</span>', steps:[{icon:'ri-scales-3-line',text:'Cada tipo de mercancía (cajas, palés...) pesa una cantidad de kg. Eso ya te lo dan en el enunciado, no hay que calcularlo.'},{icon:'ri-add-line',text:'Solo tienes que <strong>sumar todos los kg</strong> de todas las mercancías, una por una.'}], tip:'Ejemplo fácil: si las cajas pesan 1200 kg y los palés 3000 kg → 1200 + 3000 = <strong>4200 kg</strong> en total. ¡Ya está!' },
+    'vol_total': { title:'Volumen total de la mercancía', mainFormula:'<span class="hf-var">m³ mercancía 1</span> <span class="hf-op">+</span> <span class="hf-var">m³ mercancía 2</span> <span class="hf-op">+</span> ... <span class="hf-op">=</span> <span class="hf-var" style="border-color:#0E7490;color:#0E7490">Volumen total</span>', steps:[{icon:'ri-box-3-line',text:'El volumen es lo mismo que el peso pero en m³ (el espacio que ocupa, no lo que pesa).'},{icon:'ri-add-line',text:'<strong>Suma todos los m³</strong> de cada mercancía, exactamente igual que hiciste con los kg.'}], tip:'Ejemplo: 7 m³ de cajas + 21 m³ de palés = <strong>28 m³</strong> en total.' },
+    'veh_vol': { title:'Vehículos según el volumen', mainFormula:'<span class="hf-var">Volumen total</span> <span class="hf-op">÷</span> <span class="hf-var">m³ que carga 1 furgón</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#0E7490;color:#0E7490">Nº furgonetas</span>', steps:[{icon:'ri-divide-line',text:'Piensa: "si UN furgón carga X m³, ¿cuántos furgones necesito para meter TODO el volumen?" Eso es una simple división.'},{icon:'ri-arrow-up-line',text:'Casi nunca sale un número redondo. <strong>Redondea SIEMPRE hacia arriba</strong>: si sale 6,66, no puedes usar "0,66 de furgón", así que necesitas 7 furgones enteros.'}], tip:'Ejemplo del caso práctico: 28 m³ ÷ 4,2 m³ por furgón = 6,66 → se redondea a <strong>7 furgonetas</strong>.' },
+    'veh_peso': { title:'Vehículos según el peso', mainFormula:'<span class="hf-var">Peso total</span> <span class="hf-op">÷</span> <span class="hf-var">kg que carga 1 furgón</span> <span class="hf-op">=</span> <span class="hf-var" style="border-color:#0E7490;color:#0E7490">Nº furgonetas</span>', steps:[{icon:'ri-divide-line',text:'Exactamente el mismo razonamiento que con el volumen, pero ahora con los kilos: peso total dividido entre lo que aguanta un solo furgón.'},{icon:'ri-arrow-up-line',text:'Otra vez, <strong>redondea hacia arriba</strong>. Un furgón no puede llevar "medio viaje más", así que si sobra algo de peso necesitas un vehículo entero extra.'}], tip:'Ejemplo: 4200 kg ÷ 749 kg por furgón = 5,60 → se redondea a <strong>6 furgonetas</strong>.' },
+    'veh_final': { title:'¿Cuántas furgonetas hacen falta de verdad?', mainFormula:'<span class="hf-var">máx</span>( <span class="hf-var" style="border-color:#0E7490;color:#0E7490">Según volumen</span> , <span class="hf-var" style="border-color:#0E7490;color:#0E7490">Según peso</span> ) <span class="hf-op">=</span> <span class="hf-var" style="border-color:#16A34A;color:#16A34A">Nº final</span>', steps:[{icon:'ri-truck-line',text:'Ya tienes dos resultados: uno pensando solo en el volumen y otro pensando solo en el peso. Un furgón real tiene que cumplir LAS DOS cosas a la vez.'},{icon:'ri-arrow-up-double-line',text:'Por eso te quedas con el <strong>número más grande</strong> de los dos. Si te quedaras con el pequeño, algún furgón iría demasiado cargado o no cabría toda la mercancía.'}], tip:'Ejemplo: por volumen salían 7 furgonetas y por peso solo 6. Como 7 es mayor, la respuesta final es <strong>7 furgonetas</strong> — aunque por peso "sobrara sitio", por volumen no entraría todo en 6.' }
   };
 
   // ===================== HINT MODAL =====================
@@ -1940,6 +2154,52 @@
   function closeMktFormulas(){
     var fOverlay = document.getElementById('mktFormulasOverlay');
     var fModal = document.getElementById('mktFormulasModal');
+    fOverlay.classList.remove('overlay-enter'); fModal.classList.remove('modal-enter');
+    fOverlay.classList.add('overlay-exit'); fModal.classList.add('modal-exit');
+    fModal.addEventListener('animationend', function handler(){
+      fModal.style.display='none'; fOverlay.style.display='none';
+      document.body.style.overflow='';
+      fModal.classList.remove('modal-exit'); fOverlay.classList.remove('overlay-exit');
+      fModal.removeEventListener('animationend', handler);
+    });
+  }
+
+  // ===================== TAL FORMULAS MODAL =====================
+  function openTalFormulas(){
+    var body = document.getElementById('talFormulasBody');
+    var talKeys = ['peso_total','vol_total','veh_vol','veh_peso','veh_final'];
+    var html = '';
+    talKeys.forEach(function(key){
+      var h = HINTS[key];
+      if(!h || typeof h==='string') return;
+      html += '<div style="background:#fff;border-radius:14px;border:1px solid #E2E8F0;">';
+      html += '<div style="padding:12px 14px 14px;border-bottom:1px solid #F1F5F9;">';
+      html += '<div style="font-size:13px;font-weight:700;color:#1E293B;margin-bottom:10px;">'+h.title+'</div>';
+      html += '<div class="hf-main" style="margin:0;">'+h.mainFormula+'</div>';
+      html += '</div>';
+      if(h.steps.length > 0){
+        html += '<div style="padding:10px 14px;display:flex;flex-direction:column;gap:0;">';
+        h.steps.forEach(function(s,i){
+          if(i>0) html += '<div class="hf-arrow" style="margin:2px 0 2px 14px;">↓</div>';
+          html += '<div class="hf-step"><div class="hf-step-icon"><i class="'+s.icon+'" style="font-size:16px;color:#0E7490;"></i></div><div style="font-size:12.5px;">'+s.text+'</div></div>';
+        });
+        html += '</div>';
+      }
+      html += '<div class="hf-tip" style="margin:0 12px 12px;font-size:12px;"><i class="ri-lightbulb-line"></i> '+h.tip+'</div>';
+      html += '</div>';
+    });
+    body.innerHTML = html;
+    var fOverlay = document.getElementById('talFormulasOverlay');
+    var fModal = document.getElementById('talFormulasModal');
+    fOverlay.style.display='block'; fModal.style.display='flex';
+    document.body.style.overflow='hidden';
+    fOverlay.classList.remove('overlay-exit'); fModal.classList.remove('modal-exit');
+    fOverlay.classList.add('overlay-enter'); fModal.classList.add('modal-enter');
+  }
+
+  function closeTalFormulas(){
+    var fOverlay = document.getElementById('talFormulasOverlay');
+    var fModal = document.getElementById('talFormulasModal');
     fOverlay.classList.remove('overlay-enter'); fModal.classList.remove('modal-enter');
     fOverlay.classList.add('overlay-exit'); fModal.classList.add('modal-exit');
     fModal.addEventListener('animationend', function handler(){
