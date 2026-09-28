@@ -933,6 +933,14 @@
       </div>
     </div>
 
+    <div class="menu-card" onclick="startTalMode('libro')">
+      <div class="menu-icon" style="background:#ECFEFF;"><i class="ri-book-open-line ri-lg" style="color:#0E7490;"></i></div>
+      <div>
+        <div class="menu-card-title">Ejercicios del libro</div>
+        <div class="menu-card-desc">El caso práctico 6 y la actividad 8 (pág. 23) con sus datos reales.</div>
+      </div>
+    </div>
+
     <div class="menu-card" onclick="openTalFormulas()" style="margin-top:24px;">
       <div class="menu-icon" style="background:#ECFEFF;"><i class="ri-calculator-line ri-lg" style="color:#0E7490;"></i></div>
       <div>
@@ -1168,8 +1176,27 @@
     nextExercise();
   }
 
+  var libroIdx = 0;
+  var talLibro = [
+    {
+      scenario:'<strong>Caso práctico 6.</strong> La empresa <strong>Aelán SL</strong>, dedicada a la fabricación de material de oficina, debe calcular el número de furgonetas de reparto que necesitará para su ruta del norte de Madrid. El furgón mide 4,40 m de largo y 1,69 m de ancho (estas medidas no hacen falta para el cálculo).',
+      mercs:[{nombre:"Cajas de cartón", kg:1200, vol:7},{nombre:"Palés", kg:3000, vol:21}],
+      pesoCap:749, volCap:4.2
+    },
+    {
+      scenario:'<strong>Actividad 8 (pág. 23).</strong> Calcula cuántas furgonetas necesitas para transportar esta mercancía.',
+      mercs:[{nombre:"Cajas de cartón (pequeñas dimensiones)", kg:800, vol:5},{nombre:"Cajas de cartón (dimensiones medias)", kg:1200, vol:11}],
+      pesoCap:1010, volCap:5.5
+    }
+  ];
+
   function nextTalExercise(){
-    genVehiculos();
+    if(talMode === 'libro'){
+      genVehiculos(talLibro[libroIdx % talLibro.length]);
+      libroIdx++;
+    } else {
+      genVehiculos();
+    }
   }
 
   // ===================== MKT TYPE 1: COSTES Y BENEFICIO =====================
@@ -1615,23 +1642,27 @@
   }
 
   // ===================== TYPE 7: Nº DE VEHÍCULOS (TAL) =====================
-  function genVehiculos(){
-    var emp = pick(talEmpresas);
-    var nMerc = rnd(2,3);
-    var nombresDisponibles = talMercancias.slice();
-    var mercs = [];
-    for(var i=0;i<nMerc;i++){
-      var idx = rnd(0, nombresDisponibles.length-1);
-      var nombre = nombresDisponibles.splice(idx,1)[0];
-      var kg = pick([300,400,500,600,800,900,1000,1200,1500,1800,2000,2200]);
-      var vol = pick([3,4,5,6,7,8,9,10,12,14,15,18]);
-      mercs.push({nombre:nombre, kg:kg, vol:vol});
+  function genVehiculos(fixed){
+    var emp, mercs = [], pesoCap, volCap, scenario;
+    if(fixed){
+      mercs = fixed.mercs; pesoCap = fixed.pesoCap; volCap = fixed.volCap; scenario = fixed.scenario;
+    } else {
+      emp = pick(talEmpresas);
+      var nMerc = rnd(2,3);
+      var nombresDisponibles = talMercancias.slice();
+      for(var i=0;i<nMerc;i++){
+        var idx = rnd(0, nombresDisponibles.length-1);
+        var nombre = nombresDisponibles.splice(idx,1)[0];
+        var kg = pick([300,400,500,600,800,900,1000,1200,1500,1800,2000,2200]);
+        var vol = pick([3,4,5,6,7,8,9,10,12,14,15,18]);
+        mercs.push({nombre:nombre, kg:kg, vol:vol});
+      }
+      pesoCap = pick([500,600,700,749,800,900,1000,1200]);
+      volCap = pick([3,3.5,4,4.2,4.5,5,5.5,6]);
+      scenario = 'La empresa <strong>'+emp.nombre+'</strong>, dedicada a <strong>'+emp.producto+'</strong>, debe calcular cuántos <strong>vehículos de reparto</strong> necesita para una ruta. Estas son las mercancías a transportar:';
     }
     var pesoTotal = mercs.reduce(function(s,m){ return s+m.kg; }, 0);
     var volTotal = mercs.reduce(function(s,m){ return s+m.vol; }, 0);
-
-    var pesoCap = pick([500,600,700,749,800,900,1000,1200]);
-    var volCap = pick([3,3.5,4,4.2,4.5,5,5.5,6]);
 
     var vehVolExacto = volTotal/volCap;
     var vehVolEntero = Math.ceil(vehVolExacto);
@@ -1639,8 +1670,6 @@
     var vehPesoEntero = Math.ceil(vehPesoExacto);
     var vehFinal = Math.max(vehVolEntero, vehPesoEntero);
     var criterio = vehVolEntero >= vehPesoEntero ? 'volumen' : 'peso';
-
-    var scenario = 'La empresa <strong>'+emp.nombre+'</strong>, dedicada a <strong>'+emp.producto+'</strong>, debe calcular cuántos <strong>vehículos de reparto</strong> necesita para una ruta. Estas son las mercancías a transportar:';
 
     var questions = [
       {
