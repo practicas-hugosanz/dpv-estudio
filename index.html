@@ -715,12 +715,49 @@
     margin: 22px 0 10px;
   }
   .curso-label:first-of-type { margin-top: 0; }
+  .archive-toggle { display:flex; align-items:center; gap:8px; background:var(--white); border:1px dashed var(--gray-400); border-radius:var(--radius); padding:14px 16px; margin:8px 0 12px; font-size:14px; font-weight:600; color:var(--gray-600); cursor:pointer; }
+  .archive-toggle .archive-n { font-size:11px; font-weight:600; color:var(--gray-400); margin-left:auto; }
+  .archive-toggle .chev { transition:transform .2s; color:var(--gray-400); }
+  #subjectScreen.open .archive-toggle .chev { transform:rotate(180deg); }
+  .archive-body { display:none; }
+  #subjectScreen.open .archive-body { display:block; }
+
 
   .subject-card.tal { border-color: #A5F3FC; }
   .subject-card.tal:hover { border-color: #0E7490; }
   .subject-card.tal .subject-card-accent { background: linear-gradient(90deg, #0E7490, #22D3EE); }
   .subject-card.tal .subject-icon { background: #ECFEFF; color: #0E7490; }
   .subject-card.tal .subject-tag { background: #ECFEFF; color: #0E7490; border: 1px solid #A5F3FC; }
+
+  /* SAC (Servicio de atención comercial) */
+  .pill-sac { background: #FDF2F8; color: #BE185D; border: 1px solid #FBCFE8; }
+  .subject-card.sac { border-color: #FBCFE8; }
+  .subject-card.sac:hover { border-color: #BE185D; }
+  .subject-card.sac .subject-card-accent { background: linear-gradient(90deg, #BE185D, #F472B6); }
+  .subject-card.sac .subject-icon { background: #FDF2F8; color: #BE185D; }
+  .subject-card.sac .subject-tag { background: #FDF2F8; color: #BE185D; border: 1px solid #FBCFE8; }
+  .sac-view { display: none; }
+  .sac-view.active { display: block; }
+  .sac-acc { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); margin-bottom: 10px; box-shadow: var(--shadow); overflow: hidden; }
+  .sac-acc-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; font-size: 14px; font-weight: 600; }
+  .sac-acc-head i.chev { margin-left: auto; color: var(--gray-400); transition: transform .2s; }
+  .sac-acc.open .sac-acc-head i.chev { transform: rotate(90deg); }
+  .sac-acc-body { display: none; padding: 2px 16px 16px; font-size: 13px; line-height: 1.65; color: var(--gray-600); }
+  .sac-acc.open .sac-acc-body { display: block; }
+  .sac-acc-body h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: #BE185D; margin: 14px 0 4px; }
+  .sac-acc-body ul { padding-left: 18px; }
+  .sac-acc-body b { color: var(--gray-800); }
+  .sac-box { background: #FDF2F8; border: 1px solid #FBCFE8; border-radius: 8px; padding: 10px 12px; margin: 8px 0; color: #9D174D; font-weight: 500; }
+  .sac-opt { width: 100%; text-align: left; background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px; font-size: 13px; font-family: inherit; color: var(--gray-800); cursor: pointer; line-height: 1.5; display: flex; gap: 10px; }
+  .sac-opt:hover:not(:disabled) { border-color: #BE185D; }
+  .sac-opt .l { font-weight: 700; color: #BE185D; flex-shrink: 0; }
+  .sac-opt.ok { background: var(--green-light); border-color: var(--green); }
+  .sac-opt.ko { background: var(--red-light); border-color: var(--red); }
+  .sac-opt:disabled { cursor: default; }
+  .sac-expl { background: var(--blue-light); border: 1px solid var(--blue-mid); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; line-height: 1.6; color: var(--blue-dark); margin: 10px 0; }
+  .sac-bar { height: 6px; background: var(--gray-200); border-radius: 3px; margin-bottom: 14px; overflow: hidden; }
+  .sac-bar > div { height: 100%; background: #BE185D; transition: width .25s; }
+  .sac-score { font-size: 44px; font-weight: 700; text-align: center; color: #BE185D; margin: 10px 0 4px; }
 
   .t7 { background: #ECFEFF; color: #0E7490; border: 1px solid #A5F3FC; }
 
@@ -748,7 +785,44 @@
     <p class="menu-title">¿Qué quieres estudiar?</p>
     <p class="menu-sub">Elige una asignatura para practicar sus ejercicios.</p>
 
-    <div class="curso-label">Primer curso</div>
+    <div class="curso-label">Segundo curso</div>
+
+    <div class="subject-card tal" onclick="goSubject('tal')">
+      <div class="subject-card-accent"></div>
+      <div class="subject-header">
+        <div class="subject-icon"><i class="ri-truck-line"></i></div>
+        <div>
+          <div class="subject-name">Técnicas de almacenamiento</div>
+          <div class="subject-code">Tema 1 — Distribución y transporte</div>
+        </div>
+      </div>
+      <div class="subject-desc">Calcula cuántos vehículos de reparto necesitas según el peso y el volumen de la mercancía.</div>
+      <div class="subject-tags">
+        <span class="subject-tag">Peso y volumen</span>
+        <span class="subject-tag">Nº de vehículos</span>
+      </div>
+      <i class="ri-arrow-right-s-line subject-arrow"></i>
+    </div>
+
+    <div class="subject-card sac" onclick="goSubject('sac')">
+      <div class="subject-card-accent"></div>
+      <div class="subject-header">
+        <div class="subject-icon"><i class="ri-customer-service-2-line"></i></div>
+        <div>
+          <div class="subject-name">Servicio de atención comercial</div>
+          <div class="subject-code">Unidad 1 — La actividad comercial en las empresas</div>
+        </div>
+      </div>
+      <div class="subject-desc">Apuntes de teoría y test de dificultad alta: empresa, organigramas, atención al cliente, imagen corporativa y CRM.</div>
+      <div class="subject-tags">
+        <span class="subject-tag">Apuntes</span>
+        <span class="subject-tag">Test</span>
+        <span class="subject-tag">Organigramas</span>
+      </div>
+      <i class="ri-arrow-right-s-line subject-arrow"></i>
+    </div>
+      <div class="archive-toggle" onclick="this.parentNode.classList.toggle('open')"><i class="ri-archive-line"></i> Asignaturas archivadas <span class="archive-n">Primer curso</span><i class="ri-arrow-down-s-line chev"></i></div>
+    <div class="archive-body">
 
     <div class="subject-card dpv" onclick="goSubject('dpv')">
       <div class="subject-card-accent"></div>
@@ -786,25 +860,9 @@
       <i class="ri-arrow-right-s-line subject-arrow"></i>
     </div>
 
-    <div class="curso-label">Segundo curso</div>
+</div>
+</div>
 
-    <div class="subject-card tal" onclick="goSubject('tal')">
-      <div class="subject-card-accent"></div>
-      <div class="subject-header">
-        <div class="subject-icon"><i class="ri-truck-line"></i></div>
-        <div>
-          <div class="subject-name">Técnicas de almacenamiento</div>
-          <div class="subject-code">Tema 1 — Distribución y transporte</div>
-        </div>
-      </div>
-      <div class="subject-desc">Calcula cuántos vehículos de reparto necesitas según el peso y el volumen de la mercancía.</div>
-      <div class="subject-tags">
-        <span class="subject-tag">Peso y volumen</span>
-        <span class="subject-tag">Nº de vehículos</span>
-      </div>
-      <i class="ri-arrow-right-s-line subject-arrow"></i>
-    </div>
-  </div>
 
   <!-- =================== DPV MENU SCREEN =================== -->
   <div class="screen" id="menuScreen">
@@ -950,6 +1008,78 @@
     </div>
   </div>
 
+  <!-- =================== SAC SCREEN =================== -->
+  <div class="screen" id="sacScreen">
+    <!-- Menú -->
+    <div class="sac-view active" id="sacMenu">
+      <button class="btn-back-subject" onclick="goBack()"><i class="ri-arrow-left-line"></i> Asignaturas</button>
+      <div class="subject-pill pill-sac"><i class="ri-customer-service-2-line"></i> Servicio de atención comercial</div>
+      <p class="menu-title">Unidad 1: La actividad comercial</p>
+      <p class="menu-sub">Estudia los apuntes y ponte a prueba con preguntas tipo test difíciles.</p>
+
+      <div class="menu-card" onclick="sacShow('notes')">
+        <div class="menu-icon" style="background:#FDF2F8;"><i class="ri-book-open-line ri-lg" style="color:#BE185D;"></i></div>
+        <div>
+          <div class="menu-card-title">Estudiar apuntes</div>
+          <div class="menu-card-desc">Resumen de toda la unidad por apartados (1.1 a 1.5).</div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="sacShow('pick')">
+        <div class="menu-icon ic1"><i class="ri-question-line ri-lg"></i></div>
+        <div>
+          <div class="menu-card-title">Test por apartado</div>
+          <div class="menu-card-desc">Elige un apartado y practica solo ese contenido.</div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="sacStart('all')">
+        <div class="menu-icon ic4"><i class="ri-shuffle-line ri-lg"></i></div>
+        <div>
+          <div class="menu-card-title">Test completo aleatorio</div>
+          <div class="menu-card-desc">Todas las preguntas mezcladas, con las opciones en orden aleatorio. ¡Simulacro de examen!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Apuntes -->
+    <div class="sac-view" id="sacNotes">
+      <button class="btn-back-subject" onclick="sacShow('menu')"><i class="ri-arrow-left-line"></i> Volver</button>
+      <p class="menu-title">Apuntes</p>
+      <p class="menu-sub">Toca un apartado para desplegarlo.</p>
+      <div id="sacNotesBody"></div>
+    </div>
+
+    <!-- Elegir apartado -->
+    <div class="sac-view" id="sacPick">
+      <button class="btn-back-subject" onclick="sacShow('menu')"><i class="ri-arrow-left-line"></i> Volver</button>
+      <p class="menu-title">Elige apartado</p>
+      <p class="menu-sub">Cada test mezcla las preguntas y las opciones.</p>
+      <div id="sacPickBody"></div>
+    </div>
+
+    <!-- Test -->
+    <div class="sac-view" id="sacQuiz">
+      <div class="sac-bar"><div id="sacBarFill" style="width:0%"></div></div>
+      <div class="problem-card">
+        <div class="type-badge t4" id="sacQBadge"></div>
+        <div class="problem-title" id="sacQText" style="border:none;padding:0;margin:0;font-weight:600;"></div>
+      </div>
+      <div id="sacOpts"></div>
+      <div id="sacExpl"></div>
+      <button class="btn-next" id="sacNextBtn" onclick="sacNext()" style="display:none;margin-top:8px;"><i class="ri-arrow-right-line"></i> Siguiente</button>
+      <button class="btn-home" onclick="sacShow('menu')"><i class="ri-arrow-left-line"></i> Salir del test</button>
+    </div>
+
+    <!-- Resultado -->
+    <div class="sac-view" id="sacResult">
+      <p class="menu-title" style="text-align:center;">Resultado</p>
+      <div class="sac-score" id="sacScoreTxt"></div>
+      <p class="menu-sub" id="sacScoreMsg" style="text-align:center;"></p>
+      <div id="sacWrongList"></div>
+      <button class="btn-check" onclick="sacRetry()"><i class="ri-restart-line"></i> Repetir test</button>
+      <button class="btn-next" style="margin-top:0;" onclick="sacShow('menu')">Volver al menú</button>
+    </div>
+  </div>
+
   <!-- =================== FORMULAS MODAL (DPV) =================== -->
   <div id="formulasOverlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.45);z-index:100;" onclick="closeFormulas()"></div>
   <div id="formulasModal" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;max-height:92vh;background:#F8FAFC;border-radius:20px 20px 0 0;z-index:101;box-shadow:0 -8px 32px rgba(0,0,0,0.15);flex-direction:column;">
@@ -1057,12 +1187,16 @@
       document.getElementById('menuScreen').classList.add('active');
     } else if (subj === 'mkt') {
       document.getElementById('mktMenuScreen').classList.add('active');
+    } else if (subj === 'sac') {
+      document.getElementById('sacScreen').classList.add('active');
+      sacShow('menu');
     } else {
       document.getElementById('talMenuScreen').classList.add('active');
     }
   }
 
   function goBack() {
+    document.getElementById('sacScreen').classList.remove('active');
     document.getElementById('menuScreen').classList.remove('active');
     document.getElementById('mktMenuScreen').classList.remove('active');
     document.getElementById('talMenuScreen').classList.remove('active');
@@ -1081,6 +1215,256 @@
     } else {
       document.getElementById('talMenuScreen').classList.add('active');
     }
+  }
+
+  // ===================== SAC (Servicio de atención comercial) =====================
+  var SAC_SECTIONS = {
+    emp:  {n:'1.1 La empresa comercial', i:'ri-building-line'},
+    org:  {n:'Organización y departamentos', i:'ri-organization-chart'},
+    orgr: {n:'1.2 Organigramas', i:'ri-node-tree'},
+    ac:   {n:'1.3 Departamento de atención al cliente', i:'ri-customer-service-2-line'},
+    img:  {n:'1.4 Imagen corporativa', i:'ri-palette-line'},
+    crm:  {n:'1.5 Call center y CRM', i:'ri-phone-line'}
+  };
+
+  var SAC_NOTES = {
+    emp: '<div class="sac-box"><b>Empresa:</b> grupo de personas y bienes materiales y financieros, organizados para producir algo o prestar un servicio y así obtener un beneficio (ánimo de lucro).</div>' +
+      '<h4>Tipos según su actividad</h4><ul>' +
+      '<li><b>Extractivas</b> — sector <b>primario</b>. Extraen materias primas o productos de la naturaleza.</li>' +
+      '<li><b>Fabricantes</b> — sector <b>secundario</b>. Convierten materias primas en productos terminados (fabricación o manipulación de bienes físicos).</li>' +
+      '<li><b>Distribuidoras</b> — sector <b>terciario</b>. <b>Intermedian</b>: acercan el producto del fabricante a las empresas comerciales. El canal puede ser directo o indirecto (más largo).</li>' +
+      '<li><b>Comerciales</b> — sector <b>terciario</b>. <b>Venta directa</b> al cliente final (consumidores).</li>' +
+      '<li><b>De servicios</b> — sector <b>terciario</b>. No hay stock material; no precisan almacenaje ni transporte.</li></ul>' +
+      '<h4>Canal de distribución</h4><ul>' +
+      '<li><b>Directo:</b> Fabricante → Consumidor</li>' +
+      '<li><b>Corto:</b> Fabricante → Minoristas → Consumidor</li>' +
+      '<li><b>Largo:</b> Fabricante → Mayoristas → Minoristas → Consumidor</li></ul>',
+    org: '<div class="sac-box"><b>Organización empresarial:</b> disposición de los recursos con los que cuenta la empresa con el fin de alcanzar los objetivos fijados.</div>' +
+      '<p>Los miembros de la empresa establecen relaciones en dos ámbitos: <b>personal</b> y <b>laboral</b>.</p>' +
+      '<h4>Tipos de organización</h4><ul>' +
+      '<li><b>Formal</b> — ámbito laboral → relaciones laborales. Estructura intencionada: define límites, responsabilidad, autoridad y área de actuación de cada trabajador.</li>' +
+      '<li><b>Informal</b> — ámbito personal → relaciones humanas. Surge de manera espontánea; influye en la comunicación, toma de decisiones y control. Crea canales informales de comunicación.</li></ul>' +
+      '<p>Formal + informal conviven en la empresa y su suma es la <b>organización real</b>.</p>' +
+      '<h4>Departamentalización</h4><p><b>Departamento:</b> nombre que se asigna a una división o área encargada de una actividad concreta. Se crean atendiendo a distintos criterios:</p><ul>' +
+      '<li><b>Compras / Aprovisionamiento:</b> compras, análisis de ofertas, selección de proveedores, almacenamiento de materias primas y/o productos.</li>' +
+      '<li><b>Producción:</b> fabricación, transformación y/o prestación de servicios.</li>' +
+      '<li><b>Ventas / Comercialización:</b> ventas, estudio de mercado, estrategias de ventas, comisiones a vendedores, publicidad y atención al cliente.</li>' +
+      '<li><b>Financiación:</b> inversión y financiación, gestión de cobros, pagos, cuentas bancarias, préstamos y deudores.</li>' +
+      '<li><b>RRHH:</b> selección, contratación y formación de personal, retribuciones, becas y ayudas.</li>' +
+      '<li><b>Administración / Contabilidad:</b> documentación, registros, contabilidad, cálculos, informes y propuestas de objetivos.</li>' +
+      '<li><b>Jurídico legal:</b> revisión de cláusulas de contratos y asesoría legal.</li>' +
+      '<li><b>Diseño:</b> diseño de producto, investigación sobre nuevos materiales y aspectos técnicos.</li>' +
+      '<li><b>Sanitario:</b> seguridad e higiene en el trabajo, control de absentismo y bajas médicas.</li></ul>',
+    orgr: '<div class="sac-box"><b>Organigrama:</b> representación gráfica de la estructura organizativa de una empresa de forma sintética y simplificada.</div>' +
+      '<h4>Elementos</h4><ul><li>Nombre del departamento</li><li>Puesto de trabajo / cargo</li><li>Nombre del trabajador/a</li><li>Relaciones jerárquicas</li><li>Flujos de comunicación / información</li></ul>' +
+      '<h4>Estructura gráfica</h4><ul>' +
+      '<li><b>Cuadros:</b> contienen nombre del dpto., puestos, nombre del responsable y cargo.</li>' +
+      '<li><b>Líneas:</b> representan los flujos de comunicación y transmisión de datos.</li>' +
+      '<li><b>Niveles:</b> los departamentos se ordenan jerárquicamente en superiores, intermedios e inferiores.</li></ul>' +
+      '<h4>Según la forma del gráfico</h4><ul>' +
+      '<li><b>Vertical:</b> estructura jerárquica de arriba hacia abajo.</li>' +
+      '<li><b>Horizontal:</b> de izquierda a derecha.</li>' +
+      '<li><b>Circular:</b> mediante círculos concéntricos.</li></ul>' +
+      '<h4>Según las líneas de autoridad</h4><ul>' +
+      '<li><b>Jerárquica:</b> la autoridad se centraliza en el cargo superior. Comunicación descendente y desde una línea directa.</li>' +
+      '<li><b>Funcional:</b> la autoridad se reparte entre representantes especializados. La comunicación va en varias direcciones.</li></ul>',
+    ac: '<div class="sac-box"><b>Atención al cliente:</b> conjunto de actuaciones mediante las cuales una empresa gestiona la relación con sus clientes actuales o potenciales (antes, durante o después de la compra). Finalidad: la <b>máxima satisfacción del cliente</b>.</div>' +
+      '<h4>Funciones del departamento</h4><ul>' +
+      '<li>Atender y solucionar <b>solicitudes, sugerencias y reclamaciones</b>.</li>' +
+      '<li>Obtener y gestionar la <b>información de la relación con los clientes</b> → previsión de ventas.</li>' +
+      '<li>Resolver <b>incidencias</b> del servicio <b>posventa</b>: garantía, devolución, reparación o sustitución.</li></ul>' +
+      '<h4>Desglose</h4><ul>' +
+      '<li><b>Información:</b> atender y seguir consultas y peticiones; comunicar los servicios; informar sobre procedimientos.</li>' +
+      '<li><b>Atención de incidencias:</b> atender y analizar reclamaciones; atender y solucionar quejas; recoger sugerencias y felicitaciones.</li>' +
+      '<li><b>Seguimiento posventa:</b> control de garantías; facilitar la devolución; seguir casos de reparación y sustitución.</li></ul>' +
+      '<h4>Gran importancia en</h4><ul><li>Empresas cercanas al consumidor</li><li>Empresas grandes</li><li>Empresas comercializadoras de servicios</li></ul>' +
+      '<h4>Relaciones entre departamentos</h4><ul><li>Definir las responsabilidades</li><li>Nivel de dependencia / relaciones</li><li>Objetivos comunes</li></ul>',
+    img: '<div class="sac-box"><b>Imagen corporativa</b> = actitud que muestra la empresa conforme a los valores que pretende representar. <b>ACTITUD + IDENTIDAD VISUAL</b>.</div>' +
+      '<ul><li><b>Identidad corporativa:</b> conjunto de <b>instrumentos formales</b> mediante los que una empresa se identifica públicamente.</li>' +
+      '<li><b>Imagen corporativa (percepción):</b> conjunto de <b>percepciones</b> que tienen sobre la empresa los grupos de interés con los que se relaciona.</li></ul>' +
+      '<h4>Elementos de la identidad corporativa</h4><ul><li>Marca</li><li>Nombre comercial</li><li>Identidad visual corporativa: logotipo, tipografía, colores corporativos</li></ul>' +
+      '<h4>Importante cuidar la imagen en la atención al cliente</h4><ul>' +
+      '<li>Relaciones con el entorno interno y externo</li><li>Transparencia en comunicaciones y acciones</li>' +
+      '<li>Imagen de marca cuidada: online y offline</li><li>Buena presentación de la empresa y sus productos</li></ul>',
+    crm: '<h4>Call center (operador de llamadas)</h4>' +
+      '<p>Herramienta de comunicación y relación que utiliza el <b>teléfono</b> como medio básico, gestionada por personas para atender necesidades y dar un servicio único y diferente para atraer y fidelizar.</p>' +
+      '<ul><li><b>Ahorro de:</b> coste del negocio, tiempo de llamada, tiempo de espera, personal, tiempo de aprendizaje.</li>' +
+      '<li><b>Incremento de:</b> productividad de los agentes, satisfacción de los clientes, retención de clientes, calidad del servicio, posición competitiva.</li></ul>' +
+      '<h4>CRM (Customer Relationship Management)</h4>' +
+      '<div class="sac-box">Software específico para la gestión de la relación con los clientes, para sacar el máximo partido de los datos del cliente.</div>' +
+      '<p><b>Ventajas:</b></p><ul><li>Actualización y centralización de los datos de clientes (histórico, preferencias…)</li><li>Gestión de clientes potenciales</li><li><b>Venta cruzada:</b> venta de productos complementarios</li></ul>'
+  };
+
+  // o[0] es siempre la respuesta correcta; las opciones se barajan al mostrarlas.
+  var SAC_QS = [
+    {s:'emp', q:'Una empresa compra cereal a los agricultores, lo transforma en harina y pan, y lo envasa. ¿A qué sector pertenece su actividad principal?', o:['Secundario, porque convierte materias primas en productos terminados','Primario, porque trabaja con productos de la naturaleza','Terciario, porque acaba vendiendo el producto','Primario y secundario a partes iguales según la ley'], e:'Las empresas fabricantes pertenecen al sector secundario: convierten materias primas en productos terminados mediante fabricación o manipulación de bienes físicos.'},
+    {s:'emp', q:'¿Qué característica distingue a una empresa de servicios del resto de empresas del sector terciario según los apuntes?', o:['No hay stock material y no precisa almacenaje ni transporte','Vende directamente al consumidor final','Intermedia entre el fabricante y el comercio','Extrae materias primas para venderlas'], e:'Las de servicios no manejan stock material. La venta directa al consumidor es la empresa comercial; la intermediación, la distribuidora.'},
+    {s:'emp', q:'Una empresa compra a varios fabricantes y suministra los productos a tiendas, sin vender nunca al consumidor final. Es una empresa…', o:['Distribuidora (sector terciario)','Comercial (sector terciario)','Fabricante (sector secundario)','Extractiva (sector primario)'], e:'La distribuidora intermedia entre fabricante y empresas comerciales. La comercial es la que vende al cliente final.'},
+    {s:'emp', q:'¿Cuál es la secuencia correcta de un canal de distribución LARGO?', o:['Fabricante → Mayoristas → Minoristas → Consumidor','Fabricante → Minoristas → Consumidor','Fabricante → Consumidor','Mayoristas → Fabricante → Minoristas → Consumidor'], e:'El canal largo incluye mayoristas y minoristas. El corto solo minoristas y el directo ninguno.'},
+    {s:'emp', q:'Un fabricante de muebles abre su propia tienda online y vende sin intermediarios. ¿Qué canal utiliza?', o:['Directo','Corto','Largo','Mixto con mayorista'], e:'Sin intermediarios: canal directo (Fabricante → Consumidor).'},
+    {s:'emp', q:'¿Qué elemento de la definición de empresa la diferencia de una asociación sin ánimo de lucro?', o:['Persigue obtener un beneficio (ánimo de lucro)','Dispone de bienes materiales','Cuenta con un grupo de personas','Presta un servicio'], e:'La empresa se organiza para producir o prestar un servicio y así obtener un beneficio (ánimo de lucro).'},
+    {s:'emp', q:'Una empresa pesquera captura y vende pescado sin transformarlo. ¿Qué tipo de empresa es según su actividad?', o:['Extractiva','Fabricante','Distribuidora','De servicios'], e:'Extraer productos que brinda la naturaleza es actividad de las empresas extractivas (sector primario).'},
+    {s:'emp', q:'¿Cuál de estas parejas «tipo de empresa – sector» es INCORRECTA?', o:['Comercial – secundario','Extractiva – primario','Fabricante – secundario','Distribuidora – terciario'], e:'La empresa comercial pertenece al sector terciario, no al secundario.'},
+    {s:'org', q:'Un grupo de trabajadores se junta a comer y de ahí surge un canal por el que circula información que no figura en ningún documento oficial. Es un ejemplo de organización…', o:['Informal (ámbito personal, relaciones humanas)','Formal (ámbito laboral, relaciones laborales)','Real, pero no informal','Departamental'], e:'La organización informal surge espontáneamente en el ámbito personal y crea canales informales de comunicación.'},
+    {s:'org', q:'La organización real de una empresa es…', o:['La suma de la organización formal y la informal','Solo la organización formal recogida en el organigrama','Solo las relaciones humanas espontáneas','La disposición de los departamentos por criterios'], e:'Formal e informal conviven en la empresa y la suma de ambas es la organización real.'},
+    {s:'org', q:'¿Qué define la organización FORMAL?', o:['Una estructura intencionada que fija límites, responsabilidad, autoridad y área de actuación de cada trabajador','La comunicación espontánea entre compañeros','Las relaciones de amistad entre directivos','La toma de decisiones sin jerarquía'], e:'La formal pertenece al ámbito laboral (relaciones laborales) y es una estructura intencionada.'},
+    {s:'org', q:'¿A qué departamento corresponde la revisión de cláusulas de contratos y la asesoría legal?', o:['Jurídico legal','Administración / Contabilidad','RRHH','Ventas / Comercialización'], e:'Revisar cláusulas de contratos y asesorar legalmente es función del departamento jurídico legal.'},
+    {s:'org', q:'Selección de proveedores, análisis de ofertas y almacenamiento de materias primas son funciones del departamento de…', o:['Compras / Aprovisionamiento','Producción','Financiación','Diseño'], e:'Ese es el conjunto de tareas del departamento de compras o aprovisionamiento.'},
+    {s:'org', q:'El control del absentismo y de las bajas médicas, junto con la seguridad e higiene en el trabajo, corresponde al departamento…', o:['Sanitario','RRHH','Jurídico legal','Producción'], e:'El departamento sanitario se ocupa de seguridad e higiene y del control de absentismo y bajas médicas. (RRHH: selección, contratación, formación, retribuciones.)'},
+    {s:'org', q:'¿Cuál de estas tareas NO corresponde al departamento de RRHH según los apuntes?', o:['Gestión de cobros y pagos','Selección y contratación de personal','Formación del personal','Retribuciones, becas y ayudas'], e:'La gestión de cobros, pagos y cuentas bancarias es del departamento de Financiación.'},
+    {s:'org', q:'La comisión a vendedores y la publicidad se gestionan en el departamento de…', o:['Ventas / Comercialización','Financiación','Administración / Contabilidad','Diseño'], e:'Ventas/Comercialización incluye estudio de mercado, estrategias de venta, comisiones, publicidad y atención al cliente.'},
+    {s:'org', q:'La investigación de nuevos materiales y los aspectos técnicos de un producto son tarea del departamento de…', o:['Diseño','Producción','Compras','Sanitario'], e:'El departamento de diseño se encarga del diseño del producto y la investigación de nuevos materiales y aspectos técnicos.'},
+    {s:'org', q:'Un departamento se define como…', o:['El nombre asignado a una división o área encargada de una actividad concreta de la empresa','Un grupo de trabajadores con relaciones personales','Cada cuadro que aparece en un organigrama horizontal','Un conjunto de sucursales de una misma marca'], e:'Los departamentos se crean atendiendo a distintos criterios de actividad.'},
+    {s:'orgr', q:'¿Cuál NO es un elemento del organigrama según los apuntes?', o:['Balance de situación','Puesto de trabajo / cargo','Relaciones jerárquicas','Flujos de comunicación / información'], e:'Elementos: nombre del dpto., puesto/cargo, nombre del trabajador, relaciones jerárquicas y flujos de comunicación.'},
+    {s:'orgr', q:'En un organigrama, las líneas que conectan los departamentos representan…', o:['Los flujos de comunicación y transmisión de datos','Los sueldos de cada nivel','Los turnos de trabajo','La antigüedad de cada trabajador'], e:'Los cuadros contienen nombre, puesto y responsable; las líneas, los flujos de comunicación y transmisión de datos.'},
+    {s:'orgr', q:'Un organigrama que representa la estructura mediante círculos concéntricos es…', o:['Circular','Vertical','Horizontal','Funcional'], e:'Circular = círculos concéntricos. Vertical = arriba a abajo. Horizontal = izquierda a derecha.'},
+    {s:'orgr', q:'Según la FORMA del gráfico, un organigrama que se lee de izquierda a derecha es…', o:['Horizontal','Vertical','Circular','Jerárquico'], e:'"Jerárquico" no es una forma de gráfico, sino una clasificación por líneas de autoridad.'},
+    {s:'orgr', q:'Distinguir entre organización JERÁRQUICA y FUNCIONAL corresponde a una clasificación según…', o:['Las líneas de autoridad','La forma del gráfico','El tamaño de la empresa','El sector de actividad'], e:'Por forma: vertical/horizontal/circular. Por líneas de autoridad: jerárquica/funcional.'},
+    {s:'orgr', q:'En una organización JERÁRQUICA…', o:['La autoridad se centraliza en el cargo superior y la comunicación es descendente por una línea directa','La autoridad se reparte entre representantes especializados','La comunicación va en varias direcciones','No existen niveles superiores ni inferiores'], e:'Lo descrito en las otras opciones es característico de la organización funcional.'},
+    {s:'orgr', q:'¿Qué caracteriza a la organización FUNCIONAL?', o:['La autoridad se reparte entre representantes especializados y la comunicación va en varias direcciones','La autoridad se concentra en la dirección','La comunicación es solo descendente','Se representa siempre con círculos'], e:'Funcional: autoridad repartida entre especialistas; comunicación multidireccional.'},
+    {s:'orgr', q:'Los departamentos y secciones de un organigrama se ordenan jerárquicamente en niveles:', o:['Superiores, intermedios e inferiores','Internos, externos y mixtos','Directos, indirectos y cruzados','Primarios, secundarios y terciarios'], e:'Dirección arriba, mandos intermedios, y operarios en el nivel inferior.'},
+    {s:'orgr', q:'Un organigrama vertical con dirección arriba, mandos intermedios debajo y operarios en la base representa…', o:['Una estructura jerárquica de arriba hacia abajo','Una estructura por círculos concéntricos','Una estructura de izquierda a derecha','Una organización informal'], e:'Vertical: estructura jerárquica de arriba hacia abajo.'},
+    {s:'ac', q:'¿Cuál es la finalidad principal del departamento de atención al cliente?', o:['Lograr la máxima satisfacción del cliente','Maximizar el beneficio a corto plazo','Reducir el número de clientes potenciales','Sustituir al departamento de ventas'], e:'La atención al cliente gestiona la relación con clientes actuales o potenciales para lograr su máxima satisfacción.'},
+    {s:'ac', q:'La atención al cliente abarca la relación con el cliente…', o:['Antes, durante y después de la compra','Solo después de la compra','Solo durante la compra','Solo con clientes actuales'], e:'Incluye clientes actuales o potenciales, antes, durante o después de la compra.'},
+    {s:'ac', q:'Un cliente quiere devolver un producto dentro de garantía. ¿Qué bloque de funciones lo cubre?', o:['Seguimiento posventa','Información','Atención de incidencias comerciales previas a la compra','Previsión de ventas'], e:'Seguimiento posventa: control de garantías, facilitar devoluciones, seguimiento de reparación y sustitución.'},
+    {s:'ac', q:'Recoger sugerencias y felicitaciones de los clientes forma parte de…', o:['Atención de incidencias','Información','Seguimiento posventa','Relaciones entre departamentos'], e:'Atención de incidencias: reclamaciones, quejas, sugerencias y felicitaciones.'},
+    {s:'ac', q:'Informar sobre los procedimientos y comunicar los servicios de la empresa es una función de…', o:['Información','Atención de incidencias','Seguimiento posventa','Garantías'], e:'El bloque "Información" incluye consultas, peticiones, comunicar servicios e informar de procedimientos.'},
+    {s:'ac', q:'¿Para qué sirve la información sobre la relación con los clientes que obtiene el departamento?', o:['Para la previsión de ventas','Para calcular el punto muerto','Para diseñar el organigrama','Para fijar las retribuciones del personal'], e:'Obtener y gestionar esa información es una función principal y sirve para la previsión de ventas.'},
+    {s:'ac', q:'¿En cuál de estas empresas tiene MENOS importancia relativa el departamento de atención al cliente según los apuntes?', o:['Una empresa pequeña, lejana al consumidor final','Una empresa cercana al consumidor','Una empresa grande','Una empresa comercializadora de servicios'], e:'Gran importancia en empresas cercanas al consumidor, grandes y comercializadoras de servicios.'},
+    {s:'ac', q:'Para coordinar las relaciones entre departamentos se debe…', o:['Definir responsabilidades, nivel de dependencia y objetivos comunes','Eliminar la comunicación informal','Centralizar todas las funciones en uno solo','Separar sus objetivos para evitar conflictos'], e:'Las relaciones entre departamentos se organizan definiendo responsabilidades, dependencia/relaciones y objetivos comunes.'},
+    {s:'ac', q:'Atender y analizar reclamaciones y solucionar quejas pertenece al bloque de…', o:['Atención de incidencias','Información','Seguimiento posventa','Fidelización mediante CRM'], e:'Reclamaciones y quejas se engloban en la atención de incidencias.'},
+    {s:'img', q:'¿Qué fórmula resume la imagen corporativa según los apuntes?', o:['Actitud + identidad visual','Marca + precio','Logotipo + eslogan','Identidad + percepción de los clientes'], e:'Imagen corporativa: actitud que muestra la empresa conforme a sus valores = actitud + identidad visual.'},
+    {s:'img', q:'La IDENTIDAD corporativa se define como…', o:['El conjunto de instrumentos formales mediante los que la empresa se identifica públicamente','El conjunto de percepciones que tienen los grupos de interés','Las opiniones de los clientes en redes sociales','La cultura interna informal'], e:'Identidad = instrumentos formales (lo que emite la empresa). Imagen = percepciones (lo que reciben los grupos de interés).'},
+    {s:'img', q:'El conjunto de percepciones que los grupos de interés tienen sobre la empresa se llama…', o:['Imagen corporativa','Identidad corporativa','Identidad visual','Marca registrada'], e:'La imagen corporativa es percepción; la identidad corporativa son los instrumentos formales.'},
+    {s:'img', q:'¿Cuál NO forma parte de la identidad visual corporativa?', o:['Nombre comercial','Logotipo','Tipografía','Colores corporativos'], e:'La identidad visual son logotipo, tipografía y colores. Marca y nombre comercial son otros elementos de la identidad corporativa.'},
+    {s:'img', q:'¿Cuál de estos aspectos NO se cita como importante para cuidar la imagen en la atención al cliente?', o:['Reducir siempre el precio de los productos','Transparencia en comunicaciones y acciones','Imagen de marca cuidada online y offline','Buena presentación de la empresa y sus productos'], e:'Se citan: relaciones con entorno interno y externo, transparencia, imagen online/offline y buena presentación.'},
+    {s:'img', q:'Una empresa usa siempre el mismo logotipo, tipografía y colores en tienda y web. Esto refuerza principalmente su…', o:['Identidad visual corporativa','Organización informal','Canal de distribución','Sistema CRM'], e:'Logotipo, tipografía y colores corporativos componen la identidad visual corporativa.'},
+    {s:'crm', q:'CRM es un…', o:['Software específico para gestionar la relación con los clientes y aprovechar sus datos','Servicio telefónico de atención','Tipo de organigrama funcional','Departamento de la empresa'], e:'CRM (Customer Relationship Management) es un software específico de gestión de la relación con clientes.'},
+    {s:'crm', q:'La venta cruzada consiste en…', o:['Vender productos complementarios al cliente','Vender el mismo producto a otro cliente','Vender a través de mayoristas','Ofrecer descuentos por devolución'], e:'Es una ventaja del CRM: venta de productos complementarios.'},
+    {s:'crm', q:'¿Cuál NO es una ventaja del CRM según los apuntes?', o:['Sustituir la comunicación telefónica por completo','Centralizar y actualizar los datos de clientes','Gestionar clientes potenciales','Facilitar la venta cruzada'], e:'Ventajas: centralización/actualización de datos (histórico, preferencias), clientes potenciales y venta cruzada.'},
+    {s:'crm', q:'Un call center utiliza como medio básico de comunicación…', o:['El teléfono','El correo postal','El chat presencial','La publicidad exterior'], e:'Herramienta de comunicación y relación que utiliza el teléfono, gestionada por personas.'},
+    {s:'crm', q:'¿Cuál de estas opciones es un INCREMENTO derivado de un call center?', o:['Retención de clientes','Tiempo de espera','Coste del negocio','Tiempo de aprendizaje'], e:'Ahorro de: coste, tiempo de llamada, espera, personal, aprendizaje. Incremento de: productividad, satisfacción, retención, calidad y posición competitiva.'},
+    {s:'crm', q:'¿Cuál de estas es un AHORRO asociado al call center?', o:['Tiempo de espera','Satisfacción de los clientes','Calidad del servicio','Posición competitiva'], e:'Las otras tres son incrementos.'},
+    {s:'crm', q:'El objetivo final de un call center bien gestionado es dar un servicio único y diferente para…', o:['Atraer y fidelizar clientes','Reducir el catálogo de productos','Eliminar el departamento de ventas','Aumentar el stock'], e:'El call center pretende atraer y fidelizar mediante un servicio único y diferente.'},
+    {s:'crm', q:'Mantener el histórico y las preferencias de cada cliente en una base única y actualizada es una ventaja de…', o:['Un CRM','Un organigrama vertical','Un canal de distribución largo','La organización informal'], e:'Actualización y centralización de datos de clientes (histórico, preferencias).'}
+  ];
+
+  var sacQuiz = {pool:[], i:0, score:0, wrong:[], src:'all', answered:false};
+
+  function sacShow(v){
+    var map = {menu:'sacMenu', notes:'sacNotes', pick:'sacPick', quiz:'sacQuiz', result:'sacResult'};
+    Object.keys(map).forEach(function(k){ document.getElementById(map[k]).classList.remove('active'); });
+    document.getElementById(map[v]).classList.add('active');
+    if(v==='notes') sacRenderNotes();
+    if(v==='pick') sacRenderPick();
+    window.scrollTo(0,0);
+  }
+
+  function sacRenderNotes(){
+    var el = document.getElementById('sacNotesBody');
+    if(el.dataset.done) return;
+    el.dataset.done = '1';
+    var h = '';
+    Object.keys(SAC_SECTIONS).forEach(function(k){
+      h += '<div class="sac-acc"><div class="sac-acc-head" onclick="this.parentNode.classList.toggle(\'open\')"><i class="'+SAC_SECTIONS[k].i+'" style="color:#BE185D;font-size:20px;"></i>'+SAC_SECTIONS[k].n+'<i class="ri-arrow-right-s-line chev"></i></div><div class="sac-acc-body">'+SAC_NOTES[k]+'</div></div>';
+    });
+    el.innerHTML = h;
+  }
+
+  function sacRenderPick(){
+    var h = '';
+    Object.keys(SAC_SECTIONS).forEach(function(k){
+      var n = SAC_QS.filter(function(q){return q.s===k;}).length;
+      h += '<div class="menu-card" onclick="sacStart(\''+k+'\')"><div class="menu-icon" style="background:#FDF2F8;"><i class="'+SAC_SECTIONS[k].i+' ri-lg" style="color:#BE185D;"></i></div><div><div class="menu-card-title">'+SAC_SECTIONS[k].n+'</div><div class="menu-card-desc">'+n+' preguntas</div></div></div>';
+    });
+    document.getElementById('sacPickBody').innerHTML = h;
+  }
+
+  function sacShuffle(a){
+    a = a.slice();
+    for(var i=a.length-1;i>0;i--){ var j=rnd(0,i); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+
+  function sacStart(src){
+    sacQuiz.src = src;
+    var base = src==='all' ? SAC_QS : SAC_QS.filter(function(q){return q.s===src;});
+    sacQuiz.pool = sacShuffle(base).map(function(q){
+      return {s:q.s, q:q.q, e:q.e, opts:sacShuffle(q.o.map(function(t,idx){return {t:t, ok:idx===0};}))};
+    });
+    sacQuiz.i = 0; sacQuiz.score = 0; sacQuiz.wrong = [];
+    sacShow('quiz');
+    sacRenderQ();
+  }
+
+  function sacRetry(){ sacStart(sacQuiz.src); }
+
+  function sacRenderQ(){
+    var q = sacQuiz.pool[sacQuiz.i];
+    sacQuiz.answered = false;
+    document.getElementById('sacBarFill').style.width = (sacQuiz.i/sacQuiz.pool.length*100)+'%';
+    document.getElementById('sacQBadge').textContent = 'Pregunta '+(sacQuiz.i+1)+' de '+sacQuiz.pool.length+' · '+SAC_SECTIONS[q.s].n;
+    document.getElementById('sacQText').textContent = q.q;
+    var L = ['A','B','C','D'];
+    var h = '';
+    q.opts.forEach(function(o,idx){
+      h += '<button class="sac-opt" onclick="sacAnswer('+idx+')"><span class="l">'+L[idx]+'</span><span></span></button>';
+    });
+    var box = document.getElementById('sacOpts');
+    box.innerHTML = h;
+    var spans = box.querySelectorAll('.sac-opt span:last-child');
+    q.opts.forEach(function(o,idx){ spans[idx].textContent = o.t; });
+    document.getElementById('sacExpl').innerHTML = '';
+    document.getElementById('sacNextBtn').style.display = 'none';
+  }
+
+  function sacAnswer(idx){
+    if(sacQuiz.answered) return;
+    sacQuiz.answered = true;
+    var q = sacQuiz.pool[sacQuiz.i];
+    var btns = document.querySelectorAll('#sacOpts .sac-opt');
+    q.opts.forEach(function(o,k){
+      btns[k].disabled = true;
+      if(o.ok) btns[k].classList.add('ok');
+      else if(k===idx) btns[k].classList.add('ko');
+    });
+    if(q.opts[idx].ok) sacQuiz.score++; else sacQuiz.wrong.push(q);
+    var ex = document.getElementById('sacExpl');
+    ex.innerHTML = '<div class="sac-expl"><b>'+(q.opts[idx].ok?'¡Correcto!':'Incorrecto.')+'</b> </div>';
+    ex.firstChild.appendChild(document.createTextNode(q.e));
+    var nb = document.getElementById('sacNextBtn');
+    nb.style.display = 'block';
+    nb.innerHTML = '<i class="ri-arrow-right-line"></i> ' + (sacQuiz.i+1===sacQuiz.pool.length ? 'Ver resultado' : 'Siguiente');
+  }
+
+  function sacNext(){
+    sacQuiz.i++;
+    if(sacQuiz.i>=sacQuiz.pool.length){ sacFinish(); return; }
+    sacRenderQ();
+    window.scrollTo(0,0);
+  }
+
+  function sacFinish(){
+    var n = sacQuiz.pool.length, s = sacQuiz.score, pct = Math.round(s/n*100);
+    document.getElementById('sacScoreTxt').textContent = s+' / '+n;
+    document.getElementById('sacScoreMsg').textContent = pct>=90 ? '¡Excelente! Dominas el tema.' : pct>=70 ? 'Muy bien, repasa los fallos.' : pct>=50 ? 'Aprobado justo: repasa los apuntes.' : 'Toca repasar los apuntes con calma.';
+    var w = document.getElementById('sacWrongList');
+    w.innerHTML = '';
+    if(sacQuiz.wrong.length){
+      var t = document.createElement('div');
+      t.className = 'steps-title'; t.textContent = 'PREGUNTAS FALLADAS';
+      w.appendChild(t);
+      sacQuiz.wrong.forEach(function(q){
+        var c = document.createElement('div');
+        c.className = 'sac-expl'; c.style.background = 'var(--red-light)'; c.style.borderColor = 'var(--red-mid)'; c.style.color = '#991B1B';
+        var b = document.createElement('b'); b.textContent = q.q;
+        var r = document.createElement('div'); r.style.marginTop = '6px';
+        var ok = q.opts.filter(function(o){return o.ok;})[0];
+        r.textContent = 'Correcta: ' + ok.t + ' — ' + q.e;
+        c.appendChild(b); c.appendChild(r); w.appendChild(c);
+      });
+    }
+    sacShow('result');
   }
 
   // ===================== DPV DATA =====================
