@@ -758,6 +758,20 @@
   .sac-bar { height: 6px; background: var(--gray-200); border-radius: 3px; margin-bottom: 14px; overflow: hidden; }
   .sac-bar > div { height: 100%; background: #BE185D; transition: width .25s; }
   .sac-score { font-size: 44px; font-weight: 700; text-align: center; color: #BE185D; margin: 10px 0 4px; }
+  .sac-acc-body table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 6px 0; }
+  .sac-acc-body th, .sac-acc-body td { border: 1px solid var(--gray-200); padding: 6px 8px; text-align: left; vertical-align: top; }
+  .sac-acc-body th { background: #F8FAFC; color: var(--gray-800); }
+  /* Venta técnica: reutiliza la pantalla SAC con otro color */
+  .pill-vt { background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; }
+  .subject-card.vt { border-color: #A7F3D0; }
+  .subject-card.vt:hover { border-color: #047857; }
+  .subject-card.vt .subject-card-accent { background: linear-gradient(90deg, #047857, #34D399); }
+  .subject-card.vt .subject-icon { background: #ECFDF5; color: #047857; }
+  .subject-card.vt .subject-tag { background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; }
+  #sacScreen.vt .sac-acc-body h4, #sacScreen.vt .sac-opt .l, #sacScreen.vt .sac-score { color: #047857; }
+  #sacScreen.vt .sac-box { background: #ECFDF5; border-color: #A7F3D0; color: #065F46; }
+  #sacScreen.vt .sac-opt:hover:not(:disabled) { border-color: #047857; }
+  #sacScreen.vt .sac-bar > div { background: #047857; }
 
   .t7 { background: #ECFEFF; color: #0E7490; border: 1px solid #A5F3FC; }
 
@@ -818,6 +832,24 @@
         <span class="subject-tag">Apuntes</span>
         <span class="subject-tag">Test</span>
         <span class="subject-tag">Organigramas</span>
+      </div>
+      <i class="ri-arrow-right-s-line subject-arrow"></i>
+    </div>
+
+    <div class="subject-card vt" onclick="goSubject('vt')">
+      <div class="subject-card-accent"></div>
+      <div class="subject-header">
+        <div class="subject-icon"><i class="ri-settings-3-line"></i></div>
+        <div>
+          <div class="subject-name">Venta técnica</div>
+          <div class="subject-code">Unidad 1 — Venta de productos industriales</div>
+        </div>
+      </div>
+      <div class="subject-desc">Apuntes fáciles y test: productos y clientes industriales, atributos, técnicas de venta, argumentario, ofertas y agentes.</div>
+      <div class="subject-tags">
+        <span class="subject-tag">Apuntes</span>
+        <span class="subject-tag">Test</span>
+        <span class="subject-tag">B2B</span>
       </div>
       <i class="ri-arrow-right-s-line subject-arrow"></i>
     </div>
@@ -1013,15 +1045,15 @@
     <!-- Menú -->
     <div class="sac-view active" id="sacMenu">
       <button class="btn-back-subject" onclick="goBack()"><i class="ri-arrow-left-line"></i> Asignaturas</button>
-      <div class="subject-pill pill-sac"><i class="ri-customer-service-2-line"></i> Servicio de atención comercial</div>
-      <p class="menu-title">Unidad 1: La actividad comercial</p>
+      <div class="subject-pill pill-sac" id="qzPill"><i class="ri-customer-service-2-line"></i> Servicio de atención comercial</div>
+      <p class="menu-title" id="qzTitle">Unidad 1: La actividad comercial</p>
       <p class="menu-sub">Estudia los apuntes y ponte a prueba con preguntas tipo test difíciles.</p>
 
       <div class="menu-card" onclick="sacShow('notes')">
-        <div class="menu-icon" style="background:#FDF2F8;"><i class="ri-book-open-line ri-lg" style="color:#BE185D;"></i></div>
+        <div class="menu-icon" id="qzNotesIcon" style="background:#FDF2F8;"><i class="ri-book-open-line ri-lg" style="color:#BE185D;"></i></div>
         <div>
           <div class="menu-card-title">Estudiar apuntes</div>
-          <div class="menu-card-desc">Resumen de toda la unidad por apartados (1.1 a 1.5).</div>
+          <div class="menu-card-desc" id="qzNotesDesc">Resumen de toda la unidad por apartados (1.1 a 1.5).</div>
         </div>
       </div>
       <div class="menu-card" onclick="sacShow('pick')">
@@ -1187,7 +1219,8 @@
       document.getElementById('menuScreen').classList.add('active');
     } else if (subj === 'mkt') {
       document.getElementById('mktMenuScreen').classList.add('active');
-    } else if (subj === 'sac') {
+    } else if (subj === 'sac' || subj === 'vt') {
+      qzUse(subj);
       document.getElementById('sacScreen').classList.add('active');
       sacShow('menu');
     } else {
@@ -1349,6 +1382,183 @@
     {s:'crm', q:'Mantener el histórico y las preferencias de cada cliente en una base única y actualizada es una ventaja de…', o:['Un CRM','Un organigrama vertical','Un canal de distribución largo','La organización informal'], e:'Actualización y centralización de datos de clientes (histórico, preferencias).'}
   ];
 
+  // ===================== VT (Venta técnica) =====================
+  var VT_SECTIONS = {
+    prod: {n:'1. Productos y mercado industrial', i:'ri-building-4-line'},
+    atr:  {n:'2. Atributos del producto', i:'ri-price-tag-3-line'},
+    cli:  {n:'3. Clientes y fuentes de información', i:'ri-team-line'},
+    tec:  {n:'4. Técnicas de venta', i:'ri-hand-coin-line'},
+    arg:  {n:'5. Argumentario de ventas', i:'ri-chat-quote-line'},
+    ofe:  {n:'6. Ofertas (propuesta comercial)', i:'ri-file-list-3-line'},
+    int:  {n:'7. Agentes, seguros y bancos', i:'ri-bank-line'}
+  };
+
+  var VT_NOTES = {
+    prod: '<div class="sac-box"><b>Producto industrial:</b> bien o servicio que compra una <b>empresa</b> para trabajar: fabricar otras cosas, prestar un servicio, revenderlo o usarlo por dentro.</div>' +
+      '<p>Truco: si lo compra una empresa para trabajar → industrial. Si lo compras tú para casa → de consumo. Ej.: ruedas que una fábrica vende a otra que hace coches.</p>' +
+      '<h4>Los 6 tipos</h4><ul>' +
+      '<li><b>Materias primas:</b> salen de la naturaleza casi tal cual (leche, madera, minerales, carbón).</li>' +
+      '<li><b>Materiales procesados:</b> materia prima ya transformada (harina, cemento, plástico, acero).</li>' +
+      '<li><b>Componentes:</b> piezas que van dentro de otro producto (motores, resistencias, vigas).</li>' +
+      '<li><b>Equipos de capital:</b> máquinas caras que duran años (maquinaria, tractores, herramientas).</li>' +
+      '<li><b>Suministros y consumibles:</b> cosas del día a día que se gastan rápido y no entran en el producto (papel, limpieza, EPIs).</li>' +
+      '<li><b>Servicios industriales:</b> servicios de otra empresa (mantenimiento, asesoría legal, seguros).</li></ul>' +
+      '<h4>Mercado industrial</h4><p>Formado por <b>empresas, organizaciones e instituciones</b> que compran productos industriales. No va dirigido al consumidor final.</p><ul>' +
+      '<li><b>Demanda derivada:</b> depende de lo que compra la gente. Más abrigos vendidos → más botones y tela.</li>' +
+      '<li><b>Altos volúmenes de compra:</b> compran mucho → descuentos y mejores condiciones de pago.</li>' +
+      '<li><b>Procesos de compra complejos:</b> deciden varias personas y puede tardar semanas o meses.</li>' +
+      '<li><b>Criterios técnicos:</b> calidad, eficiencia, especificaciones, rentabilidad y coste.</li>' +
+      '<li><b>Fidelización a largo plazo:</b> relaciones duraderas de confianza, fidelidad y calidad.</li></ul>' +
+      '<table><tr><th></th><th>Consumo</th><th>Industrial</th></tr>' +
+      '<tr><td>¿Para qué?</td><td>Uso personal</td><td>Producir, revender, trabajar</td></tr>' +
+      '<tr><td>¿Quién compra?</td><td>Personas y familias</td><td>Empresas e instituciones</td></tr>' +
+      '<tr><td>¿Quién decide?</td><td>Una persona</td><td>Un grupo</td></tr></table>',
+    atr: '<div class="sac-box">3 familias: <b>intrínsecos</b> (por dentro), <b>externos</b> (por fuera) e <b>intangibles</b> (no se tocan).</div>' +
+      '<h4>2.1 Intrínsecos — cumple por sí mismo su función</h4><ul>' +
+      '<li><b>Composición:</b> de qué está hecho. Ej.: motor con cobre, hierro y aislantes.</li>' +
+      '<li><b>Calidad:</b> <b>grado</b> en que cumple su función y las expectativas. Ej.: sensor que mide casi sin error.</li>' +
+      '<li><b>Diseño:</b> estética + <b>ergonomía</b> (facilidad de manejo) + <b>innovación</b> + <b>personalización</b>.</li></ul>' +
+      '<h4>2.2 Externos — facilitan uso e identificación</h4><ul>' +
+      '<li><b>Envase:</b> 1.ª capa, en <b>contacto directo</b>. Contiene, protege, manipula y presenta. Es un «vendedor silencioso». Ej.: botella de vino.</li>' +
+      '<li><b>Embalaje:</b> capa <b>externa</b> para transportar y almacenar. Ej.: caja de botellas o palé.</li>' +
+      '<li><b>Etiquetado:</b> información esencial y cumplimiento legal. Ej.: pictogramas de peligro en químicos.</li></ul>' +
+      '<h4>2.3 Intangibles — no se ven pero influyen</h4><ul>' +
+      '<li><b>Marca:</b> nombre, logo, eslogan… Indicador de <b>confianza</b>. Ej.: Siemens.</li>' +
+      '<li><b>Made in:</b> el país da fama según el sector (Made in Germany vale en coches, no en moda).</li>' +
+      '<li><b>Garantía:</b> legal (obligatoria, 3 años), comercial (extra voluntaria), de satisfacción (reembolso en un plazo), extendida (se paga aparte).</li>' +
+      '<li><b>Preventa:</b> demostraciones, dudas, asistencia técnica. <b>Posventa:</b> mantenimiento, reparaciones, repuestos, formación.</li>' +
+      '<li><b>Seguridad:</b> sin riesgo o riesgos mínimos en uso normal. Hay normativa específica.</li>' +
+      '<li><b>Certificación:</b> un organismo <b>independiente</b> verifica que cumple normas (ej.: ISO).</li></ul>',
+    cli: '<div class="sac-box"><b>Cliente industrial:</b> empresa u organización que compra productos industriales para su actividad empresarial, no para uso personal.</div>' +
+      '<h4>3 tipos — ¿qué hace con lo que compra?</h4><ul>' +
+      '<li><b>Fabricantes:</b> lo <b>transforman</b>. Ej.: fábrica de coches que compra ruedas.</li>' +
+      '<li><b>Usuarios:</b> lo <b>usan</b> tal cual. Ej.: aeropuerto que compra iluminación para las pistas.</li>' +
+      '<li><b>Intermediarios:</b> lo <b>revenden, distribuyen o instalan</b> sin cambiarlo (pueden etiquetar, envasar, personalizar). Ej.: mayoristas, revendedores, instaladores.</li></ul>' +
+      '<h4>Fuentes de información</h4><p>Hay menos clientes y es más difícil contactarlos que a los finales.</p><ul>' +
+      '<li><b>Bases de datos industriales:</b> Kompass, D&amp;B Hoovers.</li>' +
+      '<li><b>Plataformas B2B:</b> Alibaba, ThomasNet.</li>' +
+      '<li><b>Ferias y exposiciones:</b> Veteco (Madrid, construcción).</li>' +
+      '<li><b>Redes sociales y foros:</b> LinkedIn, Industry Forum, Industrias 4.0.</li>' +
+      '<li><b>Información interna:</b> CRM o históricos de ventas.</li>' +
+      '<li><b>Investigación de mercado:</b> propia o de una consultora (ej.: energía solar en Kenia).</li></ul>',
+    tec: '<div class="sac-box"><b>Técnicas de venta:</b> estrategias y métodos del vendedor para guiar al cliente y cerrar el máximo de ventas. El vendedor industrial debe ser <b>especialista del sector</b>.</div><ul>' +
+      '<li><b>Venta consultiva:</b> primero <b>pregunta</b> sus problemas, luego propone una solución personalizada.</li>' +
+      '<li><b>Venta técnica:</b> <b>explica</b> con detalle el funcionamiento: demos, simulaciones, documento técnico.</li>' +
+      '<li><b>Basada en beneficios y valor:</b> <b>datos concretos</b> del beneficio (ahorro, productividad, retorno). Ej.: ahorro de 17.300 €/año y +12 % de productividad.</li>' +
+      '<li><b>Venta relacional:</b> relación <b>a largo plazo</b> y fidelización, no una venta puntual.</li>' +
+      '<li><b>Cross-selling (venta cruzada):</b> ofrecer productos <b>complementarios</b>. Ej.: prensa + contrato de mantenimiento.</li>' +
+      '<li><b>Up-selling (venta ascendente):</b> ofrecer una <b>versión superior</b>. Ej.: software prémium en vez de estándar.</li></ul>' +
+      '<p>Truco: <b>cross</b> = otro producto que acompaña; <b>up</b> = el mismo pero mejor.</p>',
+    arg: '<div class="sac-box"><b>Argumentario de ventas:</b> documento que prepara el discurso del vendedor: características, beneficios, mensajes clave y <b>respuestas a las objeciones</b>. Es una base <b>flexible</b>, no un guion rígido.</div>' +
+      '<h4>3 momentos</h4><ul>' +
+      '<li><b>Antes:</b> conseguir una sesión de ventas (no hace falta si el cliente contacta él).</li>' +
+      '<li><b>Durante:</b> dar a conocer el producto, resolver dudas y cerrar acuerdos.</li>' +
+      '<li><b>Después:</b> seguimiento. Si compró: satisfacción y producto adicional. Si no: avanzar al cierre.</li></ul>' +
+      '<h4>Antes: 2 situaciones</h4><ul>' +
+      '<li><b>Se desconoce el decisor:</b> superar el filtro (centralita) con preguntas rápidas y directas para sacar nombre y contacto.</li>' +
+      '<li><b>Se conoce el decisor:</b> investigarle (LinkedIn, Google), presentarse, <b>un beneficio concreto</b>, ser breve y proponer fechas.</li></ul>' +
+      '<h4>Durante y después</h4><p>Caso Medicamal (camas articuladas): la sesión empieza por la <b>apertura</b> (captar atención) y la <b>identificación de necesidades</b>. En el seguimiento se llama para saber si están contentos y si ha surgido alguna duda.</p>',
+    ofe: '<div class="sac-box"><b>Propuesta de oferta comercial:</b> documento o presentación formal que detalla una oferta concreta a un cliente que ha pedido información, para convencerle.</div>' +
+      '<p>Se envía <b>tras una sesión de ventas</b> o <b>sin reunión</b> (cliente habitual, petición de presupuesto, oportunidad detectada).</p>' +
+      '<h4>4 apartados — «Qué, Para ti, Cuánto, Por qué yo»</h4><ul>' +
+      '<li><b>Descripción técnica:</b> material, dimensiones, funciones, normativa.</li>' +
+      '<li><b>Adaptación a las necesidades:</b> cómo reduce costes, mejora procesos o eficiencia.</li>' +
+      '<li><b>Condiciones comerciales:</b> precio, plazos de entrega, garantía, posventa.</li>' +
+      '<li><b>Valorización:</b> valor añadido frente a la competencia (servicio técnico, innovación, rapidez).</li></ul>' +
+      '<p>Además: <b>visualmente atractiva</b> y <b>personalizada</b>.</p>',
+    int: '<div class="sac-box"><b>Agente comercial:</b> profesional <b>autónomo</b> que representa a una o varias empresas; promueve, negocia y cierra ventas en una <b>zona geográfica</b> a cambio de una <b>comisión</b>.</div>' +
+      '<p>Intermedia entre fabricantes y mayoristas/minoristas; impulsa ventas, potencia marcas y abre zonas nuevas.</p>' +
+      '<h4>Aseguradoras</h4><p>Dan cobertura económica ante daños a cambio de una <b>prima</b>. Contrato = <b>póliza</b>; daño = <b>siniestro</b>. Riesgos: incendios, robos, transporte, avería de maquinaria, reputación, responsabilidad civil.</p>' +
+      '<h4>Entidades financieras</h4><ul>' +
+      '<li><b>Financiación y crédito:</b> préstamos, líneas de crédito, leasing, hipotecas.</li>' +
+      '<li><b>Gestión de cobros y pagos:</b> cuentas corrientes, tarjetas.</li>' +
+      '<li><b>Asesoramiento y análisis financiero:</b> viabilidad de proyectos, riesgos, recursos.</li></ul>'
+  };
+
+  var VT_QS = [
+    {s:'prod', q:'Una panadería industrial compra harina para hacer pan. ¿Qué tipo de producto industrial es la harina?', o:['Material procesado','Materia prima','Componente','Suministro'], e:'La harina es una materia prima (cereal) ya transformada: material procesado.'},
+    {s:'prod', q:'Una fábrica de coches compra motores ya montados para instalarlos en sus vehículos. Los motores son…', o:['Componentes','Equipos de capital','Materiales procesados','Materias primas'], e:'Piezas semielaboradas que se incorporan a otro producto: componentes.'},
+    {s:'prod', q:'Una empresa compra papel de impresora y productos de limpieza para sus oficinas. Son…', o:['Suministros y consumibles','Servicios industriales','Componentes','Equipos de capital'], e:'Se gastan rápido y no se incorporan al producto: suministros y consumibles.'},
+    {s:'prod', q:'Un gimnasio compra bicicletas estáticas para sus clases. Según la clasificación, son…', o:['Equipos de capital','Suministros','Componentes','Materias primas'], e:'Bienes duraderos que permiten prestar el servicio: equipos de capital (una inversión).'},
+    {s:'prod', q:'Contratar una asesoría legal y un seguro para la fábrica es un ejemplo de…', o:['Servicios industriales','Suministros y consumibles','Equipos de capital','Materiales procesados'], e:'Servicios prestados por terceros necesarios para la actividad: servicios industriales.'},
+    {s:'prod', q:'¿Cuál de estos es una MATERIA PRIMA?', o:['Madera','Acero','Cemento','Plástico'], e:'Acero, cemento y plástico ya están transformados (materiales procesados).'},
+    {s:'prod', q:'Si la gente compra más abrigos, las fábricas compran más botones y tela. Esto se llama…', o:['Demanda derivada','Alto volumen de compra','Fidelización a largo plazo','Criterio técnico'], e:'La demanda industrial depende de la demanda del mercado de consumo: demanda derivada.'},
+    {s:'prod', q:'¿Por qué el proceso de compra industrial es complejo?', o:['Deciden varias personas con intereses distintos y puede durar semanas o meses','Porque los productos son baratos','Porque solo decide el gerente','Porque se compra por impulso'], e:'Intervienen varias personas (fabricación, gerencia, finanzas…) y hay que comparar y negociar.'},
+    {s:'prod', q:'¿Qué característica permite negociar descuentos en el mercado industrial?', o:['Altos volúmenes de compra','Demanda derivada','Criterios técnicos','Procesos complejos'], e:'Comprar grandes cantidades permite descuentos por volumen y mejores condiciones de pago.'},
+    {s:'prod', q:'¿Qué diferencia al mercado industrial del de consumo?', o:['Compran empresas e instituciones para su actividad, no personas para uso propio','Compran familias para su casa','Solo se venden servicios','Las compras son siempre pequeñas'], e:'El mercado de consumo satisface necesidades de individuos y familias; el industrial, de empresas.'},
+    {s:'atr', q:'La composición, la calidad y el diseño son atributos…', o:['Intrínsecos','Externos','Intangibles','Comerciales'], e:'Hacen que el producto cumpla por sí mismo su función: intrínsecos.'},
+    {s:'atr', q:'Un carro de taller con cajones reforzados y ruedas antideslizantes destaca por su…', o:['Diseño (ergonomía)','Composición','Etiquetado','Certificación'], e:'El diseño incluye ergonomía (facilidad de manejo), innovación y personalización.'},
+    {s:'atr', q:'¿Cuál es la diferencia entre envase y embalaje?', o:['El envase está en contacto directo con el producto; el embalaje es la capa externa para transporte y almacenaje','Son lo mismo','El embalaje toca el producto y el envase va por fuera','El envase solo sirve para decorar'], e:'Envase = primera capa, en contacto. Embalaje = capa externa (caja, palé).'},
+    {s:'atr', q:'Un palé con cajas de botellas de vino es un ejemplo de…', o:['Embalaje','Envase','Etiquetado','Marca'], e:'El palé protege en el traslado y almacenamiento: embalaje.'},
+    {s:'atr', q:'¿Por qué se llama al envase «vendedor silencioso»?', o:['Porque con diseño, colores e información puede influir en la decisión de compra','Porque no lleva etiqueta','Porque lo vende un agente comercial','Porque no hace ruido al transportarlo'], e:'Además de proteger, comunica calidad, sostenibilidad y beneficios.'},
+    {s:'atr', q:'Los pictogramas de peligro de un producto químico forman parte del…', o:['Etiquetado','Embalaje','Diseño','Envase'], e:'La etiqueta da información esencial y garantiza el cumplimiento legal.'},
+    {s:'atr', q:'¿Cuál de estos es un atributo INTANGIBLE?', o:['Garantía','Composición','Envase','Etiquetado'], e:'Intangibles: marca, made in, garantía, preventa/posventa, seguridad y certificación.'},
+    {s:'atr', q:'Un fabricante da 5 años de garantía cuando la ley exige 3. Esos 2 años extra son garantía…', o:['Comercial','Legal','Extendida','De satisfacción'], e:'Comercial: voluntaria y adicional, sin coste. La extendida la paga el cliente.'},
+    {s:'atr', q:'El cliente paga un extra para ampliar la cobertura de su máquina. Es garantía…', o:['Extendida','Comercial','Legal','De satisfacción'], e:'La extendida es opcional y se adquiere pagando un coste extra.'},
+    {s:'atr', q:'Un software industrial permite pedir reembolso si no estás contento en 3 meses. Es garantía…', o:['De satisfacción','Legal','Extendida','Comercial'], e:'Compromiso de devolver el dinero si el cliente no queda satisfecho en un plazo.'},
+    {s:'atr', q:'Montar relojes en Suiza para poner «Made in Switzerland» busca aprovechar…', o:['El prestigio del lugar de fabricación','La certificación ISO','La garantía legal','El embalaje'], e:'El made in influye en la percepción de calidad y confiabilidad.'},
+    {s:'atr', q:'Las demostraciones de producto y la resolución de dudas antes de comprar son servicio…', o:['Preventa','Posventa','De garantía','De certificación'], e:'Preventa = antes. Posventa = mantenimiento, reparaciones, repuestos, formación.'},
+    {s:'atr', q:'La certificación de un producto industrial la realiza…', o:['Una entidad independiente, normalmente un organismo acreditado','El propio fabricante','El cliente','El agente comercial'], e:'Un organismo independiente verifica que cumple normas o estándares (ej.: ISO).'},
+    {s:'atr', q:'«Made in Germany» aporta valor en la industria del automóvil pero no tanto en la moda. Esto demuestra que…', o:['La imagen de un país varía según el tipo de producto','El made in no importa nunca','Alemania no fabrica ropa','La marca siempre pesa más'], e:'Los clientes asocian ciertos países con calidad en sectores concretos.'},
+    {s:'cli', q:'Un aeropuerto compra un sistema de iluminación para sus pistas. Es un cliente…', o:['Usuario','Fabricante','Intermediario','Mayorista'], e:'No transforma el producto, lo usa directamente: usuario.'},
+    {s:'cli', q:'Una empresa compra aires acondicionados para instalarlos en casas. Es un cliente…', o:['Intermediario','Usuario','Fabricante','Final'], e:'Los instaladores son intermediarios: no transforman el producto.'},
+    {s:'cli', q:'Una empresa compra ruedas para fabricar coches. Es un cliente…', o:['Fabricante','Usuario','Intermediario','Consumidor final'], e:'Transforma lo que compra en otro producto: fabricante.'},
+    {s:'cli', q:'¿Qué pueden hacer los intermediarios con el producto?', o:['Etiquetarlo, envasarlo o personalizarlo, pero no alterarlo físicamente','Transformarlo en otro producto','Solo usarlo','Nada, nunca lo tocan'], e:'No alteran físicamente el producto, pero sí actividades complementarias.'},
+    {s:'cli', q:'Kompass y D&B Hoovers son ejemplos de…', o:['Bases de datos industriales','Plataformas B2B','Ferias','CRM'], e:'Directorios con sector, tamaño, ubicación y contacto de empresas.'},
+    {s:'cli', q:'Alibaba y ThomasNet son…', o:['Plataformas B2B','Bases de datos industriales','Redes sociales','Consultoras'], e:'Plataformas online que ponen en contacto proveedores y compradores.'},
+    {s:'cli', q:'Una empresa quiere ofrecer la nueva versión de su producto a quienes compraron la anterior. ¿Qué fuente usa?', o:['Su CRM o histórico de ventas','Una feria','Una base de datos externa','Una investigación de mercado'], e:'La información interna permite localizar fácilmente a clientes anteriores.'},
+    {s:'cli', q:'Para buscar clientes en un país donde es difícil identificarlos (ej.: Kenia), lo más útil es…', o:['Una investigación de mercado','LinkedIn','El CRM','Una garantía extendida'], e:'Contratar una investigación de mercado, a veces con una consultora externa.'},
+    {s:'cli', q:'¿Por qué es más difícil localizar clientes industriales que finales?', o:['Hay menos y los canales de comunicación son más complejos','Porque no usan internet','Porque son más numerosos','Porque solo compran en ferias'], e:'Suele hacer falta un trato más personalizado, como visitas directas.'},
+    {s:'tec', q:'Francisco pregunta al cliente qué problemas tiene con su maquinaria antes de ofrecer nada. Usa la venta…', o:['Consultiva','Técnica','Relacional','Up-selling'], e:'Primero identifica necesidades con preguntas y después propone la solución.'},
+    {s:'tec', q:'El vendedor muestra una simulación en software de cómo se integrarían sus robots en la fábrica. Es venta…', o:['Técnica','Consultiva','Relacional','Cross-selling'], e:'Explicación detallada de aspectos técnicos y funcionamiento, con demos y simulaciones.'},
+    {s:'tec', q:'«Ahorrará 17.300 € al año y la productividad subirá un 12 %». ¿Qué técnica es?', o:['Venta basada en beneficios y valor','Venta relacional','Venta técnica','Up-selling'], e:'Da datos concretos para que el cliente cuantifique el valor.'},
+    {s:'tec', q:'Carla visita las clínicas, se interesa por el negocio y da consejos aunque no vaya a vender. Es venta…', o:['Relacional','Consultiva','Técnica','Cruzada'], e:'Busca fidelizar y crear una relación de confianza a largo plazo.'},
+    {s:'tec', q:'Al comprar una prensa hidráulica, el vendedor sugiere un contrato de mantenimiento. Es…', o:['Cross-selling','Up-selling','Venta técnica','Venta consultiva'], e:'Ofrecer un producto o servicio complementario: venta cruzada.'},
+    {s:'tec', q:'El vendedor recomienda la versión prémium del software en vez de la estándar. Es…', o:['Up-selling','Cross-selling','Venta relacional','Venta consultiva'], e:'Animar a comprar una versión superior o más cara del mismo producto.'},
+    {s:'tec', q:'¿Qué consiguen tanto el cross-selling como el up-selling?', o:['Aumentar el valor total de la venta y el beneficio para el cliente','Reducir el precio','Evitar el seguimiento','Eliminar la negociación'], e:'Ambas aumentan el valor de la venta y el beneficio que reporta al cliente.'},
+    {s:'arg', q:'Un argumentario de ventas es…', o:['Un documento que prepara el discurso del vendedor, con beneficios y respuestas a objeciones','Un contrato de compraventa','Un guion que hay que recitar al pie de la letra','Una factura'], e:'Debe ser flexible y adaptarse a cada cliente.'},
+    {s:'arg', q:'El objetivo del argumentario del «antes» es…', o:['Conseguir una sesión de ventas','Cerrar la venta','Comprobar la satisfacción','Enviar la factura'], e:'Antes: concertar una reunión. Durante: cerrar. Después: seguimiento.'},
+    {s:'arg', q:'¿Cuándo NO hace falta el argumentario del «antes»?', o:['Cuando el cliente contacta directamente con la empresa','Cuando el cliente es nuevo','Cuando no se conoce al decisor','Nunca, siempre hace falta'], e:'Ej.: cliente habitual, te conoció por la web o una feria, o le recomendaron.'},
+    {s:'arg', q:'Si no sabes quién decide la compra, tu objetivo al llamar es…', o:['Superar el filtro (centralita) y conseguir el nombre y contacto del decisor','Cerrar la venta por teléfono','Enviar la oferta a recepción','Hablar del precio'], e:'Interacción rápida con preguntas directas para llegar al decisor.'},
+    {s:'arg', q:'Si ya conoces al decisor, ¿qué NO forma parte de la estrategia?', o:['Hacer una explicación larga de todos los productos','Investigarle antes en LinkedIn o Google','Centrarse en un beneficio concreto','Ser breve y proponer fechas'], e:'Hay que ser breve, con resultados concretos y opciones para reunirse.'},
+    {s:'arg', q:'En el seguimiento, si el cliente SÍ compró, el objetivo es…', o:['Comprobar su satisfacción, resolver dudas y ofrecer productos adicionales','Volver a presentar el producto desde cero','No contactar más','Pedir el pago de nuevo'], e:'Se trata de fidelizar comprobando su satisfacción tras la compra.'},
+    {s:'ofe', q:'Una propuesta de oferta comercial es…', o:['Un documento formal que detalla una oferta concreta a un cliente para convencerle','Un anuncio de publicidad','El argumentario del vendedor','Una garantía'], e:'Explica y detalla la oferta a un cliente potencial que ha pedido información.'},
+    {s:'ofe', q:'¿Cuál NO es uno de los 4 apartados de la propuesta comercial?', o:['Organigrama de la empresa','Descripción técnica','Condiciones comerciales','Valorización del producto'], e:'Apartados: descripción técnica, adaptación a necesidades, condiciones comerciales y valorización.'},
+    {s:'ofe', q:'El precio, los plazos de entrega y la garantía van en el apartado de…', o:['Condiciones comerciales','Descripción técnica','Valorización','Adaptación a necesidades'], e:'Deben figurar claras para evitar confusiones con el cliente.'},
+    {s:'ofe', q:'Explicar por qué comprarte a ti y no a la competencia corresponde a la…', o:['Valorización del producto','Descripción técnica','Adaptación a las necesidades','Condiciones comerciales'], e:'La valorización destaca el valor añadido: servicio técnico, innovación, rapidez.'},
+    {s:'ofe', q:'¿Se puede enviar una oferta sin reunión previa?', o:['Sí: cliente habitual, petición de presupuesto u oportunidad detectada','No, nunca','Solo si lo pide un agente','Solo a clientes nuevos'], e:'Puede enviarse tras una sesión de ventas o sin ella.'},
+    {s:'int', q:'Un agente comercial es…', o:['Un profesional autónomo que vende para una o varias empresas en una zona a cambio de comisión','Un empleado fijo del departamento de compras','Un banco que presta dinero','Una aseguradora'], e:'Promueve, negocia y cierra ventas en una zona geográfica determinada.'},
+    {s:'int', q:'En un seguro, lo que paga la empresa a la aseguradora se llama…', o:['Prima','Póliza','Siniestro','Comisión'], e:'Póliza = contrato; prima = pago; siniestro = daño cubierto.'},
+    {s:'int', q:'Un incendio que destruye parte de la fábrica asegurada es un…', o:['Siniestro','Prima','Leasing','Póliza'], e:'El siniestro es el daño; la aseguradora se encarga de repararlo.'},
+    {s:'int', q:'Una empresa pide un préstamo para comprar una máquina que no puede pagar de golpe. Usa el servicio de…', o:['Financiación y crédito','Gestión de cobros y pagos','Asesoramiento financiero','Seguro'], e:'Préstamos, líneas de crédito, leasing o hipotecas.'},
+    {s:'int', q:'Las cuentas corrientes y las tarjetas bancarias son servicios de…', o:['Gestión de cobros y pagos','Financiación','Asesoramiento','Aseguradoras'], e:'Permiten organizar y administrar las transacciones.'},
+    {s:'int', q:'Evaluar si un proyecto es viable y gestionar riesgos es…', o:['Asesoramiento y análisis financiero','Financiación y crédito','Gestión de cobros','Una póliza'], e:'Servicio de las entidades bancarias para mejorar la situación financiera.'}
+  ];
+
+  var QZ_SETS = {
+    sac: {sections:SAC_SECTIONS, notes:SAC_NOTES, qs:SAC_QS, color:'#BE185D', bg:'#FDF2F8', cls:'sac',
+          pill:'<i class="ri-customer-service-2-line"></i> Servicio de atención comercial',
+          title:'Unidad 1: La actividad comercial', notesDesc:'Resumen de toda la unidad por apartados (1.1 a 1.5).'},
+    vt:  {sections:VT_SECTIONS, notes:VT_NOTES, qs:VT_QS, color:'#047857', bg:'#ECFDF5', cls:'vt',
+          pill:'<i class="ri-settings-3-line"></i> Venta técnica',
+          title:'Unidad 1: Venta de productos industriales', notesDesc:'Resumen fácil de toda la unidad por apartados (1 a 7).'}
+  };
+  var qz = QZ_SETS.sac;
+
+  function qzUse(k){
+    if(qz === QZ_SETS[k]) return;
+    qz = QZ_SETS[k];
+    var scr = document.getElementById('sacScreen');
+    scr.classList.remove('sac','vt'); scr.classList.add(qz.cls);
+    var pill = document.getElementById('qzPill');
+    pill.className = 'subject-pill pill-' + qz.cls; pill.innerHTML = qz.pill;
+    document.getElementById('qzTitle').textContent = qz.title;
+    document.getElementById('qzNotesDesc').textContent = qz.notesDesc;
+    var ic = document.getElementById('qzNotesIcon');
+    ic.style.background = qz.bg; ic.firstChild.style.color = qz.color;
+    delete document.getElementById('sacNotesBody').dataset.done;
+  }
+
   var sacQuiz = {pool:[], i:0, score:0, wrong:[], src:'all', answered:false};
 
   function sacShow(v){
@@ -1365,17 +1575,17 @@
     if(el.dataset.done) return;
     el.dataset.done = '1';
     var h = '';
-    Object.keys(SAC_SECTIONS).forEach(function(k){
-      h += '<div class="sac-acc"><div class="sac-acc-head" onclick="this.parentNode.classList.toggle(\'open\')"><i class="'+SAC_SECTIONS[k].i+'" style="color:#BE185D;font-size:20px;"></i>'+SAC_SECTIONS[k].n+'<i class="ri-arrow-right-s-line chev"></i></div><div class="sac-acc-body">'+SAC_NOTES[k]+'</div></div>';
+    Object.keys(qz.sections).forEach(function(k){
+      h += '<div class="sac-acc"><div class="sac-acc-head" onclick="this.parentNode.classList.toggle(\'open\')"><i class="'+qz.sections[k].i+'" style="color:'+qz.color+';font-size:20px;"></i>'+qz.sections[k].n+'<i class="ri-arrow-right-s-line chev"></i></div><div class="sac-acc-body">'+qz.notes[k]+'</div></div>';
     });
     el.innerHTML = h;
   }
 
   function sacRenderPick(){
     var h = '';
-    Object.keys(SAC_SECTIONS).forEach(function(k){
-      var n = SAC_QS.filter(function(q){return q.s===k;}).length;
-      h += '<div class="menu-card" onclick="sacStart(\''+k+'\')"><div class="menu-icon" style="background:#FDF2F8;"><i class="'+SAC_SECTIONS[k].i+' ri-lg" style="color:#BE185D;"></i></div><div><div class="menu-card-title">'+SAC_SECTIONS[k].n+'</div><div class="menu-card-desc">'+n+' preguntas</div></div></div>';
+    Object.keys(qz.sections).forEach(function(k){
+      var n = qz.qs.filter(function(q){return q.s===k;}).length;
+      h += '<div class="menu-card" onclick="sacStart(\''+k+'\')"><div class="menu-icon" style="background:'+qz.bg+';"><i class="'+qz.sections[k].i+' ri-lg" style="color:'+qz.color+';"></i></div><div><div class="menu-card-title">'+qz.sections[k].n+'</div><div class="menu-card-desc">'+n+' preguntas</div></div></div>';
     });
     document.getElementById('sacPickBody').innerHTML = h;
   }
@@ -1388,7 +1598,7 @@
 
   function sacStart(src){
     sacQuiz.src = src;
-    var base = src==='all' ? SAC_QS : SAC_QS.filter(function(q){return q.s===src;});
+    var base = src==='all' ? qz.qs : qz.qs.filter(function(q){return q.s===src;});
     sacQuiz.pool = sacShuffle(base).map(function(q){
       return {s:q.s, q:q.q, e:q.e, opts:sacShuffle(q.o.map(function(t,idx){return {t:t, ok:idx===0};}))};
     });
@@ -1403,7 +1613,7 @@
     var q = sacQuiz.pool[sacQuiz.i];
     sacQuiz.answered = false;
     document.getElementById('sacBarFill').style.width = (sacQuiz.i/sacQuiz.pool.length*100)+'%';
-    document.getElementById('sacQBadge').textContent = 'Pregunta '+(sacQuiz.i+1)+' de '+sacQuiz.pool.length+' · '+SAC_SECTIONS[q.s].n;
+    document.getElementById('sacQBadge').textContent = 'Pregunta '+(sacQuiz.i+1)+' de '+sacQuiz.pool.length+' · '+qz.sections[q.s].n;
     document.getElementById('sacQText').textContent = q.q;
     var L = ['A','B','C','D'];
     var h = '';
