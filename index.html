@@ -1058,6 +1058,34 @@
           <div class="menu-card-desc" id="qzNotesDesc">Resumen de toda la unidad por apartados (1.1 a 1.5).</div>
         </div>
       </div>
+      <div class="menu-card" onclick="sacShow('cards')">
+        <div class="menu-icon ic6"><i class="ri-stack-line ri-lg" style="color:#EA580C;"></i></div>
+        <div>
+          <div class="menu-card-title">Tarjetas de memoria</div>
+          <div class="menu-card-desc">Definiciones cortas para repasar rápido: toca para girar la tarjeta.</div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="sacStart('exam')">
+        <div class="menu-icon" style="background:#FEF2F2;"><i class="ri-timer-line ri-lg" style="color:#DC2626;"></i></div>
+        <div>
+          <div class="menu-card-title">Modo examen</div>
+          <div class="menu-card-desc">30 preguntas con tiempo límite y sin ver las soluciones hasta el final. Nota sobre 10.</div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="sacStart('wrong')">
+        <div class="menu-icon" style="background:#FEF2F2;"><i class="ri-refresh-line ri-lg" style="color:#DC2626;"></i></div>
+        <div>
+          <div class="menu-card-title">Repasar mis falladas</div>
+          <div class="menu-card-desc"><span id="sacWrongCount">0</span> preguntas pendientes de repasar. Se quitan al acertarlas.</div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="sacShow('stats')">
+        <div class="menu-icon ic2"><i class="ri-bar-chart-2-line ri-lg"></i></div>
+        <div>
+          <div class="menu-card-title">Mis estadísticas</div>
+          <div class="menu-card-desc">Tu porcentaje de acierto por apartado para saber qué repasar.</div>
+        </div>
+      </div>
       <div class="menu-card" onclick="sacShow('pick')">
         <div class="menu-icon ic1"><i class="ri-question-line ri-lg"></i></div>
         <div>
@@ -1092,8 +1120,28 @@
     <div class="sac-view" id="sacNotes">
       <button class="btn-back-subject" onclick="sacShow('menu')"><i class="ri-arrow-left-line"></i> Volver</button>
       <p class="menu-title">Apuntes</p>
-      <p class="menu-sub">Toca un apartado para desplegarlo.</p>
+      <p class="menu-sub">Toca un apartado para desplegarlo o busca una palabra.</p>
+      <input id="sacSearch" type="search" placeholder="Buscar en los apuntes (ej.: garantía)" oninput="sacSearch(this.value)" style="width:100%;border:2px solid var(--gray-200);border-radius:var(--radius-sm);padding:11px 14px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;">
+      <div id="sacSearchEmpty" style="display:none;font-size:13px;color:var(--gray-600);padding:10px 2px;">No hay resultados.</div>
       <div id="sacNotesBody"></div>
+    </div>
+
+    <!-- Tarjetas -->
+    <div class="sac-view" id="sacCards">
+      <button class="btn-back-subject" onclick="sacShow('menu')"><i class="ri-arrow-left-line"></i> Volver</button>
+      <p class="menu-title">Tarjetas de memoria</p>
+      <p class="menu-sub" id="sacCardInfo"></p>
+      <div id="sacCardBox" onclick="sacCardFlip()" style="background:var(--white);border:2px solid var(--gray-200);border-radius:16px;min-height:200px;padding:22px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;box-shadow:var(--shadow);margin-bottom:12px;"></div>
+      <div id="sacCardBtns"></div>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="sac-view" id="sacStats">
+      <button class="btn-back-subject" onclick="sacShow('menu')"><i class="ri-arrow-left-line"></i> Volver</button>
+      <p class="menu-title">Mis estadísticas</p>
+      <p class="menu-sub">Acierto por apartado según tus respuestas. Practica primero los que están en rojo.</p>
+      <div id="sacStatsBody"></div>
+      <button class="btn-next" onclick="sacResetStats()" style="margin-top:14px;">Borrar estadísticas de esta asignatura</button>
     </div>
 
     <!-- Elegir apartado -->
@@ -1105,7 +1153,9 @@
     </div>
 
     <!-- Test -->
-    <div class="sac-view" id="sacQuiz">
+    <div class="sac-view" id="sacQuiz" style="padding-bottom:90px;">
+      <button class="btn-back-subject" onclick="sacExit()" style="margin-bottom:6px;"><i class="ri-close-line"></i> Salir del test</button>
+      <div id="sacTimer" style="display:none;font-size:13px;font-weight:700;color:#DC2626;margin-bottom:6px;"></div>
       <div class="sac-bar"><div id="sacBarFill" style="width:0%"></div></div>
       <div class="problem-card">
         <div class="type-badge t4" id="sacQBadge"></div>
@@ -1113,8 +1163,7 @@
       </div>
       <div id="sacOpts"></div>
       <div id="sacExpl"></div>
-      <button class="btn-next" id="sacNextBtn" onclick="sacNext()" style="display:none;margin-top:8px;"><i class="ri-arrow-right-line"></i> Siguiente</button>
-      <button class="btn-home" onclick="sacShow('menu')"><i class="ri-arrow-left-line"></i> Salir del test</button>
+      <button class="btn-check" id="sacNextBtn" onclick="sacNext()" style="display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 28px);max-width:412px;z-index:50;margin:0;"><i class="ri-arrow-right-line"></i> Siguiente</button>
     </div>
 
     <!-- Resultado -->
@@ -1296,7 +1345,7 @@
     function cell(n, l, c){ return '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px;text-align:center;"><div style="font-size:24px;font-weight:700;color:'+c+';">'+n+'</div><div style="font-size:11px;color:#64748B;font-weight:600;margin-top:2px;">'+l+'</div></div>'; }
     var next = 0; for(var i=0;i<STREAK_MILESTONES.length;i++){ if(STREAK_MILESTONES[i] > stats.cur){ next = STREAK_MILESTONES[i]; break; } }
     var prog = next ? '<div style="margin-top:14px;font-size:12px;color:#475569;font-weight:600;">Siguiente hito: '+next+' seguidas ('+(next-stats.cur)+' más)</div><div style="height:8px;background:#E2E8F0;border-radius:4px;margin-top:6px;overflow:hidden;"><div style="height:100%;width:'+Math.round(stats.cur/next*100)+'%;background:#F97316;"></div></div>' : '<div style="margin-top:14px;font-size:12px;color:#16A34A;font-weight:700;">¡Has superado todos los hitos! 🎉</div>';
-    var h = '<div style="background:#fff;width:100%;max-width:440px;border-radius:20px 20px 0 0;padding:20px 20px 28px;animation:modalSlideUp .25s ease-out;">'+
+    var h = '<div style="background:#fff;width:100%;max-width:440px;border-radius:20px 20px 0 0;padding:20px 20px 28px;max-height:92vh;overflow-y:auto;animation:modalSlideUp .25s ease-out;">'+
       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div style="font-size:16px;font-weight:700;color:#1E293B;">🔥 Tu racha</div><button onclick="document.getElementById(\'streakModalWrap\').remove()" style="background:none;border:none;font-size:22px;color:#94A3B8;cursor:pointer;line-height:1;">×</button></div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">'+
       cell(stats.cur, 'Aciertos seguidos', '#F97316')+
@@ -1307,11 +1356,17 @@
       '<div style="margin-top:12px;font-size:13px;color:#475569;">Hoy: <b style="color:#16A34A;">'+stats.todayOk+' aciertos</b> · <b style="color:#DC2626;">'+stats.todayKo+' fallos</b></div>'+
       prog+
       '<div style="margin-top:14px;font-size:11px;color:#94A3B8;line-height:1.5;">Un fallo reinicia los aciertos seguidos. Los días seguidos se mantienen si estudias al menos una pregunta al día.</div>'+
+      '<div style="margin-top:16px;padding-top:14px;border-top:1px solid #E2E8F0;"><div style="font-size:12px;font-weight:700;color:#475569;margin-bottom:8px;">💾 Copia de seguridad del progreso</div>'+
+      '<div style="display:flex;gap:8px;"><button onclick="lbExport()" style="flex:1;background:#EFF6FF;border:1px solid #BFDBFE;color:#1E40AF;border-radius:8px;padding:10px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;">Exportar</button>'+
+      '<label style="flex:1;background:#F8FAFC;border:1px solid #E2E8F0;color:#475569;border-radius:8px;padding:10px;font-size:13px;font-weight:600;text-align:center;cursor:pointer;">Importar<input type="file" accept="application/json,.json" onchange="lbImport(this)" style="display:none;"></label></div>'+
+      '<div style="margin-top:6px;font-size:11px;color:#94A3B8;line-height:1.5;">Guarda tu racha y estadísticas en un archivo para recuperarlas si cambias de móvil o borras los datos del navegador.</div></div>'+
       '</div>';
     w.innerHTML = h;
     document.body.appendChild(w);
   }
   stRender();
+  // Pide al navegador que no borre estos datos automáticamente cuando falte espacio.
+  try { if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e) {}
   document.getElementById('ansInput').value = '';
 
   // ===================== SUBJECT NAVIGATION =====================
@@ -1836,17 +1891,54 @@
     delete document.getElementById('sacNotesBody').dataset.done;
   }
 
-  var sacQuiz = {pool:[], i:0, score:0, wrong:[], src:'all', answered:false};
+  // ---------- Estadísticas por pregunta (localStorage 'lt_qstats') ----------
+  // { "<set>:<hash>": {o: aciertos, k: fallos, l: 1 si la última vez falló} }
+  function qHash(s){ var h = 0; for(var i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i)) | 0; } return (h>>>0).toString(36); }
+  function qId(q){ return qz.cls + ':' + qHash(q.q); }
+  function qLoad(){ try { return JSON.parse(localStorage.getItem('lt_qstats')) || {}; } catch(e){ return {}; } }
+  function qSave(o){ try { localStorage.setItem('lt_qstats', JSON.stringify(o)); } catch(e){} }
+  function qRecord(id, ok){
+    var s = qLoad(); var r = s[id] || {o:0, k:0, l:0};
+    if(ok){ r.o++; r.l = 0; } else { r.k++; r.l = 1; }
+    s[id] = r; qSave(s);
+  }
+
+  var sacQuiz = {pool:[], i:0, score:0, wrong:[], src:'all', answered:false, exam:false, timer:null, left:0};
+
+  function sacClearTimer(){
+    if(sacQuiz.timer){ clearInterval(sacQuiz.timer); sacQuiz.timer = null; }
+    var t = document.getElementById('sacTimer'); if(t) t.style.display = 'none';
+  }
+  function sacTick(){
+    var m = Math.floor(sacQuiz.left/60), s = sacQuiz.left%60;
+    var t = document.getElementById('sacTimer');
+    t.style.display = 'block';
+    t.textContent = '⏱ ' + m + ':' + (s<10?'0':'') + s;
+  }
+
+  function sacExit(){
+    if(sacQuiz.i > 0 || sacQuiz.answered){
+      if(!confirm('¿Salir del test? Perderás el progreso de esta ronda.')) return;
+    }
+    sacClearTimer();
+    sacShow('menu');
+  }
 
   function sacShow(v){
-    var map = {menu:'sacMenu', notes:'sacNotes', pick:'sacPick', quiz:'sacQuiz', result:'sacResult'};
+    var map = {menu:'sacMenu', notes:'sacNotes', pick:'sacPick', quiz:'sacQuiz', result:'sacResult', cards:'sacCards', stats:'sacStats'};
     Object.keys(map).forEach(function(k){ document.getElementById(map[k]).classList.remove('active'); });
     document.getElementById(map[v]).classList.add('active');
-    if(v==='notes') sacRenderNotes();
+    if(v!=='quiz'){ document.getElementById('sacNextBtn').style.display = 'none'; }
+    if(v==='menu' || v==='notes' || v==='pick' || v==='cards' || v==='stats' || v==='result'){ if(v!=='result') sacClearTimer(); }
+    if(v==='notes'){ var si = document.getElementById('sacSearch'); if(si) si.value = ''; sacRenderNotes(); sacSearch(''); }
     if(v==='pick') sacRenderPick();
+    if(v==='stats') sacRenderStats();
+    if(v==='cards') sacCardsStart();
     if(v==='menu'){
       document.getElementById('sacVfCount').textContent = qz.qs.filter(function(q){return q.vf!==undefined;}).length;
       document.getElementById('sacDevCount').textContent = qz.qs.filter(function(q){return q.dev;}).length;
+      var st = qLoad();
+      document.getElementById('sacWrongCount').textContent = qz.qs.filter(function(q){ var r = st[qId(q)]; return r && r.l; }).length;
     }
     window.scrollTo(0,0);
   }
@@ -1860,6 +1952,45 @@
       h += '<div class="sac-acc"><div class="sac-acc-head" onclick="this.parentNode.classList.toggle(\'open\')"><i class="'+qz.sections[k].i+'" style="color:'+qz.color+';font-size:20px;"></i>'+qz.sections[k].n+'<i class="ri-arrow-right-s-line chev"></i></div><div class="sac-acc-body">'+qz.notes[k]+'</div></div>';
     });
     el.innerHTML = h;
+  }
+
+  // ---------- Buscador en los apuntes ----------
+  function sacNorm(s){ return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  function sacMark(root, term){
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var nodes = [], n;
+    while((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(function(node){
+      var txt = node.nodeValue, low = sacNorm(txt);
+      if(low.length !== txt.length || low.indexOf(term) === -1) return;
+      var frag = document.createDocumentFragment(), pos = 0, at;
+      while((at = low.indexOf(term, pos)) !== -1){
+        if(at > pos) frag.appendChild(document.createTextNode(txt.slice(pos, at)));
+        var m = document.createElement('mark');
+        m.style.cssText = 'background:#FDE68A;color:inherit;border-radius:3px;padding:0 1px;';
+        m.textContent = txt.slice(at, at + term.length);
+        frag.appendChild(m);
+        pos = at + term.length;
+      }
+      if(pos < txt.length) frag.appendChild(document.createTextNode(txt.slice(pos)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+  function sacSearch(v){
+    sacRenderNotes();
+    var term = sacNorm((v || '').trim());
+    var any = false;
+    document.querySelectorAll('#sacNotesBody .sac-acc').forEach(function(acc){
+      var body = acc.querySelector('.sac-acc-body');
+      if(body.dataset.orig === undefined) body.dataset.orig = body.innerHTML;
+      body.innerHTML = body.dataset.orig;
+      if(!term){ acc.style.display = ''; any = true; return; }
+      var head = acc.querySelector('.sac-acc-head');
+      var has = sacNorm(body.textContent + ' ' + head.textContent).indexOf(term) !== -1;
+      acc.style.display = has ? '' : 'none';
+      if(has){ any = true; acc.classList.add('open'); sacMark(body, term); }
+    });
+    document.getElementById('sacSearchEmpty').style.display = any ? 'none' : 'block';
   }
 
   function sacRenderPick(){
@@ -1877,22 +2008,44 @@
     return a;
   }
 
+  var SAC_EXAM_N = 30;
+
   function sacStart(src){
-    sacQuiz.src = src;
+    sacClearTimer();
+    var st = qLoad();
     var base = qz.qs.filter(function(q){
+      if(src==='wrong'){ var r = st[qId(q)]; return !!(r && r.l); }
       if(src==='vf') return q.vf!==undefined;
       if(src==='dev') return !!q.dev;
       if(q.dev) return false;
-      return src==='all' || q.s===src;
+      return src==='all' || src==='exam' || q.s===src;
     });
-    sacQuiz.pool = sacShuffle(base).map(function(q){
-      if(q.dev) return {s:q.s, q:q.q, dev:true, a:q.a, k:q.k};
-      if(q.vf!==undefined) return {s:q.s, q:q.q, e:q.e, vf:true, opts:[{t:'Verdadero', ok:q.vf===true},{t:'Falso', ok:q.vf===false}]};
-      return {s:q.s, q:q.q, e:q.e, opts:sacShuffle(q.o.map(function(t,idx){return {t:t, ok:idx===0};}))};
+    if(!base.length){
+      alert(src==='wrong' ? 'No tienes preguntas falladas pendientes. ¡Bien!' : 'No hay preguntas en este apartado.');
+      return;
+    }
+    var arr = sacShuffle(base);
+    if(src==='exam') arr = arr.slice(0, SAC_EXAM_N);
+    sacQuiz.src = src;
+    sacQuiz.exam = (src==='exam');
+    sacQuiz.pool = arr.map(function(q){
+      var id = qId(q);
+      if(q.dev) return {id:id, s:q.s, q:q.q, dev:true, a:q.a, k:q.k};
+      if(q.vf!==undefined) return {id:id, s:q.s, q:q.q, e:q.e, vf:true, opts:[{t:'Verdadero', ok:q.vf===true},{t:'Falso', ok:q.vf===false}]};
+      return {id:id, s:q.s, q:q.q, e:q.e, opts:sacShuffle(q.o.map(function(t,idx){return {t:t, ok:idx===0};}))};
     });
     sacQuiz.i = 0; sacQuiz.score = 0; sacQuiz.wrong = [];
     sacShow('quiz');
     sacRenderQ();
+    if(sacQuiz.exam){
+      sacQuiz.left = Math.round(sacQuiz.pool.length * 40);
+      sacTick();
+      sacQuiz.timer = setInterval(function(){
+        sacQuiz.left--;
+        if(sacQuiz.left <= 0){ sacQuiz.left = 0; sacTick(); sacFinish(true); return; }
+        sacTick();
+      }, 1000);
+    }
   }
 
   function sacRetry(){ sacStart(sacQuiz.src); }
@@ -1901,7 +2054,7 @@
     var q = sacQuiz.pool[sacQuiz.i];
     sacQuiz.answered = false;
     document.getElementById('sacBarFill').style.width = (sacQuiz.i/sacQuiz.pool.length*100)+'%';
-    document.getElementById('sacQBadge').textContent = (q.dev?'Desarrollo':q.vf?'Verdadero / Falso':'Test')+' '+(sacQuiz.i+1)+'/'+sacQuiz.pool.length+' · '+qz.sections[q.s].n;
+    document.getElementById('sacQBadge').textContent = (sacQuiz.exam?'Examen':q.dev?'Desarrollo':q.vf?'Verdadero / Falso':'Test')+' '+(sacQuiz.i+1)+'/'+sacQuiz.pool.length+' · '+qz.sections[q.s].n;
     document.getElementById('sacQText').textContent = q.q;
     document.getElementById('sacExpl').innerHTML = '';
     document.getElementById('sacNextBtn').style.display = 'none';
@@ -1918,8 +2071,12 @@
     box.innerHTML = h;
     var spans = box.querySelectorAll('.sac-opt span:last-child');
     q.opts.forEach(function(o,idx){ spans[idx].textContent = o.t; });
-    document.getElementById('sacExpl').innerHTML = '';
-    document.getElementById('sacNextBtn').style.display = 'none';
+  }
+
+  function sacShowNext(){
+    var nb = document.getElementById('sacNextBtn');
+    nb.style.display = 'block';
+    nb.innerHTML = '<i class="ri-arrow-right-line"></i> ' + (sacQuiz.i+1===sacQuiz.pool.length ? 'Ver resultado' : 'Siguiente');
   }
 
   function sacAnswer(idx){
@@ -1927,6 +2084,14 @@
     sacQuiz.answered = true;
     var q = sacQuiz.pool[sacQuiz.i];
     var btns = document.querySelectorAll('#sacOpts .sac-opt');
+    if(sacQuiz.exam){
+      // Modo examen: se guarda la respuesta sin mostrar si es correcta.
+      q.sel = idx;
+      q.opts.forEach(function(o,k){ btns[k].disabled = true; });
+      btns[idx].style.borderColor = '#2563EB'; btns[idx].style.background = '#EFF6FF';
+      sacShowNext();
+      return;
+    }
     q.opts.forEach(function(o,k){
       btns[k].disabled = true;
       if(o.ok) btns[k].classList.add('ok');
@@ -1934,12 +2099,11 @@
     });
     if(q.opts[idx].ok) sacQuiz.score++; else sacQuiz.wrong.push(q);
     streakRecord(q.opts[idx].ok);
+    qRecord(q.id, q.opts[idx].ok);
     var ex = document.getElementById('sacExpl');
     ex.innerHTML = '<div class="sac-expl"><b>'+(q.opts[idx].ok?'¡Correcto!':'Incorrecto.')+'</b> </div>';
     ex.firstChild.appendChild(document.createTextNode(q.e));
-    var nb = document.getElementById('sacNextBtn');
-    nb.style.display = 'block';
-    nb.innerHTML = '<i class="ri-arrow-right-line"></i> ' + (sacQuiz.i+1===sacQuiz.pool.length ? 'Ver resultado' : 'Siguiente');
+    sacShowNext();
   }
 
   // Desarrollo: el alumno compara su respuesta con la modelo y se autoevalúa.
@@ -1970,10 +2134,9 @@
     var q = sacQuiz.pool[sacQuiz.i];
     if(ok) sacQuiz.score++; else sacQuiz.wrong.push(q);
     streakRecord(ok);
+    qRecord(q.id, ok);
     var g = document.getElementById('sacDevGrade'); if(g) g.remove();
-    var nb = document.getElementById('sacNextBtn');
-    nb.style.display = 'block';
-    nb.innerHTML = '<i class="ri-arrow-right-line"></i> ' + (sacQuiz.i+1===sacQuiz.pool.length ? 'Ver resultado' : 'Siguiente');
+    sacShowNext();
   }
 
   function sacNext(){
@@ -1983,10 +2146,27 @@
     window.scrollTo(0,0);
   }
 
-  function sacFinish(){
+  function sacFinish(timeUp){
+    var wasExam = sacQuiz.exam;
+    sacClearTimer();
+    if(wasExam){
+      // Corrección del examen: se puntúa todo al final (sin responder = fallo).
+      sacQuiz.score = 0; sacQuiz.wrong = [];
+      sacQuiz.pool.forEach(function(q){
+        var answered = q.sel !== undefined;
+        var ok = answered && q.opts[q.sel].ok;
+        if(ok) sacQuiz.score++; else sacQuiz.wrong.push(q);
+        if(answered) streakRecord(ok);
+        qRecord(q.id, ok);
+      });
+      sacQuiz.exam = false;
+    }
     var n = sacQuiz.pool.length, s = sacQuiz.score, pct = Math.round(s/n*100);
-    document.getElementById('sacScoreTxt').textContent = s+' / '+n;
-    document.getElementById('sacScoreMsg').textContent = pct>=90 ? '¡Excelente! Dominas el tema.' : pct>=70 ? 'Muy bien, repasa los fallos.' : pct>=50 ? 'Aprobado justo: repasa los apuntes.' : 'Toca repasar los apuntes con calma.';
+    var nota = (s/n*10).toFixed(1).replace('.', ',');
+    document.getElementById('sacScoreTxt').textContent = wasExam ? nota + ' / 10' : s+' / '+n;
+    var msg = pct>=90 ? '¡Excelente! Dominas el tema.' : pct>=70 ? 'Muy bien, repasa los fallos.' : pct>=50 ? 'Aprobado justo: repasa los apuntes.' : 'Toca repasar los apuntes con calma.';
+    if(wasExam) msg = (timeUp ? '¡Se acabó el tiempo! ' : '') + s + ' de ' + n + ' correctas. ' + (pct>=50 ? 'Aprobado. ' : 'Suspenso. ') + msg;
+    document.getElementById('sacScoreMsg').textContent = msg;
     var w = document.getElementById('sacWrongList');
     w.innerHTML = '';
     if(sacQuiz.wrong.length){
@@ -2002,12 +2182,200 @@
           r.textContent = 'Respuesta modelo: ' + q.a;
         } else {
           var ok = q.opts.filter(function(o){return o.ok;})[0];
-          r.textContent = 'Correcta: ' + ok.t + ' — ' + q.e;
+          r.textContent = (wasExam && q.sel === undefined ? 'Sin contestar. ' : '') + 'Correcta: ' + ok.t + ' — ' + q.e;
         }
         c.appendChild(b); c.appendChild(r); w.appendChild(c);
       });
     }
     sacShow('result');
+  }
+
+  // ---------- Estadísticas por apartado ----------
+  function sacRenderStats(){
+    var st = qLoad(), h = '', totO = 0, totK = 0;
+    var rows = Object.keys(qz.sections).map(function(k){
+      var o = 0, kk = 0, seen = 0, total = 0;
+      qz.qs.forEach(function(q){
+        if(q.s !== k) return;
+        total++;
+        var r = st[qId(q)];
+        if(r){ seen++; o += r.o; kk += r.k; }
+      });
+      totO += o; totK += kk;
+      return {k:k, o:o, kk:kk, seen:seen, total:total, pct: (o+kk) ? Math.round(o/(o+kk)*100) : null};
+    });
+    var weakest = null;
+    rows.forEach(function(r){ if(r.pct !== null && (weakest === null || r.pct < weakest.pct)) weakest = r; });
+    var all = totO + totK;
+    h += '<div class="sac-expl" style="background:var(--gray-50);border-color:var(--gray-200);color:var(--gray-800);"><b>Total:</b> ' + (all ? Math.round(totO/all*100) + '% de acierto en ' + all + ' respuestas' : 'todavía no has respondido preguntas') + '</div>';
+    rows.forEach(function(r){
+      var col = r.pct === null ? '#94A3B8' : r.pct >= 80 ? '#16A34A' : r.pct >= 60 ? '#D97706' : '#DC2626';
+      h += '<div class="problem-card" style="padding:14px;margin-bottom:10px;">' +
+        '<div style="display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:700;"><span class="sn"></span><span style="color:'+col+';flex-shrink:0;">' + (r.pct === null ? '—' : r.pct + '%') + '</span></div>' +
+        '<div style="height:8px;background:var(--gray-200);border-radius:4px;margin:8px 0;overflow:hidden;"><div style="height:100%;width:' + (r.pct || 0) + '%;background:'+col+';"></div></div>' +
+        '<div style="font-size:12px;color:var(--gray-600);display:flex;justify-content:space-between;align-items:center;"><span>' + r.seen + ' de ' + r.total + ' preguntas vistas' + (weakest === r && r.pct < 80 ? ' · <b style="color:#DC2626;">tu punto más débil</b>' : '') + '</span><a href="#" data-k="' + r.k + '" class="sp" style="color:'+qz.color+';font-weight:700;text-decoration:none;">Practicar</a></div></div>';
+    });
+    var box = document.getElementById('sacStatsBody');
+    box.innerHTML = h;
+    var names = box.querySelectorAll('.sn');
+    rows.forEach(function(r, i){ names[i].textContent = qz.sections[r.k].n; });
+    box.querySelectorAll('.sp').forEach(function(a){
+      a.onclick = function(e){ e.preventDefault(); sacStart(a.getAttribute('data-k')); };
+    });
+  }
+  function sacResetStats(){
+    if(!confirm('¿Borrar las estadísticas de esta asignatura?')) return;
+    var st = qLoad();
+    Object.keys(st).forEach(function(id){ if(id.indexOf(qz.cls + ':') === 0) delete st[id]; });
+    qSave(st);
+    sacRenderStats();
+  }
+
+  // ---------- Tarjetas de memoria ----------
+  var sacDeck = {cards:[], flipped:false, total:0};
+  function sacCardsStart(){
+    sacDeck.cards = sacShuffle(qz.cards || []);
+    sacDeck.total = sacDeck.cards.length;
+    sacDeck.flipped = false;
+    sacCardRender();
+  }
+  function sacCardRender(){
+    var box = document.getElementById('sacCardBox'), btns = document.getElementById('sacCardBtns');
+    var info = document.getElementById('sacCardInfo');
+    box.innerHTML = ''; btns.innerHTML = '';
+    if(!sacDeck.cards.length){
+      info.textContent = '¡Mazo completado!';
+      var d = document.createElement('div'); d.style.cssText = 'font-size:16px;font-weight:700;'; d.textContent = '🎉 Te sabes las ' + sacDeck.total + ' tarjetas';
+      box.appendChild(d);
+      btns.innerHTML = '<button class="btn-check" onclick="sacCardsStart()"><i class="ri-restart-line"></i> Empezar de nuevo</button>';
+      return;
+    }
+    var c = sacDeck.cards[0];
+    info.textContent = 'Quedan ' + sacDeck.cards.length + ' de ' + sacDeck.total + ' · toca la tarjeta para girarla';
+    var tag = document.createElement('div'); tag.style.cssText = 'font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px;color:' + (sacDeck.flipped ? '#16A34A' : qz.color) + ';';
+    tag.textContent = sacDeck.flipped ? 'Respuesta' : 'Pregunta · ' + qz.sections[c.s].n;
+    var txt = document.createElement('div'); txt.style.cssText = 'font-size:' + (sacDeck.flipped ? '15' : '17') + 'px;font-weight:' + (sacDeck.flipped ? '500' : '700') + ';line-height:1.55;';
+    txt.textContent = sacDeck.flipped ? c.b : c.f;
+    box.appendChild(tag); box.appendChild(txt);
+    box.style.borderColor = sacDeck.flipped ? '#16A34A' : 'var(--gray-200)';
+    if(sacDeck.flipped){
+      btns.innerHTML = '<button class="sac-opt" onclick="sacCardGrade(true)"><span class="l">✓</span><span>Ya la sé</span></button><button class="sac-opt" onclick="sacCardGrade(false)"><span class="l">↻</span><span>Repasar otra vez</span></button>';
+    }
+  }
+  function sacCardFlip(){ if(!sacDeck.cards.length) return; sacDeck.flipped = !sacDeck.flipped; sacCardRender(); }
+  function sacCardGrade(known){
+    var c = sacDeck.cards.shift();
+    if(!known){ var pos = Math.min(sacDeck.cards.length, 4); sacDeck.cards.splice(pos, 0, c); }
+    sacDeck.flipped = false;
+    sacCardRender();
+  }
+
+  QZ_SETS.sac.cards = [
+    {s:'emp', f:'Empresa (definición)', b:'Grupo de personas y bienes materiales y financieros, organizados para producir algo o prestar un servicio y así obtener un beneficio (ánimo de lucro).'},
+    {s:'emp', f:'Empresas extractivas: sector y actividad', b:'Sector primario. Extraen las materias primas o productos que brinda la naturaleza.'},
+    {s:'emp', f:'Empresas fabricantes: sector y actividad', b:'Sector secundario. Convierten materias primas en productos terminados (fabricación o manipulación de bienes físicos).'},
+    {s:'emp', f:'Empresas distribuidoras', b:'Sector terciario. Intermedian: acercan el producto del fabricante a las empresas comerciales.'},
+    {s:'emp', f:'Empresas comerciales', b:'Sector terciario. Venta directa de los productos al cliente final (consumidores).'},
+    {s:'emp', f:'Empresas de servicios', b:'Sector terciario. No hay stock material; no precisan almacenaje ni transporte.'},
+    {s:'emp', f:'Canal directo, corto y largo', b:'Directo: Fabricante → Consumidor. Corto: Fabricante → Minoristas → Consumidor. Largo: Fabricante → Mayoristas → Minoristas → Consumidor.'},
+    {s:'org', f:'Organización empresarial', b:'Disposición de los recursos con los que cuenta la empresa con el fin de alcanzar los objetivos fijados.'},
+    {s:'org', f:'Organización formal', b:'Ámbito laboral → relaciones laborales. Estructura intencionada: define límites, responsabilidad, autoridad y área de actuación de cada trabajador.'},
+    {s:'org', f:'Organización informal', b:'Ámbito personal → relaciones humanas. Surge de forma espontánea; influye en comunicación, toma de decisiones y control; crea canales informales.'},
+    {s:'org', f:'Organización real', b:'La suma de la organización formal y la informal, que conviven en la empresa.'},
+    {s:'org', f:'Departamento', b:'Nombre que se asigna a una división o área que se encarga de una actividad concreta de la empresa.'},
+    {s:'org', f:'Departamento de Financiación', b:'Inversión y financiación, administración y gestión de cobros, pagos, cuentas bancarias, préstamos y deudores.'},
+    {s:'org', f:'Departamento de RRHH', b:'Selección, contratación y formación de personal, retribuciones, becas y ayudas.'},
+    {s:'org', f:'Departamento Sanitario', b:'Seguridad e higiene en el trabajo, control de absentismo y bajas médicas.'},
+    {s:'orgr', f:'Organigrama', b:'Representación gráfica de la estructura organizativa de una empresa de forma sintética y simplificada.'},
+    {s:'orgr', f:'Elementos de un organigrama', b:'Nombre del departamento, puesto de trabajo/cargo, nombre del trabajador, relaciones jerárquicas y flujos de comunicación/información.'},
+    {s:'orgr', f:'Organigrama vertical, horizontal y circular', b:'Vertical: de arriba hacia abajo. Horizontal: de izquierda a derecha. Circular: círculos concéntricos.'},
+    {s:'orgr', f:'Organización jerárquica', b:'La autoridad se centraliza en el cargo superior. Comunicación descendente y desde una línea directa.'},
+    {s:'orgr', f:'Organización funcional', b:'La autoridad se reparte entre representantes especializados. La comunicación va en varias direcciones.'},
+    {s:'ac', f:'Atención al cliente', b:'Conjunto de actuaciones con las que la empresa gestiona la relación con clientes actuales o potenciales (antes, durante o después de la compra). Finalidad: máxima satisfacción del cliente.'},
+    {s:'ac', f:'Tres funciones principales del departamento de atención al cliente', b:'1) Atender solicitudes, sugerencias y reclamaciones. 2) Obtener y gestionar información de la relación con clientes (previsión de ventas). 3) Resolver incidencias posventa.'},
+    {s:'ac', f:'Seguimiento posventa', b:'Control de garantías, facilitar la devolución y seguir casos de reparación y sustitución.'},
+    {s:'ac', f:'Atención de incidencias', b:'Atender y analizar reclamaciones, solucionar quejas y recoger sugerencias y felicitaciones.'},
+    {s:'ac', f:'¿Dónde tiene gran importancia el departamento de atención al cliente?', b:'Empresas cercanas al consumidor, empresas grandes y empresas comercializadoras de servicios.'},
+    {s:'img', f:'Imagen corporativa (fórmula)', b:'Actitud + identidad visual. Es la actitud que muestra la empresa conforme a los valores que pretende representar.'},
+    {s:'img', f:'Identidad corporativa', b:'Conjunto de instrumentos formales mediante los que una empresa se identifica públicamente.'},
+    {s:'img', f:'Imagen corporativa (percepción)', b:'Conjunto de percepciones que tienen sobre la empresa los diversos grupos de interés con los que se relaciona.'},
+    {s:'img', f:'Elementos de la identidad corporativa', b:'Marca, nombre comercial e identidad visual corporativa (logotipo, tipografía y colores corporativos).'},
+    {s:'crm', f:'Call center', b:'Herramienta de comunicación y relación que utiliza el teléfono como medio básico, gestionada por personas, para atender necesidades y dar un servicio único y diferente para atraer y fidelizar.'},
+    {s:'crm', f:'Call center: ahorro de…', b:'Coste del negocio, tiempo de llamada, tiempo de espera, personal y tiempo de aprendizaje.'},
+    {s:'crm', f:'Call center: incremento de…', b:'Productividad de los agentes, satisfacción de los clientes, retención de clientes, calidad del servicio y posición competitiva.'},
+    {s:'crm', f:'CRM', b:'Software específico para la gestión de la relación con los clientes, para sacar el máximo partido de sus datos.'},
+    {s:'crm', f:'Ventajas del CRM', b:'Actualización y centralización de datos de clientes (histórico, preferencias), gestión de clientes potenciales y venta cruzada.'},
+    {s:'crm', f:'Venta cruzada', b:'Venta de productos complementarios.'}
+  ];
+
+  QZ_SETS.vt.cards = [
+    {s:'prod', f:'Producto industrial', b:'Bien o servicio comprado por una empresa para fabricar otros bienes, prestar un servicio, revenderlo o usarlo en sus operaciones internas.'},
+    {s:'prod', f:'Materias primas', b:'Salen de la naturaleza casi tal cual (madera, minerales, carbón).'},
+    {s:'prod', f:'Materiales procesados', b:'Materias primas ya transformadas (harina, cemento, plástico, acero).'},
+    {s:'prod', f:'Componentes', b:'Bienes intermedios o piezas semielaboradas que van dentro de otro producto (motores, resistencias).'},
+    {s:'prod', f:'Equipos de capital', b:'Bienes duraderos que sirven para fabricar productos y ofrecer servicios (maquinaria).'},
+    {s:'prod', f:'Suministros y consumibles', b:'Uso diario, se consumen rápidamente y no entran en el producto (papel, limpieza, EPIs).'},
+    {s:'prod', f:'Servicios industriales', b:'Servicios necesarios para la empresa prestados por terceros (mantenimiento, asesoría, seguros).'},
+    {s:'prod', f:'Demanda derivada', b:'El mercado industrial depende directamente del consumo final.'},
+    {s:'prod', f:'Características del mercado industrial', b:'Demanda derivada, altos volúmenes, procesos de compra complejos, decisión por criterios técnicos y fidelización a largo plazo.'},
+    {s:'atr', f:'Atributos intrínsecos', b:'Composición, calidad (grado en que cumple su función) y diseño (estética, ergonomía, innovación, personalización).'},
+    {s:'atr', f:'Envase', b:'Primera capa, en contacto directo con el producto. Contiene, protege y presenta. Es un «vendedor silencioso».'},
+    {s:'atr', f:'Embalaje', b:'Capa externa que protege el producto cuando se traslada o en el almacén (caja, palé).'},
+    {s:'atr', f:'Etiquetado', b:'Proporciona información esencial y garantiza el cumplimiento legal.'},
+    {s:'atr', f:'Garantía legal', b:'Obligatoria según cada país (3 años en los apuntes).'},
+    {s:'atr', f:'Garantía comercial', b:'Adicional y voluntaria por parte de la empresa.'},
+    {s:'atr', f:'Garantía de satisfacción', b:'Si el cliente no está contento, se le devuelve el dinero en un plazo.'},
+    {s:'atr', f:'Garantía extendida', b:'Opcional: el cliente paga para ampliar la cobertura.'},
+    {s:'atr', f:'Servicio preventa y posventa', b:'Preventa: demostración, resolución de dudas, asistencia técnica. Posventa: mantenimiento, reparaciones, repuestos, formación.'},
+    {s:'atr', f:'Certificación', b:'Un organismo independiente acreditado verifica que el producto cumple normas o estándares (ej.: ISO).'},
+    {s:'cli', f:'Cliente industrial fabricante', b:'Compra para transformar lo que adquiere en un producto semielaborado o terminado.'},
+    {s:'cli', f:'Cliente industrial usuario', b:'Utiliza los productos para el desarrollo de su actividad empresarial, sin transformarlos.'},
+    {s:'cli', f:'Cliente industrial intermediario', b:'Compraventa: revende, distribuye o instala. Puede etiquetar, envasar o personalizar.'},
+    {s:'cli', f:'Fuentes de información de clientes industriales', b:'Bases de datos industriales, plataformas B2B, ferias y exposiciones, redes sociales y foros, información interna e investigación de mercado.'},
+    {s:'tec', f:'Venta consultiva', b:'Se hacen preguntas para entender las necesidades concretas y proponer una solución personalizada.'},
+    {s:'tec', f:'Venta técnica', b:'Explicaciones detalladas, aspectos técnicos, simulaciones y demostraciones.'},
+    {s:'tec', f:'Venta basada en beneficios y valor', b:'Enfatiza de forma cuantificable los beneficios y el valor que aporta el producto.'},
+    {s:'tec', f:'Venta relacional', b:'Crea y mantiene relaciones a largo plazo con los clientes (fidelización).'},
+    {s:'tec', f:'Cross-selling y up-selling', b:'Cross-selling: producto adicional o complementario. Up-selling: versión superior o de mayor valor del mismo producto.'},
+    {s:'arg', f:'Argumentario de ventas', b:'Documento que prepara el discurso del vendedor: características, beneficios, mensajes clave y respuestas a objeciones. Flexible, no un guion rígido.'},
+    {s:'arg', f:'Argumentario: antes, durante y después', b:'Antes: conseguir una sesión. Durante: dar a conocer el producto, resolver dudas y cerrar acuerdos. Después: seguimiento.'},
+    {s:'ofe', f:'Propuesta de oferta comercial', b:'Documento o presentación formal que detalla una oferta concreta a un cliente que ha pedido información.'},
+    {s:'ofe', f:'Los 4 apartados de la oferta («Qué, Para ti, Cuánto, Por qué yo»)', b:'Descripción técnica, adaptación a las necesidades, condiciones comerciales y valorización del producto.'},
+    {s:'int', f:'Agente comercial', b:'Profesional autónomo que negocia y cierra ventas en una zona a cambio de una comisión. Flexible y rentable; menos control y posible conflicto de intereses.'},
+    {s:'int', f:'Aseguradora', b:'Da cobertura económica ante daños a cambio de una prima. Póliza = contrato; siniestro = daño.'},
+    {s:'int', f:'Entidad financiera: servicios', b:'Financiación y crédito (préstamos, leasing, hipotecas), gestión de cobros y pagos (cuentas, tarjetas) y asesoramiento y análisis financiero.'}
+  ];
+
+  // ---------- Copia de seguridad (exportar / importar progreso) ----------
+  function lbExport(){
+    var data = {app:'estudiar', v:1, saved:new Date().toISOString(), keys:{}};
+    try {
+      for(var i=0;i<localStorage.length;i++){
+        var k = localStorage.key(i);
+        if(k && k.indexOf('lt_') === 0) data.keys[k] = localStorage.getItem(k);
+      }
+    } catch(e){}
+    var blob = new Blob([JSON.stringify(data)], {type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'progreso-estudiar-' + dayKey(new Date()) + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    stToast('💾 Copia de seguridad descargada');
+  }
+  function lbImport(input){
+    var f = input.files && input.files[0];
+    if(!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){
+      try {
+        var data = JSON.parse(rd.result);
+        if(!data || data.app !== 'estudiar' || !data.keys) throw new Error('formato');
+        if(!confirm('Esto reemplazará tu progreso actual por el de la copia. ¿Continuar?')) return;
+        Object.keys(data.keys).forEach(function(k){ if(k.indexOf('lt_') === 0) localStorage.setItem(k, data.keys[k]); });
+        location.reload();
+      } catch(e){ alert('El archivo no es una copia de seguridad válida.'); }
+    };
+    rd.readAsText(f);
   }
 
   // ===================== DPV DATA =====================
