@@ -780,6 +780,107 @@
   .merc-table th { color: var(--gray-400); font-weight: 600; text-transform: uppercase; font-size: 9.5px; letter-spacing: 0.04em; }
   .merc-table td { color: var(--gray-800); }
   .merc-table tr.total-row td { font-weight: 700; border-top: 2px solid var(--gray-800); border-bottom: none; }
+
+  /* ===== Pantalla principal más compacta ===== */
+  .subject-card { padding: 16px 40px 16px 18px; margin-bottom: 12px; }
+  .subject-card .subject-tags { display: none; }
+  .subject-card .subject-header { margin-bottom: 8px; }
+  .subject-card .subject-desc {
+    margin-bottom: 0;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .menu-card { padding-right: 16px; }
+
+  /* ===== Botón de tema ===== */
+  .theme-btn {
+    margin-left: auto; margin-right: 8px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--gray-100); border: 1px solid var(--gray-200);
+    color: var(--gray-600); font-size: 17px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .theme-btn:hover { border-color: var(--gray-400); }
+
+  /* ===== Animaciones ===== */
+  @keyframes cardFlip { from { transform: perspective(700px) rotateY(88deg); opacity: .4; } to { transform: perspective(700px) rotateY(0); opacity: 1; } }
+  .card-flip { animation: cardFlip .35s ease-out; }
+  @keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0); opacity: 1; } 100% { transform: translateY(105vh) rotate(720deg); opacity: .9; } }
+  .confetti-bit { position: fixed; top: -10px; width: 9px; height: 14px; z-index: 500; pointer-events: none; animation: confettiFall 2.4s ease-in forwards; border-radius: 2px; }
+  .sac-opt.sel-exam { border-color: #2563EB; background: var(--blue-light); }
+
+  /* ===== Modo oscuro ===== */
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --blue-light: #172554; --blue-mid: #1E40AF; --blue-dark: #93C5FD;
+    --green-light: #052E16; --green-mid: #166534;
+    --amber-light: #451A03;
+    --red-light: #450A0A; --red-mid: #7F1D1D;
+    --purple-light: #2E1065; --purple-mid: #5B21B6;
+    --orange-light: #431407;
+    --gray-50: #0F172A; --gray-100: #1E293B; --gray-200: #334155;
+    --gray-400: #94A3B8; --gray-600: #CBD5E1; --gray-800: #F1F5F9;
+    --white: #1E293B;
+    --shadow: 0 1px 3px rgba(0,0,0,.5);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.5);
+  }
+  [data-theme="dark"] body { background: #0F172A; }
+  [data-theme="dark"] .ok-sub { color: #86EFAC; }
+  [data-theme="dark"] .ko-sub { color: #FCA5A5; }
+  [data-theme="dark"] .ok-head { color: #4ADE80; }
+  [data-theme="dark"] .ko-head { color: #F87171; }
+  [data-theme="dark"] .question-box,
+  [data-theme="dark"] .sac-expl { color: #BFDBFE; }
+  [data-theme="dark"] .sac-box { background: rgba(190,24,93,.18); border-color: rgba(244,114,182,.35); color: #FBCFE8; }
+  [data-theme="dark"] .sac-acc-body h4 { color: #F9A8D4; }
+  [data-theme="dark"] .subject-card.dpv .subject-icon,
+  [data-theme="dark"] .subject-card.mkt .subject-icon,
+  [data-theme="dark"] .subject-card.tal .subject-icon,
+  [data-theme="dark"] .subject-card.sac .subject-icon,
+  [data-theme="dark"] .subject-card.vt .subject-icon { background: rgba(148,163,184,.16); }
+  [data-theme="dark"] .subject-card.dpv { border-color: #1E40AF; }
+  [data-theme="dark"] .subject-card.mkt { border-color: #5B21B6; }
+  [data-theme="dark"] .subject-card.tal { border-color: #155E75; }
+  [data-theme="dark"] .subject-card.sac { border-color: #9D174D; }
+  [data-theme="dark"] .subject-card.vt { border-color: #047857; }
+  [data-theme="dark"] .pill-dpv, [data-theme="dark"] .pill-mkt, [data-theme="dark"] .pill-tal,
+  [data-theme="dark"] .pill-sac, [data-theme="dark"] .pill-vt { background: rgba(148,163,184,.16); border-color: rgba(148,163,184,.3); }
+  [data-theme="dark"] .t1, [data-theme="dark"] .t2, [data-theme="dark"] .t3,
+  [data-theme="dark"] .t4, [data-theme="dark"] .t5, [data-theme="dark"] .t6 { background: rgba(148,163,184,.14); }
+  /* estilos en línea (ventanas emergentes, iconos de menú, etc.) */
+  [data-theme="dark"] [style*="background:#fff"],
+  [data-theme="dark"] [style*="background: #fff"],
+  [data-theme="dark"] [style*="background:#FFF"] { background: #1E293B !important; }
+  [data-theme="dark"] [style*="background:#F8FAFC"] { background: #0F172A !important; }
+  [data-theme="dark"] [style*="background:#F3E8FF"],
+  [data-theme="dark"] [style*="background:#FFF7ED"],
+  [data-theme="dark"] [style*="background:#FDF2F8"],
+  [data-theme="dark"] [style*="background:#ECFEFF"],
+  [data-theme="dark"] [style*="background:#ECFDF5"],
+  [data-theme="dark"] [style*="background:#FEF2F2"],
+  [data-theme="dark"] [style*="background:#F5F3FF"],
+  [data-theme="dark"] [style*="background:#EFF6FF"] { background: rgba(148,163,184,.16) !important; }
+  [data-theme="dark"] [style*="color:#1E293B"] { color: #F1F5F9 !important; }
+  [data-theme="dark"] [style*="color:#475569"],
+  [data-theme="dark"] [style*="color:#64748B"] { color: #CBD5E1 !important; }
+  [data-theme="dark"] [style*="border-bottom:1px solid #E2E8F0"],
+  [data-theme="dark"] [style*="border-bottom:1px solid #F1F5F9"] { border-bottom-color: #334155 !important; }
+  [data-theme="dark"] [style*="border:1px solid #E2E8F0"],
+  [data-theme="dark"] [style*="border-top:1px solid #E2E8F0"] { border-color: #334155 !important; }
+  [data-theme="dark"] #pdfContainer { background: #fff; }
+  [data-theme="dark"] .sac-opt { color: var(--gray-800); }
+  [data-theme="dark"] textarea, [data-theme="dark"] input[type="search"] { background: #0F172A; color: #F1F5F9; }
+  [data-theme="dark"] .menu-icon.ic1, [data-theme="dark"] .menu-icon.ic2, [data-theme="dark"] .menu-icon.ic3,
+  [data-theme="dark"] .menu-icon.ic4, [data-theme="dark"] .menu-icon.ic5, [data-theme="dark"] .menu-icon.ic6 { background: rgba(148,163,184,.16); }
+  [data-theme="dark"] #streakDays { background: rgba(37,99,235,.25) !important; color: #93C5FD !important; }
+
+  /* ===== Cabecera sin saltos de línea ===== */
+  .logo { white-space: nowrap; font-size: 15px; }
+  .streak { padding: 5px 10px; flex-shrink: 0; }
+  #streakDays { white-space: nowrap; }
+  @media (max-width: 400px) {
+    .streak-lbl { display: none; }
+    .header { padding: 12px 12px; }
+  }
 </style>
 </head>
 <body>
@@ -787,6 +888,7 @@
 
   <div class="header">
     <div class="logo"><i class="ri-bolt-line"></i> <span>Rita</span> Botella Pomata</div>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Cambiar tema" aria-label="Cambiar tema"><i class="ri-moon-line"></i></button>
     <div class="streak" onclick="openStreak()" style="cursor:pointer;" title="Ver estadísticas de racha">
       <span class="streak-icon"><i class="ri-fire-fill"></i></span>
       <span class="streak-n" id="streakN">0</span>
@@ -1051,6 +1153,7 @@
       <p class="menu-title" id="qzTitle">Unidad 1: La actividad comercial</p>
       <p class="menu-sub">Estudia los apuntes y ponte a prueba con preguntas tipo test difíciles.</p>
 
+      <div class="curso-label" style="margin-top:18px;">Aprender</div>
       <div class="menu-card" onclick="sacShow('notes')">
         <div class="menu-icon" id="qzNotesIcon" style="background:#FDF2F8;"><i class="ri-book-open-line ri-lg" style="color:#BE185D;"></i></div>
         <div>
@@ -1065,27 +1168,7 @@
           <div class="menu-card-desc">Definiciones cortas para repasar rápido: toca para girar la tarjeta.</div>
         </div>
       </div>
-      <div class="menu-card" onclick="sacStart('exam')">
-        <div class="menu-icon" style="background:#FEF2F2;"><i class="ri-timer-line ri-lg" style="color:#DC2626;"></i></div>
-        <div>
-          <div class="menu-card-title">Modo examen</div>
-          <div class="menu-card-desc">30 preguntas con tiempo límite y sin ver las soluciones hasta el final. Nota sobre 10.</div>
-        </div>
-      </div>
-      <div class="menu-card" onclick="sacStart('wrong')">
-        <div class="menu-icon" style="background:#FEF2F2;"><i class="ri-refresh-line ri-lg" style="color:#DC2626;"></i></div>
-        <div>
-          <div class="menu-card-title">Repasar mis falladas</div>
-          <div class="menu-card-desc"><span id="sacWrongCount">0</span> preguntas pendientes de repasar. Se quitan al acertarlas.</div>
-        </div>
-      </div>
-      <div class="menu-card" onclick="sacShow('stats')">
-        <div class="menu-icon ic2"><i class="ri-bar-chart-2-line ri-lg"></i></div>
-        <div>
-          <div class="menu-card-title">Mis estadísticas</div>
-          <div class="menu-card-desc">Tu porcentaje de acierto por apartado para saber qué repasar.</div>
-        </div>
-      </div>
+      <div class="curso-label" style="margin-top:18px;">Practicar</div>
       <div class="menu-card" onclick="sacShow('pick')">
         <div class="menu-icon ic1"><i class="ri-question-line ri-lg"></i></div>
         <div>
@@ -1112,6 +1195,28 @@
         <div>
           <div class="menu-card-title">Preguntas de desarrollo</div>
           <div class="menu-card-desc"><span id="sacDevCount">0</span> preguntas para escribir tu respuesta y compararla con la respuesta modelo.</div>
+        </div>
+      </div>
+      <div class="curso-label" style="margin-top:18px;">Evaluarte</div>
+      <div class="menu-card" onclick="sacStart('exam')">
+        <div class="menu-icon" style="background:#FEF2F2;"><i class="ri-timer-line ri-lg" style="color:#DC2626;"></i></div>
+        <div>
+          <div class="menu-card-title">Modo examen</div>
+          <div class="menu-card-desc">30 preguntas con tiempo límite y sin ver las soluciones hasta el final. Nota sobre 10.</div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="sacStart('wrong')">
+        <div class="menu-icon" style="background:#FEF2F2;"><i class="ri-refresh-line ri-lg" style="color:#DC2626;"></i></div>
+        <div>
+          <div class="menu-card-title">Repasar mis falladas</div>
+          <div class="menu-card-desc"><span id="sacWrongCount">0</span> preguntas pendientes de repasar. Se quitan al acertarlas.</div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="sacShow('stats')">
+        <div class="menu-icon ic2"><i class="ri-bar-chart-2-line ri-lg"></i></div>
+        <div>
+          <div class="menu-card-title">Mis estadísticas</div>
+          <div class="menu-card-desc">Tu porcentaje de acierto por apartado para saber qué repasar.</div>
         </div>
       </div>
     </div>
@@ -1273,6 +1378,39 @@
   var currentSubject = 'dpv'; // 'dpv' or 'mkt'
   var mode = 0;
   var current = null, qIdx = 0;
+
+  // ===================== TEMA (claro / oscuro) =====================
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme', t);
+    var b = document.getElementById('themeBtn');
+    if(b) b.innerHTML = t === 'dark' ? '<i class="ri-sun-line"></i>' : '<i class="ri-moon-line"></i>';
+  }
+  function toggleTheme(){
+    var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(t);
+    try { localStorage.setItem('lt_theme', t); } catch(e) {}
+  }
+  (function(){
+    var t = null;
+    try { t = localStorage.getItem('lt_theme'); } catch(e) {}
+    if(!t) t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    applyTheme(t);
+  })();
+
+  // ===================== CONFETI =====================
+  function confettiBurst(){
+    var colors = ['#2563EB','#16A34A','#F97316','#BE185D','#7C3AED','#FACC15'];
+    for(var i=0;i<46;i++){
+      var c = document.createElement('div');
+      c.className = 'confetti-bit';
+      c.style.left = (Math.random()*100) + 'vw';
+      c.style.background = colors[i % colors.length];
+      c.style.animationDelay = (Math.random()*0.5) + 's';
+      c.style.animationDuration = (1.8 + Math.random()*1.4) + 's';
+      document.body.appendChild(c);
+      (function(el){ setTimeout(function(){ el.remove(); }, 3600); })(c);
+    }
+  }
 
   // ===================== RACHA =====================
   // cur: aciertos seguidos · best: mejor racha · days: días seguidos estudiando
@@ -1928,6 +2066,7 @@
     var map = {menu:'sacMenu', notes:'sacNotes', pick:'sacPick', quiz:'sacQuiz', result:'sacResult', cards:'sacCards', stats:'sacStats'};
     Object.keys(map).forEach(function(k){ document.getElementById(map[k]).classList.remove('active'); });
     document.getElementById(map[v]).classList.add('active');
+    document.body.classList.toggle('footer-hidden', v === 'quiz');
     if(v!=='quiz'){ document.getElementById('sacNextBtn').style.display = 'none'; }
     if(v==='menu' || v==='notes' || v==='pick' || v==='cards' || v==='stats' || v==='result'){ if(v!=='result') sacClearTimer(); }
     if(v==='notes'){ var si = document.getElementById('sacSearch'); if(si) si.value = ''; sacRenderNotes(); sacSearch(''); }
@@ -2054,6 +2193,7 @@
     var q = sacQuiz.pool[sacQuiz.i];
     sacQuiz.answered = false;
     document.getElementById('sacBarFill').style.width = (sacQuiz.i/sacQuiz.pool.length*100)+'%';
+    document.getElementById('sacQBadge').className = 'type-badge ' + (sacQuiz.exam ? 't6' : q.dev ? 't3' : q.vf ? 't2' : 't1');
     document.getElementById('sacQBadge').textContent = (sacQuiz.exam?'Examen':q.dev?'Desarrollo':q.vf?'Verdadero / Falso':'Test')+' '+(sacQuiz.i+1)+'/'+sacQuiz.pool.length+' · '+qz.sections[q.s].n;
     document.getElementById('sacQText').textContent = q.q;
     document.getElementById('sacExpl').innerHTML = '';
@@ -2188,6 +2328,7 @@
       });
     }
     sacShow('result');
+    if(pct >= 80 && n >= 5) confettiBurst();
   }
 
   // ---------- Estadísticas por apartado ----------
@@ -2262,12 +2403,17 @@
       btns.innerHTML = '<button class="sac-opt" onclick="sacCardGrade(true)"><span class="l">✓</span><span>Ya la sé</span></button><button class="sac-opt" onclick="sacCardGrade(false)"><span class="l">↻</span><span>Repasar otra vez</span></button>';
     }
   }
-  function sacCardFlip(){ if(!sacDeck.cards.length) return; sacDeck.flipped = !sacDeck.flipped; sacCardRender(); }
+  function sacCardAnim(){
+    var box = document.getElementById('sacCardBox');
+    box.classList.remove('card-flip'); void box.offsetWidth; box.classList.add('card-flip');
+  }
+  function sacCardFlip(){ if(!sacDeck.cards.length) return; sacDeck.flipped = !sacDeck.flipped; sacCardRender(); sacCardAnim(); }
   function sacCardGrade(known){
     var c = sacDeck.cards.shift();
     if(!known){ var pos = Math.min(sacDeck.cards.length, 4); sacDeck.cards.splice(pos, 0, c); }
     sacDeck.flipped = false;
     sacCardRender();
+    sacCardAnim();
   }
 
   QZ_SETS.sac.cards = [
