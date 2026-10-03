@@ -787,10 +787,11 @@
 
   <div class="header">
     <div class="logo"><i class="ri-bolt-line"></i> <span>Rita</span> Botella Pomata</div>
-    <div class="streak">
+    <div class="streak" onclick="openStreak()" style="cursor:pointer;" title="Ver estadísticas de racha">
       <span class="streak-icon"><i class="ri-fire-fill"></i></span>
       <span class="streak-n" id="streakN">0</span>
       <span class="streak-lbl">racha</span>
+      <span id="streakDays" style="display:none;font-size:11px;font-weight:700;color:#2563EB;background:#EFF6FF;border-radius:10px;padding:2px 7px;margin-left:2px;"></span>
     </div>
   </div>
 
@@ -853,7 +854,8 @@
       </div>
       <i class="ri-arrow-right-s-line subject-arrow"></i>
     </div>
-      <div class="archive-toggle" onclick="this.parentNode.classList.toggle('open')"><i class="ri-archive-line"></i> Asignaturas archivadas <span class="archive-n">Primer curso</span><i class="ri-arrow-down-s-line chev"></i></div>
+
+    <div class="archive-toggle" onclick="this.parentNode.classList.toggle('open')"><i class="ri-archive-line"></i> Asignaturas archivadas <span class="archive-n">Primer curso</span><i class="ri-arrow-down-s-line chev"></i></div>
     <div class="archive-body">
 
     <div class="subject-card dpv" onclick="goSubject('dpv')">
@@ -1067,7 +1069,21 @@
         <div class="menu-icon ic4"><i class="ri-shuffle-line ri-lg"></i></div>
         <div>
           <div class="menu-card-title">Test completo aleatorio</div>
-          <div class="menu-card-desc">Todas las preguntas mezcladas, con las opciones en orden aleatorio. ¡Simulacro de examen!</div>
+          <div class="menu-card-desc">Preguntas de opción múltiple y verdadero/falso mezcladas. ¡Simulacro de examen!</div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="sacStart('vf')">
+        <div class="menu-icon ic2"><i class="ri-checkbox-circle-line ri-lg"></i></div>
+        <div>
+          <div class="menu-card-title">Verdadero o falso</div>
+          <div class="menu-card-desc"><span id="sacVfCount">0</span> afirmaciones para decidir si son ciertas. Cuidado con los matices.</div>
+        </div>
+      </div>
+      <div class="menu-card" onclick="sacStart('dev')">
+        <div class="menu-icon ic3"><i class="ri-edit-box-line ri-lg"></i></div>
+        <div>
+          <div class="menu-card-title">Preguntas de desarrollo</div>
+          <div class="menu-card-desc"><span id="sacDevCount">0</span> preguntas para escribir tu respuesta y compararla con la respuesta modelo.</div>
         </div>
       </div>
     </div>
@@ -1206,9 +1222,96 @@
 <script>
   // ===================== GLOBAL STATE =====================
   var currentSubject = 'dpv'; // 'dpv' or 'mkt'
-  var mode = 0, streak = parseInt(localStorage.getItem('lt_streak')) || 0;
+  var mode = 0;
   var current = null, qIdx = 0;
-  document.getElementById('streakN').textContent = streak;
+
+  // ===================== RACHA =====================
+  // cur: aciertos seguidos · best: mejor racha · days: días seguidos estudiando
+  var STREAK_MILESTONES = [3, 5, 10, 15, 25, 50, 100];
+  function dayKey(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  function stLoad(){
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem('lt_stats')); } catch(e) {}
+    if(!s){
+      var old = 0;
+      try { old = parseInt(localStorage.getItem('lt_streak')) || 0; } catch(e) {}
+      s = {cur:old, best:old, days:0, last:'', todayKey:'', todayOk:0, todayKo:0, totalOk:0, totalKo:0};
+    }
+    // si pasó más de un día sin estudiar, la racha de días se pierde
+    if(s.last){
+      var y = new Date(); y.setDate(y.getDate()-1);
+      if(s.last !== dayKey(new Date()) && s.last !== dayKey(y)) s.days = 0;
+    }
+    if(s.todayKey !== dayKey(new Date())){ s.todayKey = dayKey(new Date()); s.todayOk = 0; s.todayKo = 0; }
+    return s;
+  }
+  var stats = stLoad();
+  var streak = stats.cur;
+  function stSave(){ try { localStorage.setItem('lt_stats', JSON.stringify(stats)); localStorage.setItem('lt_streak', stats.cur); } catch(e) {} }
+  function stRender(){
+    streak = stats.cur;
+    document.getElementById('streakN').textContent = stats.cur;
+    var d = document.getElementById('streakDays');
+    if(d){ d.textContent = stats.days > 0 ? stats.days+' d' : ''; d.style.display = stats.days > 0 ? '' : 'none'; }
+  }
+  function stToast(msg){
+    var t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;top:14px;left:50%;transform:translateX(-50%);background:#1E293B;color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;font-weight:600;z-index:400;box-shadow:0 4px 16px rgba(0,0,0,.25);animation:fadeIn .25s ease-out;';
+    document.body.appendChild(t);
+    setTimeout(function(){ t.style.transition='opacity .4s'; t.style.opacity='0'; setTimeout(function(){ t.remove(); }, 400); }, 2200);
+  }
+  // Se llama con cada respuesta (ejercicios de cálculo y tests).
+  function streakRecord(ok){
+    var now = new Date(), today = dayKey(now);
+    if(stats.last !== today){
+      var y = new Date(); y.setDate(y.getDate()-1);
+      stats.days = (stats.last === dayKey(y)) ? stats.days + 1 : 1;
+      stats.last = today;
+      if(stats.days > 1) stToast('📅 ¡'+stats.days+' días seguidos estudiando!');
+    }
+    if(stats.todayKey !== today){ stats.todayKey = today; stats.todayOk = 0; stats.todayKo = 0; }
+    if(ok){
+      stats.cur++; stats.todayOk++; stats.totalOk++;
+      if(stats.cur > stats.best){
+        var wasRecord = stats.best > 0;
+        stats.best = stats.cur;
+        if(wasRecord && stats.cur > 3) stToast('🏆 ¡Nuevo récord: '+stats.cur+' seguidas!');
+      } else if(STREAK_MILESTONES.indexOf(stats.cur) !== -1){
+        stToast('🔥 ¡Racha de '+stats.cur+'!');
+      }
+      fireBurst();
+    } else {
+      stats.cur = 0; stats.todayKo++; stats.totalKo++;
+    }
+    stSave(); stRender();
+  }
+  function openStreak(){
+    var old = document.getElementById('streakModalWrap'); if(old) old.remove();
+    var tot = stats.totalOk + stats.totalKo, pct = tot ? Math.round(stats.totalOk/tot*100) : 0;
+    var w = document.createElement('div');
+    w.id = 'streakModalWrap';
+    w.style.cssText = 'position:fixed;inset:0;z-index:300;background:rgba(15,23,42,.45);display:flex;align-items:flex-end;justify-content:center;';
+    w.onclick = function(e){ if(e.target === w) w.remove(); };
+    function cell(n, l, c){ return '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px;text-align:center;"><div style="font-size:24px;font-weight:700;color:'+c+';">'+n+'</div><div style="font-size:11px;color:#64748B;font-weight:600;margin-top:2px;">'+l+'</div></div>'; }
+    var next = 0; for(var i=0;i<STREAK_MILESTONES.length;i++){ if(STREAK_MILESTONES[i] > stats.cur){ next = STREAK_MILESTONES[i]; break; } }
+    var prog = next ? '<div style="margin-top:14px;font-size:12px;color:#475569;font-weight:600;">Siguiente hito: '+next+' seguidas ('+(next-stats.cur)+' más)</div><div style="height:8px;background:#E2E8F0;border-radius:4px;margin-top:6px;overflow:hidden;"><div style="height:100%;width:'+Math.round(stats.cur/next*100)+'%;background:#F97316;"></div></div>' : '<div style="margin-top:14px;font-size:12px;color:#16A34A;font-weight:700;">¡Has superado todos los hitos! 🎉</div>';
+    var h = '<div style="background:#fff;width:100%;max-width:440px;border-radius:20px 20px 0 0;padding:20px 20px 28px;animation:modalSlideUp .25s ease-out;">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div style="font-size:16px;font-weight:700;color:#1E293B;">🔥 Tu racha</div><button onclick="document.getElementById(\'streakModalWrap\').remove()" style="background:none;border:none;font-size:22px;color:#94A3B8;cursor:pointer;line-height:1;">×</button></div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">'+
+      cell(stats.cur, 'Aciertos seguidos', '#F97316')+
+      cell(stats.best, 'Mejor racha', '#D97706')+
+      cell(stats.days, 'Días seguidos', '#2563EB')+
+      cell(pct+'%', 'Acierto total ('+tot+')', '#16A34A')+
+      '</div>'+
+      '<div style="margin-top:12px;font-size:13px;color:#475569;">Hoy: <b style="color:#16A34A;">'+stats.todayOk+' aciertos</b> · <b style="color:#DC2626;">'+stats.todayKo+' fallos</b></div>'+
+      prog+
+      '<div style="margin-top:14px;font-size:11px;color:#94A3B8;line-height:1.5;">Un fallo reinicia los aciertos seguidos. Los días seguidos se mantienen si estudias al menos una pregunta al día.</div>'+
+      '</div>';
+    w.innerHTML = h;
+    document.body.appendChild(w);
+  }
+  stRender();
   document.getElementById('ansInput').value = '';
 
   // ===================== SUBJECT NAVIGATION =====================
@@ -1382,6 +1485,47 @@
     {s:'crm', q:'Mantener el histórico y las preferencias de cada cliente en una base única y actualizada es una ventaja de…', o:['Un CRM','Un organigrama vertical','Un canal de distribución largo','La organización informal'], e:'Actualización y centralización de datos de clientes (histórico, preferencias).'}
   ];
 
+  // ---- SAC: preguntas extra de nivel examen ----
+  SAC_QS.push(
+    {s:'emp', q:'¿Cuál de estas afirmaciones es FALSA?', o:['Las empresas extractivas pertenecen al sector secundario','Las empresas fabricantes pertenecen al sector secundario','Las empresas comerciales pertenecen al sector terciario','Las empresas de servicios pertenecen al sector terciario'], e:'Las extractivas pertenecen al sector primario: extraen materias primas de la naturaleza.'},
+    {s:'emp', q:'Una tienda de barrio compra a un mayorista y vende al público. ¿Qué tipo de empresa es y qué canal sigue su producto?', o:['Comercial; canal largo (fabricante → mayorista → minorista → consumidor)','Distribuidora; canal directo','Comercial; canal corto','Distribuidora; canal largo'], e:'Vende directamente al consumidor final (comercial, terciario). Como hay mayorista y minorista, el canal es largo.'},
+    {s:'emp', q:'Un fabricante vende a una cadena de tiendas, que vende al consumidor. ¿Qué canal es?', o:['Corto','Directo','Largo','Ninguno, falta el mayorista'], e:'Canal corto: Fabricante → Minoristas → Consumidor. El mayorista solo aparece en el largo.'},
+    {s:'emp', q:'Un banco o una peluquería son ejemplos de empresa de servicios porque…', o:['No manejan stock material ni necesitan almacenaje ni transporte','Fabrican productos terminados','Extraen materias primas','Venden productos sin intermediarios'], e:'Las empresas de servicios no tienen stock material: no precisan almacenaje ni transporte.'},
+    {s:'emp', q:'¿Qué diferencia a una empresa DISTRIBUIDORA de una COMERCIAL?', o:['La distribuidora intermedia entre fabricante y comercios; la comercial vende directamente al consumidor final','La distribuidora fabrica y la comercial no','La distribuidora es del sector secundario y la comercial del terciario','No hay ninguna diferencia'], e:'Ambas son del sector terciario, pero la distribuidora intermedia y la comercial hace la venta directa al cliente final.'},
+    {s:'emp', q:'Una fundición compra mineral y fabrica lingotes de metal. ¿Qué tipo de empresa es?', o:['Fabricante (sector secundario)','Extractiva (sector primario)','Distribuidora (sector terciario)','De servicios (sector terciario)'], e:'Convierte materias primas en productos: fabricante, sector secundario.'},
+    {s:'org', q:'¿Cuál de estas características NO corresponde a la organización informal?', o:['Define los límites de responsabilidad, autoridad y área de actuación de cada trabajador','Surge de manera espontánea','Se basa en relaciones humanas','Crea canales informales de comunicación'], e:'Definir límites, responsabilidad y autoridad es propio de la organización formal.'},
+    {s:'org', q:'¿Qué pareja es CORRECTA?', o:['Informal – ámbito personal – relaciones humanas','Formal – ámbito personal – relaciones humanas','Informal – ámbito laboral – relaciones laborales','Formal – ámbito personal – relaciones laborales'], e:'Formal = ámbito laboral = relaciones laborales. Informal = ámbito personal = relaciones humanas.'},
+    {s:'org', q:'La organización informal influye en…', o:['La comunicación, la toma de decisiones y el control','Solo en el ocio de los trabajadores','Únicamente en las retribuciones','Nada, porque no está en el organigrama'], e:'Aunque no figure en el organigrama, influye en comunicación, toma de decisiones y control.'},
+    {s:'org', q:'El estudio de mercado y las estrategias de ventas son funciones del departamento de…', o:['Ventas / Comercialización','Compras / Aprovisionamiento','Producción','Administración'], e:'Ventas/Comercialización incluye estudio de mercado, estrategias, comisiones, publicidad y atención al cliente.'},
+    {s:'org', q:'Documentación, registros, contabilidad, informes y propuestas de objetivos son tareas de…', o:['Administración / Contabilidad','Financiación','Jurídico legal','RRHH'], e:'Administración/Contabilidad. Financiación se ocupa de inversión, cobros, pagos, cuentas bancarias, préstamos y deudores.'},
+    {s:'org', q:'La gestión de cobros, pagos, cuentas bancarias, préstamos y deudores corresponde al departamento de…', o:['Financiación','Administración / Contabilidad','RRHH','Compras'], e:'Es la función de Financiación (junto con inversión y financiación).'},
+    {s:'org', q:'Retribuciones, becas y ayudas, selección y formación de personal son tareas de…', o:['RRHH','Sanitario','Administración','Jurídico legal'], e:'RRHH: selección, contratación, formación, retribuciones, becas y ayudas.'},
+    {s:'org', q:'Fabricación, transformación y/o prestación de servicios son funciones del departamento de…', o:['Producción','Compras','Diseño','Ventas'], e:'Producción: fabricación, transformación y/o prestación de servicios.'},
+    {s:'org', q:'La organización empresarial se define como…', o:['La disposición de los recursos de la empresa para alcanzar los objetivos fijados','El conjunto de departamentos de la empresa','Las relaciones personales entre trabajadores','La suma de la organización formal y la informal'], e:'La última opción describe la organización real, no la definición de organización empresarial.'},
+    {s:'orgr', q:'Un organigrama dibujado con la Dirección a la izquierda y los demás niveles extendiéndose hacia la derecha es…', o:['Horizontal','Vertical','Circular','Funcional'], e:'Horizontal: de izquierda a derecha.'},
+    {s:'orgr', q:'¿Puede un mismo organigrama ser vertical y a la vez funcional?', o:['Sí, porque son dos clasificaciones distintas: forma del gráfico y líneas de autoridad','No, vertical implica siempre jerárquico','No, funcional solo se dibuja en círculos','Sí, pero solo si es horizontal'], e:'La forma (vertical/horizontal/circular) y las líneas de autoridad (jerárquica/funcional) son criterios independientes.'},
+    {s:'orgr', q:'¿Qué contienen los cuadros de un organigrama?', o:['Nombre del departamento, puestos de trabajo, nombre del responsable y cargo','Los flujos de comunicación','Los sueldos y turnos','Solo la jerarquía de la empresa'], e:'Los cuadros contienen nombre del dpto., puestos, responsable y cargo. Las líneas son los flujos de comunicación.'},
+    {s:'orgr', q:'En una organización FUNCIONAL, un trabajador puede recibir órdenes de…', o:['Varios representantes especializados, porque la autoridad se reparte','Un único jefe directo','Nadie, no hay autoridad','Solo del nivel inferior'], e:'En la funcional la autoridad se reparte entre especialistas y la comunicación va en varias direcciones.'},
+    {s:'orgr', q:'Cuál es la principal diferencia entre jerárquica y funcional respecto a la comunicación:', o:['Jerárquica: descendente por una línea directa; funcional: en varias direcciones','Jerárquica: en varias direcciones; funcional: descendente','Ambas son solo ascendentes','Ninguna tiene líneas de comunicación'], e:'Jerárquica: autoridad centralizada y comunicación descendente directa. Funcional: autoridad repartida y comunicación multidireccional.'},
+    {s:'ac', q:'Un cliente llama porque el aparato que compró hace 2 meses dejó de funcionar. ¿Qué función del departamento se activa?', o:['Seguimiento posventa (garantía, reparación o sustitución)','Información sobre servicios','Previsión de ventas','Recoger felicitaciones'], e:'Garantía, devolución, reparación o sustitución son seguimiento posventa.'},
+    {s:'ac', q:'Un cliente quiere felicitar a la empresa por su servicio. ¿A qué bloque pertenece atender esa comunicación?', o:['Atención de incidencias (sugerencias y felicitaciones)','Información','Seguimiento posventa','Relaciones entre departamentos'], e:'Atender y recoger sugerencias y felicitaciones está dentro de la atención de incidencias.'},
+    {s:'ac', q:'Un cliente pregunta cómo se tramita un pedido. Esa consulta pertenece al bloque…', o:['Información (informar sobre procedimientos)','Atención de incidencias','Seguimiento posventa','Garantías'], e:'Información: consultas, peticiones, comunicar servicios e informar sobre procedimientos.'},
+    {s:'ac', q:'¿Cuál de estas NO es función del departamento de atención al cliente?', o:['Fijar el precio de venta de los productos','Atender solicitudes, sugerencias y reclamaciones','Resolver incidencias posventa','Gestionar la información de la relación con clientes'], e:'Fijar precios no figura entre sus funciones.'},
+    {s:'ac', q:'El concepto de atención al cliente incluye a…', o:['Clientes actuales y potenciales','Solo clientes que ya han comprado','Solo clientes potenciales','Solo a los grandes clientes'], e:'Gestiona la relación con clientes actuales o potenciales, antes, durante o después de la compra.'},
+    {s:'ac', q:'La información que el departamento obtiene de la relación con los clientes sirve, entre otras cosas, para…', o:['Previsión de ventas','Calcular los costes de producción','Seleccionar proveedores','Diseñar productos nuevos'], e:'Es una de sus funciones principales: la información gestionada permite prever ventas.'},
+    {s:'ac', q:'Las reclamaciones y las quejas se diferencian de la garantía en que…', o:['Se tratan en la atención de incidencias, mientras que la garantía es seguimiento posventa','Son exactamente lo mismo','La garantía es del departamento de compras','Las quejas son del bloque de información'], e:'Reclamaciones y quejas → incidencias. Garantías, devoluciones y reparaciones → posventa.'},
+    {s:'img', q:'Una empresa cambia su logotipo y su tipografía. ¿Qué ha modificado directamente?', o:['Su identidad visual corporativa','Su imagen corporativa, que es solo percepción ajena','Su organización informal','Su canal de distribución'], e:'Logotipo, tipografía y colores forman la identidad visual. La imagen es lo que perciben los grupos de interés.'},
+    {s:'img', q:'Los clientes piensan que una empresa es poco fiable. Eso es un problema de…', o:['Imagen corporativa (percepciones)','Identidad corporativa (instrumentos formales)','Organización formal','CRM'], e:'La imagen corporativa es el conjunto de percepciones que tienen los grupos de interés.'},
+    {s:'img', q:'¿Cuál de las siguientes parejas es CORRECTA?', o:['Identidad corporativa – instrumentos formales con los que la empresa se identifica públicamente','Imagen corporativa – instrumentos formales de la empresa','Identidad corporativa – percepciones de los clientes','Imagen corporativa – solo el logotipo'], e:'Identidad = lo que la empresa emite con instrumentos formales. Imagen = percepciones de los grupos de interés.'},
+    {s:'img', q:'¿Cuál de estos elementos forma parte de la identidad visual corporativa?', o:['Colores corporativos','Nombre comercial','Marca','Previsión de ventas'], e:'La identidad visual: logotipo, tipografía y colores corporativos. Marca y nombre comercial son otros elementos de la identidad corporativa.'},
+    {s:'img', q:'Cuidar la imagen "online y offline" significa…', o:['Mantener una imagen de marca coherente en internet y en el mundo físico','Usar solo redes sociales','Evitar la atención presencial','Tener dos logotipos distintos'], e:'Entre los aspectos a cuidar: imagen de marca cuidada, tanto online como offline.'},
+    {s:'crm', q:'¿Cuál es la diferencia fundamental entre un call center y un CRM?', o:['El call center es una herramienta de atención por teléfono gestionada por personas; el CRM es un software de gestión de datos de clientes','Son lo mismo','El CRM usa el teléfono y el call center es software','El call center solo sirve para vender'], e:'Call center: teléfono + personas. CRM: software específico para gestionar la relación y los datos del cliente.'},
+    {s:'crm', q:'Al ver el histórico de compras de un cliente, un vendedor le ofrece un accesorio compatible. Es…', o:['Venta cruzada, facilitada por el CRM','Un ahorro de coste del call center','Una reclamación','Organización informal'], e:'Venta cruzada: venta de productos complementarios. El CRM centraliza el histórico y las preferencias.'},
+    {s:'crm', q:'Reducir el tiempo de espera de los clientes es, en un call center, un…', o:['Ahorro','Incremento','Coste fijo','Riesgo'], e:'Ahorro de: coste, tiempo de llamada, tiempo de espera, personal y aprendizaje.'},
+    {s:'crm', q:'Aumentar la retención de clientes y la posición competitiva es, en un call center, un…', o:['Incremento','Ahorro','Gasto','Inconveniente'], e:'Incremento de: productividad, satisfacción, retención, calidad y posición competitiva.'},
+    {s:'crm', q:'La gestión de clientes potenciales es una ventaja de…', o:['Un CRM','Un organigrama circular','El canal corto','La organización formal'], e:'Ventajas del CRM: centralización de datos, gestión de clientes potenciales y venta cruzada.'}
+  );
+
   // ===================== VT (Venta técnica) =====================
   var VT_SECTIONS = {
     prod: {n:'1. Productos y mercado industrial', i:'ri-building-4-line'},
@@ -1535,6 +1679,139 @@
     {s:'int', q:'Evaluar si un proyecto es viable y gestionar riesgos es…', o:['Asesoramiento y análisis financiero','Financiación y crédito','Gestión de cobros','Una póliza'], e:'Servicio de las entidades bancarias para mejorar la situación financiera.'}
   ];
 
+  // ---- VT: preguntas extra de nivel examen ----
+  VT_QS.push(
+    {s:'prod', q:'Una oficina compra ordenadores para sus empleados. Una persona compra el mismo modelo para jugar en casa. ¿Cuál es producto industrial?', o:['El de la oficina: lo compra una empresa para trabajar','El de la persona: lo usa para sí misma','Ambos, porque es el mismo producto','Ninguno, los ordenadores no son industriales'], e:'Lo que define si es industrial es quién lo compra y para qué: una empresa para su actividad.'},
+    {s:'prod', q:'Un EPI (casco, guantes de seguridad) comprado para los trabajadores de una fábrica es…', o:['Suministro y consumible','Equipo de capital','Componente','Material procesado'], e:'Se gasta con el uso diario y no entra en el producto final: suministro y consumible.'},
+    {s:'prod', q:'Una empresa constructora compra cemento. El cemento es…', o:['Material procesado','Materia prima','Equipo de capital','Servicio industrial'], e:'Es materia prima ya transformada: material procesado.'},
+    {s:'prod', q:'El carbón y los minerales son…', o:['Materias primas','Materiales procesados','Componentes','Suministros'], e:'Salen de la naturaleza casi sin transformar: materias primas.'},
+    {s:'prod', q:'Las resistencias eléctricas que se colocan dentro de un electrodoméstico son…', o:['Componentes','Equipos de capital','Suministros','Materias primas'], e:'Son piezas que van dentro de otro producto: componentes.'},
+    {s:'prod', q:'Una fábrica contrata a otra empresa para el mantenimiento de su maquinaria. Es…', o:['Servicio industrial','Equipo de capital','Suministro','Componente'], e:'Servicio prestado por un tercero necesario para la actividad: servicio industrial.'},
+    {s:'prod', q:'¿Cuál de estas afirmaciones sobre el mercado industrial es FALSA?', o:['La demanda es independiente del consumo final','La demanda es derivada','Los volúmenes de compra son altos','La decisión se basa en criterios técnicos'], e:'La demanda industrial es derivada: depende de lo que compra el consumidor final.'},
+    {s:'prod', q:'En el mercado industrial, ¿quién suele decidir la compra?', o:['Un grupo de personas (fabricación, gerencia, finanzas…)','Una sola persona por impulso','El consumidor final','Siempre el vendedor'], e:'En consumo decide una persona; en industrial, un grupo, y el proceso puede durar semanas o meses.'},
+    {s:'prod', q:'¿Cuál NO es un criterio técnico habitual de decisión de compra industrial?', o:['El estado de ánimo del comprador','La calidad','La eficiencia','La rentabilidad y el coste'], e:'Los criterios son técnicos: calidad, eficiencia, especificaciones, rentabilidad y coste.'},
+    {s:'atr', q:'La calidad de un producto industrial se define como…', o:['El grado en que cumple su función y las expectativas del cliente','Su aspecto estético','Su precio','El país de fabricación'], e:'Calidad = grado de cumplimiento de la función y de las expectativas.'},
+    {s:'atr', q:'¿Qué incluye el DISEÑO de un producto industrial según los apuntes?', o:['Estética, ergonomía, innovación y personalización','Solo estética','Solo el embalaje','Solo el logotipo'], e:'El diseño abarca estética, facilidad de manejo (ergonomía), innovación y personalización.'},
+    {s:'atr', q:'Una botella de vino es un ejemplo de…', o:['Envase (contacto directo con el producto)','Embalaje','Etiquetado','Garantía'], e:'El envase es la primera capa, en contacto directo. La caja de botellas o el palé son embalaje.'},
+    {s:'atr', q:'¿Qué atributo permite que un cliente identifique y confíe en un fabricante como Siemens?', o:['La marca','El embalaje','La composición','El etiquetado'], e:'La marca (nombre, logo, eslogan) es un indicador de confianza: atributo intangible.'},
+    {s:'atr', q:'La garantía LEGAL se caracteriza por…', o:['Ser obligatoria (en los apuntes, 3 años)','Ser voluntaria y gratuita','Pagarse aparte','Ser un reembolso en un plazo'], e:'Legal: obligatoria. Comercial: extra voluntaria. Satisfacción: reembolso. Extendida: se paga aparte.'},
+    {s:'atr', q:'¿Qué diferencia hay entre garantía comercial y garantía extendida?', o:['La comercial la ofrece voluntariamente la empresa sin coste; la extendida la paga el cliente','La comercial es obligatoria y la extendida voluntaria','Son lo mismo','La extendida es gratuita'], e:'La comercial es un extra voluntario de la empresa; la extendida es opcional y de pago.'},
+    {s:'atr', q:'Formación al cliente tras la compra, mantenimiento y repuestos son servicios…', o:['Posventa','Preventa','De certificación','De etiquetado'], e:'Posventa: mantenimiento, reparaciones, repuestos y formación.'},
+    {s:'atr', q:'Una certificación ISO la concede…', o:['Un organismo independiente que verifica el cumplimiento de normas','El propio fabricante','El cliente','El agente comercial'], e:'La certificación la hace una entidad independiente acreditada.'},
+    {s:'atr', q:'El atributo "Made in" influye principalmente en…', o:['La percepción de calidad y confiabilidad según el país y el sector','El tamaño del envase','El tipo de embalaje','El precio legal'], e:'El país de fabricación puede dar prestigio según el sector (Made in Germany en coches).'},
+    {s:'atr', q:'¿Cuál de estos atributos es EXTERNO?', o:['Etiquetado','Calidad','Seguridad','Garantía'], e:'Externos: envase, embalaje y etiquetado. Calidad es intrínseco; seguridad y garantía, intangibles.'},
+    {s:'cli', q:'Una empresa instaladora de placas solares compra paneles para instalarlos en casas de clientes sin modificarlos. Es cliente…', o:['Intermediario','Fabricante','Usuario','Consumidor final'], e:'Revende, distribuye o instala sin cambiar el producto: intermediario.'},
+    {s:'cli', q:'Una fábrica de muebles compra tableros para fabricar mesas. Es cliente…', o:['Fabricante','Usuario','Intermediario','Mayorista'], e:'Transforma lo que compra en otro producto: fabricante.'},
+    {s:'cli', q:'Una constructora compra grúas que usará en sus obras. Es cliente…', o:['Usuario','Fabricante','Intermediario','Agente'], e:'Usa el producto tal cual para su actividad: usuario.'},
+    {s:'cli', q:'Veteco (Madrid, construcción) es un ejemplo de…', o:['Feria o exposición industrial','Plataforma B2B','Base de datos industrial','Red social'], e:'Las ferias permiten contacto presencial entre proveedores y clientes.'},
+    {s:'cli', q:'LinkedIn e Industry Forum son fuentes de información del tipo…', o:['Redes sociales y foros especializados','Bases de datos industriales','Ferias','Información interna'], e:'Redes sociales y foros: los profesionales de un sector localizan potenciales clientes.'},
+    {s:'cli', q:'Un CRM o el histórico de ventas de la propia empresa es una fuente de información…', o:['Interna','Externa','Presencial','De investigación de mercado'], e:'Información interna: gestionar y analizar clientes actuales y potenciales.'},
+    {s:'tec', q:'¿Qué diferencia la venta consultiva de la venta técnica?', o:['La consultiva empieza preguntando por los problemas del cliente; la técnica explica con detalle el funcionamiento del producto','La consultiva explica y la técnica pregunta','Ninguna, son lo mismo','La técnica busca relaciones a largo plazo'], e:'Consultiva: preguntar → proponer solución personalizada. Técnica: explicar con demos, simulaciones y documentos.'},
+    {s:'tec', q:'Truco para no confundir: cross-selling es ofrecer… y up-selling es ofrecer…', o:['Otro producto complementario / una versión superior del mismo','Una versión superior / un producto complementario','Un descuento / un regalo','Un seguro / una garantía'], e:'Cross = otro producto que acompaña. Up = el mismo, pero mejor.'},
+    {s:'tec', q:'Un vendedor ofrece una máquina y, antes de nada, calcula con el cliente el ahorro anual y el retorno de la inversión. Aplica la venta…', o:['Basada en beneficios y valor','Consultiva','Relacional','Cruzada'], e:'Da datos concretos y cuantificables del beneficio para el cliente.'},
+    {s:'tec', q:'¿Qué perfil debe tener el vendedor industrial según los apuntes?', o:['Especialista del sector','Generalista sin conocimientos técnicos','Solo con habilidades de negociación de precios','Un agente sin zona asignada'], e:'El vendedor industrial debe ser especialista del sector.'},
+    {s:'arg', q:'¿Qué NO incluye un argumentario de ventas?', o:['El contrato de agencia del vendedor','Características y beneficios del producto','Mensajes clave','Respuestas a las objeciones'], e:'Incluye características, beneficios, mensajes clave y respuestas a objeciones. Es flexible, no un guion rígido.'},
+    {s:'arg', q:'Si el cliente NO compró tras la sesión, el seguimiento busca…', o:['Avanzar hacia el cierre','Pedir el pago','Dejar de contactarle','Ofrecerle productos adicionales'], e:'Si compró: satisfacción y producto adicional. Si no compró: avanzar hacia el cierre.'},
+    {s:'arg', q:'En el caso Medicamal (camas articuladas), ¿cómo empieza la sesión de ventas?', o:['Con la apertura (captar atención) y la identificación de necesidades','Con el cierre y la firma','Con el precio','Con la entrega del producto'], e:'La sesión empieza por la apertura y la identificación de necesidades.'},
+    {s:'arg', q:'Si conoces al decisor de compra, antes de contactarle deberías…', o:['Investigarle (LinkedIn, Google) y preparar un beneficio concreto','Llamar a la centralita sin preparar nada','Enviarle el catálogo completo','Esperar a que llame él'], e:'Hay que investigarle, presentarse, centrarse en un beneficio concreto, ser breve y proponer fechas.'},
+    {s:'ofe', q:'La regla «Qué, Para ti, Cuánto, Por qué yo» corresponde respectivamente a…', o:['Descripción técnica, adaptación a necesidades, condiciones comerciales y valorización','Valorización, condiciones, descripción y adaptación','Adaptación, descripción, valorización y condiciones','Condiciones, valorización, adaptación y descripción'], e:'Qué = descripción técnica. Para ti = adaptación. Cuánto = condiciones comerciales. Por qué yo = valorización.'},
+    {s:'ofe', q:'La propuesta de oferta comercial debe ser además…', o:['Visualmente atractiva y personalizada','Muy breve, sin datos técnicos','Idéntica para todos los clientes','Solo oral'], e:'Debe ser visualmente atractiva y personalizada.'},
+    {s:'ofe', q:'Mostrar el valor añadido frente a la competencia (servicio técnico, innovación, rapidez) corresponde a…', o:['Valorización','Condiciones comerciales','Descripción técnica','Adaptación a necesidades'], e:'La valorización explica por qué elegirte a ti.'},
+    {s:'ofe', q:'Explicar cómo el producto reduce costes o mejora los procesos del cliente corresponde a…', o:['Adaptación a las necesidades','Descripción técnica','Valorización','Condiciones comerciales'], e:'Es el apartado «Para ti»: adaptación a las necesidades del cliente.'},
+    {s:'int', q:'En un seguro, ¿cómo se llaman el contrato, el pago y el daño?', o:['Póliza, prima y siniestro','Prima, póliza y siniestro','Siniestro, póliza y prima','Comisión, póliza y siniestro'], e:'Póliza = contrato. Prima = lo que se paga. Siniestro = daño cubierto.'},
+    {s:'int', q:'¿Cuál de estos riesgos puede cubrir una aseguradora a una empresa industrial?', o:['Incendios, robos, avería de maquinaria y responsabilidad civil','Solo incendios','Solo robos','Ninguno de estos'], e:'Entre los riesgos: incendios, robos, transporte, avería de maquinaria, reputación y responsabilidad civil.'},
+    {s:'int', q:'¿Qué ventaja tiene un agente comercial para la empresa?', o:['Es flexible y rentable porque no es personal fijo','La empresa tiene control total de su trabajo','No cobra comisión','No hay riesgo de conflicto de intereses'], e:'Conoce el mercado y es rentable al no ser personal fijo; como inconveniente, hay menos control y posible conflicto de intereses.'},
+    {s:'int', q:'¿Cómo cobra un agente comercial?', o:['Mediante una comisión por las ventas que cierra','Con una prima','Con un salario fijo','Con una póliza'], e:'Es autónomo y cobra comisión. La prima es de las aseguradoras.'},
+    {s:'int', q:'Un leasing es un servicio de…', o:['Financiación y crédito','Gestión de cobros y pagos','Seguros','Asesoramiento financiero'], e:'Financiación y crédito: préstamos, líneas de crédito, leasing, hipotecas.'}
+  );
+
+  // ---- SAC: verdadero/falso y desarrollo ----
+  SAC_QS.push(
+    {s:'emp', vf:false, q:'Las empresas extractivas pertenecen al sector secundario.', e:'Falso: pertenecen al sector primario; extraen materias primas de la naturaleza.'},
+    {s:'emp', vf:false, q:'Las empresas fabricantes pertenecen al sector terciario.', e:'Falso: son del sector secundario (convierten materias primas en productos terminados).'},
+    {s:'emp', vf:true, q:'Una empresa de servicios no tiene stock material y no precisa almacenaje ni transporte.', e:'Verdadero: es su característica clave dentro del sector terciario.'},
+    {s:'emp', vf:false, q:'Las empresas comerciales intermedian entre el fabricante y las empresas distribuidoras.', e:'Falso: la que intermedia es la distribuidora. La comercial hace la venta directa al cliente final.'},
+    {s:'emp', vf:true, q:'En el canal de distribución largo participan mayoristas y minoristas.', e:'Verdadero: Fabricante → Mayoristas → Minoristas → Consumidor.'},
+    {s:'emp', vf:true, q:'Las empresas distribuidoras pertenecen al sector terciario.', e:'Verdadero: distribuidoras, comerciales y de servicios son terciarias.'},
+    {s:'org', vf:false, q:'La organización informal define los límites de responsabilidad y autoridad de cada trabajador.', e:'Falso: eso lo hace la organización formal. La informal surge espontáneamente.'},
+    {s:'org', vf:true, q:'La organización real de la empresa es la suma de la organización formal y la informal.', e:'Verdadero: conviven en la empresa.'},
+    {s:'org', vf:false, q:'El departamento de RRHH se encarga de los cobros, pagos y cuentas bancarias.', e:'Falso: eso es Financiación. RRHH: selección, contratación, formación, retribuciones, becas y ayudas.'},
+    {s:'org', vf:true, q:'La organización formal pertenece al ámbito laboral y genera relaciones laborales.', e:'Verdadero. La informal: ámbito personal, relaciones humanas.'},
+    {s:'org', vf:false, q:'El departamento sanitario se ocupa de la selección y contratación del personal.', e:'Falso: se ocupa de seguridad e higiene, absentismo y bajas médicas.'},
+    {s:'orgr', vf:false, q:'En un organigrama, las líneas que conectan los departamentos representan los puestos de trabajo.', e:'Falso: representan los flujos de comunicación y transmisión de datos.'},
+    {s:'orgr', vf:true, q:'Un organigrama horizontal representa la estructura de izquierda a derecha.', e:'Verdadero. El vertical, de arriba hacia abajo; el circular, con círculos concéntricos.'},
+    {s:'orgr', vf:false, q:'En la organización jerárquica la autoridad se reparte entre varios representantes especializados.', e:'Falso: en la jerárquica se centraliza en el cargo superior. El reparto es propio de la funcional.'},
+    {s:'orgr', vf:true, q:'En la organización funcional la comunicación va en varias direcciones.', e:'Verdadero: la autoridad se reparte entre especialistas.'},
+    {s:'orgr', vf:true, q:'Un organigrama puede clasificarse a la vez por la forma del gráfico y por las líneas de autoridad.', e:'Verdadero: son dos criterios de clasificación distintos.'},
+    {s:'ac', vf:false, q:'El departamento de atención al cliente solo atiende a clientes que ya han realizado una compra.', e:'Falso: gestiona la relación con clientes actuales o potenciales, antes, durante o después de la compra.'},
+    {s:'ac', vf:true, q:'La finalidad de la atención al cliente es lograr la máxima satisfacción del cliente.', e:'Verdadero.'},
+    {s:'ac', vf:false, q:'Las garantías y las devoluciones forman parte de la atención de incidencias.', e:'Falso: forman parte del seguimiento posventa.'},
+    {s:'ac', vf:true, q:'La información obtenida de la relación con los clientes sirve para la previsión de ventas.', e:'Verdadero.'},
+    {s:'ac', vf:true, q:'Recoger sugerencias y felicitaciones es parte de la atención de incidencias.', e:'Verdadero, junto con reclamaciones y quejas.'},
+    {s:'img', vf:false, q:'La imagen corporativa es el conjunto de instrumentos formales con los que una empresa se identifica públicamente.', e:'Falso: eso es la identidad corporativa. La imagen son las percepciones de los grupos de interés.'},
+    {s:'img', vf:true, q:'Imagen corporativa = actitud + identidad visual.', e:'Verdadero.'},
+    {s:'img', vf:true, q:'El logotipo, la tipografía y los colores corporativos forman la identidad visual corporativa.', e:'Verdadero.'},
+    {s:'img', vf:false, q:'Para cuidar la imagen basta con la presentación física de la empresa; la comunicación online no influye.', e:'Falso: hay que cuidar la imagen de marca online y offline.'},
+    {s:'crm', vf:true, q:'Un call center utiliza el teléfono como medio básico de comunicación.', e:'Verdadero, gestionado por personas.'},
+    {s:'crm', vf:false, q:'Un call center supone un incremento del tiempo de espera y del coste del negocio.', e:'Falso: supone un ahorro de coste, tiempo de llamada, tiempo de espera, personal y aprendizaje.'},
+    {s:'crm', vf:false, q:'El CRM es una herramienta que utiliza el teléfono como medio básico de comunicación.', e:'Falso: el CRM es un software; el teléfono es el medio del call center.'},
+    {s:'crm', vf:true, q:'La venta cruzada, la gestión de clientes potenciales y la centralización de datos son ventajas del CRM.', e:'Verdadero.'},
+    {s:'emp', dev:true, q:'Define empresa y explica los tipos de empresa según su actividad.', a:'Empresa: grupo de personas y bienes materiales y financieros, organizados para producir algo o prestar un servicio y así obtener un beneficio (ánimo de lucro). Tipos: extractivas (sector primario, extraen materias primas), fabricantes (secundario, convierten materias primas en productos terminados), distribuidoras (terciario, intermedian entre fabricante y comercios), comerciales (terciario, venta directa al consumidor final) y de servicios (terciario, sin stock material, sin almacenaje ni transporte).', k:['Definición: personas + bienes materiales y financieros + producir o prestar servicio + beneficio','Extractivas: primario','Fabricantes: secundario','Distribuidoras, comerciales y de servicios: terciario','Rasgo distintivo de cada una']},
+    {s:'emp', dev:true, q:'Explica los tipos de canal de distribución con su secuencia.', a:'Canal directo: Fabricante → Consumidor. Canal corto: Fabricante → Minoristas → Consumidor. Canal largo: Fabricante → Mayoristas → Minoristas → Consumidor. Cuantos más intermediarios, más largo es el canal.', k:['Directo: sin intermediarios','Corto: solo minoristas','Largo: mayoristas y minoristas']},
+    {s:'org', dev:true, q:'Diferencia organización formal e informal y explica qué es la organización real.', a:'La formal es una estructura intencionada del ámbito laboral (relaciones laborales) que define límites, responsabilidad, autoridad y área de actuación de cada trabajador. La informal surge de manera espontánea en el ámbito personal (relaciones humanas), influye en la comunicación, la toma de decisiones y el control, y crea canales informales. Ambas conviven y su suma es la organización real.', k:['Formal: ámbito laboral, intencionada, define autoridad y responsabilidad','Informal: ámbito personal, espontánea, canales informales','Organización real = formal + informal']},
+    {s:'org', dev:true, q:'Explica qué es un departamento y cita al menos seis departamentos con sus funciones.', a:'Un departamento es el nombre asignado a una división o área encargada de una actividad concreta. Ejemplos: Compras (proveedores, ofertas, almacenamiento); Producción (fabricación, transformación o prestación de servicios); Ventas (estudio de mercado, publicidad, comisiones, atención al cliente); Financiación (cobros, pagos, préstamos); RRHH (selección, formación, retribuciones); Administración/Contabilidad (documentación, registros, informes); Jurídico (contratos y asesoría legal); Diseño; Sanitario (seguridad e higiene, absentismo).', k:['Definición de departamento','Al menos 6 con su función correcta','No mezclar Financiación con RRHH ni con Contabilidad']},
+    {s:'orgr', dev:true, q:'¿Qué es un organigrama? Indica sus elementos y su estructura gráfica.', a:'Es la representación gráfica de la estructura organizativa de una empresa de forma sintética y simplificada. Elementos: nombre del departamento, puesto de trabajo o cargo, nombre del trabajador, relaciones jerárquicas y flujos de comunicación. En el gráfico, los cuadros contienen el departamento, puestos, responsable y cargo; las líneas representan los flujos de comunicación; y los niveles ordenan jerárquicamente en superiores, intermedios e inferiores.', k:['Definición: gráfica, sintética y simplificada','Los 5 elementos','Cuadros, líneas y niveles']},
+    {s:'orgr', dev:true, q:'Clasifica los organigramas según la forma del gráfico y según las líneas de autoridad.', a:'Según la forma: vertical (jerarquía de arriba hacia abajo), horizontal (de izquierda a derecha) y circular (círculos concéntricos). Según las líneas de autoridad: jerárquica (autoridad centralizada en el cargo superior, comunicación descendente por una línea directa) y funcional (autoridad repartida entre representantes especializados, comunicación en varias direcciones).', k:['3 formas: vertical, horizontal, circular','Jerárquica: autoridad centralizada, descendente','Funcional: autoridad repartida, varias direcciones']},
+    {s:'ac', dev:true, q:'Define atención al cliente y explica las funciones del departamento.', a:'Es el conjunto de actuaciones con las que la empresa gestiona la relación con clientes actuales o potenciales antes, durante o después de la compra; su finalidad es la máxima satisfacción del cliente. Funciones: atender y solucionar solicitudes, sugerencias y reclamaciones; obtener y gestionar la información de la relación con los clientes (para previsión de ventas); y resolver incidencias del servicio posventa (garantía, devolución, reparación o sustitución).', k:['Definición y finalidad (máxima satisfacción)','Solicitudes, sugerencias y reclamaciones','Información para previsión de ventas','Incidencias posventa']},
+    {s:'ac', dev:true, q:'Desglosa las funciones de información, atención de incidencias y seguimiento posventa.', a:'Información: atender y seguir consultas y peticiones, comunicar los servicios e informar sobre procedimientos. Atención de incidencias: atender y analizar reclamaciones, solucionar quejas y recoger sugerencias y felicitaciones. Seguimiento posventa: control de garantías, facilitar la devolución y seguir los casos de reparación y sustitución.', k:['Información: consultas, peticiones, servicios, procedimientos','Incidencias: reclamaciones, quejas, sugerencias, felicitaciones','Posventa: garantías, devoluciones, reparación y sustitución']},
+    {s:'img', dev:true, q:'Diferencia identidad corporativa e imagen corporativa y cita los elementos de la identidad.', a:'La identidad corporativa es el conjunto de instrumentos formales mediante los que una empresa se identifica públicamente. La imagen corporativa es el conjunto de percepciones que tienen los grupos de interés sobre la empresa; se resume en actitud + identidad visual. Elementos de la identidad: marca, nombre comercial e identidad visual corporativa (logotipo, tipografía y colores corporativos).', k:['Identidad = instrumentos formales (lo que emite la empresa)','Imagen = percepciones (lo que reciben los grupos de interés)','Marca, nombre comercial, logotipo, tipografía y colores']},
+    {s:'img', dev:true, q:'¿Por qué es importante cuidar la imagen en la atención al cliente? Indica los aspectos a cuidar.', a:'Porque la actitud de la empresa ante el cliente forma su imagen corporativa. Hay que cuidar las relaciones con el entorno interno y externo, la transparencia en comunicaciones y acciones, la imagen de marca (online y offline) y la buena presentación de la empresa y sus productos.', k:['Entorno interno y externo','Transparencia','Imagen de marca online y offline','Presentación de empresa y productos']},
+    {s:'crm', dev:true, q:'Explica qué es un call center, qué ahorro y qué incremento produce.', a:'Es una herramienta de comunicación y relación que utiliza el teléfono como medio básico, gestionada por personas para atender necesidades y dar un servicio único y diferente para atraer y fidelizar. Ahorro de coste del negocio, tiempo de llamada, tiempo de espera, personal y tiempo de aprendizaje. Incremento de productividad de los agentes, satisfacción y retención de clientes, calidad del servicio y posición competitiva.', k:['Teléfono + personas','Ahorro: coste, llamada, espera, personal, aprendizaje','Incremento: productividad, satisfacción, retención, calidad, competitividad']},
+    {s:'crm', dev:true, q:'¿Qué es un CRM y qué ventajas tiene?', a:'Es un software específico para gestionar la relación con los clientes y sacar el máximo partido de sus datos. Ventajas: actualización y centralización de los datos de clientes (histórico, preferencias), gestión de clientes potenciales y venta cruzada (venta de productos complementarios).', k:['Software de gestión de la relación con clientes','Centralización y actualización de datos','Clientes potenciales','Venta cruzada']}
+  );
+
+  // ---- VT: verdadero/falso y desarrollo ----
+  VT_QS.push(
+    {s:'prod', vf:false, q:'Los materiales procesados se obtienen directamente de la naturaleza sin transformar.', e:'Falso: eso son las materias primas. Los procesados ya han sido transformados.'},
+    {s:'prod', vf:true, q:'Los equipos de capital son bienes duraderos que sirven para fabricar productos y ofrecer servicios.', e:'Verdadero.'},
+    {s:'prod', vf:true, q:'La demanda industrial es derivada: depende del consumo final.', e:'Verdadero.'},
+    {s:'prod', vf:false, q:'En el mercado industrial la decisión de compra la suele tomar una sola persona de forma rápida.', e:'Falso: el proceso es complejo, interviene un grupo y puede tardar semanas o meses.'},
+    {s:'prod', vf:true, q:'Los altos volúmenes de compra del mercado industrial permiten negociar descuentos.', e:'Verdadero.'},
+    {s:'atr', vf:false, q:'El embalaje es la primera capa del producto, en contacto directo con él.', e:'Falso: esa es el envase. El embalaje es la capa externa para transporte y almacenaje.'},
+    {s:'atr', vf:true, q:'El envase actúa como «vendedor silencioso».', e:'Verdadero: protege, contiene y comunica.'},
+    {s:'atr', vf:false, q:'La garantía legal es voluntaria y la decide cada empresa.', e:'Falso: es obligatoria. La voluntaria es la comercial.'},
+    {s:'atr', vf:true, q:'La garantía extendida es opcional y la paga el cliente.', e:'Verdadero.'},
+    {s:'atr', vf:true, q:'La certificación la verifica un organismo independiente.', e:'Verdadero (por ejemplo, ISO).'},
+    {s:'atr', vf:false, q:'El mantenimiento, las reparaciones y los repuestos son servicio preventa.', e:'Falso: son servicio posventa.'},
+    {s:'atr', vf:true, q:'El diseño incluye estética, ergonomía, innovación y personalización.', e:'Verdadero.'},
+    {s:'cli', vf:true, q:'Los clientes industriales de tipo usuario utilizan el producto sin transformarlo.', e:'Verdadero.'},
+    {s:'cli', vf:false, q:'Los intermediarios transforman el producto en otro distinto.', e:'Falso: lo revenden, distribuyen o instalan sin cambiarlo (pueden etiquetar, envasar o personalizar).'},
+    {s:'cli', vf:true, q:'Alibaba y ThomasNet son ejemplos de plataformas B2B.', e:'Verdadero.'},
+    {s:'cli', vf:false, q:'El CRM y el histórico de ventas son una fuente de información externa.', e:'Falso: son información interna.'},
+    {s:'tec', vf:true, q:'La venta consultiva empieza preguntando al cliente por sus problemas.', e:'Verdadero.'},
+    {s:'tec', vf:false, q:'El up-selling consiste en ofrecer un producto complementario.', e:'Falso: eso es cross-selling. Up-selling: una versión superior.'},
+    {s:'tec', vf:true, q:'La venta relacional busca la fidelización y la relación a largo plazo.', e:'Verdadero.'},
+    {s:'tec', vf:false, q:'La venta técnica se basa en preguntar al cliente para identificar sus necesidades.', e:'Falso: eso es la consultiva. La técnica explica el funcionamiento con detalle.'},
+    {s:'arg', vf:false, q:'El argumentario de ventas debe seguirse como un guion rígido.', e:'Falso: es una base flexible adaptable a cada cliente.'},
+    {s:'arg', vf:true, q:'El argumentario incluye respuestas a las objeciones del cliente.', e:'Verdadero.'},
+    {s:'arg', vf:false, q:'El objetivo del argumentario del «antes» es cerrar la venta.', e:'Falso: es conseguir una sesión de ventas. El cierre es en el «durante».'},
+    {s:'arg', vf:true, q:'Si el cliente no compró, el seguimiento busca avanzar hacia el cierre.', e:'Verdadero.'},
+    {s:'ofe', vf:true, q:'Una propuesta de oferta comercial puede enviarse sin reunión previa.', e:'Verdadero: cliente habitual, petición de presupuesto u oportunidad detectada.'},
+    {s:'ofe', vf:false, q:'La valorización del producto recoge precio, plazos de entrega y garantía.', e:'Falso: eso son las condiciones comerciales. La valorización destaca el valor añadido.'},
+    {s:'int', vf:true, q:'El agente comercial es un profesional autónomo que cobra una comisión.', e:'Verdadero.'},
+    {s:'int', vf:false, q:'La prima es lo que cobra el agente comercial por cerrar ventas.', e:'Falso: cobra comisión. La prima es lo que paga el asegurado a la aseguradora.'},
+    {s:'int', vf:true, q:'El leasing es un servicio de financiación y crédito de las entidades financieras.', e:'Verdadero.'},
+    {s:'prod', dev:true, q:'Define producto industrial y explica los 6 tipos con un ejemplo de cada uno.', a:'Producto industrial: bien o servicio comprado por una empresa, organización o institución para incorporarlo a su proceso de producción, revenderlo o usarlo en sus operaciones internas. Tipos: materias primas (madera, minerales), materiales procesados (cemento, acero), componentes (motores, resistencias), equipos de capital (maquinaria), suministros y consumibles (papel, EPIs) y servicios industriales (mantenimiento, asesoría).', k:['Definición: lo compra una empresa para trabajar','Los 6 tipos','Un ejemplo correcto para cada uno']},
+    {s:'prod', dev:true, q:'Explica las características del mercado industrial y diferéncialo del de consumo.', a:'Mercado industrial: empresas, organizaciones e instituciones que compran productos industriales para sus actividades. Características: demanda derivada, altos volúmenes de compra, procesos de compra complejos, decisión basada en criterios técnicos y fidelización a largo plazo. Frente al consumo (personas y familias, uso personal, decide una persona), en el industrial compra una empresa, para producir o revender, y decide un grupo.', k:['Las 5 características','Quién compra y para qué','Quién decide: grupo frente a persona']},
+    {s:'atr', dev:true, q:'Explica los atributos del producto: intrínsecos, externos e intangibles.', a:'Intrínsecos: composición, calidad y diseño (estética, ergonomía, innovación, personalización). Externos: envase (contacto directo, vendedor silencioso), embalaje (capa externa para transporte y almacén) y etiquetado (información esencial y cumplimiento legal). Intangibles: marca, made in, garantía, servicio preventa y posventa, seguridad y certificación.', k:['Intrínsecos: composición, calidad, diseño','Externos: envase, embalaje, etiquetado','Intangibles: marca, made in, garantía, preventa/posventa, seguridad, certificación']},
+    {s:'atr', dev:true, q:'Explica los cuatro tipos de garantía.', a:'Legal: obligatoria (3 años en los apuntes). Comercial: extra voluntario que ofrece la empresa. De satisfacción: reembolso si el cliente no está contento en un plazo. Extendida: opcional, el cliente la paga aparte para ampliar la cobertura.', k:['Legal: obligatoria','Comercial: voluntaria de la empresa','Satisfacción: devolución del dinero','Extendida: se paga aparte']},
+    {s:'cli', dev:true, q:'Explica los tipos de cliente industrial y las fuentes de información para localizarlos.', a:'Tipos: fabricantes (transforman lo que compran), usuarios (lo usan en su actividad) e intermediarios (revenden, distribuyen o instalan; pueden etiquetar, envasar o personalizar). Fuentes: bases de datos industriales (Kompass), plataformas B2B (Alibaba), ferias y exposiciones (Veteco), redes sociales y foros (LinkedIn), información interna (CRM) e investigación de mercado.', k:['Fabricante, usuario, intermediario con su criterio','Las 6 fuentes de información','Un ejemplo de cada fuente']},
+    {s:'tec', dev:true, q:'Describe las técnicas de venta aplicadas al cliente industrial.', a:'Venta consultiva (pregunta y propone una solución personalizada), técnica (explica el funcionamiento con demos y simulaciones), basada en beneficios y valor (datos cuantificables), relacional (relación a largo plazo y fidelización), cross-selling (producto complementario) y up-selling (versión superior). El vendedor industrial debe ser especialista del sector.', k:['Las 6 técnicas','Distinguir cross-selling de up-selling','Vendedor especialista del sector']},
+    {s:'arg', dev:true, q:'¿Qué es un argumentario de ventas y qué objetivos tiene antes, durante y después de la sesión?', a:'Es el documento que prepara el discurso del vendedor: características, beneficios, mensajes clave y respuestas a las objeciones; es flexible, no un guion rígido. Antes: conseguir una sesión de ventas. Durante: dar a conocer el producto, resolver dudas y cerrar acuerdos. Después: seguimiento; si compró, comprobar la satisfacción y ofrecer algo adicional; si no, avanzar hacia el cierre.', k:['Definición y flexibilidad','Antes: lograr la sesión','Durante: dudas y cierre','Después: seguimiento según haya comprado o no']},
+    {s:'ofe', dev:true, q:'¿Qué es una propuesta de oferta comercial y cuáles son sus apartados?', a:'Documento o presentación formal que detalla una oferta concreta a un cliente que ha pedido información. Apartados: descripción técnica (qué), adaptación a las necesidades (para ti), condiciones comerciales (cuánto: precio, entrega, garantía) y valorización del producto (por qué yo: valor añadido). Debe ser visualmente atractiva y personalizada.', k:['Definición','Los 4 apartados con su contenido','Atractiva y personalizada']},
+    {s:'int', dev:true, q:'Explica qué es un agente comercial, una aseguradora y una entidad financiera con sus servicios.', a:'Agente comercial: profesional autónomo que negocia y cierra ventas en una zona a cambio de una comisión; es flexible y rentable, pero hay menos control. Aseguradora: cubre económicamente los daños a cambio de una prima (póliza = contrato, siniestro = daño). Entidad financiera: financiación y crédito (préstamos, leasing, hipotecas), gestión de cobros y pagos (cuentas, tarjetas) y asesoramiento y análisis financiero.', k:['Agente: autónomo, comisión','Aseguradora: prima, póliza, siniestro','Entidad financiera: 3 servicios']}
+  );
+
   var QZ_SETS = {
     sac: {sections:SAC_SECTIONS, notes:SAC_NOTES, qs:SAC_QS, color:'#BE185D', bg:'#FDF2F8', cls:'sac',
           pill:'<i class="ri-customer-service-2-line"></i> Servicio de atención comercial',
@@ -1567,6 +1844,10 @@
     document.getElementById(map[v]).classList.add('active');
     if(v==='notes') sacRenderNotes();
     if(v==='pick') sacRenderPick();
+    if(v==='menu'){
+      document.getElementById('sacVfCount').textContent = qz.qs.filter(function(q){return q.vf!==undefined;}).length;
+      document.getElementById('sacDevCount').textContent = qz.qs.filter(function(q){return q.dev;}).length;
+    }
     window.scrollTo(0,0);
   }
 
@@ -1584,7 +1865,7 @@
   function sacRenderPick(){
     var h = '';
     Object.keys(qz.sections).forEach(function(k){
-      var n = qz.qs.filter(function(q){return q.s===k;}).length;
+      var n = qz.qs.filter(function(q){return q.s===k && !q.dev;}).length;
       h += '<div class="menu-card" onclick="sacStart(\''+k+'\')"><div class="menu-icon" style="background:'+qz.bg+';"><i class="'+qz.sections[k].i+' ri-lg" style="color:'+qz.color+';"></i></div><div><div class="menu-card-title">'+qz.sections[k].n+'</div><div class="menu-card-desc">'+n+' preguntas</div></div></div>';
     });
     document.getElementById('sacPickBody').innerHTML = h;
@@ -1598,8 +1879,15 @@
 
   function sacStart(src){
     sacQuiz.src = src;
-    var base = src==='all' ? qz.qs : qz.qs.filter(function(q){return q.s===src;});
+    var base = qz.qs.filter(function(q){
+      if(src==='vf') return q.vf!==undefined;
+      if(src==='dev') return !!q.dev;
+      if(q.dev) return false;
+      return src==='all' || q.s===src;
+    });
     sacQuiz.pool = sacShuffle(base).map(function(q){
+      if(q.dev) return {s:q.s, q:q.q, dev:true, a:q.a, k:q.k};
+      if(q.vf!==undefined) return {s:q.s, q:q.q, e:q.e, vf:true, opts:[{t:'Verdadero', ok:q.vf===true},{t:'Falso', ok:q.vf===false}]};
       return {s:q.s, q:q.q, e:q.e, opts:sacShuffle(q.o.map(function(t,idx){return {t:t, ok:idx===0};}))};
     });
     sacQuiz.i = 0; sacQuiz.score = 0; sacQuiz.wrong = [];
@@ -1613,8 +1901,14 @@
     var q = sacQuiz.pool[sacQuiz.i];
     sacQuiz.answered = false;
     document.getElementById('sacBarFill').style.width = (sacQuiz.i/sacQuiz.pool.length*100)+'%';
-    document.getElementById('sacQBadge').textContent = 'Pregunta '+(sacQuiz.i+1)+' de '+sacQuiz.pool.length+' · '+qz.sections[q.s].n;
+    document.getElementById('sacQBadge').textContent = (q.dev?'Desarrollo':q.vf?'Verdadero / Falso':'Test')+' '+(sacQuiz.i+1)+'/'+sacQuiz.pool.length+' · '+qz.sections[q.s].n;
     document.getElementById('sacQText').textContent = q.q;
+    document.getElementById('sacExpl').innerHTML = '';
+    document.getElementById('sacNextBtn').style.display = 'none';
+    if(q.dev){
+      document.getElementById('sacOpts').innerHTML = '<textarea id="sacDevTxt" rows="6" placeholder="Escribe aquí tu respuesta como si fuera el examen…" style="width:100%;border:2px solid var(--gray-200);border-radius:var(--radius-sm);padding:12px;font-size:14px;font-family:inherit;resize:vertical;outline:none;margin-bottom:10px;"></textarea><button class="btn-check" onclick="sacDevReveal()"><i class="ri-eye-line"></i> Ver respuesta modelo</button>';
+      return;
+    }
     var L = ['A','B','C','D'];
     var h = '';
     q.opts.forEach(function(o,idx){
@@ -1639,9 +1933,44 @@
       else if(k===idx) btns[k].classList.add('ko');
     });
     if(q.opts[idx].ok) sacQuiz.score++; else sacQuiz.wrong.push(q);
+    streakRecord(q.opts[idx].ok);
     var ex = document.getElementById('sacExpl');
     ex.innerHTML = '<div class="sac-expl"><b>'+(q.opts[idx].ok?'¡Correcto!':'Incorrecto.')+'</b> </div>';
     ex.firstChild.appendChild(document.createTextNode(q.e));
+    var nb = document.getElementById('sacNextBtn');
+    nb.style.display = 'block';
+    nb.innerHTML = '<i class="ri-arrow-right-line"></i> ' + (sacQuiz.i+1===sacQuiz.pool.length ? 'Ver resultado' : 'Siguiente');
+  }
+
+  // Desarrollo: el alumno compara su respuesta con la modelo y se autoevalúa.
+  function sacDevReveal(){
+    var q = sacQuiz.pool[sacQuiz.i];
+    var ta = document.getElementById('sacDevTxt'); if(ta) ta.disabled = true;
+    var box = document.getElementById('sacOpts');
+    box.querySelector('.btn-check').style.display = 'none';
+    var ex = document.getElementById('sacExpl');
+    ex.innerHTML = '';
+    var d = document.createElement('div'); d.className = 'sac-expl';
+    var b = document.createElement('b'); b.textContent = 'Respuesta modelo'; d.appendChild(b);
+    var p = document.createElement('div'); p.style.margin = '6px 0'; p.textContent = q.a; d.appendChild(p);
+    var b2 = document.createElement('b'); b2.textContent = 'Puntos clave que no pueden faltar'; d.appendChild(b2);
+    var ul = document.createElement('ul'); ul.style.cssText = 'padding-left:18px;margin-top:4px;';
+    q.k.forEach(function(t){ var li = document.createElement('li'); li.textContent = t; ul.appendChild(li); });
+    d.appendChild(ul); ex.appendChild(d);
+    var g = document.createElement('div'); g.id = 'sacDevGrade';
+    g.innerHTML = '<div style="font-size:13px;font-weight:600;color:var(--gray-600);margin:8px 0;">¿Has incluido los puntos clave?</div>' +
+      '<button class="sac-opt" onclick="sacDevGrade(true)"><span class="l">✓</span><span>Sí, la sabía</span></button>' +
+      '<button class="sac-opt" onclick="sacDevGrade(false)"><span class="l">✗</span><span>Me faltaban cosas: toca repasar</span></button>';
+    ex.appendChild(g);
+  }
+
+  function sacDevGrade(ok){
+    if(sacQuiz.answered) return;
+    sacQuiz.answered = true;
+    var q = sacQuiz.pool[sacQuiz.i];
+    if(ok) sacQuiz.score++; else sacQuiz.wrong.push(q);
+    streakRecord(ok);
+    var g = document.getElementById('sacDevGrade'); if(g) g.remove();
     var nb = document.getElementById('sacNextBtn');
     nb.style.display = 'block';
     nb.innerHTML = '<i class="ri-arrow-right-line"></i> ' + (sacQuiz.i+1===sacQuiz.pool.length ? 'Ver resultado' : 'Siguiente');
@@ -1669,8 +1998,12 @@
         c.className = 'sac-expl'; c.style.background = 'var(--red-light)'; c.style.borderColor = 'var(--red-mid)'; c.style.color = '#991B1B';
         var b = document.createElement('b'); b.textContent = q.q;
         var r = document.createElement('div'); r.style.marginTop = '6px';
-        var ok = q.opts.filter(function(o){return o.ok;})[0];
-        r.textContent = 'Correcta: ' + ok.t + ' — ' + q.e;
+        if(q.dev){
+          r.textContent = 'Respuesta modelo: ' + q.a;
+        } else {
+          var ok = q.opts.filter(function(o){return o.ok;})[0];
+          r.textContent = 'Correcta: ' + ok.t + ' — ' + q.e;
+        }
         c.appendChild(b); c.appendChild(r); w.appendChild(c);
       });
     }
@@ -2411,10 +2744,7 @@
     document.getElementById('btnHint').style.display = 'none';
     document.getElementById('btnNext').style.display = 'block';
 
-    if(ok){ streak++; fireBurst(); }
-    else { streak=0; }
-    localStorage.setItem('lt_streak', streak);
-    document.getElementById('streakN').textContent = streak;
+    streakRecord(ok);
 
     renderProgress();
     showSubResult(ok, q);
