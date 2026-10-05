@@ -602,8 +602,8 @@
     pointer-events: none;
     transition: opacity 0.2s;
   }
+  .footer-hidden .footer { opacity: 0; pointer-events: none; }
   @media (max-width: 480px) {
-    .footer-hidden .footer { opacity: 0; pointer-events: none; }
     .unit-pill { padding: 12px 8px; font-size: 11px; }
     .ans-input { font-size: 18px; padding: 12px 10px; }
   }
@@ -881,13 +881,65 @@
     .streak-lbl { display: none; }
     .header { padding: 12px 12px; }
   }
+
+  /* ===== Perfiles / inicio de sesión ===== */
+  #loginOverlay { position: fixed; inset: 0; z-index: 700; background: var(--gray-50); display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+  .login-box { width: 100%; max-width: 400px; }
+  .login-card { display: flex; align-items: center; gap: 14px; background: var(--white); border: 2px solid var(--gray-200); border-radius: 16px; padding: 18px; margin-bottom: 12px; cursor: pointer; box-shadow: var(--shadow); transition: border-color .15s, transform .1s; }
+  .login-card:hover { transform: translateY(-1px); }
+  .login-card:active { transform: scale(.98); }
+  .login-card.current { border-color: var(--blue); }
+  .login-avatar { width: 54px; height: 54px; border-radius: 50%; color: #fff; font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .login-name { font-size: 16px; font-weight: 700; color: var(--gray-800); }
+  .login-sub { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+  .logo { cursor: pointer; }
+  #ritaSubjects { display: block; }
+  #hugoSubjects { display: none; }
+  body.profile-hugo #ritaSubjects { display: none; }
+  body.profile-hugo #hugoSubjects { display: block; }
+
+  /* ===== Fundamentos de hardware (Hugo) ===== */
+  .pill-fh { background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; }
+  .subject-card.fh { border-color: #C7D2FE; }
+  .subject-card.fh:hover { border-color: #4F46E5; }
+  .subject-card.fh .subject-card-accent { background: linear-gradient(90deg, #4F46E5, #818CF8); }
+  .subject-card.fh .subject-icon { background: #EEF2FF; color: #4F46E5; }
+  .fh-only { display: none !important; }
+  #sacScreen.fh .fh-only { display: flex !important; }
+  .fh-in { width: 100%; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); padding: 11px 14px; font-size: 14px; font-family: inherit; background: var(--white); color: var(--gray-800); outline: none; margin-bottom: 8px; }
+  .fh-in:focus { border-color: #4F46E5; }
+  .fh-link { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); margin-bottom: 8px; color: var(--gray-800); text-decoration: none; font-size: 13px; font-weight: 600; background: var(--white); }
+  .fh-link i { color: #4F46E5; }
+  .fh-link span { display: block; font-size: 11px; font-weight: 400; color: var(--gray-400); }
+  .sac-acc-body table { width: 100%; border-collapse: collapse; margin: 6px 0; font-size: 12px; }
+  .sac-acc-body th, .sac-acc-body td { border: 1px solid var(--gray-200); padding: 5px 7px; text-align: left; }
+  .sac-acc-body th { background: var(--gray-50); color: var(--gray-800); }
+  [data-theme="dark"] #loginOverlay { background: #0F172A; }
+  [data-theme="dark"] .subject-card.fh { border-color: #3730A3; }
+  [data-theme="dark"] .subject-card.fh .subject-icon { background: rgba(148,163,184,.16); }
+  [data-theme="dark"] .pill-fh { background: rgba(148,163,184,.16); border-color: rgba(148,163,184,.3); }
 </style>
 </head>
 <body>
+<div id="loginOverlay">
+  <div class="login-box">
+    <p class="menu-title" style="text-align:center;">Iniciar sesión</p>
+    <p class="menu-sub" style="text-align:center;">¿Quién va a estudiar? Cada perfil guarda su propia racha y estadísticas.</p>
+    <div class="login-card" id="loginCard-rita" onclick="chooseProfile('rita')">
+      <div class="login-avatar" style="background:#BE185D;">R</div>
+      <div><div class="login-name">Rita Botella Pomata</div><div class="login-sub">Segundo curso · Actividades Comerciales</div></div>
+    </div>
+    <div class="login-card" id="loginCard-hugo" onclick="chooseProfile('hugo')">
+      <div class="login-avatar" style="background:#4F46E5;">H</div>
+      <div><div class="login-name">Hugo Sanz Abad</div><div class="login-sub">Primer curso · ASIR</div></div>
+    </div>
+    <button class="btn-home" id="loginCancel" onclick="closeLogin()" style="display:none;">Cancelar</button>
+  </div>
+</div>
 <div class="app">
 
   <div class="header">
-    <div class="logo"><i class="ri-bolt-line"></i> <span>Rita</span> Botella Pomata</div>
+    <div class="logo" onclick="openLogin()" title="Cambiar de perfil"><i class="ri-bolt-line"></i> <span id="logoFirst">Rita</span><span id="logoRest" style="color:var(--gray-800);"> Botella Pomata</span></div>
     <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Cambiar tema" aria-label="Cambiar tema"><i class="ri-moon-line"></i></button>
     <div class="streak" onclick="openStreak()" style="cursor:pointer;" title="Ver estadísticas de racha">
       <span class="streak-icon"><i class="ri-fire-fill"></i></span>
@@ -902,7 +954,8 @@
     <p class="menu-title">¿Qué quieres estudiar?</p>
     <p class="menu-sub">Elige una asignatura para practicar sus ejercicios.</p>
 
-    <div class="curso-label">Segundo curso</div>
+    <div id="ritaSubjects">
+    <div class="curso-label">Segundo curso · Actividades Comerciales</div>
 
     <div class="subject-card tal" onclick="goSubject('tal')">
       <div class="subject-card-accent"></div>
@@ -997,6 +1050,23 @@
     </div>
 
 </div>
+    </div>
+    <div id="hugoSubjects">
+    <div class="curso-label">Primer curso · ASIR</div>
+
+    <div class="subject-card fh" onclick="goSubject('fh')">
+      <div class="subject-card-accent"></div>
+      <div class="subject-header">
+        <div class="subject-icon"><i class="ri-cpu-line"></i></div>
+        <div>
+          <div class="subject-name">Fundamentos de hardware</div>
+          <div class="subject-code">Tema 1 — Representación y comunicación de la información</div>
+        </div>
+      </div>
+      <div class="subject-desc">Bits, sistemas de numeración, conversiones, textos (ASCII y Unicode), unidades de medida y comunicación de la información.</div>
+      <i class="ri-arrow-right-s-line subject-arrow"></i>
+    </div>
+    </div>
 </div>
 
 
@@ -1168,6 +1238,13 @@
           <div class="menu-card-desc">Definiciones cortas para repasar rápido: toca para girar la tarjeta.</div>
         </div>
       </div>
+      <div class="menu-card fh-only" onclick="sacShow('tools')">
+        <div class="menu-icon" style="background:#EEF2FF;"><i class="ri-tools-line ri-lg" style="color:#4F46E5;"></i></div>
+        <div>
+          <div class="menu-card-title">Herramientas y recursos</div>
+          <div class="menu-card-desc">Conversor de bases, de unidades y de texto a bytes, más tus enlaces de consulta.</div>
+        </div>
+      </div>
       <div class="curso-label" style="margin-top:18px;">Practicar</div>
       <div class="menu-card" onclick="sacShow('pick')">
         <div class="menu-icon ic1"><i class="ri-question-line ri-lg"></i></div>
@@ -1195,6 +1272,20 @@
         <div>
           <div class="menu-card-title">Preguntas de desarrollo</div>
           <div class="menu-card-desc"><span id="sacDevCount">0</span> preguntas para escribir tu respuesta y compararla con la respuesta modelo.</div>
+        </div>
+      </div>
+      <div class="menu-card fh-only" onclick="sacStart('conv')">
+        <div class="menu-icon" style="background:#EEF2FF;"><i class="ri-calculator-line ri-lg" style="color:#4F46E5;"></i></div>
+        <div>
+          <div class="menu-card-title">Ejercicios de conversión</div>
+          <div class="menu-card-desc">10 conversiones aleatorias entre binario, octal, decimal y hexadecimal. Escribes el resultado y ves los pasos.</div>
+        </div>
+      </div>
+      <div class="menu-card fh-only" onclick="sacStart('doc')">
+        <div class="menu-icon" style="background:#EEF2FF;"><i class="ri-file-list-3-line ri-lg" style="color:#4F46E5;"></i></div>
+        <div>
+          <div class="menu-card-title">Ejercicios del temario</div>
+          <div class="menu-card-desc">Los 10 ejercicios de tu hoja de conversión (55 apartados), corregidos automáticamente.</div>
         </div>
       </div>
       <div class="curso-label" style="margin-top:18px;">Evaluarte</div>
@@ -1229,6 +1320,17 @@
       <input id="sacSearch" type="search" placeholder="Buscar en los apuntes (ej.: garantía)" oninput="sacSearch(this.value)" style="width:100%;border:2px solid var(--gray-200);border-radius:var(--radius-sm);padding:11px 14px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;">
       <div id="sacSearchEmpty" style="display:none;font-size:13px;color:var(--gray-600);padding:10px 2px;">No hay resultados.</div>
       <div id="sacNotesBody"></div>
+    </div>
+
+    <!-- Herramientas (Fundamentos de hardware) -->
+    <div class="sac-view" id="sacTools">
+      <button class="btn-back-subject" onclick="sacShow('menu')"><i class="ri-arrow-left-line"></i> Volver</button>
+      <p class="menu-title">Herramientas y recursos</p>
+      <p class="menu-sub">Comprueba tus conversiones y consulta las referencias del tema.</p>
+      <div class="sac-acc open"><div class="sac-acc-head" onclick="this.parentNode.classList.toggle('open')"><i class="ri-arrow-left-right-line" style="color:#4F46E5;font-size:20px;"></i>Conversor de bases<i class="ri-arrow-right-s-line chev"></i></div><div class="sac-acc-body"><input class="fh-in" id="fhBaseIn" oninput="fhBaseConv()" placeholder="Número (ej.: 45, 101101, FF)" autocomplete="off" autocapitalize="off" spellcheck="false"><select class="fh-in" id="fhBaseFrom" onchange="fhBaseConv()"><option value="10">Decimal (base 10)</option><option value="2">Binario (base 2)</option><option value="8">Octal (base 8)</option><option value="16">Hexadecimal (base 16)</option></select><div id="fhBaseOut"></div></div></div>
+      <div class="sac-acc"><div class="sac-acc-head" onclick="this.parentNode.classList.toggle('open')"><i class="ri-ruler-2-line" style="color:#4F46E5;font-size:20px;"></i>Conversor de unidades de información<i class="ri-arrow-right-s-line chev"></i></div><div class="sac-acc-body"><input class="fh-in" id="fhUnitIn" oninput="fhUnitConv()" placeholder="Cantidad (ej.: 500)" inputmode="decimal" autocomplete="off"><select class="fh-in" id="fhUnitFrom" onchange="fhUnitConv()"><option>bit</option><option>B</option><option>kB</option><option>MB</option><option>GB</option><option>TB</option><option>KiB</option><option>MiB</option><option>GiB</option><option>TiB</option></select><div id="fhUnitOut"></div></div></div>
+      <div class="sac-acc"><div class="sac-acc-head" onclick="this.parentNode.classList.toggle('open')"><i class="ri-text" style="color:#4F46E5;font-size:20px;"></i>Texto a bytes (Unicode, UTF-8, Windows-1252)<i class="ri-arrow-right-s-line chev"></i></div><div class="sac-acc-body"><input class="fh-in" id="fhTxtIn" oninput="fhTextConv()" placeholder="Escribe un texto (ej.: España €😀)" autocomplete="off" spellcheck="false"><div id="fhTxtOut" style="overflow-x:auto;"></div></div></div>
+      <div class="sac-acc"><div class="sac-acc-head" onclick="this.parentNode.classList.toggle('open')"><i class="ri-links-line" style="color:#4F46E5;font-size:20px;"></i>Enlaces de consulta<i class="ri-arrow-right-s-line chev"></i></div><div class="sac-acc-body"><a class="fh-link" href="https://www.eniun.com/unidades-medida-informatica/" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Unidades de medida en informática<span>eniun.com</span></div></a><a class="fh-link" href="https://www.eniun.com/representacion-comunicacion-informacion/" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Representación y comunicación de la información<span>eniun.com</span></div></a><a class="fh-link" href="https://ascii-tables.com" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Tabla ASCII<span>ascii-tables.com</span></div></a><a class="fh-link" href="https://symbl.cc/en/unicode-table/" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Tabla Unicode<span>symbl.cc</span></div></a><a class="fh-link" href="https://es.wikipedia.org/wiki/Windows-1252" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Windows-1252<span>es.wikipedia.org</span></div></a><a class="fh-link" href="https://www.google.com/search?q=Unit+converter" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Conversor de unidades<span>google.com</span></div></a></div></div>
     </div>
 
     <!-- Tarjetas -->
@@ -1379,6 +1481,46 @@
   var mode = 0;
   var current = null, qIdx = 0;
 
+  // ===================== PERFILES (Rita / Hugo) =====================
+  // Rita conserva las claves antiguas (lt_stats…); Hugo usa el prefijo lt_hugo_.
+  var PROFILES = {
+    rita: {name:'Rita Botella Pomata', first:'Rita', rest:'Botella Pomata', prefix:''},
+    hugo: {name:'Hugo Sanz Abad', first:'Hugo', rest:'Sanz Abad', prefix:'hugo_'}
+  };
+  var profile = null;
+  try { profile = localStorage.getItem('lt_profile'); } catch(e) {}
+  if(!PROFILES[profile]) profile = null;
+  function pkey(base){ return 'lt_' + (profile ? PROFILES[profile].prefix : '') + base; }
+  function applyProfile(){
+    var p = PROFILES[profile];
+    document.body.classList.toggle('profile-hugo', profile === 'hugo');
+    if(p){
+      document.getElementById('logoFirst').textContent = p.first;
+      document.getElementById('logoRest').textContent = ' ' + p.rest;
+      document.title = 'Estudio — ' + p.name;
+    }
+    document.getElementById('loginOverlay').style.display = profile ? 'none' : 'flex';
+    var cancel = document.getElementById('loginCancel');
+    if(cancel) cancel.style.display = profile ? 'block' : 'none';
+  }
+  function openLogin(){
+    document.getElementById('loginOverlay').style.display = 'flex';
+    var cancel = document.getElementById('loginCancel');
+    if(cancel) cancel.style.display = profile ? 'block' : 'none';
+    ['rita','hugo'].forEach(function(k){
+      var c = document.getElementById('loginCard-' + k);
+      if(c) c.classList.toggle('current', k === profile);
+    });
+  }
+  function closeLogin(){ if(profile) document.getElementById('loginOverlay').style.display = 'none'; }
+  function chooseProfile(k){
+    if(!PROFILES[k]) return;
+    if(k === profile){ closeLogin(); return; }
+    try { localStorage.setItem('lt_profile', k); } catch(e) {}
+    location.reload();
+  }
+  applyProfile();
+
   // ===================== TEMA (claro / oscuro) =====================
   function applyTheme(t){
     document.documentElement.setAttribute('data-theme', t);
@@ -1418,10 +1560,10 @@
   function dayKey(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
   function stLoad(){
     var s = null;
-    try { s = JSON.parse(localStorage.getItem('lt_stats')); } catch(e) {}
+    try { s = JSON.parse(localStorage.getItem(pkey('stats'))); } catch(e) {}
     if(!s){
       var old = 0;
-      try { old = parseInt(localStorage.getItem('lt_streak')) || 0; } catch(e) {}
+      try { old = parseInt(localStorage.getItem(pkey('streak'))) || 0; } catch(e) {}
       s = {cur:old, best:old, days:0, last:'', todayKey:'', todayOk:0, todayKo:0, totalOk:0, totalKo:0};
     }
     // si pasó más de un día sin estudiar, la racha de días se pierde
@@ -1434,7 +1576,7 @@
   }
   var stats = stLoad();
   var streak = stats.cur;
-  function stSave(){ try { localStorage.setItem('lt_stats', JSON.stringify(stats)); localStorage.setItem('lt_streak', stats.cur); } catch(e) {} }
+  function stSave(){ try { localStorage.setItem(pkey('stats'), JSON.stringify(stats)); localStorage.setItem(pkey('streak'), stats.cur); } catch(e) {} }
   function stRender(){
     streak = stats.cur;
     document.getElementById('streakN').textContent = stats.cur;
@@ -1515,7 +1657,7 @@
       document.getElementById('menuScreen').classList.add('active');
     } else if (subj === 'mkt') {
       document.getElementById('mktMenuScreen').classList.add('active');
-    } else if (subj === 'sac' || subj === 'vt') {
+    } else if (subj === 'sac' || subj === 'vt' || subj === 'fh') {
       qzUse(subj);
       document.getElementById('sacScreen').classList.add('active');
       sacShow('menu');
@@ -2015,11 +2157,519 @@
   };
   var qz = QZ_SETS.sac;
 
+  // ===================== FH (Fundamentos de hardware) — perfil Hugo =====================
+  var FH_BASE_NAME = {2:'binario', 8:'octal', 10:'decimal', 16:'hexadecimal'};
+  function fhSubNum(b){ return String(b).replace(/\d/g, function(d){ return '₀₁₂₃₄₅₆₇₈₉'.charAt(+d); }); }
+  function fhStr(val, base){ return val.toString(base).toUpperCase(); }
+  function fhPad(s, g){ while(s.length % g) s = '0' + s; return s; }
+
+  var FH_SECTIONS = {
+    bits: {n:'1. Bits, bytes y combinaciones', i:'ri-toggle-line'},
+    num:  {n:'2. Sistemas de numeración', i:'ri-hashtag'},
+    cb:   {n:'3. Conversiones entre bases', i:'ri-arrow-left-right-line'},
+    apl:  {n:'4. Aplicaciones prácticas', i:'ri-terminal-box-line'},
+    txt:  {n:'5. Representación de textos', i:'ri-text'},
+    uni:  {n:'6. Unidades de medida', i:'ri-ruler-2-line'},
+    com:  {n:'7. Comunicación y otros datos', i:'ri-signal-tower-line'},
+    prac: {n:'Práctica de conversión', i:'ri-calculator-line'}
+  };
+
+  var FH_NOTES = {
+    bits: '<div class="sac-box">Los ordenadores son <b>digitales</b>: trabajan con señales de dos estados. <b>Presencia de tensión</b> (5 V o 3,3 V) = <b>1</b>; <b>ausencia</b> (0 V) = <b>0</b>. Por eso usan el <b>sistema binario</b>.</div>' +
+      '<p><b>Bit</b> (binary digit): unidad mínima de información, vale 0 (apagado, falso, no) o 1 (encendido, verdadero, sí). <b>Byte</b> = 8 bits.</p>' +
+      '<p>Un mismo 0/1 puede significar: alto/bajo, encendido/apagado, verdadero/falso, positivo/negativo, presencia/ausencia, permiso/denegación.</p>' +
+      '<h4>Combinaciones: n bits → 2ⁿ</h4><table><tr><th>Bits</th><th>Combinaciones</th></tr>' +
+      '<tr><td>1</td><td>2 (2¹)</td></tr><tr><td>2</td><td>4 (2²)</td></tr><tr><td>3</td><td>8 (2³)</td></tr><tr><td>4</td><td>16 (2⁴)</td></tr>' +
+      '<tr><td>8</td><td>256 (2⁸) → valores 0 a 255</td></tr><tr><td>16</td><td>65.536 (2¹⁶)</td></tr><tr><td>32</td><td>4.294.967.296 (2³²)</td></tr></table>' +
+      '<h4>Potencias de 2 (memorizar)</h4><p>2⁰=1 · 2¹=2 · 2²=4 · 2³=8 · 2⁴=16 · 2⁵=32 · 2⁶=64 · 2⁷=128 · 2⁸=256 · 2⁹=512 · 2¹⁰=1024</p>' +
+      '<h4>Terminología</h4><ul><li><b>MSB</b>: bit más significativo (izquierda, mayor valor).</li><li><b>LSB</b>: bit menos significativo (derecha, menor valor).</li><li><b>Byte</b>: 8 bits, de 0 a 255.</li></ul>' +
+      '<p>Una misma secuencia depende del contexto: <b>01000011</b> = número 67 = letra «C» (ASCII) = valor de un píxel.</p>',
+    num: '<div class="sac-box"><b>Sistema de numeración:</b> conjunto de símbolos y reglas para representar cantidades. Elementos: <b>base</b> (nº de símbolos), <b>dígitos</b> (de 0 a base−1) y <b>valor posicional</b> (cada posición es una potencia de la base).</div>' +
+      '<table><tr><th>Sistema</th><th>Base</th><th>Dígitos</th><th>Notación</th><th>Uso</th></tr>' +
+      '<tr><td>Decimal</td><td>10</td><td>0-9</td><td>125₁₀</td><td>Uso humano</td></tr>' +
+      '<tr><td>Binario</td><td>2</td><td>0, 1</td><td>1101₂ · 0b1101</td><td>Representación interna</td></tr>' +
+      '<tr><td>Octal</td><td>8</td><td>0-7</td><td>755₈ · 0o755</td><td>Permisos Unix/Linux</td></tr>' +
+      '<tr><td>Hexadecimal</td><td>16</td><td>0-9, A-F</td><td>2AF₁₆ · 0x2AF · #</td><td>Direcciones, colores</td></tr></table>' +
+      '<h4>¿Por qué varios sistemas?</h4><ul><li><b>Binario:</b> lenguaje natural del ordenador (electricidad on/off).</li><li><b>Octal:</b> agrupa bits de 3 en 3.</li><li><b>Hexadecimal:</b> agrupa bits de 4 en 4; muy compacto y legible.</li><li><b>Decimal:</b> el de los humanos.</li></ul>' +
+      '<h4>Valor posicional</h4><p>3.527₁₀ = 3×10³ + 5×10² + 2×10¹ + 7×10⁰.<br>1101₂ = 8 + 4 + 0 + 1 = 13₁₀.<br>753₈ = 7×64 + 5×8 + 3 = 491₁₀.<br>2A3F₁₆ = 2×4096 + 10×256 + 3×16 + 15 = 10.815₁₀.</p>' +
+      '<h4>Relación con el binario</h4><ul><li>1 dígito <b>octal</b> = <b>3 bits</b>.</li><li>1 dígito <b>hexadecimal</b> = <b>4 bits</b> → 2 dígitos hex = 1 byte.</li></ul>' +
+      '<p><b>Importante:</b> indica siempre la base. 101 puede ser 101₁₀, 5 (binario), 65 (octal) o 257 (hex).</p>',
+    cb: '<h4>Resumen de métodos</h4><table><tr><th>Conversión</th><th>Método</th></tr>' +
+      '<tr><td>Binario → decimal</td><td>Multiplicar cada bit por su potencia de 2 y sumar</td></tr>' +
+      '<tr><td>Decimal → binario</td><td>Divisiones sucesivas entre 2; restos de abajo hacia arriba</td></tr>' +
+      '<tr><td>Binario → octal</td><td>Agrupar de 3 en 3 bits (desde la derecha)</td></tr>' +
+      '<tr><td>Octal → binario</td><td>Cada dígito = 3 bits</td></tr>' +
+      '<tr><td>Binario → hexadecimal</td><td>Agrupar de 4 en 4 bits (rellenar con ceros a la izquierda)</td></tr>' +
+      '<tr><td>Hexadecimal → binario</td><td>Cada dígito = 4 bits</td></tr>' +
+      '<tr><td>Decimal → octal / hex</td><td>Divisiones sucesivas entre 8 / 16, o vía binario</td></tr>' +
+      '<tr><td>Octal / hex → decimal</td><td>Potencias de 8 / 16, o vía binario</td></tr>' +
+      '<tr><td>Octal ↔ hexadecimal</td><td>Siempre vía binario</td></tr></table>' +
+      '<h4>Ejemplos</h4><ul>' +
+      '<li><b>45₁₀ → binario:</b> 45÷2=22 r1 · 22÷2=11 r0 · 11÷2=5 r1 · 5÷2=2 r1 · 2÷2=1 r0 · 1÷2=0 r1 → <b>101101₂</b></li>' +
+      '<li><b>101110011₂ → octal:</b> 101|110|011 → <b>563₈</b></li>' +
+      '<li><b>10110101111₂ → hex:</b> 0101|1010|1111 → <b>5AF₁₆</b></li>' +
+      '<li><b>3C9₁₆ → binario:</b> 0011|1100|1001 → <b>1111001001₂</b></li>' +
+      '<li><b>2748₁₀ → hex:</b> 2748÷16=171 r12(C) · 171÷16=10 r11(B) · 10 r10(A) → <b>ABC₁₆</b></li>' +
+      '<li><b>765₈ → hex (vía binario):</b> 111110101 → 0001|1111|0101 → <b>1F5₁₆</b></li>' +
+      '<li><b>3D₁₆ → octal:</b> 00111101 → 000|111|101 → <b>75₈</b></li></ul>',
+    apl: '<h4>Colores HTML/CSS (#RRGGBB)</h4><p>Cada componente va de 00 a FF (0 a 255). #FFFFFF blanco · #000000 negro · #FF0000 rojo · #00FF00 verde · #0000FF azul · #FFA500 naranja (255, 165, 0). #3498DB = (52, 152, 219).</p>' +
+      '<h4>Direcciones IPv4</h4><p>4 octetos (32 bits). 192.168.1.254 = 11000000.10101000.00000001.11111110 = C0.A8.01.FE. Máscara 255.255.255.0 = 24 bits a 1; 255.255.0.0 = 16 bits a 1.</p>' +
+      '<h4>Direcciones MAC</h4><p>6 bytes (48 bits) en hexadecimal, por ejemplo A4:5E:60:E7:3B:2F (A4₁₆ = 164₁₀).</p>' +
+      '<h4>Permisos Linux (chmod)</h4><p>3 dígitos octales: [propietario][grupo][otros]. Cada dígito suma <b>4 = lectura (r)</b>, <b>2 = escritura (w)</b>, <b>1 = ejecución (x)</b>.</p>' +
+      '<table><tr><th>Octal</th><th>Permisos</th><th>Significado</th></tr><tr><td>777</td><td>rwxrwxrwx</td><td>Todo para todos</td></tr><tr><td>755</td><td>rwxr-xr-x</td><td>Propietario todo; resto lee y ejecuta</td></tr><tr><td>644</td><td>rw-r--r--</td><td>Propietario lee/escribe; resto lee</td></tr><tr><td>600</td><td>rw-------</td><td>Solo propietario lee/escribe</td></tr><tr><td>666</td><td>rw-rw-rw-</td><td>Todos leen/escriben, nadie ejecuta</td></tr></table>' +
+      '<h4>Memoria y puertos</h4><ul><li>Direcciones de memoria en hexadecimal: 1 byte = 2 dígitos hex.</li><li>Puertos de red: 0 a 65535 (16 bits). HTTP 80 = 0x0050 · HTTPS 443 = 0x01BB · FTP 21 = 0x0015 · SSH 22 = 0x0016 · DNS 53 = 0x0035.</li></ul>' +
+      '<h4>Códigos de error</h4><p>Windows muestra errores en hex, p. ej. 0x80004005 (error no especificado) o 0x80070002 (no se encuentra el archivo).</p>',
+    txt: '<div class="sac-box"><b>Codificación de caracteres:</b> correspondencia entre cada carácter y un número. Dos pasos: 1) asignar un número al carácter (A = 65); 2) guardar ese número como secuencia de bytes según unas reglas.</div>' +
+      '<p>Si un texto se guarda con una codificación y se lee con otra aparecen «caracteres raros» (<b>Ã±</b> en lugar de <b>ñ</b>): el <b>mojibake</b>.</p>' +
+      '<h4>ASCII</h4><ul><li><b>7 bits</b> → <b>128 caracteres</b> (0 a 127). Se guarda en 1 byte (el bit más alto queda libre).</li><li>Años 60; base de las codificaciones posteriores.</li><li>0–31 control · 32 espacio · 48–57 dígitos · 65–90 mayúsculas · 97–122 minúsculas · 127 DEL.</li><li>Limitaciones: sin ñ, tildes ni €; no sirve para lenguas no latinas.</li></ul>' +
+      '<table><tr><th>Car.</th><th>Dec</th><th>Hex</th><th>Binario</th></tr><tr><td>A</td><td>65</td><td>0x41</td><td>01000001</td></tr><tr><td>a</td><td>97</td><td>0x61</td><td>01100001</td></tr><tr><td>0</td><td>48</td><td>0x30</td><td>00110000</td></tr><tr><td>Espacio</td><td>32</td><td>0x20</td><td>00100000</td></tr><tr><td>LF</td><td>10</td><td>0x0A</td><td>00001010</td></tr></table>' +
+      '<h4>Unicode</h4><ul><li>Asigna un <b>punto de código</b> único: U+0041 (A), U+00F1 (ñ), U+20AC (€).</li><li>Más de 150.000 caracteres y 150 sistemas de escritura.</li><li>Los primeros 128 coinciden con ASCII; los primeros 256 con Latin-1.</li><li>Unicode define <b>qué número</b>; <b>UTF-8/16/32</b> definen <b>cómo se guarda</b> en bytes.</li></ul>' +
+      '<table><tr><th>Codif.</th><th>Tamaño</th><th>Uso</th></tr><tr><td>UTF-8</td><td>1 a 4 bytes</td><td>Web, Linux, estándar en internet</td></tr><tr><td>UTF-16</td><td>2 o 4 bytes</td><td>Windows (interno), Java, JavaScript</td></tr><tr><td>UTF-32</td><td>4 bytes fijos</td><td>Poco usado</td></tr></table>' +
+      '<p>UTF-8: A = 41 (1 byte) · ñ = C3 B1 (2) · € = E2 82 AC (3) · 😀 = F0 9F 98 80 (4).</p>' +
+      '<p><b>Relación:</b> ASCII (7 bits, 128) ⊂ Latin-1 / ISO 8859-1 (8 bits, 256) ⊂ Unicode. Latin-1 no es de la familia Unicode, aunque sus primeros caracteres coincidan. ANSI/Windows-1252 es una extensión de 8 bits de Windows.</p>' +
+      '<p><b>Ejemplo del error:</b> ñ en UTF-8 = C3 B1. Leído como Windows-1252: C3 = «Ã», B1 = «±» → «Ã±».</p>',
+    uni: '<div class="sac-box"><b>Byte (B)</b> = 8 bits (b). Mayúscula = byte; minúscula = bit.</div>' +
+      '<h4>Sistema Internacional (base 10)</h4><table><tr><th>Unidad</th><th>Equivalencia</th></tr><tr><td>kilobyte (kB)</td><td>10³ = 1.000 B</td></tr><tr><td>megabyte (MB)</td><td>10⁶ B</td></tr><tr><td>gigabyte (GB)</td><td>10⁹ B</td></tr><tr><td>terabyte (TB)</td><td>10¹² B</td></tr></table>' +
+      '<h4>IEC (base 2)</h4><table><tr><th>Unidad</th><th>Equivalencia</th></tr><tr><td>kibibyte (KiB)</td><td>2¹⁰ = 1.024 B</td></tr><tr><td>mebibyte (MiB)</td><td>2²⁰ = 1.048.576 B</td></tr><tr><td>gibibyte (GiB)</td><td>2³⁰ = 1.073.741.824 B</td></tr><tr><td>tebibyte (TiB)</td><td>2⁴⁰ = 1.099.511.627.776 B</td></tr></table>' +
+      '<p>Entre unidades SI se multiplica/divide por <b>1.000</b>; entre IEC, por <b>1.024</b>.</p>' +
+      '<p><b>Ejemplo:</b> 500 GB (SI) → 500·10⁹ B ÷ 1.073.741.824 = <b>465,66 GiB</b>. Los fabricantes usan SI (cifras más grandes) y los sistemas operativos suelen mostrar base 1024.</p>' +
+      '<h4>Otras unidades</h4><ul><li><b>Hz:</b> frecuencia del procesador (GHz, MHz, kHz).</li><li><b>bps:</b> velocidad de transferencia (Gbps, Mbps, kbps).</li><li><b>Ancho de banda:</b> capacidad máxima teórica en bps.</li><li><b>Latencia (ms):</b> tiempo que tardan los datos en viajar.</li></ul>' +
+      '<p>Bytes = bits ÷ 8 · Bits = bytes × 8.</p>',
+    com: '<h4>Elementos de la comunicación</h4><ul><li><b>Emisor</b> envía · <b>Receptor</b> recibe · <b>Mensaje</b> · <b>Canal</b> (cable, inalámbrico…) · <b>Código</b> · <b>Contexto</b>.</li></ul>' +
+      '<h4>Etapas de la transmisión</h4><ol><li>Codificación</li><li>Encriptación (confidencialidad)</li><li>Compresión (reducir tamaño)</li><li>Inserción de redundancia (detectar/corregir errores)</li><li>Transmisión</li><li>Comprobación de errores</li><li>Descompresión</li><li>Desencriptación</li><li>Decodificación</li></ol>' +
+      '<h4>Buses de datos</h4><p>Sistema que transfiere datos entre CPU, memoria y periféricos. La <b>anchura</b> es el nº de bits transmitidos a la vez (8 bits = 1 byte por ciclo; 32 o 64 bits = más por ciclo): determina la velocidad.</p>' +
+      '<h4>Imágenes</h4><ul><li><b>Mapa de bits:</b> píxeles. Gris: 8 bits (256 tonos). Color RGB: 24 bits (8 por canal) → 2²⁴ ≈ 16 millones de colores. Se granulan al ampliar. Formatos: JPG, PNG, GIF, WebP.</li><li><b>Vectoriales:</b> fórmulas matemáticas; no pierden calidad al ampliar. Formato SVG.</li></ul>' +
+      '<table><tr><th>Formato</th><th>Tipo</th><th>Característica</th></tr><tr><td>SVG</td><td>Vectorial</td><td>Iconos, logotipos; escalable</td></tr><tr><td>PNG</td><td>Mapa de bits</td><td>Sin pérdida, transparencia</td></tr><tr><td>JPEG</td><td>Mapa de bits</td><td>Fotografías; con pérdida</td></tr><tr><td>GIF</td><td>Mapa de bits</td><td>256 colores, animaciones simples</td></tr><tr><td>WebP</td><td>Mapa de bits</td><td>Alta compresión, web</td></tr></table>' +
+      '<h4>Sonido y vídeo</h4><ul><li><b>Sonido digital:</b> <b>muestreo</b> (muestras separadas por un tiempo constante) y <b>cuantificación</b> (valores de amplitud en bits). Formatos WAV, MP3, OGG.</li><li><b>Vídeo:</b> secuencia de imágenes (frames) con audio, metadatos y subtítulos. MPG, AVI, MOV, MP4.</li></ul>' +
+      '<h4>Informática cuántica</h4><p>Los <b>cúbits</b> pueden estar en superposición (0 y 1 a la vez); los bits clásicos, solo en un estado.</p>',
+    prac: '<div class="sac-box">En esta sección practicas con <b>ejercicios de escribir la respuesta</b>: «Ejercicios de conversión» (aleatorios) y «Ejercicios del temario» (los de tu hoja). Se acepta la respuesta con o sin ceros a la izquierda.</div>' +
+      '<p>Recuerda: decimal → otra base = <b>divisiones sucesivas</b>; otra base → decimal = <b>suma de potencias</b>; binario ↔ octal/hex = <b>agrupar bits</b> (3 o 4); octal ↔ hex = <b>vía binario</b>.</p>'
+  };
+
+  var FH_QS = [
+    // ---- 1. Bits ----
+    {s:'bits', q:'¿Cuántas combinaciones distintas se pueden representar con 8 bits?', o:['256 (2⁸)','128','512','255'], e:'Con n bits hay 2ⁿ combinaciones: 2⁸ = 256 (los valores van de 0 a 255).'},
+    {s:'bits', q:'Con 4 bits se pueden representar…', o:['16 valores distintos','8 valores distintos','4 valores distintos','32 valores distintos'], e:'2⁴ = 16.'},
+    {s:'bits', q:'Los ordenadores trabajan con el sistema binario porque…', o:['Sus señales eléctricas tienen dos estados: presencia y ausencia de tensión','Usan tres niveles de tensión','Trabajan con señales continuas','El sistema decimal es incompatible con la electricidad'], e:'Son dispositivos digitales: tensión = 1, ausencia de tensión = 0.'},
+    {s:'bits', q:'¿Qué valores puede representar un byte?', o:['De 0 a 255','De 0 a 256','De 1 a 255','De 0 a 127'], e:'8 bits → 256 combinaciones: 0 a 255.'},
+    {s:'bits', q:'Con 16 bits se representan…', o:['65.536 combinaciones','32.768 combinaciones','16.384 combinaciones','1.024 combinaciones'], e:'2¹⁶ = 65.536.'},
+    {s:'bits', q:'La secuencia 01000011 puede interpretarse como…', o:['El número 67 o la letra C, según el contexto','Únicamente el número 67','Únicamente la letra C','Siempre un píxel de una imagen'], e:'Una misma secuencia de bits depende del contexto: número (67), carácter ASCII (C) o dato de una imagen.'},
+    {s:'bits', q:'¿Cuántas combinaciones permiten 32 bits?', o:['4.294.967.296','65.536','2.147.483.648','1.073.741.824'], e:'2³² = 4.294.967.296.'},
+    {s:'bits', q:'¿Cuántos bits hacen falta como mínimo para representar 100 valores distintos?', o:['7','6','8','10'], e:'2⁶ = 64 no llega; 2⁷ = 128 sí. Hacen falta 7 bits.'},
+    {s:'bits', q:'¿Qué es el bit más significativo (MSB)?', o:['El bit de la izquierda, el de mayor valor','El bit de la derecha, el de menor valor','El primer bit que vale 1 empezando por la derecha','El bit de paridad'], e:'MSB: izquierda, mayor valor. LSB: derecha, menor valor.'},
+    {s:'bits', q:'Con 3 bits se pueden representar…', o:['8 valores (de 000 a 111)','6 valores','9 valores','3 valores'], e:'2³ = 8.'},
+    // ---- 2. Sistemas de numeración ----
+    {s:'num', q:'¿Qué dígitos utiliza el sistema octal?', o:['0 a 7','0 a 8','1 a 8','0 a 9'], e:'Base 8: dígitos de 0 a base−1 = 7.'},
+    {s:'num', q:'Un dígito hexadecimal equivale exactamente a…', o:['4 bits','3 bits','8 bits','2 bits'], e:'Hexadecimal agrupa bits de 4 en 4; octal, de 3 en 3.'},
+    {s:'num', q:'Un dígito octal equivale exactamente a…', o:['3 bits','4 bits','2 bits','8 bits'], e:'Cada dígito octal (0-7) se representa con 3 bits.'},
+    {s:'num', q:'¿Cuántos dígitos hexadecimales hacen falta para representar un byte?', o:['2','1','4','8'], e:'1 byte = 8 bits = 2 grupos de 4 bits = 2 dígitos hexadecimales.'},
+    {s:'num', q:'En el número 3.527₁₀, el dígito 5 vale…', o:['500 (5×10²)','50','5.000','5'], e:'Valor posicional: ocupa la posición de las centenas.'},
+    {s:'num', q:'La notación 0x2AF indica un número…', o:['Hexadecimal','Octal','Binario','Decimal'], e:'0x es el prefijo hexadecimal. 0b = binario; 0o = octal.'},
+    {s:'num', q:'¿Para qué se usa principalmente el sistema octal en informática?', o:['Para los permisos de archivos en Unix/Linux','Para los colores web','Para las direcciones MAC','Para codificar texto'], e:'chmod 755, 644…: permisos en octal.'},
+    {s:'num', q:'¿Por qué se usa el hexadecimal para direcciones de memoria?', o:['Es compacto: 1 byte son exactamente 2 dígitos hexadecimales','Porque el ordenador solo entiende hexadecimal','Porque es el sistema de los humanos','Porque ocupa más espacio y es más seguro'], e:'Más compacto que el binario y más legible que el decimal para este uso.'},
+    {s:'num', q:'El número 101 escrito en binario, octal y hexadecimal vale en decimal, respectivamente…', o:['5, 65 y 257','101, 101 y 101','5, 8 y 16','3, 5 y 257'], e:'101₂ = 5 · 101₈ = 64+1 = 65 · 101₁₆ = 256+1 = 257. Por eso hay que indicar siempre la base.'},
+    {s:'num', q:'¿Cuánto vale 2¹⁰?', o:['1.024','1.000','512','2.048'], e:'2¹⁰ = 1.024.'},
+    {s:'num', q:'¿Cuál de estos números NO es un octal válido?', o:['758','777','100','7'], e:'En octal no existe el dígito 8.'},
+    {s:'num', q:'¿Cuál de estos números NO es un binario válido?', o:['10201','1101','1000','11111111'], e:'El binario solo admite 0 y 1.'},
+    {s:'num', q:'¿Qué sistema es «el lenguaje natural del ordenador»?', o:['El binario','El decimal','El octal','El hexadecimal'], e:'Se corresponde con la electricidad encendido/apagado.'},
+    // ---- 3. Conversiones (teoría) ----
+    {s:'cb', q:'Para pasar de decimal a binario se utiliza…', o:['Divisiones sucesivas entre 2, leyendo los restos de abajo hacia arriba','Multiplicaciones sucesivas por 2','Agrupar de 4 en 4 bits','Sumar potencias de 10'], e:'El último resto es el bit más significativo (MSB).'},
+    {s:'cb', q:'Para pasar de binario a octal se agrupan los bits…', o:['De 3 en 3 desde la derecha','De 4 en 4 desde la derecha','De 2 en 2 desde la izquierda','De 8 en 8'], e:'Cada dígito octal = 3 bits.'},
+    {s:'cb', q:'Para pasar de binario a hexadecimal se agrupan los bits…', o:['De 4 en 4 desde la derecha, rellenando con ceros a la izquierda','De 3 en 3 desde la derecha','De 8 en 8 desde la izquierda','De 4 en 4 desde la izquierda'], e:'Cada dígito hexadecimal = 4 bits.'},
+    {s:'cb', q:'¿Cómo se convierte un número octal a hexadecimal?', o:['Pasando primero por binario','Directamente dígito a dígito','Multiplicando por 2','Dividiendo entre 16 sin pasar por otra base'], e:'Octal ↔ hexadecimal se hace siempre vía binario.'},
+    {s:'cb', q:'Para pasar de binario a decimal…', o:['Se multiplica cada bit por su potencia de 2 y se suman los resultados','Se dividen los bits entre 2','Se agrupan de 4 en 4','Se cuentan los unos'], e:'Ej.: 10110₂ = 16 + 4 + 2 = 22.'},
+    {s:'cb', q:'Al convertir de decimal a otra base con divisiones sucesivas, el resultado se escribe…', o:['Leyendo los restos del último al primero','Leyendo los restos del primero al último','Con los cocientes','Solo con el último cociente'], e:'De abajo hacia arriba: el primer resto es el dígito menos significativo.'},
+    {s:'cb', q:'Para convertir 3D₁₆ a octal hay que…', o:['Pasar a binario (00111101), agrupar de 3 en 3 y convertir (075 = 75₈)','Dividir entre 8 directamente','Agrupar de 4 en 4 el hexadecimal','Restarle 8'], e:'3D₁₆ = 00111101₂ = 000|111|101 = 75₈.'},
+    // ---- 4. Aplicaciones ----
+    {s:'apl', q:'El color #FFA500 tiene como componentes (R, G, B)…', o:['255, 165, 0','255, 165, 255','165, 255, 0','255, 0, 165'], e:'FF = 255 · A5 = 10×16+5 = 165 · 00 = 0. Es el naranja.'},
+    {s:'apl', q:'Los permisos chmod 755 equivalen a…', o:['rwxr-xr-x','rwxrwxrwx','rw-r--r--','rwx------'], e:'7 = rwx · 5 = r-x · 5 = r-x.'},
+    {s:'apl', q:'Un archivo con permisos 644 permite…', o:['Al propietario leer y escribir; al grupo y a otros solo leer','A todos leer y escribir','Al propietario ejecutar','A nadie leer'], e:'6 = rw- · 4 = r-- · 4 = r--. Nadie puede ejecutarlo.'},
+    {s:'apl', q:'En los permisos octales, el valor 5 equivale a…', o:['r-x (4+1)','rw- (4+2)','-wx (2+1)','rwx (4+2+1)'], e:'4 = lectura, 2 = escritura, 1 = ejecución.'},
+    {s:'apl', q:'¿Cuántos bits tiene una dirección MAC?', o:['48 (6 bytes)','32 (4 bytes)','64 (8 bytes)','128 (16 bytes)'], e:'6 bytes en hexadecimal. 32 bits son una IPv4.'},
+    {s:'apl', q:'¿Cuántos bits tiene una dirección IPv4?', o:['32 (4 octetos)','48','64','128'], e:'Cuatro octetos de 8 bits.'},
+    {s:'apl', q:'La dirección IP 192.168.1.254 en hexadecimal es…', o:['C0.A8.01.FE','C0.A8.01.FF','B0.A8.01.FE','C0.A9.01.FE'], e:'192 = C0 · 168 = A8 · 1 = 01 · 254 = FE.'},
+    {s:'apl', q:'La máscara 255.255.255.0 tiene…', o:['24 bits activos (a 1)','16 bits activos','32 bits activos','8 bits activos'], e:'Tres octetos 11111111 y uno 00000000.'},
+    {s:'apl', q:'Los puertos de red se numeran de 0 a 65535 porque…', o:['Usan 16 bits (2¹⁶ − 1 = 65535)','Usan 8 bits','Usan 32 bits','Es una convención sin relación con los bits'], e:'2¹⁶ = 65.536 valores (0 a 65535).'},
+    {s:'apl', q:'El puerto HTTPS (443) en hexadecimal es…', o:['0x01BB','0x0050','0x0016','0x0443'], e:'443 = 1×256 + 187 (BB) → 0x01BB. HTTP (80) = 0x0050; SSH (22) = 0x0016.'},
+    {s:'apl', q:'En el color #3498DB, el componente verde en decimal es…', o:['152 (98₁₆)','52 (34₁₆)','219 (DB₁₆)','98'], e:'Rojo 34₁₆ = 52 · Verde 98₁₆ = 152 · Azul DB₁₆ = 219.'},
+    {s:'apl', q:'¿Cuál es el código hexadecimal del azul puro?', o:['#0000FF','#00FF00','#FF0000','#00FFFF'], e:'R = 0, G = 0, B = 255 (FF).'},
+    {s:'apl', q:'Los permisos 600 significan…', o:['rw------- (solo el propietario lee y escribe)','rwx------','rw-rw-rw-','r--r--r--'], e:'6 = rw- para el propietario; 0 para grupo y otros.'},
+    // ---- 5. Textos ----
+    {s:'txt', q:'ASCII utiliza…', o:['7 bits, 128 caracteres','8 bits, 256 caracteres','16 bits, 65.536 caracteres','7 bits, 256 caracteres'], e:'ASCII estándar: 7 bits = 128 caracteres (0–127).'},
+    {s:'txt', q:'¿Qué código ASCII tiene la letra A mayúscula?', o:['65 (0x41)','97 (0x61)','48 (0x30)','32 (0x20)'], e:'a minúscula = 97; el dígito 0 = 48; el espacio = 32.'},
+    {s:'txt', q:'La diferencia entre una mayúscula y su minúscula en ASCII es…', o:['32','16','26','64'], e:'A = 65 y a = 97: difieren en 32 (0x20).'},
+    {s:'txt', q:'¿Qué rango ASCII corresponde a los caracteres de control no imprimibles?', o:['0 a 31','32 a 47','48 a 57','65 a 90'], e:'El 32 es el espacio; 48–57 dígitos; 65–90 mayúsculas.'},
+    {s:'txt', q:'¿Por qué ASCII no sirve para el español?', o:['No incluye la ñ ni las vocales acentuadas','Solo admite números','Usa 64 caracteres','No tiene letras'], e:'Solo cubre el alfabeto inglés; por eso aparecieron Latin-1 y Unicode.'},
+    {s:'txt', q:'Un punto de código Unicode se escribe como…', o:['U+XXXX en hexadecimal (por ejemplo U+00F1)','0bXXXX en binario','#XXXX','&XXXX'], e:'U+0041 (A), U+00F1 (ñ), U+20AC (€).'},
+    {s:'txt', q:'UTF-8 representa cada carácter con…', o:['De 1 a 4 bytes','Siempre 1 byte','Siempre 2 bytes','Siempre 4 bytes'], e:'Longitud variable. UTF-32 es el de 4 bytes fijos.'},
+    {s:'txt', q:'La ñ en UTF-8 son los bytes…', o:['C3 B1 (2 bytes)','F1 (1 byte)','E2 82 AC (3 bytes)','F0 9F 98 80 (4 bytes)'], e:'U+00F1 → C3 B1. En Latin-1 (no UTF-8) sería F1.'},
+    {s:'txt', q:'El símbolo € (U+20AC) ocupa en UTF-8…', o:['3 bytes (E2 82 AC)','1 byte','2 bytes','4 bytes'], e:'Entre U+0800 y U+FFFF se necesitan 3 bytes.'},
+    {s:'txt', q:'Un emoji como 😀 (U+1F600) ocupa en UTF-8…', o:['4 bytes (F0 9F 98 80)','2 bytes','3 bytes','1 byte'], e:'Los puntos de código altos usan 4 bytes.'},
+    {s:'txt', q:'Si guardas «España» en UTF-8 y lo abres como Windows-1252 verás…', o:['EspaÃ±a','España','Espana','Espa?a'], e:'La ñ son los bytes C3 B1; en Windows-1252 se leen como «Ã» y «±».'},
+    {s:'txt', q:'¿Qué relación hay entre Unicode y UTF-8?', o:['Unicode asigna el número a cada carácter; UTF-8 define cómo guardarlo en bytes','Son lo mismo','UTF-8 asigna los números y Unicode los guarda','Unicode es una variante de ASCII de 7 bits'], e:'Unicode = catálogo de caracteres; UTF-8/16/32 = codificaciones.'},
+    {s:'txt', q:'¿Qué relación de inclusión es correcta?', o:['ASCII ⊂ Latin-1 ⊂ Unicode','Unicode ⊂ Latin-1 ⊂ ASCII','Latin-1 ⊂ ASCII ⊂ Unicode','ASCII ⊂ UTF-8 ⊂ Latin-1'], e:'ASCII (128) ⊂ Latin-1 (256) ⊂ Unicode (+150.000).'},
+    {s:'txt', q:'UTF-16 se usa sobre todo en…', o:['Windows (interno), Java y JavaScript','Servidores web Linux como estándar de internet','Archivos con solo caracteres ASCII','Memorias de 8 bits'], e:'UTF-8 es el estándar en web y Linux; UTF-16 usa 2 o 4 bytes.'},
+    {s:'txt', q:'¿Cuántos bytes ocupa SIEMPRE un carácter en UTF-32?', o:['4','1','2','Entre 1 y 4'], e:'UTF-32 es de longitud fija: simple pero ocupa mucho espacio.'},
+    {s:'txt', q:'¿Cuántos caracteres puede representar ISO 8859-1 (Latin-1)?', o:['256 (8 bits)','128 (7 bits)','65.536','Más de 150.000'], e:'Extensión de 8 bits de ASCII para lenguas de Europa occidental.'},
+    // ---- 6. Unidades ----
+    {s:'uni', q:'Un byte equivale a…', o:['8 bits','4 bits','10 bits','16 bits'], e:'Byte (B) = 8 bits (b).'},
+    {s:'uni', q:'¿Cuántos bytes tiene 1 KiB?', o:['1.024','1.000','1.048.576','8'], e:'KiB es la unidad IEC (base 2). 1 kB (SI) = 1.000 B.'},
+    {s:'uni', q:'¿Cuál es el prefijo IEC correcto para 2²⁰ bytes?', o:['mebi (MiB)','mega (MB)','kibi (KiB)','gibi (GiB)'], e:'2²⁰ = 1.048.576 B = 1 MiB. 1 MB (SI) = 10⁶ B.'},
+    {s:'uni', q:'500 GB (sistema SI) equivalen aproximadamente a…', o:['465,66 GiB','500 GiB','536,87 GiB','488,28 GiB'], e:'500·10⁹ ÷ 1.073.741.824 ≈ 465,66 GiB.'},
+    {s:'uni', q:'¿Por qué un disco de 1 TB aparece con menos capacidad en el sistema operativo?', o:['El fabricante usa TB (10¹²) y el sistema muestra TiB (base 1024)','El disco viene defectuoso','El sistema operativo reserva la mitad','Los TB y los TiB son idénticos'], e:'1 TB = 10¹² B ≈ 0,909 TiB.'},
+    {s:'uni', q:'En las unidades informáticas, la «b» minúscula indica…', o:['Bit','Byte','Kilo','Base'], e:'Mb = megabit; MB = megabyte.'},
+    {s:'uni', q:'1 MiB son…', o:['1.048.576 bytes','1.000.000 bytes','1.024 bytes','1.073.741.824 bytes'], e:'2²⁰ = 1.048.576.'},
+    {s:'uni', q:'La latencia se mide normalmente en…', o:['Milisegundos (ms)','Hercios (Hz)','Bits por segundo (bps)','Gigabytes (GB)'], e:'Latencia: tiempo que tardan los datos en viajar. Hz = frecuencia; bps = velocidad.'},
+    {s:'uni', q:'Una conexión de 100 Mbps transfiere como máximo aproximadamente…', o:['12,5 MB por segundo','100 MB por segundo','800 MB por segundo','1,25 MB por segundo'], e:'100 Mb/s ÷ 8 = 12,5 MB/s.'},
+    {s:'uni', q:'1 GB en el Sistema Internacional son…', o:['10⁹ bytes','2³⁰ bytes','10⁶ bytes','1.024 MB'], e:'2³⁰ bytes es 1 GiB.'},
+    {s:'uni', q:'Para pasar de bits a bytes hay que…', o:['Dividir entre 8','Multiplicar por 8','Dividir entre 10','Multiplicar por 1.024'], e:'Bytes = bits ÷ 8; bits = bytes × 8.'},
+    // ---- 7. Comunicación ----
+    {s:'com', q:'¿Cuál NO es uno de los elementos básicos de la comunicación?', o:['El procesador','El emisor','El canal','El código'], e:'Elementos: emisor, receptor, mensaje, canal, código y contexto.'},
+    {s:'com', q:'¿Cuál es el orden correcto de las primeras etapas de transmisión?', o:['Codificación, encriptación, compresión, inserción de redundancia','Compresión, codificación, redundancia, encriptación','Encriptación, codificación, transmisión, compresión','Redundancia, compresión, codificación, encriptación'], e:'Después viene la transmisión y, en el receptor, el proceso inverso.'},
+    {s:'com', q:'¿Para qué se inserta redundancia en la transmisión?', o:['Para detectar y corregir errores','Para reducir el tamaño','Para cifrar el mensaje','Para aumentar la velocidad del canal'], e:'Reducir el tamaño es compresión; cifrar es encriptar.'},
+    {s:'com', q:'La anchura de un bus indica…', o:['El número de bits que se transmiten simultáneamente','La longitud del cable','La frecuencia del reloj','La capacidad del disco'], e:'8 bits = 1 byte por ciclo; 32 o 64 bits transfieren más datos a la vez.'},
+    {s:'com', q:'¿Qué tipo de imagen no pierde calidad al ampliarse?', o:['Vectorial (SVG)','Mapa de bits (JPG)','Mapa de bits (PNG)','GIF'], e:'Las vectoriales se basan en fórmulas matemáticas; las de mapa de bits se granulan.'},
+    {s:'com', q:'Una imagen en color RGB con 8 bits por canal usa…', o:['24 bits por píxel (≈ 16 millones de colores)','8 bits por píxel (256 colores)','16 bits por píxel (65.536 colores)','32 bits por píxel (4 colores)'], e:'3 canales × 8 bits = 24 bits → 2²⁴ = 16.777.216 colores.'},
+    {s:'com', q:'Una imagen en escala de grises de 8 bits tiene…', o:['256 tonos','8 tonos','64 tonos','16 millones de tonos'], e:'2⁸ = 256.'},
+    {s:'com', q:'¿Qué formato de imagen es con pérdida y se usa para fotografías?', o:['JPEG','PNG','SVG','GIF'], e:'PNG es sin pérdida; GIF tiene 256 colores; SVG es vectorial.'},
+    {s:'com', q:'El muestreo y la cuantificación son pasos de…', o:['La conversión del sonido analógico a digital','La compresión de vídeo','La encriptación','La codificación de texto'], e:'Muestreo: muestras a intervalos constantes. Cuantificación: valores de amplitud en bits.'},
+    {s:'com', q:'La diferencia entre un bit y un cúbit es que el cúbit…', o:['Puede estar en superposición de 0 y 1','Solo vale 0','Solo vale 1','Ocupa exactamente 8 bits'], e:'Un bit clásico solo está en un estado a la vez.'},
+    {s:'com', q:'Un archivo de vídeo se representa como…', o:['Una secuencia de imágenes (frames) con audio y metadatos','Una única imagen vectorial','Un texto en UTF-8','Un número binario de 8 bits'], e:'Los frames dan efecto de movimiento.'},
+    {s:'com', q:'¿Qué formato de imagen admite animaciones simples con 256 colores?', o:['GIF','JPEG','SVG','WebP sin pérdida'], e:'GIF: 256 colores, transparencia y animaciones sencillas.'},
+
+    // ---- Verdadero / Falso ----
+    {s:'bits', vf:true, q:'Con n bits se pueden representar 2ⁿ combinaciones diferentes.', e:'Verdadero.'},
+    {s:'bits', vf:false, q:'Un byte está formado por 4 bits.', e:'Falso: un byte son 8 bits. 4 bits es un «nibble».'},
+    {s:'bits', vf:true, q:'La ausencia de tensión se interpreta como un 0.', e:'Verdadero.'},
+    {s:'bits', vf:false, q:'Con 8 bits el valor decimal máximo representable es 256.', e:'Falso: es 255 (hay 256 combinaciones, de 0 a 255).'},
+    {s:'num', vf:true, q:'El valor de cada dígito en un sistema posicional depende de su posición.', e:'Verdadero: cada posición es una potencia de la base.'},
+    {s:'num', vf:false, q:'El sistema hexadecimal usa los dígitos del 0 al 9 y de la A a la G.', e:'Falso: de la A a la F (16 símbolos).'},
+    {s:'num', vf:true, q:'Dos dígitos hexadecimales forman exactamente un byte.', e:'Verdadero: 2 × 4 bits = 8 bits.'},
+    {s:'num', vf:false, q:'Cada dígito octal equivale a 4 bits.', e:'Falso: a 3 bits. Cada hexadecimal equivale a 4.'},
+    {s:'num', vf:true, q:'El octal se usa en los permisos de archivos de Linux.', e:'Verdadero.'},
+    {s:'cb', vf:true, q:'Para pasar de octal a hexadecimal se suele convertir primero a binario.', e:'Verdadero.'},
+    {s:'cb', vf:false, q:'Al convertir decimal a binario, el resultado se lee de arriba hacia abajo.', e:'Falso: los restos se leen de abajo hacia arriba.'},
+    {s:'cb', vf:true, q:'Al agrupar bits para pasar a hexadecimal hay que rellenar con ceros a la izquierda si falta algún bit en el último grupo.', e:'Verdadero: 10110101111₂ → 0101|1010|1111.'},
+    {s:'cb', vf:false, q:'11111111₂ vale 256 en decimal.', e:'Falso: vale 255.'},
+    {s:'apl', vf:true, q:'Una dirección MAC tiene 6 bytes y se expresa en hexadecimal.', e:'Verdadero (48 bits).'},
+    {s:'apl', vf:false, q:'En chmod, el 2 representa el permiso de lectura.', e:'Falso: 4 = lectura, 2 = escritura, 1 = ejecución.'},
+    {s:'apl', vf:true, q:'En un color #RRGGBB, FF en un canal significa intensidad máxima (255).', e:'Verdadero.'},
+    {s:'apl', vf:false, q:'El puerto 80 (HTTP) en hexadecimal es 0x0016.', e:'Falso: 80 = 0x0050. 0x0016 es 22 (SSH).'},
+    {s:'txt', vf:true, q:'ASCII usa 7 bits y codifica 128 caracteres.', e:'Verdadero.'},
+    {s:'txt', vf:false, q:'Unicode define cómo se guardan los caracteres en bytes.', e:'Falso: define el número (punto de código). Los bytes los define UTF-8, UTF-16 o UTF-32.'},
+    {s:'txt', vf:true, q:'Los primeros 128 puntos de código de Unicode coinciden con ASCII.', e:'Verdadero.'},
+    {s:'txt', vf:false, q:'Latin-1 forma parte de la familia Unicode (UTF).', e:'Falso: aunque sus primeros 256 caracteres coinciden con Unicode, no es una codificación Unicode.'},
+    {s:'txt', vf:true, q:'La ñ en UTF-8 ocupa 2 bytes.', e:'Verdadero: C3 B1.'},
+    {s:'txt', vf:false, q:'UTF-8 usa siempre 4 bytes por carácter.', e:'Falso: de 1 a 4 bytes (variable).'},
+    {s:'txt', vf:true, q:'Los «caracteres raros» aparecen cuando un texto se lee con una codificación distinta a la que se usó al guardarlo.', e:'Verdadero.'},
+    {s:'uni', vf:true, q:'1 KiB son 1.024 bytes y 1 kB son 1.000 bytes.', e:'Verdadero.'},
+    {s:'uni', vf:false, q:'Los fabricantes de discos usan prefijos binarios (GiB) para anunciar la capacidad.', e:'Falso: usan prefijos SI (GB), que dan cifras mayores.'},
+    {s:'uni', vf:true, q:'La B mayúscula indica byte y la b minúscula indica bit.', e:'Verdadero.'},
+    {s:'com', vf:true, q:'La compresión reduce el tamaño de los datos antes de transmitirlos.', e:'Verdadero.'},
+    {s:'com', vf:false, q:'Las imágenes de mapa de bits no pierden calidad al ampliarlas.', e:'Falso: se granulan y difuminan. Las vectoriales sí se escalan sin pérdida.'},
+    {s:'com', vf:true, q:'Un bus de mayor anchura transfiere más bits por ciclo.', e:'Verdadero.'},
+
+    // ---- Desarrollo ----
+    {s:'bits', dev:true, q:'Explica por qué los ordenadores usan el sistema binario y cuántas combinaciones se obtienen con n bits.', a:'Los ordenadores son digitales y trabajan con señales eléctricas de dos estados: presencia de tensión (1) y ausencia de tensión (0). Un bit es la unidad mínima (0 o 1) y un byte son 8 bits. Con n bits se pueden representar 2ⁿ combinaciones diferentes (8 bits → 256, de 0 a 255).', k:['Dos estados: tensión / ausencia de tensión','Bit y byte (8 bits)','Fórmula 2ⁿ con un ejemplo']},
+    {s:'num', dev:true, q:'Explica qué es un sistema de numeración y compara decimal, binario, octal y hexadecimal.', a:'Es un conjunto de símbolos y reglas para representar cantidades. Elementos: base, dígitos y valor posicional. Decimal (base 10, dígitos 0-9, uso humano); binario (base 2, 0-1, representación interna); octal (base 8, 0-7, permisos Unix, agrupa 3 bits); hexadecimal (base 16, 0-9 y A-F, direcciones y colores, agrupa 4 bits).', k:['Base, dígitos, valor posicional','Las 4 bases con sus dígitos','Usos de cada sistema','Octal = 3 bits, hex = 4 bits']},
+    {s:'cb', dev:true, q:'Explica los métodos para convertir entre decimal, binario, octal y hexadecimal.', a:'Binario → decimal: sumar las potencias de 2 de los bits a 1. Decimal → binario/octal/hex: divisiones sucesivas entre la base leyendo los restos de abajo hacia arriba. Binario → octal: agrupar de 3 en 3; binario → hex: agrupar de 4 en 4 (rellenar con ceros). Octal/hex → binario: cada dígito son 3 o 4 bits. Octal ↔ hex: pasar por binario.', k:['Divisiones sucesivas y orden de los restos','Suma de potencias','Agrupar de 3 y de 4','Octal ↔ hex vía binario']},
+    {s:'apl', dev:true, q:'Describe tres aplicaciones prácticas del hexadecimal y el octal en informática.', a:'Colores web #RRGGBB (cada canal de 00 a FF); direcciones MAC (6 bytes en hexadecimal) y de memoria (1 byte = 2 dígitos hex); permisos Linux en octal (4 lectura, 2 escritura, 1 ejecución; 755 = rwxr-xr-x). También puertos de red (0-65535) y códigos de error de Windows en hexadecimal.', k:['Colores #RRGGBB','Direcciones MAC/memoria','Permisos chmod en octal con 4-2-1']},
+    {s:'apl', dev:true, q:'Interpreta chmod 644 y chmod 755 explicando cada dígito.', a:'644: 6 = 4+2 = rw- (propietario lee y escribe); 4 = r-- (grupo solo lee); 4 = r-- (otros solo leen); nadie ejecuta. 755: 7 = 4+2+1 = rwx (propietario todo); 5 = 4+1 = r-x (grupo lee y ejecuta); 5 = r-x (otros lee y ejecuta).', k:['Orden: propietario, grupo, otros','4 = r, 2 = w, 1 = x','Traducción de cada dígito']},
+    {s:'txt', dev:true, q:'Explica qué es una codificación de caracteres y las diferencias entre ASCII y Unicode (UTF-8).', a:'Es la correspondencia entre cada carácter y un número, que luego se guarda como bytes. ASCII usa 7 bits (128 caracteres) y solo cubre el inglés. Unicode asigna un punto de código (U+XXXX) a más de 150.000 caracteres de todos los idiomas y es compatible con ASCII en sus primeros 128; UTF-8 es una codificación de Unicode de 1 a 4 bytes (ñ = C3 B1). Usar una codificación distinta al leer provoca caracteres raros.', k:['Carácter → número → bytes','ASCII: 7 bits, 128, solo inglés','Unicode: punto de código; UTF-8 1-4 bytes','Problema de los caracteres raros']},
+    {s:'txt', dev:true, q:'Explica por qué aparece «Ã±» en lugar de «ñ» y cómo se evita.', a:'La ñ en UTF-8 se guarda como los bytes C3 B1. Si el programa interpreta esos bytes como Windows-1252 (ANSI), cada byte se lee como un carácter distinto: C3 = Ã y B1 = ±, y aparece Ã±. Se evita usando la misma codificación (normalmente UTF-8) al guardar y al leer el texto.', k:['ñ = C3 B1 en UTF-8','Lectura como Windows-1252: Ã y ±','Misma codificación al guardar y al leer']},
+    {s:'uni', dev:true, q:'Explica la diferencia entre las unidades SI y IEC y por qué un disco de 500 GB muestra menos capacidad.', a:'SI (base 10): kB = 10³, MB = 10⁶, GB = 10⁹, TB = 10¹² bytes; se multiplica o divide por 1.000. IEC (base 2): KiB = 2¹⁰ = 1.024, MiB = 2²⁰, GiB = 2³⁰, TiB = 2⁴⁰; se multiplica o divide por 1.024. El fabricante anuncia en GB (SI) y el sistema operativo muestra GiB: 500·10⁹ ÷ 1.073.741.824 ≈ 465,66 GiB.', k:['SI: potencias de 10 (1.000)','IEC: potencias de 2 (1.024) con prefijos kibi, mebi…','Ejemplo 500 GB ≈ 465,66 GiB']},
+    {s:'com', dev:true, q:'Describe las etapas del proceso de comunicación de la información y los elementos que intervienen.', a:'Elementos: emisor, receptor, mensaje, canal, código y contexto. Etapas: codificación, encriptación, compresión, inserción de redundancia (detectar y corregir errores), transmisión, comprobación de errores, descompresión, desencriptación y decodificación.', k:['6 elementos','Orden de las 9 etapas','Para qué sirve la redundancia']},
+    {s:'com', dev:true, q:'Explica la diferencia entre imágenes de mapa de bits e imágenes vectoriales y cita formatos de cada una.', a:'Mapa de bits: formadas por píxeles (gris 8 bits = 256 tonos; RGB 24 bits ≈ 16 millones de colores); se granulan al ampliar; formatos JPG, PNG, GIF, WebP. Vectoriales: basadas en fórmulas matemáticas, independientes de la resolución y sin pérdida al ampliar; formato SVG.', k:['Píxeles frente a fórmulas matemáticas','Pérdida de calidad al ampliar','JPG/PNG/GIF/WebP frente a SVG']}
+  ];
+
+  // Conversiones tipo test generadas con valores fijos (respuestas calculadas por código).
+  (function(){
+    var defs = [
+      [25,10,2],[67,10,2],[245,10,2],[101101,2,10,'101101'],[11001010,2,10,'11001010'],[125,10,16],[4095,10,16],
+      ['7A',16,10],['ABC',16,10],['10101111',2,16],['100110111001',2,16],['3F',16,2],['2BC',16,2],['111001101',2,8],
+      ['57',8,2],['741',8,2],['777',8,10],[255,10,8],['3D',16,8],['765',8,16],['1F4',16,10],['110101111',2,8],['A7',16,2],['512',10,2]
+    ];
+    defs.forEach(function(d){
+      var src = String(d[3] || d[0]), from = d[1], to = d[2];
+      var val = parseInt(src, from);
+      var ans = fhStr(val, to);
+      var opts = [ans];
+      var tries = [val + 1, val - 1, val + 2, val + 8, val - 2, val + 16, val + 3];
+      var rev = ans.split('').reverse().join('');
+      var cand = [];
+      tries.forEach(function(t){ if(t > 0) cand.push(fhStr(t, to)); });
+      cand.splice(2, 0, rev);
+      cand.forEach(function(c){ if(opts.length < 4 && opts.indexOf(c) === -1) opts.push(c); });
+      var label = function(x, b){ return x + fhSubNum(b); };
+      FH_QS.push({s:'cb', q:'Convierte ' + label(src, from) + ' a ' + FH_BASE_NAME[to] + '.', o:opts.map(function(x){ return label(x, to); }), e:fhSteps(val, from, to)});
+    });
+  })();
+
+  var FH_CARDS = [
+    {s:'bits', f:'Bit', b:'Unidad mínima de información (binary digit). Vale 0 o 1: ausencia o presencia de tensión.'},
+    {s:'bits', f:'Byte', b:'Conjunto de 8 bits. Representa de 0 a 255 (256 combinaciones).'},
+    {s:'bits', f:'Combinaciones con n bits', b:'2ⁿ. Ej.: 8 bits → 256 · 16 bits → 65.536 · 32 bits → 4.294.967.296.'},
+    {s:'bits', f:'MSB y LSB', b:'MSB: bit más significativo (izquierda, mayor valor). LSB: menos significativo (derecha).'},
+    {s:'bits', f:'Potencias de 2 hasta 2¹⁰', b:'1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024.'},
+    {s:'num', f:'Base de un sistema de numeración', b:'Número de símbolos distintos que utiliza. Los dígitos van de 0 a base−1.'},
+    {s:'num', f:'Sistema octal', b:'Base 8, dígitos 0-7. 1 dígito = 3 bits. Uso: permisos Unix/Linux.'},
+    {s:'num', f:'Sistema hexadecimal', b:'Base 16, dígitos 0-9 y A-F. 1 dígito = 4 bits; 2 dígitos = 1 byte. Uso: direcciones y colores.'},
+    {s:'num', f:'Notaciones de base', b:'Binario: 0b1101 · Octal: 0o755 · Hexadecimal: 0x2AF o #FF5733 · Subíndice: 125₁₀.'},
+    {s:'num', f:'Tabla hexadecimal A–F', b:'A=10 · B=11 · C=12 · D=13 · E=14 · F=15.'},
+    {s:'cb', f:'Decimal → binario', b:'Divisiones sucesivas entre 2; los restos se leen de abajo hacia arriba.'},
+    {s:'cb', f:'Binario → decimal', b:'Multiplicar cada bit por su potencia de 2 y sumar.'},
+    {s:'cb', f:'Binario → octal', b:'Agrupar de 3 en 3 bits desde la derecha.'},
+    {s:'cb', f:'Binario → hexadecimal', b:'Agrupar de 4 en 4 bits desde la derecha (rellenar con ceros a la izquierda).'},
+    {s:'cb', f:'Octal ↔ hexadecimal', b:'Siempre pasando por binario.'},
+    {s:'apl', f:'Color #RRGGBB', b:'Rojo, verde y azul, de 00 a FF (0 a 255). #FFA500 = (255, 165, 0).'},
+    {s:'apl', f:'Permisos chmod', b:'4 = lectura (r), 2 = escritura (w), 1 = ejecución (x). Orden: propietario, grupo, otros. 755 = rwxr-xr-x.'},
+    {s:'apl', f:'Dirección IPv4 y MAC', b:'IPv4: 4 octetos (32 bits). MAC: 6 bytes (48 bits) en hexadecimal.'},
+    {s:'apl', f:'Puertos de red', b:'0 a 65535 (16 bits). HTTP 80 · HTTPS 443 · FTP 21 · SSH 22 · DNS 53.'},
+    {s:'txt', f:'Codificación de caracteres', b:'Correspondencia entre cada carácter y un número, que se guarda como secuencia de bytes.'},
+    {s:'txt', f:'ASCII', b:'7 bits, 128 caracteres (0–127). Solo alfabeto inglés. A = 65, a = 97, 0 = 48, espacio = 32.'},
+    {s:'txt', f:'Rangos ASCII', b:'0–31 control · 32 espacio · 48–57 dígitos · 65–90 mayúsculas · 97–122 minúsculas · 127 DEL.'},
+    {s:'txt', f:'Unicode', b:'Estándar que asigna un punto de código (U+XXXX) a más de 150.000 caracteres. Compatible con ASCII.'},
+    {s:'txt', f:'UTF-8', b:'Codificación de Unicode de 1 a 4 bytes. ñ = C3 B1 · € = E2 82 AC · 😀 = F0 9F 98 80.'},
+    {s:'txt', f:'UTF-16 y UTF-32', b:'UTF-16: 2 o 4 bytes (Windows, Java, JavaScript). UTF-32: 4 bytes fijos.'},
+    {s:'txt', f:'ASCII – Latin-1 – Unicode', b:'ASCII (128) ⊂ Latin-1 (256) ⊂ Unicode (+150.000). Latin-1 no es de la familia UTF.'},
+    {s:'txt', f:'Mojibake («caracteres raros»)', b:'Texto leído con otra codificación: ñ (C3 B1 en UTF-8) leída como Windows-1252 → Ã±.'},
+    {s:'uni', f:'Byte y bit', b:'1 byte (B) = 8 bits (b). B mayúscula = byte; b minúscula = bit.'},
+    {s:'uni', f:'Unidades SI', b:'Base 10: kB = 10³, MB = 10⁶, GB = 10⁹, TB = 10¹² bytes. Se multiplica por 1.000.'},
+    {s:'uni', f:'Unidades IEC', b:'Base 2: KiB = 1.024, MiB = 2²⁰, GiB = 2³⁰, TiB = 2⁴⁰ bytes. Se multiplica por 1.024.'},
+    {s:'uni', f:'500 GB en GiB', b:'500·10⁹ ÷ 1.073.741.824 ≈ 465,66 GiB.'},
+    {s:'uni', f:'Hz, bps, latencia', b:'Hz: frecuencia del procesador. bps: velocidad de transferencia. Latencia (ms): tiempo de viaje de los datos.'},
+    {s:'com', f:'Elementos de la comunicación', b:'Emisor, receptor, mensaje, canal, código y contexto.'},
+    {s:'com', f:'Etapas de la transmisión', b:'Codificación → encriptación → compresión → redundancia → transmisión → comprobación de errores → descompresión → desencriptación → decodificación.'},
+    {s:'com', f:'Anchura del bus', b:'Número de bits que se transmiten simultáneamente. Más anchura = más datos por ciclo.'},
+    {s:'com', f:'Mapa de bits y vectorial', b:'Mapa de bits: píxeles (JPG, PNG, GIF, WebP), se granula al ampliar. Vectorial: fórmulas (SVG), sin pérdida al ampliar.'},
+    {s:'com', f:'Color RGB y escala de grises', b:'RGB: 24 bits (8 por canal) ≈ 16 millones de colores. Grises: 8 bits = 256 tonos.'},
+    {s:'com', f:'Sonido digital', b:'Muestreo (muestras a intervalos constantes) y cuantificación (amplitud en bits). Formatos WAV, MP3, OGG.'},
+    {s:'com', f:'Cúbit', b:'Unidad de la informática cuántica: puede estar en superposición de 0 y 1 a la vez.'}
+  ];
+
+  // ---------- Ejercicios de conversión (escribir la respuesta) ----------
+  function fhSteps(val, from, to){
+    var src = fhStr(val, from), dst = fhStr(val, to), out = '', i;
+    if(from === 10){
+      var parts = [], n = val;
+      if(n === 0) parts.push('0');
+      while(n > 0){
+        var q = Math.floor(n / to), r = n % to;
+        parts.push(n + ' ÷ ' + to + ' = ' + q + ' resto ' + r + (r > 9 ? ' (' + r.toString(16).toUpperCase() + ')' : ''));
+        n = q;
+      }
+      out = parts.join(' · ') + '. Restos de abajo hacia arriba: ' + dst + fhSubNum(to);
+    } else if(to === 10){
+      var t = [], p = src.length - 1;
+      for(i = 0; i < src.length; i++) t.push(parseInt(src.charAt(i), 16) + '×' + from + '^' + (p - i));
+      out = t.join(' + ') + ' = ' + val + fhSubNum(10);
+    } else if(from === 2){
+      var g = to === 8 ? 3 : 4, bin = fhPad(src, g);
+      var groups = bin.match(new RegExp('.{' + g + '}', 'g'));
+      out = 'Grupos de ' + g + ' bits: ' + groups.join(' | ') + ' → ' + groups.map(function(x){ return parseInt(x, 2).toString(to).toUpperCase(); }).join(' ') + ' = ' + dst + fhSubNum(to);
+    } else if(to === 2){
+      var g2 = from === 8 ? 3 : 4;
+      out = src.split('').map(function(d){ var b = parseInt(d, from).toString(2); while(b.length < g2) b = '0' + b; return d + ' = ' + b; }).join(' · ') + ' → ' + dst + fhSubNum(2) + ' (sin ceros a la izquierda)';
+    } else {
+      var bn = val.toString(2), g3 = to === 8 ? 3 : 4, bp = fhPad(bn, g3);
+      var gr = bp.match(new RegExp('.{' + g3 + '}', 'g'));
+      out = 'Vía binario: ' + src + fhSubNum(from) + ' = ' + bn + fhSubNum(2) + ' → ' + gr.join(' | ') + ' → ' + dst + fhSubNum(to);
+    }
+    return out + '.';
+  }
+
+  // Procedimiento paso a paso: {method: pasos generales, steps: pasos con los números del ejercicio}
+  function fhProc(val, from, to){
+    var src = fhStr(val, from), dst = fhStr(val, to), method = [], steps = [], i, g;
+    var hexNote = (to === 16 || from === 16) ? ' (en hexadecimal: 10 = A, 11 = B, 12 = C, 13 = D, 14 = E, 15 = F)' : '';
+    var nm = function(b){ return b === 8 ? 'octal' : 'hexadecimal'; };
+    if(from === 10){
+      method = ['Divide el número entre ' + to + ' y repite con cada cociente hasta que el cociente sea 0.',
+                'Anota el resto de cada división' + hexNote + '.',
+                'Escribe los restos leyendo de abajo hacia arriba: el último resto es el primer dígito.'];
+      var n = val;
+      if(n === 0) steps.push('0 ÷ ' + to + ' = 0, resto 0');
+      while(n > 0){
+        var q = Math.floor(n / to), r = n % to;
+        steps.push(n + ' ÷ ' + to + ' = ' + q + ', resto ' + r + (r > 9 ? ' → ' + r.toString(16).toUpperCase() : ''));
+        n = q;
+      }
+      steps.push('Restos de abajo hacia arriba: ' + dst);
+    } else if(to === 10){
+      method = ['Numera las posiciones de derecha a izquierda empezando en 0.',
+                'Multiplica cada dígito por ' + from + ' elevado a su posición' + (from === 16 ? ' (A = 10 … F = 15)' : '') + '.',
+                'Suma todos los resultados.'];
+      var p = src.length - 1, vals = [];
+      for(i = 0; i < src.length; i++){
+        var d = parseInt(src.charAt(i), 16), pw = Math.pow(from, p - i);
+        steps.push('Dígito ' + src.charAt(i) + (d > 9 ? ' (= ' + d + ')' : '') + ', posición ' + (p - i) + ': ' + d + ' × ' + from + '^' + (p - i) + ' = ' + d + ' × ' + pw + ' = ' + (d * pw));
+        vals.push(d * pw);
+      }
+      steps.push('Suma: ' + vals.join(' + ') + ' = ' + val);
+    } else if(from === 2){
+      g = to === 8 ? 3 : 4;
+      var bin = fhPad(src, g), groups = bin.match(new RegExp('.{' + g + '}', 'g'));
+      method = ['Agrupa los bits de ' + g + ' en ' + g + ' empezando por la derecha; si falta alguno, rellena con ceros a la izquierda.',
+                'Convierte cada grupo a su dígito ' + nm(to) + ' (' + (g === 3 ? '000 = 0 … 111 = 7' : '0000 = 0 … 1111 = F') + ').',
+                'Une los dígitos en el mismo orden.'];
+      steps.push('Número: ' + src + (bin !== src ? ' → con ceros a la izquierda: ' + bin : ''));
+      steps.push('Grupos de ' + g + ' bits: ' + groups.join(' | '));
+      groups.forEach(function(gp){ var dv = parseInt(gp, 2); steps.push(gp + ' = ' + dv + ' → ' + dv.toString(to).toUpperCase()); });
+      steps.push('Dígitos unidos: ' + dst);
+    } else if(to === 2){
+      g = from === 8 ? 3 : 4;
+      method = ['Convierte cada dígito ' + nm(from) + ' a ' + g + ' bits' + hexNote + '.',
+                'Une todos los grupos de bits en el mismo orden.',
+                'Quita los ceros que sobren a la izquierda.'];
+      var joined = '';
+      src.split('').forEach(function(ch){ var dv = parseInt(ch, from), b = dv.toString(2); while(b.length < g) b = '0' + b; joined += b; steps.push(ch + ' = ' + dv + ' = ' + b); });
+      steps.push('Unidos: ' + joined + ' → sin ceros a la izquierda: ' + dst);
+    } else {
+      var g1 = from === 8 ? 3 : 4, g2 = to === 8 ? 3 : 4;
+      method = ['Pasa el número a binario: cada dígito ' + nm(from) + ' son ' + g1 + ' bits' + hexNote + '.',
+                'Reagrupa esos bits de ' + g2 + ' en ' + g2 + ' empezando por la derecha (rellena con ceros a la izquierda).',
+                'Convierte cada grupo a su dígito ' + nm(to) + '.'];
+      var full = '';
+      src.split('').forEach(function(ch){ var dv = parseInt(ch, from), b = dv.toString(2); while(b.length < g1) b = '0' + b; full += b; steps.push(ch + ' = ' + b); });
+      var bt = val.toString(2), bp = fhPad(bt, g2), gr = bp.match(new RegExp('.{' + g2 + '}', 'g'));
+      steps.push('Binario completo: ' + full + ' → ' + bt);
+      steps.push('Grupos de ' + g2 + ' bits: ' + gr.join(' | '));
+      gr.forEach(function(gp){ var dv = parseInt(gp, 2); steps.push(gp + ' = ' + dv + ' → ' + dv.toString(to).toUpperCase()); });
+      steps.push('Dígitos unidos: ' + dst);
+    }
+    return {method:method, steps:steps};
+  }
+
+  function fhMakeItem(id, ex, src, from, to){
+    var val = parseInt(src, from);
+    return {id:id, s:'prac', inp:true, base:to, val:val, ans:fhStr(val, to), proc:fhProc(val, from, to),
+      q:(ex ? ex + ': ' : '') + 'Convierte ' + src.toUpperCase() + fhSubNum(from) + ' a ' + FH_BASE_NAME[to] + ' (base ' + to + ').',
+      e:fhSteps(val, from, to)};
+  }
+
+  function fhDocItems(){
+    var defs = [];
+    function add(ex, from, to, list){ list.forEach(function(s){ defs.push([ex, from, to, String(s)]); }); }
+    add('Ejercicio 1', 10, 2, [25, 67, 128, 245]);
+    add('Ejercicio 2', 2, 10, ['101101', '11111111', '100000000', '11001010']);
+    add('Ejercicio 3', 10, 16, [125, 255, 1024, 4095]);
+    add('Ejercicio 4', 16, 10, ['7A', 'FF', '1A3', 'ABC']);
+    add('Ejercicio 5', 2, 16, ['10101111', '111100001010', '100110111001', '111111111111']);
+    add('Ejercicio 6', 16, 2, ['3F', 'A7', '2BC', '1F4']);
+    add('Ejercicio 7', 2, 8, ['101101', '111001101', '100111010', '110101111']);
+    add('Ejercicio 8', 8, 2, ['57', '123', '741', '365']);
+    add('Ejercicio 9a', 10, 2, [175]); add('Ejercicio 9a', 10, 16, [175]);
+    add('Ejercicio 9b', 16, 2, ['3E']); add('Ejercicio 9b', 16, 10, ['3E']);
+    add('Ejercicio 9c', 8, 2, ['725']); add('Ejercicio 9c', 8, 16, ['725']);
+    add('Ejercicio 9d', 2, 8, ['101110101']); add('Ejercicio 9d', 2, 16, ['101110101']);
+    [[10, '31', [2, 8, 16]], [2, '10101010', [10, 8, 16]], [8, '377', [10, 2, 16]], [16, 'F0', [10, 2, 8]], [10, '512', [2, 8, 16]]].forEach(function(r){
+      r[2].forEach(function(to){ defs.push(['Ejercicio 10', r[0], to, r[1]]); });
+    });
+    return defs.map(function(d, i){ return fhMakeItem('fh:doc:' + i, d[0], d[3], d[1], d[2]); });
+  }
+
+  function fhGenItems(n){
+    var bases = [2, 8, 10, 16], pairs = [];
+    bases.forEach(function(a){ bases.forEach(function(b){ if(a !== b) pairs.push([a, b]); }); });
+    pairs = sacShuffle(pairs);
+    var out = [];
+    for(var i = 0; i < n; i++){
+      var pr = pairs[i % pairs.length];
+      var big = (pr[0] === 16 || pr[1] === 16 || pr[0] === 8 || pr[1] === 8) && Math.random() < 0.35;
+      var val = rnd(9, big ? 4095 : 255);
+      var item = fhMakeItem('fh:gen:' + pr[0] + '-' + pr[1], '', fhStr(val, pr[0]), pr[0], pr[1]);
+      out.push(item);
+    }
+    return out;
+  }
+
+  QZ_SETS.fh = {sections:FH_SECTIONS, notes:FH_NOTES, qs:FH_QS, cards:FH_CARDS, color:'#4F46E5', bg:'#EEF2FF', cls:'fh',
+    pill:'<i class="ri-cpu-line"></i> Fundamentos de hardware',
+    title:'Tema 1: Representación y comunicación de la información',
+    notesDesc:'Resumen del tema 1 por apartados: bits, numeración, conversiones, textos, unidades y comunicación.',
+    docCount:55, genTypes:12};
+
+  // ---------- Herramientas y recursos ----------
+  function fhFmtNum(x){ return x.toLocaleString('es-ES', {maximumSignificantDigits:12}); }
+  function fhBaseConv(){
+    var raw = document.getElementById('fhBaseIn').value.trim().replace(/^0[box]/i, '').replace(/\s+/g, '');
+    var from = +document.getElementById('fhBaseFrom').value, out = document.getElementById('fhBaseOut');
+    var re = {2:/^[01]+$/, 8:/^[0-7]+$/, 10:/^\d+$/, 16:/^[0-9a-f]+$/i}[from];
+    if(!raw){ out.textContent = ''; return; }
+    if(!re.test(raw)){ out.textContent = 'Número no válido en base ' + from + '.'; return; }
+    var v = parseInt(raw, from);
+    if(v > Number.MAX_SAFE_INTEGER){ out.textContent = 'Número demasiado grande.'; return; }
+    out.innerHTML = '';
+    [[2, 'Binario'], [8, 'Octal'], [10, 'Decimal'], [16, 'Hexadecimal']].forEach(function(b){
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-200);font-size:14px;';
+      var l = document.createElement('span'); l.style.color = 'var(--gray-600)'; l.textContent = b[1] + fhSubNum(b[0]);
+      var r = document.createElement('b'); r.style.cssText = 'word-break:break-all;text-align:right;'; r.textContent = fhStr(v, b[0]);
+      row.appendChild(l); row.appendChild(r); out.appendChild(row);
+    });
+  }
+  var FH_UNITS = [['bit', 1/8], ['B', 1], ['kB', 1e3], ['MB', 1e6], ['GB', 1e9], ['TB', 1e12], ['KiB', 1024], ['MiB', 1048576], ['GiB', 1073741824], ['TiB', 1099511627776]];
+  function fhUnitConv(){
+    var v = parseFloat(document.getElementById('fhUnitIn').value.replace(',', '.')), from = document.getElementById('fhUnitFrom').value;
+    var out = document.getElementById('fhUnitOut');
+    if(isNaN(v)){ out.textContent = ''; return; }
+    var f = 1; FH_UNITS.forEach(function(u){ if(u[0] === from) f = u[1]; });
+    var bytes = v * f;
+    out.innerHTML = '';
+    FH_UNITS.forEach(function(u, i){
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--gray-200);font-size:13px;' + (u[0] === from ? 'font-weight:700;' : '');
+      var l = document.createElement('span'); l.style.color = 'var(--gray-600)'; l.textContent = u[0] + (i === 6 ? '  (IEC)' : i === 2 ? '  (SI)' : '');
+      var r = document.createElement('span'); r.style.cssText = 'text-align:right;word-break:break-all;'; r.textContent = fhFmtNum(bytes / u[1]);
+      row.appendChild(l); row.appendChild(r); out.appendChild(row);
+    });
+  }
+  function fhTextConv(){
+    var txt = document.getElementById('fhTxtIn').value, out = document.getElementById('fhTxtOut');
+    out.innerHTML = '';
+    if(!txt) return;
+    var chars = Array.from(txt).slice(0, 40), total = 0;
+    var table = document.createElement('table');
+    table.style.cssText = 'width:100%;border-collapse:collapse;font-size:12px;';
+    var head = document.createElement('tr');
+    ['Car.', 'Unicode', 'UTF-8', 'Bytes', 'Leído como Win-1252'].forEach(function(h){ var th = document.createElement('th'); th.textContent = h; th.style.cssText = 'text-align:left;padding:5px 4px;border-bottom:2px solid var(--gray-200);color:var(--gray-400);font-size:10px;text-transform:uppercase;'; head.appendChild(th); });
+    table.appendChild(head);
+    var enc = new TextEncoder(), dec = null;
+    try { dec = new TextDecoder('windows-1252'); } catch(e) {}
+    chars.forEach(function(ch){
+      var bytes = enc.encode(ch); total += bytes.length;
+      var cp = ch.codePointAt(0).toString(16).toUpperCase(); while(cp.length < 4) cp = '0' + cp;
+      var hex = Array.prototype.map.call(bytes, function(b){ return ('0' + b.toString(16)).slice(-2).toUpperCase(); }).join(' ');
+      var mis = dec ? dec.decode(bytes) : '?';
+      var tr = document.createElement('tr');
+      [ch === ' ' ? '␣' : ch, 'U+' + cp, hex, String(bytes.length), mis].forEach(function(c, i){
+        var td = document.createElement('td'); td.textContent = c; td.style.cssText = 'padding:5px 4px;border-bottom:1px solid var(--gray-200);' + (i === 4 && mis !== ch ? 'color:#DC2626;font-weight:700;' : '');
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+    out.appendChild(table);
+    var sum = document.createElement('div');
+    sum.style.cssText = 'margin-top:8px;font-size:12px;color:var(--gray-600);';
+    sum.textContent = 'Total en UTF-8: ' + total + ' bytes' + (Array.from(txt).length > 40 ? ' (primeros 40 caracteres)' : '') + '. En rojo, lo que se vería si se lee mal como Windows-1252.';
+    out.appendChild(sum);
+  }
+  function fhToolsInit(){
+    if(document.getElementById('fhBaseIn').dataset.init) return;
+    document.getElementById('fhBaseIn').dataset.init = '1';
+    document.getElementById('fhBaseIn').value = '45';
+    document.getElementById('fhUnitIn').value = '500';
+    document.getElementById('fhUnitFrom').value = 'GB';
+    document.getElementById('fhTxtIn').value = 'España €😀';
+    fhBaseConv(); fhUnitConv(); fhTextConv();
+  }
+
+
   function qzUse(k){
     if(qz === QZ_SETS[k]) return;
     qz = QZ_SETS[k];
     var scr = document.getElementById('sacScreen');
-    scr.classList.remove('sac','vt'); scr.classList.add(qz.cls);
+    scr.classList.remove('sac','vt','fh'); scr.classList.add(qz.cls);
     var pill = document.getElementById('qzPill');
     pill.className = 'subject-pill pill-' + qz.cls; pill.innerHTML = qz.pill;
     document.getElementById('qzTitle').textContent = qz.title;
@@ -2033,8 +2683,8 @@
   // { "<set>:<hash>": {o: aciertos, k: fallos, l: 1 si la última vez falló} }
   function qHash(s){ var h = 0; for(var i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i)) | 0; } return (h>>>0).toString(36); }
   function qId(q){ return qz.cls + ':' + qHash(q.q); }
-  function qLoad(){ try { return JSON.parse(localStorage.getItem('lt_qstats')) || {}; } catch(e){ return {}; } }
-  function qSave(o){ try { localStorage.setItem('lt_qstats', JSON.stringify(o)); } catch(e){} }
+  function qLoad(){ try { return JSON.parse(localStorage.getItem(pkey('qstats'))) || {}; } catch(e){ return {}; } }
+  function qSave(o){ try { localStorage.setItem(pkey('qstats'), JSON.stringify(o)); } catch(e){} }
   function qRecord(id, ok){
     var s = qLoad(); var r = s[id] || {o:0, k:0, l:0};
     if(ok){ r.o++; r.l = 0; } else { r.k++; r.l = 1; }
@@ -2063,7 +2713,7 @@
   }
 
   function sacShow(v){
-    var map = {menu:'sacMenu', notes:'sacNotes', pick:'sacPick', quiz:'sacQuiz', result:'sacResult', cards:'sacCards', stats:'sacStats'};
+    var map = {menu:'sacMenu', notes:'sacNotes', pick:'sacPick', quiz:'sacQuiz', result:'sacResult', cards:'sacCards', stats:'sacStats', tools:'sacTools'};
     Object.keys(map).forEach(function(k){ document.getElementById(map[k]).classList.remove('active'); });
     document.getElementById(map[v]).classList.add('active');
     document.body.classList.toggle('footer-hidden', v === 'quiz');
@@ -2072,6 +2722,7 @@
     if(v==='notes'){ var si = document.getElementById('sacSearch'); if(si) si.value = ''; sacRenderNotes(); sacSearch(''); }
     if(v==='pick') sacRenderPick();
     if(v==='stats') sacRenderStats();
+    if(v==='tools') fhToolsInit();
     if(v==='cards') sacCardsStart();
     if(v==='menu'){
       document.getElementById('sacVfCount').textContent = qz.qs.filter(function(q){return q.vf!==undefined;}).length;
@@ -2136,6 +2787,7 @@
     var h = '';
     Object.keys(qz.sections).forEach(function(k){
       var n = qz.qs.filter(function(q){return q.s===k && !q.dev;}).length;
+      if(!n) return;
       h += '<div class="menu-card" onclick="sacStart(\''+k+'\')"><div class="menu-icon" style="background:'+qz.bg+';"><i class="'+qz.sections[k].i+' ri-lg" style="color:'+qz.color+';"></i></div><div><div class="menu-card-title">'+qz.sections[k].n+'</div><div class="menu-card-desc">'+n+' preguntas</div></div></div>';
     });
     document.getElementById('sacPickBody').innerHTML = h;
@@ -2152,22 +2804,24 @@
   function sacStart(src){
     sacClearTimer();
     var st = qLoad();
-    var base = qz.qs.filter(function(q){
+    var direct = null;
+    if(qz.cls === 'fh' && (src === 'conv' || src === 'doc')) direct = (src === 'doc') ? fhDocItems() : fhGenItems(10);
+    var base = direct ? [] : qz.qs.filter(function(q){
       if(src==='wrong'){ var r = st[qId(q)]; return !!(r && r.l); }
       if(src==='vf') return q.vf!==undefined;
       if(src==='dev') return !!q.dev;
       if(q.dev) return false;
       return src==='all' || src==='exam' || q.s===src;
     });
-    if(!base.length){
+    if(!direct && !base.length){
       alert(src==='wrong' ? 'No tienes preguntas falladas pendientes. ¡Bien!' : 'No hay preguntas en este apartado.');
       return;
     }
-    var arr = sacShuffle(base);
+    var arr = direct ? [] : sacShuffle(base);
     if(src==='exam') arr = arr.slice(0, SAC_EXAM_N);
     sacQuiz.src = src;
     sacQuiz.exam = (src==='exam');
-    sacQuiz.pool = arr.map(function(q){
+    sacQuiz.pool = direct ? direct : arr.map(function(q){
       var id = qId(q);
       if(q.dev) return {id:id, s:q.s, q:q.q, dev:true, a:q.a, k:q.k};
       if(q.vf!==undefined) return {id:id, s:q.s, q:q.q, e:q.e, vf:true, opts:[{t:'Verdadero', ok:q.vf===true},{t:'Falso', ok:q.vf===false}]};
@@ -2193,13 +2847,18 @@
     var q = sacQuiz.pool[sacQuiz.i];
     sacQuiz.answered = false;
     document.getElementById('sacBarFill').style.width = (sacQuiz.i/sacQuiz.pool.length*100)+'%';
-    document.getElementById('sacQBadge').className = 'type-badge ' + (sacQuiz.exam ? 't6' : q.dev ? 't3' : q.vf ? 't2' : 't1');
-    document.getElementById('sacQBadge').textContent = (sacQuiz.exam?'Examen':q.dev?'Desarrollo':q.vf?'Verdadero / Falso':'Test')+' '+(sacQuiz.i+1)+'/'+sacQuiz.pool.length+' · '+qz.sections[q.s].n;
+    document.getElementById('sacQBadge').className = 'type-badge ' + (sacQuiz.exam ? 't6' : q.dev ? 't3' : q.inp ? 't4' : q.vf ? 't2' : 't1');
+    document.getElementById('sacQBadge').textContent = (sacQuiz.exam?'Examen':q.dev?'Desarrollo':q.inp?'Conversión':q.vf?'Verdadero / Falso':'Test')+' '+(sacQuiz.i+1)+'/'+sacQuiz.pool.length+' · '+qz.sections[q.s].n;
     document.getElementById('sacQText').textContent = q.q;
     document.getElementById('sacExpl').innerHTML = '';
     document.getElementById('sacNextBtn').style.display = 'none';
     if(q.dev){
       document.getElementById('sacOpts').innerHTML = '<textarea id="sacDevTxt" rows="6" placeholder="Escribe aquí tu respuesta como si fuera el examen…" style="width:100%;border:2px solid var(--gray-200);border-radius:var(--radius-sm);padding:12px;font-size:14px;font-family:inherit;resize:vertical;outline:none;margin-bottom:10px;"></textarea><button class="btn-check" onclick="sacDevReveal()"><i class="ri-eye-line"></i> Ver respuesta modelo</button>';
+      return;
+    }
+    if(q.inp){
+      document.getElementById('sacOpts').innerHTML = '<input id="sacInp" class="fh-in" placeholder="Escribe el resultado" autocomplete="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key===\'Enter\')sacInpCheck()" style="font-size:20px;text-align:center;font-weight:700;"><button class="btn-check" onclick="sacInpCheck()">Comprobar</button><button class="btn-hint" onclick="sacInpHint()"><i class="ri-lightbulb-line"></i> Ver el método (sin la solución)</button>';
+      setTimeout(function(){ var i = document.getElementById('sacInp'); if(i) i.focus(); }, 50);
       return;
     }
     var L = ['A','B','C','D'];
@@ -2244,6 +2903,54 @@
     ex.innerHTML = '<div class="sac-expl"><b>'+(q.opts[idx].ok?'¡Correcto!':'Incorrecto.')+'</b> </div>';
     ex.firstChild.appendChild(document.createTextNode(q.e));
     sacShowNext();
+  }
+
+  // Ejercicios de conversión: respuesta escrita (acepta ceros a la izquierda y prefijo de la base).
+  function sacInpCheck(){
+    if(sacQuiz.answered) return;
+    var q = sacQuiz.pool[sacQuiz.i], inp = document.getElementById('sacInp');
+    var raw = inp.value.trim().replace(/\s+/g, '');
+    var pre = {2:'b', 8:'o', 16:'x'}[q.base];
+    if(pre) raw = raw.replace(new RegExp('^0' + pre, 'i'), '');
+    if(!raw) return;
+    var re = {2:/^[01]+$/, 8:/^[0-7]+$/, 10:/^\d+$/, 16:/^[0-9a-f]+$/i}[q.base];
+    var ok = re.test(raw) && parseInt(raw, q.base) === q.val;
+    sacQuiz.answered = true; inp.disabled = true;
+    var cb = document.querySelector('#sacOpts .btn-check'); if(cb) cb.style.display = 'none';
+    var hb = document.querySelector('#sacOpts .btn-hint'); if(hb) hb.style.display = 'none';
+    if(ok) sacQuiz.score++; else sacQuiz.wrong.push(q);
+    streakRecord(ok);
+    qRecord(q.id, ok);
+    var ex = document.getElementById('sacExpl');
+    ex.innerHTML = '';
+    var d = document.createElement('div'); d.className = 'sac-expl';
+    var b = document.createElement('b'); b.textContent = ok ? '¡Correcto!' : 'Incorrecto. La respuesta es ' + q.ans + fhSubNum(q.base) + '.';
+    d.appendChild(b);
+    d.appendChild(fhProcBlock('Procedimiento paso a paso', q.proc.steps));
+    var res = document.createElement('div'); res.style.cssText = 'margin-top:8px;font-weight:700;';
+    res.textContent = 'Resultado: ' + q.ans + fhSubNum(q.base);
+    d.appendChild(res);
+    ex.appendChild(d);
+    sacShowNext();
+  }
+
+  function fhProcBlock(title, lines){
+    var w = document.createElement('div'); w.style.marginTop = '8px';
+    var t = document.createElement('b'); t.textContent = title; w.appendChild(t);
+    var ol = document.createElement('ol'); ol.style.cssText = 'padding-left:20px;margin-top:4px;line-height:1.6;';
+    lines.forEach(function(l){ var li = document.createElement('li'); li.textContent = l; ol.appendChild(li); });
+    w.appendChild(ol);
+    return w;
+  }
+
+  // Muestra el método general (sin la solución) antes de contestar.
+  function sacInpHint(){
+    if(sacQuiz.answered) return;
+    var q = sacQuiz.pool[sacQuiz.i], ex = document.getElementById('sacExpl');
+    ex.innerHTML = '';
+    var d = document.createElement('div'); d.className = 'sac-expl';
+    d.appendChild(fhProcBlock('Cómo se hace', q.proc.method));
+    ex.appendChild(d);
   }
 
   // Desarrollo: el alumno compara su respuesta con la modelo y se autoevalúa.
@@ -2320,6 +3027,8 @@
         var r = document.createElement('div'); r.style.marginTop = '6px';
         if(q.dev){
           r.textContent = 'Respuesta modelo: ' + q.a;
+        } else if(q.inp){
+          r.textContent = 'Respuesta: ' + q.ans + fhSubNum(q.base) + ' — ' + q.e;
         } else {
           var ok = q.opts.filter(function(o){return o.ok;})[0];
           r.textContent = (wasExam && q.sel === undefined ? 'Sin contestar. ' : '') + 'Correcta: ' + ok.t + ' — ' + q.e;
@@ -2342,6 +3051,12 @@
         var r = st[qId(q)];
         if(r){ seen++; o += r.o; kk += r.k; }
       });
+      if(k === 'prac' && qz.cls === 'fh'){
+        Object.keys(st).forEach(function(id){
+          if(id.indexOf('fh:gen:') === 0 || id.indexOf('fh:doc:') === 0){ seen++; o += st[id].o; kk += st[id].k; }
+        });
+        total = qz.docCount + qz.genTypes;
+      }
       totO += o; totK += kk;
       return {k:k, o:o, kk:kk, seen:seen, total:total, pct: (o+kk) ? Math.round(o/(o+kk)*100) : null};
     });
