@@ -980,6 +980,16 @@
   [data-theme="dark"] .cic-reg.chg, [data-theme="dark"] .cic-cell.chg { background: rgba(13,148,136,.3); }
   [data-theme="dark"] .cic-reg.chg .cv, [data-theme="dark"] .cic-reg.chg .cl, [data-theme="dark"] .cic-cell.chg span { color: #CCFBF1; }
   [data-theme="dark"] .cic-gt { color: #5EEAD4; }
+
+  /* ===== IA para el Marketing y el Comercio (Rita) ===== */
+  .pill-ia { background: #FFFBEB; color: #B45309; border: 1px solid #FDE68A; }
+  .subject-card.ia { border-color: #FDE68A; }
+  .subject-card.ia:hover { border-color: #B45309; }
+  .subject-card.ia .subject-card-accent { background: linear-gradient(90deg, #B45309, #FBBF24); }
+  .subject-card.ia .subject-icon { background: #FFFBEB; color: #B45309; }
+  [data-theme="dark"] .subject-card.ia { border-color: #92400E; }
+  [data-theme="dark"] .subject-card.ia .subject-icon { background: rgba(148,163,184,.16); }
+  [data-theme="dark"] .pill-ia { background: rgba(148,163,184,.16); border-color: rgba(148,163,184,.3); }
 </style>
 </head>
 <body>
@@ -1069,6 +1079,19 @@
         <span class="subject-tag">Test</span>
         <span class="subject-tag">B2B</span>
       </div>
+      <i class="ri-arrow-right-s-line subject-arrow"></i>
+    </div>
+
+    <div class="subject-card ia" onclick="goSubject('ia')">
+      <div class="subject-card-accent"></div>
+      <div class="subject-header">
+        <div class="subject-icon"><i class="ri-sparkling-2-line"></i></div>
+        <div>
+          <div class="subject-name">IA para el Marketing y el Comercio</div>
+          <div class="subject-code">Tema 1 — Descubrimos la inteligencia artificial</div>
+        </div>
+      </div>
+      <div class="subject-desc">Qué es la IA, usos en el comercio (automatizar, decidir, segmentar, experiencia del cliente), limitaciones, privacidad y normativa.</div>
       <i class="ri-arrow-right-s-line subject-arrow"></i>
     </div>
 
@@ -1833,7 +1856,7 @@
       document.getElementById('menuScreen').classList.add('active');
     } else if (subj === 'mkt') {
       document.getElementById('mktMenuScreen').classList.add('active');
-    } else if (subj === 'sac' || subj === 'vt' || subj === 'fh' || subj === 'iso') {
+    } else if (subj === 'sac' || subj === 'vt' || subj === 'fh' || subj === 'iso' || subj === 'ia') {
       qzUse(subj);
       document.getElementById('sacScreen').classList.add('active');
       sacShow('menu');
@@ -2332,6 +2355,315 @@
           title:'Unidad 1: Venta de productos industriales', notesDesc:'Resumen fácil de toda la unidad por apartados (1 a 7).'}
   };
   var qz = QZ_SETS.sac;
+
+  // ===================== IA PARA EL MARKETING Y EL COMERCIO (Rita) — Unidad 1 =====================
+  var IA_SECTIONS = {
+    ia1: {n:'1. Conocemos la inteligencia artificial', i:'ri-brain-line'},
+    ia2: {n:'2. La IA está en todas partes', i:'ri-global-line'},
+    aut: {n:'3.1–3.2 Automatizar tareas y tomar decisiones', i:'ri-robot-2-line'},
+    seg: {n:'3.3 Conocer y segmentar clientes', i:'ri-group-line'},
+    exp: {n:'3.4–3.5 Experiencia del cliente y beneficios', i:'ri-emotion-happy-line'},
+    res: {n:'4.1–4.3 Limitaciones y supervisión humana', i:'ri-shield-user-line'},
+    nor: {n:'4.4–4.5 Datos, privacidad y normativa', i:'ri-scales-3-line'}
+  };
+
+  var IA_NOTES = {
+    ia1: '<div class="sac-box"><b>Inteligencia artificial (IA):</b> capacidad de un sistema informático para realizar tareas que hasta hace poco solo podía hacer una persona: reconocer una imagen, entender un texto, traducir un idioma, recomendar un producto o mantener una conversación.</div>' +
+      '<p>La IA <b>no piensa</b> como una persona ni tiene conciencia. Lo que hace es <b>reconocer patrones</b> en grandes cantidades de información y usarlos para dar una respuesta, generar un texto, clasificar algo o hacer una predicción.</p>' +
+      '<p><b>Aplicación al comercio:</b> no sustituye la relación con el cliente ni el criterio del profesional; es una herramienta que ayuda a redactar, analizar, clasificar y responder más rápido para que el equipo dedique su tiempo a <b>atender, decidir y vender</b>.</p>' +
+      '<h4>1.2 Datos, algoritmos y modelos</h4><ul>' +
+      '<li><b>Datos:</b> toda la información para entrenar y trabajar con la IA (textos, imágenes, cifras de ventas, valoraciones de clientes, fotografías de productos).</li>' +
+      '<li><b>Algoritmo:</b> conjunto de instrucciones matemáticas que indica cómo procesar la información para encontrar patrones o relaciones.</li>' +
+      '<li><b>Modelo:</b> resultado de entrenar un algoritmo con muchos datos; una vez entrenado aplica lo aprendido a casos nuevos.</li></ul>' +
+      '<div class="sac-box">DATOS → ALGORITMO → MODELO → RESULTADO</div>' +
+      '<p>Una tienda online que recomienda «productos relacionados» usa un modelo entrenado con los datos de compras anteriores de miles de clientes. Cuantos más datos de <b>calidad</b>, mejor funciona; aun así, el resultado siempre debe <b>comprobarse</b>.</p>' +
+      '<h4>1.3 ¿Cómo ha evolucionado la IA?</h4><ul>' +
+      '<li><b>Años 50-80:</b> sistemas con reglas fijas «si ocurre esto, haz aquello». Útiles para tareas concretas, pero no aprendían de la experiencia.</li>' +
+      '<li><b>Años 90-2010:</b> sistemas que aprenden de los datos (<b>aprendizaje automático</b>). Primeros sistemas de recomendación en comercio electrónico.</li>' +
+      '<li><b>Última década:</b> más capacidad de los ordenadores y enorme cantidad de datos permiten modelos más potentes, capaces de <b>generar</b> texto, imágenes o audio.</li></ul>' +
+      '<h4>1.4 De la IA tradicional a la generativa</h4>' +
+      '<table><tr><th>Tipo</th><th>¿Qué hace?</th><th>Ejemplo en comercio</th></tr>' +
+      '<tr><td>IA tradicional (analítica o predictiva)</td><td>Analiza datos, clasifica, detecta patrones o hace predicciones</td><td>Prever qué días habrá más ventas o qué clientes pueden dejar de comprar</td></tr>' +
+      '<tr><td>IA generativa</td><td>Crea contenido nuevo (texto, imágenes, audio, vídeo) a partir de una instrucción</td><td>Redactar la descripción de un producto o generar una imagen para redes sociales</td></tr></table>' +
+      '<p>En la IA generativa se escribe una instrucción en lenguaje natural: el <b>prompt</b>.</p>' +
+      '<div class="sac-box"><b>Importante:</b> no toda la IA «genera» cosas nuevas. Mucha trabaja en segundo plano analizando datos para ayudar a tomar decisiones, sin producir texto ni imagen visible. Ambas son igual de útiles.</div>',
+    ia2: '<h4>2.1 IA en la vida cotidiana</h4>' +
+      '<table><tr><th>Situación</th><th>¿Dónde está la IA?</th></tr>' +
+      '<tr><td>Buscar una ruta en el móvil</td><td>Calcula el trayecto más rápido según el tráfico en tiempo real</td></tr>' +
+      '<tr><td>Sugerencias en una app de vídeo o música</td><td>Analiza lo que has visto o escuchado para recomendarte contenido similar</td></tr>' +
+      '<tr><td>Usar el traductor del móvil</td><td>Reconoce el idioma y genera una traducción automática</td></tr>' +
+      '<tr><td>Desbloquear el móvil con la cara</td><td>Reconoce patrones faciales para identificarte</td></tr>' +
+      '<tr><td>Teclado que corrige o completa palabras</td><td>Predice la palabra más probable según el contexto</td></tr></table>' +
+      '<p><b>Algo en común:</b> un sistema analiza información (datos) y ofrece un resultado útil para una persona concreta, en el momento en que lo necesita.</p>' +
+      '<h4>2.2 IA en las empresas</h4><p>Analizar grandes volúmenes de datos para detectar tendencias, automatizar procesos repetitivos (clasificar correos, generar informes) y anticipar necesidades de stock y mantenimiento. Ya no es exclusiva de grandes multinacionales: pequeños y medianos comercios usan herramientas accesibles, sencillas y de coste reducido o gratuitas en sus versiones básicas.</p>' +
+      '<h4>2.3 IA en el comercio y el marketing</h4><ul><li>Redactar descripciones de producto o publicaciones para redes sociales.</li><li>Generar imágenes o ideas visuales para un escaparate o una campaña.</li><li>Analizar qué productos se venden más, en qué momentos y qué clientes los compran.</li><li>Responder preguntas frecuentes con un chatbot en la web o redes.</li><li>Recomendar productos relacionados a partir del historial de compra.</li></ul>' +
+      '<h4>2.4 ¿Por qué es importante conocer la IA?</h4><p>Un futuro profesional del comercio <b>no necesita programar</b> ni entender las matemáticas de un modelo. Necesita una <b>mirada profesional</b> para identificar si existe una herramienta de IA que pueda ayudar ante una necesidad del negocio.</p>' +
+      '<div class="sac-box">«Tengo esta necesidad en mi comercio… ¿puede ayudarme una IA?»</div>' +
+      '<p>Conocer la IA permite decidir cuándo conviene usarla, cuándo no aporta valor y cuándo su resultado necesita ser revisado.</p>',
+    aut: '<div class="sac-box">Proceso de trabajo del bloque 3:<br><b>NECESIDAD → DATOS → HERRAMIENTA → RESULTADO → COMPROBACIÓN → DECISIÓN</b></div>' +
+      '<ol><li><b>Necesidad:</b> ¿qué problema tengo?</li><li><b>Datos:</b> ¿qué información necesito?</li><li><b>Herramienta:</b> ¿qué IA puede ayudarme?</li><li><b>Resultado:</b> ¿qué me propone?</li><li><b>Comprobación:</b> ¿está bien?</li><li><b>Decisión:</b> ¿qué hago finalmente?</li></ol>' +
+      '<div class="sac-box"><b>Idea clave:</b> LA IA PROPONE. EL PROFESIONAL COMPRUEBA Y DECIDE.</div>' +
+      '<p><b>Cuatro grandes usos:</b> automatizar tareas, tomar decisiones, conocer y segmentar clientes y mejorar la experiencia del cliente.</p>' +
+      '<p><b>Categorías de herramientas (solo para reconocerlas):</b> asistentes conversacionales (ChatGPT, Claude, Gemini) · generadores de imágenes (DALL·E, Midjourney) · analítica con IA integrada (Google Analytics, Meta Business Suite) · chatbots comerciales (plataformas de venta online, WhatsApp Business).</p>' +
+      '<h4>3.1 IA para automatizar tareas</h4><p><b>Automatizar</b> = conseguir que una tarea se realice total o parcialmente sin que una persona la haga manualmente cada vez.</p>' +
+      '<div class="sac-box">PROBLEMA → TAREA → SOLUCIÓN → RESULTADO → CONTROL HUMANO</div>' +
+      '<p>Tres niveles distintos:</p><ul>' +
+      '<li><b>Tarea repetitiva:</b> actividad que se repite de forma similar (responder «¿tenéis esta talla?» varias veces al día).</li>' +
+      '<li><b>Automatización:</b> la tarea se hace sin intervención manual constante, mediante <b>reglas fijas</b> (mensaje automático con el horario de la tienda).</li>' +
+      '<li><b>Automatización con IA:</b> la tarea la resuelve un sistema capaz de <b>entender el lenguaje</b> y generar una respuesta adaptada a cada situación, no solo un mensaje fijo.</li></ul>' +
+      '<p>Ejemplos: responder preguntas frecuentes, redactar descripciones, clasificar consultas por tema, preparar publicaciones, organizar información de proveedores, resumir opiniones o preparar un primer borrador de correo.</p>' +
+      '<div class="sac-box"><b>Importante:</b> la IA no «hace todo sola». Automatizar con IA es delegar la parte más mecánica para dedicar el tiempo a lo que requiere criterio comercial: decidir, negociar o atender con cercanía.</div>' +
+      '<h4>3.2 IA para tomar decisiones</h4><p>La IA ayuda a <b>analizar información</b> y detectar patrones difíciles de ver a simple vista. No decide por la empresa: aporta información útil para que la persona responsable decida mejor. Ejemplos: detectar qué producto aumentó su demanda, analizar interacciones en redes o comparar dos campañas.</p>' +
+      '<table><tr><th>La IA puede detectar…</th><th>El profesional debe comprobar…</th></tr>' +
+      '<tr><td>Producto más vendido</td><td>Margen y rentabilidad de ese producto</td></tr>' +
+      '<tr><td>Publicación con más interacción</td><td>Si esa interacción realmente genera ventas</td></tr>' +
+      '<tr><td>Segmento de clientes más activo</td><td>Si coincide con el público objetivo del negocio</td></tr>' +
+      '<tr><td>Aumento repentino de la demanda</td><td>Si existe stock suficiente para atenderla</td></tr>' +
+      '<tr><td>Campaña con más clics</td><td>Si esos clics cumplen el objetivo comercial real</td></tr>' +
+      '<tr><td>Muchos clientes compran un producto</td><td>Si realmente interesa promocionarlo</td></tr></table>' +
+      '<div class="sac-box"><b>Idea clave:</b> la IA aporta información; la empresa decide qué hacer con ella.<br><b>VENDER MUCHO ≠ SER EL PRODUCTO MÁS RENTABLE</b></div>',
+    seg: '<div class="sac-box"><b>Segmentar:</b> dividir el conjunto de clientes de un negocio en grupos (<b>segmentos</b>) que comparten características o comportamientos similares, para dirigirse a cada grupo de forma más eficaz.</div>' +
+      '<p><b>¿Por qué?</b> Porque no todos los clientes tienen las mismas necesidades ni responden igual a un mismo mensaje. Tratar a todos igual desaprovecha información valiosa.</p>' +
+      '<p><b>Variables habituales:</b> edad, sexo, zona geográfica, frecuencia de compra, importe medio gastado, productos que compran e intereses en redes sociales.</p>' +
+      '<h4>Ejemplo: tienda de ropa deportiva</h4>' +
+      '<table><tr><th>Cliente</th><th>Edad</th><th>Frecuencia</th><th>Productos</th><th>Importe</th><th>Interés</th></tr>' +
+      '<tr><td>A</td><td>19</td><td>Alta</td><td>Ropa running</td><td>35 €</td><td>Deporte, entrenamiento</td></tr>' +
+      '<tr><td>B</td><td>45</td><td>Baja</td><td>Ropa casual</td><td>60 €</td><td>Comodidad</td></tr>' +
+      '<tr><td>C</td><td>22</td><td>Alta</td><td>Running y baloncesto</td><td>40 €</td><td>Deporte, marcas</td></tr>' +
+      '<tr><td>D</td><td>50</td><td>Media</td><td>Calzado</td><td>70 €</td><td>Calidad, ofertas</td></tr>' +
+      '<tr><td>E</td><td>20</td><td>Alta</td><td>Ropa running</td><td>30 €</td><td>Deporte, redes sociales</td></tr>' +
+      '<tr><td>F</td><td>48</td><td>Baja</td><td>Ropa casual</td><td>55 €</td><td>Comodidad</td></tr></table>' +
+      '<p>Dos patrones: jóvenes con compra frecuente de ropa deportiva (<b>A, C, E</b>) y clientes de más edad con compra menos frecuente de ropa casual y calzado (<b>B, D, F</b>).</p>' +
+      '<div class="sac-box"><b>SEGMENTAR ≠ PERSONALIZAR</b><br><b>Segmentar:</b> agrupar clientes con características o comportamientos similares.<br><b>Personalizar:</b> adaptar una comunicación, oferta o experiencia a un cliente o grupo concreto.<br>Primero se segmenta (se identifican los grupos) y después se personaliza (se actúa de forma distinta para cada grupo).</div>' +
+      '<div class="sac-box">SEGMENTO → NECESIDAD → ACCIÓN COMERCIAL</div>' +
+      '<p>Aplicado: el segmento de jóvenes interesados en deporte necesita productos técnicos y contenido práctico de entrenamiento → campaña específica en redes sociales con contenido y tono adaptados.</p>' +
+      '<p>La IA <b>no inventa buenos segmentos de la nada</b>: necesita datos adecuados y suficientes y una <b>interpretación profesional</b> que confirme si los grupos tienen sentido comercial. Además, trabajar con datos de clientes exige respetar la <b>normativa de protección de datos</b> (bloque 4).</p>',
+    exp: '<h4>3.4 IA para mejorar la experiencia del cliente</h4>' +
+      '<div class="sac-box">Recorrido del cliente:<br><b>DESCUBRIR → BUSCAR → COMPARAR → COMPRAR → RECIBIR → PREGUNTAR → RESOLVER</b></div>' +
+      '<table><tr><th>Fase</th><th>¿Cómo puede ayudar la IA?</th></tr>' +
+      '<tr><td>Descubrir y buscar</td><td>Recomendaciones personalizadas y buscadores inteligentes</td></tr>' +
+      '<tr><td>Comparar</td><td>Contenido claro y comparativas generadas automáticamente</td></tr>' +
+      '<tr><td>Comprar</td><td>Chatbots que resuelven dudas de última hora</td></tr>' +
+      '<tr><td>Recibir y preguntar</td><td>Respuestas rápidas sobre pedidos y seguimiento de envíos</td></tr>' +
+      '<tr><td>Resolver</td><td>Análisis de opiniones de clientes para detectar problemas frecuentes</td></tr></table>' +
+      '<p>La <b>intervención humana</b> sigue siendo especialmente importante en reclamaciones complejas, situaciones con carga emocional, decisiones excepcionales (como una devolución fuera de plazo) y conflictos que requieren empatía y criterio profesional.</p>' +
+      '<h4>3.5 Beneficios de utilizar IA</h4><p>Gana tiempo al automatizar tareas repetitivas, mejora la calidad de sus contenidos, toma decisiones apoyadas en datos reales, conoce mejor a sus clientes y ofrece una atención más ágil.</p>' +
+      '<h4>Tabla resumen del bloque 3</h4>' +
+      '<table><tr><th>Necesidad</th><th>IA</th><th>La persona debe…</th></tr>' +
+      '<tr><td>Ahorrar tiempo</td><td>Automatizar tareas</td><td>Comprobar</td></tr>' +
+      '<tr><td>Crear contenidos</td><td>Generar textos e ideas</td><td>Revisar</td></tr>' +
+      '<tr><td>Conocer clientes</td><td>Analizar y segmentar</td><td>Interpretar</td></tr>' +
+      '<tr><td>Responder preguntas</td><td>Chatbot</td><td>Supervisar</td></tr>' +
+      '<tr><td>Tomar decisiones</td><td>Analizar datos</td><td>Decidir</td></tr>' +
+      '<tr><td>Recomendar productos</td><td>Personalizar</td><td>Controlar</td></tr>' +
+      '<tr><td>Detectar tendencias</td><td>Analizar patrones</td><td>Valorar si tienen sentido</td></tr></table>' +
+      '<div class="sac-box"><b>NO TODO NECESITA IA</b><br>¿Cambiar el horario en Google? No necesariamente: se puede hacer directamente.<br>¿Responder automáticamente a cientos de preguntas diferentes? La IA puede ser útil.<br>Utilizar IA no siempre es la mejor solución: primero hay que identificar la necesidad.</div>',
+    res: '<h4>4.1 Limitaciones de la IA</h4><ul>' +
+      '<li><b>Puede cometer errores (alucinaciones):</b> la IA generativa puede inventar datos que parecen reales pero no lo son. Es una de las razones principales para comprobar siempre sus resultados.</li>' +
+      '<li><b>Puede reflejar sesgos:</b> si los datos con los que se entrenó contenían desequilibrios, el resultado puede reproducirlos.</li>' +
+      '<li><b>Depende de la calidad de los datos:</b> con información escasa o desactualizada, sus resultados pierden fiabilidad.</li>' +
+      '<li><b>No sustituye el criterio profesional:</b> aporta apoyo, no la decisión final.</li></ul>' +
+      '<h4>4.2 ¿Podemos confiar siempre en la IA?</h4><p>No de forma automática: antes de usar cualquier resultado hay que comprobarlo. Cuatro situaciones:</p>' +
+      '<table><tr><th>Situación</th><th>Ejemplo</th><th>Riesgo</th><th>Qué hacer</th></tr>' +
+      '<tr><td>1. Información falsa</td><td>La IA redacta la ficha de un producto e inventa una característica técnica</td><td>Información falsa al consumidor</td><td>Comprobar siempre antes de publicar</td></tr>' +
+      '<tr><td>2. Datos personales</td><td>Un empleado introduce nombre, teléfono y dirección de clientes en una IA de internet</td><td>Problema de privacidad y protección de datos</td><td>No introducir información personal en herramientas externas sin comprobar antes si está permitido</td></tr>' +
+      '<tr><td>3. Propiedad intelectual</td><td>Una IA genera una imagen muy parecida a una obra o personaje protegido</td><td>Posible infracción de propiedad intelectual</td><td>Revisar el origen de la imagen y las condiciones de uso</td></tr>' +
+      '<tr><td>4. Sesgo</td><td>Un sistema de recomendación sugiere productos de forma desigual entre grupos sin justificación comercial</td><td>Sesgo o trato injusto</td><td>Supervisar los resultados y aplicar criterio profesional antes de generalizar</td></tr></table>' +
+      '<h4>4.3 La importancia de la supervisión humana</h4>' +
+      '<div class="sac-box"><b>IDEA CENTRAL:</b> la IA puede ayudar a producir, analizar y proponer; la persona debe comprobar, interpretar y decidir.</div>' +
+      '<p>No se trata de desconfiar sistemáticamente de la IA, sino de usarla con el mismo criterio profesional que cualquier otra herramienta de trabajo: sacándole partido, pero sin delegar en ella la responsabilidad final.</p>',
+    nor: '<h4>4.4 IA, datos y privacidad</h4><p>Muchas aplicaciones de IA en el comercio (por ejemplo, la segmentación de clientes) trabajan con <b>datos personales</b>: nombres, hábitos de compra, ubicación o preferencias. Esta información está protegida por la normativa de protección de datos, que establece que solo puede tratarse con una <b>finalidad concreta</b>, <b>informando</b> a las personas y garantizando su <b>seguridad</b>.</p>' +
+      '<p><b>En la práctica:</b> un comercio no puede introducir datos personales de sus clientes en cualquier herramienta de IA sin comprobar antes las condiciones de privacidad de esa herramienta, ni utilizar esa información para fines distintos de los que el cliente conoce y ha aceptado.</p>' +
+      '<h4>4.5 Primera aproximación a la normativa</h4><p>El uso de la IA en la empresa no está fuera de la ley. Normas que afectan, directa o indirectamente (se verán con más detalle en una unidad posterior):</p><ul>' +
+      '<li><b>Protección de datos:</b> regula cómo debe tratarse la información personal de clientes.</li>' +
+      '<li><b>Derechos de los consumidores:</b> protegen frente a información engañosa, también cuando la genera una IA.</li>' +
+      '<li><b>Propiedad intelectual:</b> afecta a contenidos generados por IA que puedan parecerse a obras protegidas.</li>' +
+      '<li><b>Normativa de comercio electrónico:</b> regula la venta online, con o sin uso de IA.</li>' +
+      '<li><b>Reglamento Europeo de IA (AI Act):</b> primera normativa específica de la Unión Europea sobre el uso de sistemas de IA.</li></ul>' +
+      '<div class="sac-box"><b>ESTO YA ES DE ACTUALIDAD</b><br>El AI Act establece obligaciones de <b>transparencia</b> para determinados sistemas. Desde el <b>2 de agosto de 2026</b>, el <b>artículo 50</b> se aplica a los sistemas de IA destinados a interactuar directamente con personas, que deben informar de que se está interactuando con IA, salvo que resulte evidente por las circunstancias y el contexto.<br><b>En la práctica:</b> cuando un cliente interactúa directamente con un chatbot de IA, debe quedar claro que está hablando con un sistema de inteligencia artificial, salvo que sea evidente por las circunstancias y el contexto.</div>'
+  };
+
+  var IA_QS = [
+    // ---- 1. Conocemos la IA ----
+    {s:'ia1', q:'¿Qué hace realmente la IA, según la unidad?', o:['Reconoce patrones en grandes cantidades de información y los usa para responder, generar, clasificar o predecir','Piensa como una persona y es consciente de lo que hace','Sustituye la relación del comercio con el cliente','Aplica únicamente reglas fijas escritas por una persona'], e:'La IA no piensa ni tiene conciencia: reconoce patrones.'},
+    {s:'ia1', q:'¿Cuál es el orden correcto del esquema de funcionamiento de la IA?', o:['Datos → Algoritmo → Modelo → Resultado','Algoritmo → Datos → Resultado → Modelo','Modelo → Datos → Algoritmo → Resultado','Datos → Modelo → Algoritmo → Resultado'], e:'Los datos se procesan con un algoritmo, que entrenado da lugar a un modelo, que produce el resultado.'},
+    {s:'ia1', q:'Un algoritmo es…', o:['El conjunto de instrucciones matemáticas que indica cómo procesar la información para encontrar patrones','El resultado de entrenar un sistema con muchos datos','Toda la información que se usa para entrenar la IA','El texto o la imagen que genera la IA'], e:'Datos = información. Algoritmo = instrucciones. Modelo = resultado de entrenar el algoritmo.'},
+    {s:'ia1', q:'Un modelo de IA es…', o:['El resultado de entrenar un algoritmo con muchos datos, capaz de aplicar lo aprendido a casos nuevos','Una persona que revisa los resultados','Una colección de fotografías de productos','Un programa que solo repite reglas fijas'], e:'Una vez entrenado, aplica lo aprendido a casos que no había visto.'},
+    {s:'ia1', q:'Una tienda online recomienda «productos relacionados». ¿Qué está utilizando?', o:['Un modelo entrenado con los datos de compras anteriores de miles de clientes','Un conjunto de reglas fijas sin datos','Un generador de imágenes','Un chatbot sin datos'], e:'Cuantos más datos de calidad tenga, mejor funcionará; aun así hay que comprobar el resultado.'},
+    {s:'ia1', q:'¿Cómo eran los sistemas de las primeras décadas (años 50-80)?', o:['Reglas fijas del tipo «si ocurre esto, haz aquello»; no aprendían de la experiencia','Modelos que generaban imágenes','Sistemas que aprendían de millones de datos','Chatbots de comercio electrónico'], e:'Eran útiles para tareas muy concretas, pero no aprendían.'},
+    {s:'ia1', q:'¿Qué apareció entre los años 90 y 2010?', o:['Sistemas que aprenden de los datos (aprendizaje automático) y los primeros sistemas de recomendación en comercio electrónico','Los modelos capaces de generar vídeo','Las primeras reglas fijas de programación','El Reglamento Europeo de IA'], e:'La capacidad de generar texto, imágenes o audio llegó en la última década.'},
+    {s:'ia1', q:'¿Qué ha permitido en la última década entrenar modelos mucho más potentes?', o:['El aumento de la capacidad de los ordenadores y la enorme cantidad de datos disponibles en internet','La aparición de la primera regla «si ocurre esto, haz aquello»','Que la IA haya empezado a pensar como una persona','La prohibición de usar datos personales'], e:'Es una evolución progresiva, no un invento repentino.'},
+    {s:'ia1', q:'¿Qué diferencia a la IA tradicional (analítica o predictiva) de la generativa?', o:['La tradicional analiza datos, clasifica o predice; la generativa crea contenido nuevo','La tradicional crea imágenes y la generativa solo analiza','Ninguna: son lo mismo','La generativa no necesita datos'], e:'Ejemplo tradicional: prever qué clientes pueden dejar de comprar. Generativa: redactar la descripción de un producto.'},
+    {s:'ia1', q:'Prever qué días habrá más ventas es un ejemplo de IA…', o:['Tradicional (analítica o predictiva)','Generativa','Sin datos','De reglas fijas de los años 50'], e:'Analiza datos y hace predicciones.'},
+    {s:'ia1', q:'Generar una imagen para redes sociales a partir de una instrucción es un ejemplo de IA…', o:['Generativa','Tradicional','Predictiva','De reglas fijas'], e:'La IA generativa crea contenido nuevo: texto, imágenes, audio o vídeo.'},
+    {s:'ia1', q:'¿Cómo se llama la instrucción en lenguaje natural que se escribe a una IA generativa?', o:['Prompt','Algoritmo','Modelo','Dato'], e:'Permite obtener un texto, una imagen o incluso un vídeo como resultado.'},
+    {s:'ia1', q:'¿Cuál de estas afirmaciones es correcta?', o:['Mucha IA trabaja en segundo plano analizando datos, sin producir texto ni imagen visible','Toda la IA genera contenido nuevo','La IA generativa es la única útil para un comercio','La IA tradicional ya no se usa'], e:'Ambos tipos son igual de útiles para un comercio.'},
+    {s:'ia1', q:'¿Qué papel tiene la IA en un establecimiento según el apartado 1.1?', o:['Ayuda a hacer tareas concretas más rápido para que el equipo dedique su tiempo a atender, decidir y vender','Sustituye el criterio del profesional','Sustituye la relación con el cliente','Decide por sí sola qué vender'], e:'No sustituye la relación con el cliente ni el criterio del profesional.'},
+    // ---- 2. La IA está en todas partes ----
+    {s:'ia2', q:'Cuando buscas una ruta en el móvil, la IA…', o:['Calcula el trayecto más rápido según el tráfico en tiempo real','Reconoce patrones faciales','Predice la palabra más probable','Traduce el idioma automáticamente'], e:'Cada situación cotidiana usa un tipo de análisis de datos.'},
+    {s:'ia2', q:'Desbloquear el móvil con la cara se basa en que la IA…', o:['Reconoce patrones faciales para identificarte','Calcula el tráfico','Recomienda contenido similar','Corrige palabras'], e:'Es reconocimiento de patrones faciales.'},
+    {s:'ia2', q:'El teclado que completa palabras utiliza una IA que…', o:['Predice la palabra más probable según el contexto','Reconoce el idioma y traduce','Analiza lo que has visto para recomendarte contenido','Reconoce la voz'], e:'Predicción según el contexto.'},
+    {s:'ia2', q:'¿Qué tienen en común todos los ejemplos de IA en la vida cotidiana?', o:['Un sistema analiza información (datos) y ofrece un resultado útil para una persona concreta, en el momento en que lo necesita','Todos usan generación de imágenes','Todos requieren que la persona programe','Todos sustituyen a una persona'], e:'Es la idea común del apartado 2.1.'},
+    {s:'ia2', q:'¿Qué aplicaciones de la IA en las empresas se citan en el apartado 2.2?', o:['Analizar grandes volúmenes de datos, automatizar procesos repetitivos (clasificar correos, generar informes) y anticipar necesidades de stock y mantenimiento','Fijar los precios sin supervisión','Sustituir al departamento jurídico','Contratar personal automáticamente'], e:'Ya no son exclusivas de grandes multinacionales.'},
+    {s:'ia2', q:'¿Por qué los pequeños y medianos comercios pueden incorporar IA?', o:['Porque hay herramientas accesibles, sencillas de usar y de coste reducido o gratuitas en sus versiones básicas','Porque la IA solo cuesta dinero a las multinacionales','Porque la ley obliga a todos los comercios','Porque la IA funciona sin datos'], e:'Apartado 2.2.'},
+    {s:'ia2', q:'¿Cuál NO es una aplicación de la IA en el comercio citada en el apartado 2.3?', o:['Negociar contratos con proveedores sin supervisión humana','Redactar descripciones de producto o publicaciones','Responder preguntas frecuentes con un chatbot','Recomendar productos relacionados a partir del historial de compra'], e:'También se citan generar imágenes o ideas visuales y analizar qué productos se venden más y en qué momentos.'},
+    {s:'ia2', q:'¿Qué necesita un futuro profesional del comercio respecto a la IA?', o:['Una mirada profesional capaz de identificar si existe una herramienta de IA que ayude ante una necesidad','Saber programar modelos de IA','Entender las matemáticas del modelo','Desconfiar siempre de ella'], e:'No necesita programar ni entender las matemáticas.'},
+    {s:'ia2', q:'¿Cuál es la pregunta que debe hacerse el profesional «de forma natural»?', o:['«Tengo esta necesidad en mi comercio… ¿puede ayudarme una IA?»','«¿Cómo programo una IA?»','«¿Puede la IA sustituirme?»','«¿Cuánto cuesta un modelo?»'], e:'Aparecerá a lo largo de todo el módulo.'},
+    {s:'ia2', q:'Conocer la IA te permite decidir…', o:['Cuándo conviene usarla, cuándo no aporta valor y cuándo su resultado necesita revisión','Cuándo programar un modelo','Cuándo dejar de comprobar los resultados','Cuándo despedir al equipo'], e:'Esa mirada crítica es tan importante como saber usar la herramienta.'},
+    // ---- 3.1–3.2 Automatizar y decidir ----
+    {s:'aut', q:'¿Cuál es el hilo conductor del bloque 3?', o:['Necesidad → Datos → Herramienta → Resultado → Comprobación → Decisión','Herramienta → Necesidad → Datos → Decisión → Resultado → Comprobación','Datos → Necesidad → Decisión → Herramienta → Resultado → Comprobación','Necesidad → Herramienta → Decisión → Datos → Resultado → Comprobación'], e:'Seis pasos: la IA propone y el profesional comprueba y decide.'},
+    {s:'aut', q:'En el esquema del bloque 3, la «Comprobación» responde a la pregunta…', o:['¿Está bien?','¿Qué problema tengo?','¿Qué me propone?','¿Qué hago finalmente?'], e:'Necesidad: ¿qué problema tengo? Datos: ¿qué información necesito? Herramienta: ¿qué IA puede ayudarme? Resultado: ¿qué me propone? Decisión: ¿qué hago finalmente?'},
+    {s:'aut', q:'La idea clave del bloque 3 es…', o:['La IA propone; el profesional comprueba y decide','La IA decide y el profesional ejecuta','La IA comprueba y el profesional propone','La IA propone, comprueba y decide'], e:'La responsabilidad final es siempre de la persona.'},
+    {s:'aut', q:'Google Analytics y Meta Business Suite se incluyen en la categoría de…', o:['Analítica con IA integrada','Asistentes conversacionales','Generadores de imágenes','Chatbots comerciales'], e:'Asistentes: ChatGPT, Claude, Gemini. Imágenes: DALL·E, Midjourney. Chatbots: plataformas de venta online o WhatsApp Business.'},
+    {s:'aut', q:'¿Cuál es el esquema de la automatización?', o:['Problema → Tarea → Solución → Resultado → Control humano','Tarea → Problema → Resultado → Solución → Control humano','Problema → Solución → Tarea → Control humano → Resultado','Resultado → Tarea → Problema → Solución → Control humano'], e:'Siempre termina en control humano.'},
+    {s:'aut', q:'Responder «¿tenéis esta talla?» varias veces al día es…', o:['Una tarea repetitiva','Una automatización con IA','Una automatización por reglas fijas','Una decisión excepcional'], e:'Es una actividad que se repite de forma similar.'},
+    {s:'aut', q:'Un mensaje automático con el horario de la tienda es…', o:['Automatización mediante reglas fijas (sin IA)','Automatización con IA','Una tarea repetitiva','Un modelo generativo'], e:'No adapta la respuesta a cada situación: es un mensaje fijo.'},
+    {s:'aut', q:'¿Qué caracteriza a la automatización con IA?', o:['Un sistema capaz de entender el lenguaje y generar una respuesta adaptada a cada situación, no solo un mensaje fijo','Un mensaje igual para todos','La ausencia de control humano','Que solo funciona con reglas fijas'], e:'Es el tercer nivel, tras la tarea repetitiva y la automatización.'},
+    {s:'aut', q:'«La IA no hace todo sola» significa que…', o:['Automatizar con IA es delegar la parte mecánica para dedicar tiempo a decidir, negociar o atender con cercanía','Hay que desentenderse de la tarea','La IA solo sirve para negociar','No sirve para tareas mecánicas'], e:'La persona sigue aportando criterio comercial.'},
+    {s:'aut', q:'La IA detecta que un producto es el más vendido. ¿Qué debe comprobar el profesional?', o:['El margen y la rentabilidad de ese producto','Que el producto sea de color rojo','Que tenga más clics en redes','Que la IA lo haya generado'], e:'Vender mucho no es lo mismo que ser el producto más rentable.'},
+    {s:'aut', q:'La IA detecta un aumento repentino de la demanda de un producto. El profesional debe comprobar…', o:['Si existe stock suficiente para atenderla','Si hay un segmento más activo','Si la publicación tiene más interacción','Si el chatbot responde rápido'], e:'Es una de las comprobaciones de la tabla del apartado 3.2.'},
+    {s:'aut', q:'Una publicación recibe muchísima interacción. El profesional debe comprobar…', o:['Si esa interacción realmente genera ventas','Si el producto es el más barato','Si hay stock','Si el cliente es de otra zona'], e:'Interacción no siempre significa ventas.'},
+    {s:'aut', q:'Una campaña consigue muchos clics. ¿Qué debe comprobar el profesional?', o:['Si esos clics cumplen el objetivo comercial real','Si el modelo es generativo','Si hay un nuevo segmento','Si se puede automatizar'], e:'Los clics solo son útiles si cumplen el objetivo.'},
+    {s:'aut', q:'La IA detecta un segmento de clientes muy activo. El profesional debe comprobar…', o:['Si ese segmento coincide con el público objetivo del negocio','Si el segmento tiene stock','Si la campaña ha generado imágenes','Si el chatbot está activo'], e:'Un segmento activo puede no ser el público objetivo.'},
+    {s:'aut', q:'¿Qué significa «VENDER MUCHO ≠ SER EL PRODUCTO MÁS RENTABLE»?', o:['Que el producto más vendido no tiene por qué ser el que deja más margen','Que vender mucho es malo','Que la rentabilidad no importa','Que la IA siempre acierta'], e:'La IA aporta información; la empresa decide qué hacer con ella.'},
+    // ---- 3.3 Segmentación ----
+    {s:'seg', q:'Segmentar significa…', o:['Dividir los clientes en grupos con características o comportamientos similares','Adaptar una oferta a un cliente concreto','Enviar el mismo mensaje a todos','Eliminar a los clientes poco activos'], e:'Con el fin de dirigirse a cada grupo de forma más eficaz.'},
+    {s:'seg', q:'¿Por qué se segmenta?', o:['Porque no todos los clientes tienen las mismas necesidades ni responden igual a un mismo mensaje','Porque la ley lo obliga','Porque la IA lo pide siempre','Porque así se evitan los datos personales'], e:'Tratar a todos igual desaprovecha información valiosa.'},
+    {s:'seg', q:'¿Cuál NO es una variable habitual de segmentación citada en la unidad?', o:['El número de empleados del comercio','La edad','El importe medio gastado','Los intereses en redes sociales'], e:'También: sexo, zona geográfica, frecuencia de compra y productos que compran.'},
+    {s:'seg', q:'En el ejemplo de la tienda de ropa deportiva, los clientes A, C y E forman un grupo de…', o:['Jóvenes con compra frecuente de ropa deportiva','Clientes de más edad con compra poco frecuente','Clientes de calzado','Clientes con importes medios altos'], e:'A tiene 19 años, C 22 y E 20, todos con frecuencia alta.'},
+    {s:'seg', q:'En el ejemplo, los clientes B, D y F forman un grupo de…', o:['Clientes de más edad con compra menos frecuente de ropa casual y calzado','Jóvenes de ropa running','Clientes con frecuencia alta','Clientes interesados en redes sociales'], e:'B 45, D 50 y F 48 años.'},
+    {s:'seg', q:'¿Qué cliente del ejemplo tiene el importe medio más alto?', o:['D (70 €)','B (60 €)','F (55 €)','C (40 €)'], e:'Importes: A 35, B 60, C 40, D 70, E 30, F 55.'},
+    {s:'seg', q:'¿En qué se diferencian segmentar y personalizar?', o:['Segmentar es agrupar clientes similares; personalizar es adaptar la comunicación, oferta o experiencia a un cliente o grupo concreto','Son lo mismo','Personalizar es agrupar y segmentar es adaptar','Segmentar solo se hace con IA generativa'], e:'Primero se segmenta y después se personaliza.'},
+    {s:'seg', q:'¿Cuál es el orden correcto?', o:['Primero se segmenta y después se personaliza','Primero se personaliza y después se segmenta','Se hacen a la vez siempre','Solo se personaliza'], e:'Se identifican los grupos y luego se actúa de forma distinta con cada uno.'},
+    {s:'seg', q:'¿Cuál es el esquema para pasar de la segmentación a la acción?', o:['Segmento → Necesidad → Acción comercial','Acción comercial → Segmento → Necesidad','Necesidad → Acción comercial → Segmento','Segmento → Acción comercial → Necesidad'], e:'Ej.: jóvenes interesados en deporte → productos técnicos y contenido de entrenamiento → campaña en redes sociales.'},
+    {s:'seg', q:'«La IA no inventa buenos segmentos de la nada» porque…', o:['Necesita datos adecuados y suficientes y requiere una interpretación profesional','Solo funciona con IA generativa','Los segmentos los decide el cliente','Los datos personales están prohibidos'], e:'El profesional confirma si los grupos tienen sentido comercial.'},
+    {s:'seg', q:'¿Qué hay que respetar al segmentar con datos de clientes?', o:['La normativa de protección de datos','Solo las normas de comercio electrónico','Nada, porque son datos internos','Únicamente la propiedad intelectual'], e:'Se retoma en el bloque 4.'},
+    // ---- 3.4–3.5 Experiencia y beneficios ----
+    {s:'exp', q:'¿Cuál es el recorrido del cliente?', o:['Descubrir → Buscar → Comparar → Comprar → Recibir → Preguntar → Resolver','Buscar → Descubrir → Comprar → Comparar → Resolver → Recibir → Preguntar','Comprar → Descubrir → Buscar → Comparar → Recibir → Resolver → Preguntar','Descubrir → Comparar → Buscar → Recibir → Comprar → Preguntar → Resolver'], e:'La IA puede ayudar en varios momentos de ese recorrido.'},
+    {s:'exp', q:'En la fase «Comprar», la IA ayuda con…', o:['Chatbots que resuelven dudas de última hora','Recomendaciones personalizadas','Análisis de opiniones','Seguimiento de envíos'], e:'Cada fase tiene su ayuda concreta.'},
+    {s:'exp', q:'En «Descubrir y buscar», la IA ofrece…', o:['Recomendaciones personalizadas y buscadores inteligentes','Comparativas automáticas','Seguimiento de envíos','Análisis de opiniones'], e:'Comparar: contenido claro y comparativas generadas automáticamente.'},
+    {s:'exp', q:'«Recibir y preguntar»: ¿cómo ayuda la IA?', o:['Con respuestas rápidas sobre pedidos y seguimiento de envíos','Con chatbots de última hora','Con análisis de opiniones','Con buscadores inteligentes'], e:'Es la fase posterior a la compra.'},
+    {s:'exp', q:'En la fase «Resolver», la IA puede…', o:['Analizar opiniones de clientes para detectar problemas frecuentes','Resolver sola reclamaciones complejas','Decidir devoluciones fuera de plazo','Sustituir al profesional'], e:'Las reclamaciones complejas requieren intervención humana.'},
+    {s:'exp', q:'¿En qué situaciones sigue siendo especialmente importante la intervención humana?', o:['Reclamaciones complejas, situaciones con carga emocional, decisiones excepcionales y conflictos que requieren empatía','Preguntas frecuentes sobre pedidos','Recomendaciones de productos relacionados','Seguimiento automático de envíos'], e:'Ejemplo de decisión excepcional: una devolución fuera de plazo.'},
+    {s:'exp', q:'¿Cuál NO es un beneficio de utilizar IA citado en el apartado 3.5?', o:['Eliminar la necesidad de comprobar los resultados','Ganar tiempo al automatizar tareas repetitivas','Tomar decisiones apoyadas en datos reales','Ofrecer una atención más ágil'], e:'También: mejorar la calidad de los contenidos y conocer mejor a los clientes.'},
+    {s:'exp', q:'Según la tabla resumen del bloque 3, para «Ahorrar tiempo» la IA ayuda a…, y la persona debe…', o:['Automatizar tareas; comprobar','Generar textos e ideas; revisar','Analizar y segmentar; interpretar','Analizar datos; decidir'], e:'Crear contenidos: generar textos e ideas → revisar.'},
+    {s:'exp', q:'Para «Conocer clientes», la IA ayuda a… y la persona debe…', o:['Analizar y segmentar; interpretar','Chatbot; supervisar','Personalizar; controlar','Analizar patrones; valorar si tienen sentido'], e:'Responder preguntas: chatbot → supervisar.'},
+    {s:'exp', q:'Para «Responder preguntas», la IA actúa como… y la persona debe…', o:['Chatbot; supervisar','Analizar datos; decidir','Personalizar; controlar','Automatizar tareas; comprobar'], e:'Tomar decisiones: analizar datos → decidir.'},
+    {s:'exp', q:'Para «Recomendar productos», la IA ayuda a… y la persona debe…', o:['Personalizar; controlar','Analizar patrones; valorar si tienen sentido','Generar textos e ideas; revisar','Analizar y segmentar; interpretar'], e:'Detectar tendencias: analizar patrones → valorar si tienen sentido.'},
+    {s:'exp', q:'Para «Detectar tendencias», la persona debe…', o:['Valorar si los patrones tienen sentido','Revisar los textos','Comprobar la automatización','Controlar las recomendaciones'], e:'La IA analiza patrones; la persona valora si tienen sentido.'},
+    {s:'exp', q:'«No todo necesita IA». ¿Cuál es un caso en el que la IA NO es necesaria?', o:['Cambiar el horario de la tienda en Google, que puede hacerse directamente','Responder automáticamente a cientos de preguntas diferentes de clientes','Detectar patrones en grandes volúmenes de ventas','Resumir cientos de opiniones'], e:'Utilizar IA no es siempre la mejor solución: primero hay que identificar la necesidad.'},
+    // ---- 4.1–4.3 Limitaciones ----
+    {s:'res', q:'Una «alucinación» de la IA generativa consiste en…', o:['Inventar datos que parecen reales pero no lo son','Pensar como una persona','Negarse a responder','Copiar una imagen protegida'], e:'Es una de las razones principales por las que siempre hay que comprobar los resultados.'},
+    {s:'res', q:'¿Por qué una IA puede reflejar sesgos?', o:['Porque si los datos con los que se entrenó contenían desequilibrios, el resultado puede reproducirlos','Porque tiene opiniones propias','Porque no usa datos','Porque siempre usa reglas fijas'], e:'Los sesgos vienen de los datos.'},
+    {s:'res', q:'Si la IA trabaja con información escasa o desactualizada…', o:['Sus resultados pierden fiabilidad','Sus resultados mejoran','Genera más imágenes','No comete errores'], e:'Depende de la calidad de los datos.'},
+    {s:'res', q:'La IA generativa redacta la ficha de un producto e inventa una característica. ¿Cuál es el riesgo y qué hacer?', o:['Información falsa al consumidor; comprobar siempre antes de publicar','Problema de propiedad intelectual; revisar el origen','Sesgo; supervisar resultados','Problema de privacidad; no usar datos personales'], e:'Situación 1: información falsa.'},
+    {s:'res', q:'Un empleado introduce nombre, teléfono y dirección de clientes en una herramienta de IA de internet. ¿Qué riesgo hay?', o:['Un problema de privacidad y protección de datos','Una alucinación','Un sesgo','Una infracción de propiedad intelectual'], e:'Hay que comprobar antes si está permitido introducir información personal en herramientas externas.'},
+    {s:'res', q:'Una IA genera una imagen que se parece demasiado a un personaje protegido. ¿Qué debe hacerse?', o:['Revisar el origen de la imagen y las condiciones de uso de la herramienta','Publicarla igualmente','Eliminar todos los datos de clientes','Reentrenar el modelo'], e:'Riesgo: posible infracción de propiedad intelectual.'},
+    {s:'res', q:'Un sistema de recomendación sugiere productos de forma desigual entre grupos de clientes sin justificación comercial. ¿Qué situación es?', o:['Sesgo (riesgo de trato injusto)','Información falsa','Datos personales','Propiedad intelectual'], e:'Qué hacer: supervisar los resultados y aplicar criterio profesional antes de generalizarlos.'},
+    {s:'res', q:'¿Cuál es la idea central de todo el módulo?', o:['La IA puede ayudar a producir, analizar y proponer; la persona debe comprobar, interpretar y decidir','La IA debe decidir por el profesional','Hay que desconfiar siempre de la IA','La IA no tiene limitaciones'], e:'Apartado 4.3.'},
+    {s:'res', q:'¿Cuál es la actitud correcta ante la IA según el apartado 4.3?', o:['Usarla con el mismo criterio profesional que cualquier herramienta, sin delegar la responsabilidad final','Desconfiar sistemáticamente','Confiar plenamente','Evitarla'], e:'No se trata de desconfiar sistemáticamente.'},
+    {s:'res', q:'¿Podemos confiar siempre en la IA?', o:['No de forma automática: hay que comprobar el resultado antes de utilizarlo','Sí, siempre','Solo si es generativa','Solo si es gratuita'], e:'Apartado 4.2.'},
+    // ---- 4.4–4.5 Datos y normativa ----
+    {s:'nor', q:'¿Qué datos personales se citan como habituales en la segmentación de clientes?', o:['Nombres, hábitos de compra, ubicación y preferencias','Solo números de cuenta','Solo imágenes de productos','Datos de las empresas proveedoras'], e:'Están protegidos por la normativa de protección de datos.'},
+    {s:'nor', q:'Según la normativa de protección de datos, la información personal solo puede tratarse…', o:['Con una finalidad concreta, informando a las personas y garantizando su seguridad','Libremente si es para vender más','Solo si la trata una IA','Si el cliente no se entera'], e:'Finalidad concreta, información y seguridad.'},
+    {s:'nor', q:'¿Qué NO puede hacer un comercio con los datos personales de sus clientes?', o:['Utilizarlos para fines distintos de los que el cliente conoce y ha aceptado','Tratarlos con una finalidad concreta','Informar al cliente','Garantizar su seguridad'], e:'Tampoco introducirlos en cualquier herramienta de IA sin comprobar sus condiciones de privacidad.'},
+    {s:'nor', q:'¿Cuál NO es una de las normas citadas que afectan al uso de la IA en la empresa?', o:['La normativa de prevención de riesgos laborales','Protección de datos','Propiedad intelectual','Normativa de comercio electrónico'], e:'Citadas: protección de datos, derechos de los consumidores, propiedad intelectual, comercio electrónico y AI Act.'},
+    {s:'nor', q:'Los derechos de los consumidores protegen frente a…', o:['Información engañosa, también cuando la genera una IA','Los sesgos de los algoritmos únicamente','La venta online','Los datos personales'], e:'La protección de datos regula la información personal.'},
+    {s:'nor', q:'La propiedad intelectual afecta a…', o:['Los contenidos generados por IA que puedan parecerse a obras protegidas','La venta online','El tratamiento de datos de clientes','La transparencia de los chatbots'], e:'Por eso hay que revisar el origen de las imágenes generadas.'},
+    {s:'nor', q:'La normativa de comercio electrónico regula…', o:['La venta online, con o sin uso de IA','Los datos personales','Los derechos de autor','La transparencia de los sistemas de IA'], e:'Se aplica independientemente de que se use IA.'},
+    {s:'nor', q:'El Reglamento Europeo de IA (AI Act) es…', o:['La primera normativa específica de la Unión Europea sobre el uso de sistemas de IA','Una norma de protección de datos nacional','Una norma de propiedad intelectual','Un reglamento solo para grandes empresas'], e:'Establece obligaciones de transparencia para determinados sistemas de IA.'},
+    {s:'nor', q:'Desde el 2 de agosto de 2026, el artículo 50 del AI Act exige que los sistemas de IA que interactúan directamente con personas…', o:['Informen de que se está interactuando con IA, salvo que resulte evidente por las circunstancias y el contexto','Oculten que son IA','Dejen de usar datos','Tengan siempre un operador humano'], e:'Obligación de transparencia.'},
+    {s:'nor', q:'Un cliente chatea con un chatbot de IA de una tienda online. ¿Qué debe quedar claro?', o:['Que está hablando con un sistema de inteligencia artificial, salvo que sea evidente por las circunstancias y el contexto','Que habla con un empleado','Que sus datos se compartirán con terceros','Nada, es opcional'], e:'Es la aplicación práctica del artículo 50.'},
+
+    // ---- Verdadero / Falso ----
+    {s:'ia1', vf:false, q:'La IA piensa como una persona y tiene conciencia de lo que hace.', e:'Falso: reconoce patrones en grandes cantidades de información.'},
+    {s:'ia1', vf:true, q:'Un modelo es el resultado de entrenar un algoritmo con muchos datos.', e:'Verdadero.'},
+    {s:'ia1', vf:false, q:'Un algoritmo es toda la información que se utiliza para entrenar la IA.', e:'Falso: eso son los datos. El algoritmo es el conjunto de instrucciones matemáticas.'},
+    {s:'ia1', vf:true, q:'La IA actual es el resultado de una evolución progresiva, no de un invento repentino.', e:'Verdadero.'},
+    {s:'ia1', vf:false, q:'Los sistemas de los años 50-80 aprendían de la experiencia.', e:'Falso: seguían reglas fijas y no aprendían.'},
+    {s:'ia1', vf:false, q:'Toda la IA genera contenido nuevo.', e:'Falso: mucha IA trabaja en segundo plano analizando datos.'},
+    {s:'ia2', vf:true, q:'Desbloquear el móvil con la cara es un ejemplo de reconocimiento de patrones.', e:'Verdadero.'},
+    {s:'ia2', vf:false, q:'Para usar IA en un comercio es imprescindible saber programar.', e:'Falso: basta una mirada profesional para identificar si una herramienta puede ayudar.'},
+    {s:'ia2', vf:true, q:'Las herramientas de IA ya no son exclusivas de grandes multinacionales.', e:'Verdadero.'},
+    {s:'aut', vf:true, q:'La IA propone y el profesional comprueba y decide.', e:'Verdadero.'},
+    {s:'aut', vf:false, q:'Un mensaje automático con el horario de la tienda es una automatización con IA.', e:'Falso: es una automatización por reglas fijas.'},
+    {s:'aut', vf:true, q:'Automatizar una tarea significa conseguir que se realice, total o parcialmente, sin que una persona tenga que hacerla manualmente cada vez.', e:'Verdadero.'},
+    {s:'aut', vf:false, q:'El producto más vendido es siempre el más rentable.', e:'Falso: vender mucho no es ser el producto más rentable.'},
+    {s:'aut', vf:true, q:'Cuando la IA detecta un aumento repentino de la demanda, hay que comprobar si existe stock suficiente.', e:'Verdadero.'},
+    {s:'seg', vf:true, q:'Segmentar es agrupar clientes con características o comportamientos similares.', e:'Verdadero.'},
+    {s:'seg', vf:false, q:'Segmentar y personalizar significan lo mismo.', e:'Falso: primero se segmenta (grupos) y después se personaliza (acción distinta para cada grupo).'},
+    {s:'seg', vf:true, q:'La IA necesita datos adecuados y suficientes para segmentar bien.', e:'Verdadero.'},
+    {s:'seg', vf:false, q:'La segmentación con datos de clientes no está sujeta a la normativa de protección de datos.', e:'Falso: debe cumplirse.'},
+    {s:'exp', vf:true, q:'Las reclamaciones complejas requieren intervención humana.', e:'Verdadero.'},
+    {s:'exp', vf:false, q:'Un chatbot debe resolver siempre las decisiones excepcionales, como una devolución fuera de plazo.', e:'Falso: ahí es especialmente importante la intervención humana.'},
+    {s:'exp', vf:true, q:'Cambiar el horario de una tienda en Google no necesita necesariamente IA.', e:'Verdadero.'},
+    {s:'res', vf:true, q:'Una alucinación es cuando la IA inventa datos que parecen reales.', e:'Verdadero.'},
+    {s:'res', vf:false, q:'Con datos escasos o desactualizados, la IA mantiene su fiabilidad.', e:'Falso: pierde fiabilidad.'},
+    {s:'res', vf:true, q:'La IA no sustituye el criterio profesional.', e:'Verdadero.'},
+    {s:'res', vf:false, q:'Hay que desconfiar sistemáticamente de la IA y no utilizarla.', e:'Falso: se trata de usarla con criterio profesional, sin delegar la responsabilidad final.'},
+    {s:'nor', vf:true, q:'Un comercio debe comprobar las condiciones de privacidad de una herramienta de IA antes de introducir datos personales de clientes.', e:'Verdadero.'},
+    {s:'nor', vf:false, q:'Un comercio puede usar los datos de sus clientes para cualquier fin una vez los tiene.', e:'Falso: solo para los fines que el cliente conoce y ha aceptado.'},
+    {s:'nor', vf:true, q:'El AI Act es la primera normativa específica de la Unión Europea sobre sistemas de IA.', e:'Verdadero.'},
+    {s:'nor', vf:false, q:'Los derechos de los consumidores no se aplican a la información engañosa generada por una IA.', e:'Falso: protegen también en ese caso.'},
+    {s:'nor', vf:true, q:'Un chatbot de IA debe informar de que es una IA, salvo que sea evidente por las circunstancias y el contexto.', e:'Verdadero (artículo 50 del AI Act, desde el 2 de agosto de 2026).'},
+
+    // ---- Desarrollo ----
+    {s:'ia1', dev:true, q:'Explica qué es la inteligencia artificial y define datos, algoritmo y modelo.', a:'La IA es la capacidad de un sistema informático para realizar tareas que antes solo podía hacer una persona (reconocer una imagen, entender un texto, traducir, recomendar o conversar). No piensa ni tiene conciencia: reconoce patrones en grandes cantidades de información. Datos: la información para entrenar y trabajar con la IA. Algoritmo: instrucciones matemáticas que indican cómo procesar los datos para encontrar patrones. Modelo: resultado de entrenar un algoritmo con muchos datos, capaz de aplicar lo aprendido a casos nuevos. Esquema: datos → algoritmo → modelo → resultado.', k:['Definición y que no piensa: reconoce patrones','Datos, algoritmo y modelo bien diferenciados','Esquema datos → algoritmo → modelo → resultado']},
+    {s:'ia1', dev:true, q:'Explica cómo ha evolucionado la IA y diferencia la IA tradicional de la generativa.', a:'Años 50-80: reglas fijas, sin aprender. Años 90-2010: aprendizaje automático y primeros sistemas de recomendación en comercio electrónico. Última década: más capacidad de cálculo y datos permiten modelos que generan texto, imágenes o audio. La IA tradicional (analítica o predictiva) analiza datos, clasifica, detecta patrones o predice (prever ventas). La generativa crea contenido nuevo a partir de una instrucción o prompt (redactar una descripción). No toda la IA genera: mucha trabaja en segundo plano.', k:['Las tres etapas','Tradicional: analiza y predice','Generativa: crea contenido con un prompt','No toda la IA genera']},
+    {s:'ia2', dev:true, q:'Explica por qué es importante conocer la IA para un profesional del comercio y cita aplicaciones en el comercio.', a:'Un profesional no necesita programar ni entender las matemáticas del modelo, sino una mirada profesional para identificar si existe una herramienta de IA que ayude ante una necesidad: «Tengo esta necesidad… ¿puede ayudarme una IA?». Conocerla permite decidir cuándo usarla, cuándo no aporta valor y cuándo hay que revisar el resultado. Aplicaciones: redactar descripciones y publicaciones, generar imágenes o ideas visuales, analizar ventas, responder preguntas con chatbots y recomendar productos.', k:['Mirada profesional, no programar','La pregunta clave','Cuándo usarla y cuándo revisar','Al menos 3 aplicaciones']},
+    {s:'aut', dev:true, q:'Describe el proceso de trabajo con IA del bloque 3 e indica su idea clave.', a:'Necesidad (¿qué problema tengo?) → Datos (¿qué información necesito?) → Herramienta (¿qué IA puede ayudarme?) → Resultado (¿qué me propone?) → Comprobación (¿está bien?) → Decisión (¿qué hago finalmente?). Idea clave: la IA propone; el profesional comprueba y decide.', k:['Los 6 pasos en orden','La pregunta de cada paso','La IA propone, el profesional comprueba y decide']},
+    {s:'aut', dev:true, q:'Diferencia tarea repetitiva, automatización y automatización con IA con un ejemplo de cada una.', a:'Tarea repetitiva: actividad que se repite de forma similar (responder «¿tenéis esta talla?» varias veces al día). Automatización: se hace sin intervención manual constante mediante reglas fijas (mensaje automático con el horario). Automatización con IA: un sistema capaz de entender el lenguaje genera una respuesta adaptada a cada situación. La IA no hace todo sola: se delega la parte mecánica para dedicar tiempo a decidir, negociar o atender con cercanía.', k:['Los tres niveles con ejemplo','Reglas fijas frente a lenguaje y respuesta adaptada','Control humano']},
+    {s:'aut', dev:true, q:'Explica con tres ejemplos qué puede detectar la IA para ayudar a decidir y qué debe comprobar el profesional.', a:'Producto más vendido → margen y rentabilidad (vender mucho no es ser el más rentable). Aumento repentino de la demanda → si hay stock suficiente. Campaña con más clics → si esos clics cumplen el objetivo comercial real. También: publicación con más interacción (si genera ventas), segmento más activo (si coincide con el público objetivo) y producto que muchos compran (si interesa promocionarlo). La IA aporta información; la empresa decide.', k:['Tres pares detecta/comprueba correctos','VENDER MUCHO ≠ SER EL MÁS RENTABLE','La empresa decide']},
+    {s:'seg', dev:true, q:'Explica qué es segmentar, por qué se hace, qué variables se usan y diferéncialo de personalizar.', a:'Segmentar es dividir los clientes en grupos con características o comportamientos similares para dirigirse a cada grupo de forma más eficaz, porque no todos tienen las mismas necesidades ni responden igual al mismo mensaje. Variables: edad, sexo, zona geográfica, frecuencia de compra, importe medio, productos e intereses en redes. Personalizar es adaptar una comunicación, oferta o experiencia a un cliente o grupo concreto. Primero se segmenta y después se personaliza (segmento → necesidad → acción comercial).', k:['Definición y motivo','Variables de segmentación','Diferencia con personalizar y orden','Segmento → necesidad → acción']},
+    {s:'seg', dev:true, q:'Aplica la segmentación a una tienda de ropa deportiva con los clientes A, B, C, D, E y F.', a:'Se detectan dos patrones: jóvenes con compra frecuente de ropa deportiva (A, C, E: 19, 22 y 20 años, frecuencia alta, interés en deporte) y clientes de más edad con compra menos frecuente de ropa casual y calzado (B, D, F: 45, 50 y 48 años). Para el primer segmento, la necesidad son productos técnicos y contenido práctico de entrenamiento, y la acción comercial una campaña específica en redes sociales con contenido y tono adaptados. La IA necesita datos adecuados y suficientes y una interpretación profesional, y debe respetarse la protección de datos.', k:['Dos segmentos y sus clientes','Necesidad del segmento joven','Acción comercial en redes','Interpretación profesional y protección de datos']},
+    {s:'exp', dev:true, q:'Describe el recorrido del cliente y cómo puede ayudar la IA en cada fase. ¿Cuándo es imprescindible la intervención humana?', a:'Descubrir → Buscar → Comparar → Comprar → Recibir → Preguntar → Resolver. Descubrir y buscar: recomendaciones personalizadas y buscadores inteligentes. Comparar: contenido claro y comparativas automáticas. Comprar: chatbots que resuelven dudas de última hora. Recibir y preguntar: respuestas rápidas sobre pedidos y seguimiento de envíos. Resolver: análisis de opiniones para detectar problemas frecuentes. La intervención humana es especialmente importante en reclamaciones complejas, situaciones con carga emocional, decisiones excepcionales (devolución fuera de plazo) y conflictos que requieren empatía.', k:['Las 7 fases en orden','Una ayuda de IA por fase','Cuándo hace falta la persona']},
+    {s:'res', dev:true, q:'Explica las limitaciones de la IA y las cuatro situaciones del apartado 4.2 con su riesgo y qué hacer.', a:'Limitaciones: puede cometer errores (alucinaciones), reflejar sesgos de los datos, depende de la calidad de los datos y no sustituye el criterio profesional. Situaciones: 1) información falsa (riesgo: información falsa al consumidor; comprobar antes de publicar); 2) datos personales (riesgo: privacidad; no introducirlos en herramientas externas sin comprobar si está permitido); 3) propiedad intelectual (riesgo: posible infracción; revisar origen y condiciones de uso); 4) sesgo (riesgo: trato injusto; supervisar y aplicar criterio profesional).', k:['Las 4 limitaciones','Las 4 situaciones con su riesgo','Qué hacer en cada una']},
+    {s:'nor', dev:true, q:'Explica qué normas afectan al uso de la IA en un comercio, con especial atención al AI Act y a la protección de datos.', a:'Protección de datos (los datos personales solo pueden tratarse con una finalidad concreta, informando a las personas y garantizando su seguridad; no se pueden introducir en cualquier herramienta de IA ni usar para fines que el cliente no conoce ni ha aceptado), derechos de los consumidores (frente a información engañosa, también si la genera una IA), propiedad intelectual, comercio electrónico y el Reglamento Europeo de IA (AI Act), primera normativa específica de la UE. Desde el 2 de agosto de 2026 el artículo 50 obliga a informar de que se interactúa con una IA (por ejemplo un chatbot), salvo que sea evidente por las circunstancias y el contexto.', k:['Las 5 normas','Protección de datos: finalidad, información y seguridad','Artículo 50 del AI Act y su fecha','Ejemplo del chatbot']},
+    {s:'res', dev:true, q:'Explica la idea central de la supervisión humana y por qué no se trata de desconfiar de la IA.', a:'Idea central: la IA puede ayudar a producir, analizar y proponer; la persona debe comprobar, interpretar y decidir. No se trata de desconfiar sistemáticamente de la IA, sino de usarla con el mismo criterio profesional que cualquier otra herramienta de trabajo: sacándole partido, pero sin delegar en ella la responsabilidad final.', k:['La IA produce, analiza y propone','La persona comprueba, interpreta y decide','No desconfiar sistemáticamente ni delegar la responsabilidad final']}
+  ];
+
+  var IA_CARDS = [
+    {s:'ia1', f:'Inteligencia artificial (IA)', b:'Capacidad de un sistema informático para hacer tareas que antes solo podía hacer una persona. No piensa: reconoce patrones en grandes cantidades de información.'},
+    {s:'ia1', f:'Datos, algoritmo y modelo', b:'Datos: la información. Algoritmo: instrucciones matemáticas para procesarla. Modelo: resultado de entrenar el algoritmo con muchos datos. DATOS → ALGORITMO → MODELO → RESULTADO.'},
+    {s:'ia1', f:'Evolución de la IA', b:'Años 50-80: reglas fijas. Años 90-2010: aprendizaje automático y recomendación. Última década: modelos que generan texto, imágenes y audio.'},
+    {s:'ia1', f:'IA tradicional frente a generativa', b:'Tradicional (analítica o predictiva): analiza, clasifica, predice. Generativa: crea contenido nuevo a partir de un prompt.'},
+    {s:'ia1', f:'Prompt', b:'Instrucción escrita en lenguaje natural que se da a una IA generativa para obtener un texto, imagen o vídeo.'},
+    {s:'ia2', f:'¿Qué tienen en común los usos cotidianos de la IA?', b:'Un sistema analiza información (datos) y ofrece un resultado útil a una persona concreta en el momento que lo necesita.'},
+    {s:'ia2', f:'Mirada profesional', b:'Capacidad de identificar, ante una necesidad del negocio, si existe una herramienta de IA que pueda ayudar. No requiere programar.'},
+    {s:'ia2', f:'Pregunta clave del módulo', b:'«Tengo esta necesidad en mi comercio… ¿puede ayudarme una IA?»'},
+    {s:'aut', f:'Proceso de trabajo con IA', b:'Necesidad → Datos → Herramienta → Resultado → Comprobación → Decisión.'},
+    {s:'aut', f:'Idea clave del bloque 3', b:'La IA propone. El profesional comprueba y decide.'},
+    {s:'aut', f:'Categorías de herramientas', b:'Asistentes conversacionales (ChatGPT, Claude, Gemini); generadores de imágenes (DALL·E, Midjourney); analítica con IA (Google Analytics, Meta Business Suite); chatbots comerciales.'},
+    {s:'aut', f:'Tres niveles: repetitiva, automatización, automatización con IA', b:'Repetitiva: se repite. Automatización: reglas fijas sin intervención manual. Con IA: entiende el lenguaje y genera una respuesta adaptada.'},
+    {s:'aut', f:'Esquema de la automatización', b:'Problema → Tarea → Solución → Resultado → Control humano.'},
+    {s:'aut', f:'Producto más vendido: ¿qué se comprueba?', b:'Su margen y rentabilidad. VENDER MUCHO ≠ SER EL PRODUCTO MÁS RENTABLE.'},
+    {s:'aut', f:'Aumento repentino de demanda / campaña con más clics', b:'Comprobar si existe stock suficiente / si los clics cumplen el objetivo comercial real.'},
+    {s:'seg', f:'Segmentar', b:'Dividir los clientes en grupos (segmentos) con características o comportamientos similares para dirigirse a cada grupo de forma más eficaz.'},
+    {s:'seg', f:'Variables de segmentación', b:'Edad, sexo, zona geográfica, frecuencia de compra, importe medio gastado, productos que compran e intereses en redes sociales.'},
+    {s:'seg', f:'Segmentar ≠ personalizar', b:'Segmentar: agrupar. Personalizar: adaptar comunicación, oferta o experiencia a un cliente o grupo. Primero se segmenta, después se personaliza.'},
+    {s:'seg', f:'Esquema de la acción comercial', b:'Segmento → Necesidad → Acción comercial.'},
+    {s:'seg', f:'Ejemplo tienda deportiva: grupos', b:'A, C, E: jóvenes con compra frecuente de ropa deportiva. B, D, F: clientes de más edad con compra menos frecuente de ropa casual y calzado.'},
+    {s:'seg', f:'La IA y los buenos segmentos', b:'La IA no los inventa de la nada: necesita datos adecuados y suficientes y una interpretación profesional.'},
+    {s:'exp', f:'Recorrido del cliente', b:'Descubrir → Buscar → Comparar → Comprar → Recibir → Preguntar → Resolver.'},
+    {s:'exp', f:'IA en cada fase del recorrido', b:'Descubrir/buscar: recomendaciones y buscadores. Comparar: comparativas automáticas. Comprar: chatbots. Recibir/preguntar: pedidos y envíos. Resolver: análisis de opiniones.'},
+    {s:'exp', f:'Cuándo es especialmente importante la intervención humana', b:'Reclamaciones complejas, situaciones con carga emocional, decisiones excepcionales (devolución fuera de plazo) y conflictos que requieren empatía.'},
+    {s:'exp', f:'Beneficios de utilizar IA', b:'Gana tiempo, mejora la calidad de contenidos, decide con datos reales, conoce mejor a sus clientes y ofrece una atención más ágil.'},
+    {s:'exp', f:'Tabla resumen: necesidad → IA → persona', b:'Ahorrar tiempo: automatizar → comprobar. Crear contenidos: generar → revisar. Conocer clientes: segmentar → interpretar. Responder: chatbot → supervisar. Decidir: analizar → decidir. Recomendar: personalizar → controlar. Tendencias: patrones → valorar.'},
+    {s:'exp', f:'No todo necesita IA', b:'Cambiar el horario en Google se puede hacer directamente; responder automáticamente a cientos de preguntas diferentes sí puede necesitar IA. Primero hay que identificar la necesidad.'},
+    {s:'res', f:'Alucinación', b:'La IA generativa inventa datos que parecen reales pero no lo son. Por eso siempre hay que comprobar los resultados.'},
+    {s:'res', f:'Limitaciones de la IA', b:'Errores (alucinaciones), sesgos, dependencia de la calidad de los datos y no sustituye el criterio profesional.'},
+    {s:'res', f:'Las cuatro situaciones del 4.2', b:'1) Información falsa. 2) Datos personales. 3) Propiedad intelectual. 4) Sesgo. En todas: comprobar y aplicar criterio profesional.'},
+    {s:'res', f:'Idea central de la supervisión humana', b:'La IA ayuda a producir, analizar y proponer; la persona comprueba, interpreta y decide.'},
+    {s:'nor', f:'Protección de datos en la IA', b:'Los datos personales solo se tratan con finalidad concreta, informando a las personas y garantizando su seguridad. No se introducen en cualquier herramienta de IA sin comprobar su privacidad.'},
+    {s:'nor', f:'Normas que afectan a la IA en la empresa', b:'Protección de datos, derechos de los consumidores, propiedad intelectual, comercio electrónico y Reglamento Europeo de IA (AI Act).'},
+    {s:'nor', f:'AI Act', b:'Primera normativa específica de la Unión Europea sobre el uso de sistemas de IA.'},
+    {s:'nor', f:'Artículo 50 del AI Act', b:'Desde el 2 de agosto de 2026: los sistemas de IA que interactúan con personas deben informar de que son IA, salvo que sea evidente por las circunstancias y el contexto.'}
+  ];
+
+  QZ_SETS.ia = {sections:IA_SECTIONS, notes:IA_NOTES, qs:IA_QS, cards:IA_CARDS, color:'#B45309', bg:'#FFFBEB', cls:'ia',
+    pill:'<i class="ri-sparkling-2-line"></i> IA para el Marketing y el Comercio',
+    title:'Unidad 1: Descubrimos la inteligencia artificial',
+    notesDesc:'Resumen de la unidad 1 por apartados: qué es la IA, usos en el comercio, limitaciones y normativa.'};
 
   // ===================== FH (Fundamentos de hardware) — perfil Hugo =====================
   var FH_BASE_NAME = {2:'binario', 8:'octal', 10:'decimal', 16:'hexadecimal'};
@@ -3915,7 +4247,7 @@
     if(qz === QZ_SETS[k]) return;
     qz = QZ_SETS[k];
     var scr = document.getElementById('sacScreen');
-    scr.classList.remove('sac','vt','fh','iso'); scr.classList.add(qz.cls);
+    scr.classList.remove('sac','vt','fh','iso','ia'); scr.classList.add(qz.cls);
     var pill = document.getElementById('qzPill');
     pill.className = 'subject-pill pill-' + qz.cls; pill.innerHTML = qz.pill;
     document.getElementById('qzTitle').textContent = qz.title;
