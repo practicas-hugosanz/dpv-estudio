@@ -918,6 +918,68 @@
   [data-theme="dark"] .subject-card.fh { border-color: #3730A3; }
   [data-theme="dark"] .subject-card.fh .subject-icon { background: rgba(148,163,184,.16); }
   [data-theme="dark"] .pill-fh { background: rgba(148,163,184,.16); border-color: rgba(148,163,184,.3); }
+  /* ===== Implantación de sistemas operativos (Hugo) ===== */
+  .pill-iso { background: #F0FDFA; color: #0F766E; border: 1px solid #99F6E4; }
+  .subject-card.iso { border-color: #99F6E4; }
+  .subject-card.iso:hover { border-color: #0D9488; }
+  .subject-card.iso .subject-card-accent { background: linear-gradient(90deg, #0D9488, #2DD4BF); }
+  .subject-card.iso .subject-icon { background: #F0FDFA; color: #0D9488; }
+  #sacScreen.iso .sac-acc-body h4, #sacScreen.iso .sac-opt .l, #sacScreen.iso .sac-score { color: #0F766E; }
+  #sacScreen.iso .sac-box { background: #F0FDFA; border-color: #99F6E4; color: #115E59; }
+  #sacScreen.iso .sac-opt:hover:not(:disabled) { border-color: #0D9488; }
+  #sacScreen.iso .sac-bar > div { background: #0D9488; }
+  [data-theme="dark"] .subject-card.iso { border-color: #115E59; }
+  [data-theme="dark"] .subject-card.iso .subject-icon { background: rgba(148,163,184,.16); }
+  [data-theme="dark"] .pill-iso { background: rgba(148,163,184,.16); border-color: rgba(148,163,184,.3); }
+  [data-theme="dark"] #sacScreen.iso .sac-box { background: rgba(13,148,136,.18); border-color: rgba(45,212,191,.35); color: #99F6E4; }
+  [data-theme="dark"] #sacScreen.iso .sac-acc-body h4, [data-theme="dark"] #sacScreen.iso .sac-opt .l, [data-theme="dark"] #sacScreen.iso .sac-score { color: #5EEAD4; }
+  .iso-only { display: none !important; }
+  #sacScreen.iso .iso-only { display: flex !important; }
+  .sim-row { display: grid; grid-template-columns: 38px 1fr 1fr 32px; gap: 8px; align-items: center; margin-bottom: 6px; }
+  .sim-tag { font-size: 12px; font-weight: 700; border-radius: 8px; padding: 9px 0; text-align: center; color: #0F172A; }
+  .sim-in { width: 100%; border: 2px solid var(--gray-200); border-radius: 8px; padding: 8px 10px; font-size: 14px; font-family: inherit; background: var(--white); color: var(--gray-800); outline: none; }
+  .sim-in:focus { border-color: #0D9488; }
+  .sim-x { background: none; border: none; color: var(--gray-400); font-size: 18px; cursor: pointer; line-height: 1; }
+  .sim-x:hover { color: #DC2626; }
+  .sim-seg { display: flex; gap: 6px; margin: 6px 0 10px; }
+  .sim-seg button { flex: 1; padding: 10px 4px; border: 2px solid var(--gray-200); border-radius: 8px; background: var(--white); color: var(--gray-800); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .sim-seg button.on { border-color: #0D9488; background: #F0FDFA; color: #0F766E; }
+  .sim-gantt { overflow-x: auto; padding-bottom: 4px; }
+  .sim-bar { display: flex; }
+  .sim-blk { flex: none; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #0F172A; border-right: 1px solid rgba(15,23,42,.4); box-sizing: border-box; overflow: hidden; }
+  .sim-idle { background: repeating-linear-gradient(45deg, var(--gray-200), var(--gray-200) 4px, transparent 4px, transparent 8px); color: var(--gray-600); }
+  .sim-ticks { display: flex; font-size: 10px; color: var(--gray-400); margin-top: 3px; }
+  [data-theme="dark"] .sim-seg button.on { background: rgba(13,148,136,.18); color: #5EEAD4; }
+  [data-theme="dark"] #sacScreen.iso .iso-only .menu-icon { background: rgba(148,163,184,.16) !important; }
+  .cic-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
+  .cic-form label { display: flex; flex-direction: column; gap: 3px; font-size: 11px; font-weight: 600; color: var(--gray-600); }
+  .cic-form label:first-child { grid-column: 1 / -1; }
+  .cic-dots { display: flex; gap: 4px; flex-wrap: wrap; }
+  .cic-dot { width: 20px; height: 8px; border-radius: 4px; border: none; padding: 0; cursor: pointer; background: var(--gray-200); }
+  .cic-dot.done { background: #5EEAD4; }
+  .cic-dot.done.ex { background: #FCD34D; }
+  .cic-dot.cur { background: #0D9488; }
+  .cic-dot.cur.ex { background: #D97706; }
+  .cic-ctl { display: flex; gap: 8px; margin-bottom: 8px; }
+  .cic-ctl button { flex: 1; margin: 0; width: auto; padding: 11px 8px; font-size: 13px; }
+  .cic-ctl button:disabled { opacity: .45; cursor: default; }
+  .cic-grp { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 10px; margin-bottom: 10px; box-shadow: var(--shadow); }
+  .cic-gt { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #0F766E; margin-bottom: 8px; }
+  .cic-mt { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--gray-400); margin: 10px 0 4px; }
+  .cic-regs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .cic-reg { display: flex; flex-direction: column; gap: 2px; border: 2px solid var(--gray-200); border-radius: 8px; padding: 6px 8px; background: var(--gray-50); transition: background .2s, border-color .2s; min-height: 50px; }
+  .cic-reg .cl { font-size: 10px; font-weight: 600; color: var(--gray-600); line-height: 1.3; }
+  .cic-reg .cv { font-size: 14px; font-weight: 700; color: var(--gray-800); word-break: break-word; }
+  .cic-reg.act, .cic-cell.act { border-color: #0D9488; }
+  .cic-reg.chg, .cic-cell.chg { background: #CCFBF1; border-color: #0D9488; }
+  .cic-reg.chg .cv, .cic-reg.chg .cl, .cic-cell.chg span { color: #134E4A; }
+  .cic-cell { display: flex; gap: 10px; align-items: center; border: 2px solid var(--gray-200); border-radius: 8px; padding: 5px 8px; margin-bottom: 4px; font-size: 13px; background: var(--gray-50); }
+  .cic-cell .ca { font-weight: 700; color: var(--gray-800); min-width: 40px; }
+  .cic-cell .cr { flex: 1; font-size: 10px; color: var(--gray-400); text-transform: uppercase; letter-spacing: .04em; }
+  .cic-cell .cv2 { font-weight: 700; color: var(--gray-800); }
+  [data-theme="dark"] .cic-reg.chg, [data-theme="dark"] .cic-cell.chg { background: rgba(13,148,136,.3); }
+  [data-theme="dark"] .cic-reg.chg .cv, [data-theme="dark"] .cic-reg.chg .cl, [data-theme="dark"] .cic-cell.chg span { color: #CCFBF1; }
+  [data-theme="dark"] .cic-gt { color: #5EEAD4; }
 </style>
 </head>
 <body>
@@ -1064,6 +1126,19 @@
         </div>
       </div>
       <div class="subject-desc">Bits, sistemas de numeración, conversiones, textos (ASCII y Unicode), unidades de medida y comunicación de la información.</div>
+      <i class="ri-arrow-right-s-line subject-arrow"></i>
+    </div>
+
+    <div class="subject-card iso" onclick="goSubject('iso')">
+      <div class="subject-card-accent"></div>
+      <div class="subject-header">
+        <div class="subject-icon"><i class="ri-computer-line"></i></div>
+        <div>
+          <div class="subject-name">Implantación de sistemas operativos</div>
+          <div class="subject-code">Tema 1 — Introducción a los Sistemas Operativos</div>
+        </div>
+      </div>
+      <div class="subject-desc">Hardware, CPU y ciclo de instrucción, historia, procesos y planificación, gestión de memoria, tipos de S.O. y licencias.</div>
       <i class="ri-arrow-right-s-line subject-arrow"></i>
     </div>
     </div>
@@ -1245,6 +1320,20 @@
           <div class="menu-card-desc">Conversor de bases, de unidades y de texto a bytes, más tus enlaces de consulta.</div>
         </div>
       </div>
+      <div class="menu-card iso-only" onclick="sacShow('sim')">
+        <div class="menu-icon" style="background:#F0FDFA;"><i class="ri-timer-line ri-lg" style="color:#0D9488;"></i></div>
+        <div>
+          <div class="menu-card-title">Simulador de planificación</div>
+          <div class="menu-card-desc">Pon tus procesos y mira el diagrama de Gantt de FIFO, SJF y Round-Robin con tiempos de espera y retorno.</div>
+        </div>
+      </div>
+      <div class="menu-card iso-only" onclick="sacShow('cic')">
+        <div class="menu-icon" style="background:#F0FDFA;"><i class="ri-cpu-line ri-lg" style="color:#0D9488;"></i></div>
+        <div>
+          <div class="menu-card-title">Simulador del ciclo de instrucción</div>
+          <div class="menu-card-desc">Sigue paso a paso la fase de búsqueda y la de ejecución: registros, memoria, ALU y buses de una instrucción como SUMAR 33 992 993.</div>
+        </div>
+      </div>
       <div class="curso-label" style="margin-top:18px;">Practicar</div>
       <div class="menu-card" onclick="sacShow('pick')">
         <div class="menu-icon ic1"><i class="ri-question-line ri-lg"></i></div>
@@ -1331,6 +1420,93 @@
       <div class="sac-acc"><div class="sac-acc-head" onclick="this.parentNode.classList.toggle('open')"><i class="ri-ruler-2-line" style="color:#4F46E5;font-size:20px;"></i>Conversor de unidades de información<i class="ri-arrow-right-s-line chev"></i></div><div class="sac-acc-body"><input class="fh-in" id="fhUnitIn" oninput="fhUnitConv()" placeholder="Cantidad (ej.: 500)" inputmode="decimal" autocomplete="off"><select class="fh-in" id="fhUnitFrom" onchange="fhUnitConv()"><option>bit</option><option>B</option><option>kB</option><option>MB</option><option>GB</option><option>TB</option><option>KiB</option><option>MiB</option><option>GiB</option><option>TiB</option></select><div id="fhUnitOut"></div></div></div>
       <div class="sac-acc"><div class="sac-acc-head" onclick="this.parentNode.classList.toggle('open')"><i class="ri-text" style="color:#4F46E5;font-size:20px;"></i>Texto a bytes (Unicode, UTF-8, Windows-1252)<i class="ri-arrow-right-s-line chev"></i></div><div class="sac-acc-body"><input class="fh-in" id="fhTxtIn" oninput="fhTextConv()" placeholder="Escribe un texto (ej.: España €😀)" autocomplete="off" spellcheck="false"><div id="fhTxtOut" style="overflow-x:auto;"></div></div></div>
       <div class="sac-acc"><div class="sac-acc-head" onclick="this.parentNode.classList.toggle('open')"><i class="ri-links-line" style="color:#4F46E5;font-size:20px;"></i>Enlaces de consulta<i class="ri-arrow-right-s-line chev"></i></div><div class="sac-acc-body"><a class="fh-link" href="https://www.eniun.com/unidades-medida-informatica/" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Unidades de medida en informática<span>eniun.com</span></div></a><a class="fh-link" href="https://www.eniun.com/representacion-comunicacion-informacion/" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Representación y comunicación de la información<span>eniun.com</span></div></a><a class="fh-link" href="https://ascii-tables.com" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Tabla ASCII<span>ascii-tables.com</span></div></a><a class="fh-link" href="https://symbl.cc/en/unicode-table/" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Tabla Unicode<span>symbl.cc</span></div></a><a class="fh-link" href="https://es.wikipedia.org/wiki/Windows-1252" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Windows-1252<span>es.wikipedia.org</span></div></a><a class="fh-link" href="https://www.google.com/search?q=Unit+converter" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i><div>Conversor de unidades<span>google.com</span></div></a></div></div>
+    </div>
+
+    <!-- Simulador del ciclo de instrucción (Implantación de sistemas operativos) -->
+    <div class="sac-view" id="sacCic">
+      <button class="btn-back-subject" onclick="sacShow('menu')"><i class="ri-arrow-left-line"></i> Volver</button>
+      <p class="menu-title">Simulador del ciclo de instrucción</p>
+      <p class="menu-sub">Una instrucción tiene un código de operación y tres direcciones (operando 1, operando 2 y resultado). Avanza paso a paso y observa qué registros se mueven.</p>
+      <select id="cicPreset" class="fh-in" onchange="if(this.value){cicPreset(this.value);this.selectedIndex=0;}"><option value="">Cargar un ejemplo…</option></select>
+      <div class="curso-label" style="margin-top:6px;">Instrucción</div>
+      <div class="cic-form">
+        <label>Operación<select id="cicOp" class="sim-in" onchange="cicChanged()"></select></label>
+        <label>Dirección de la instrucción<input id="cic_cp" class="sim-in" type="number" inputmode="numeric" oninput="cicChanged()"></label>
+        <label>Operando 1 · dirección<input id="cic_a1" class="sim-in" type="number" inputmode="numeric" oninput="cicChanged()"></label>
+        <label>Operando 1 · valor<input id="cic_v1" class="sim-in" type="number" inputmode="numeric" oninput="cicChanged()"></label>
+        <label>Operando 2 · dirección<input id="cic_a2" class="sim-in" type="number" inputmode="numeric" oninput="cicChanged()"></label>
+        <label>Operando 2 · valor<input id="cic_v2" class="sim-in" type="number" inputmode="numeric" oninput="cicChanged()"></label>
+        <label>Resultado · dirección<input id="cic_r" class="sim-in" type="number" inputmode="numeric" oninput="cicChanged()"></label>
+      </div>
+      <div id="cicWarn" class="sac-expl" style="display:none;background:var(--red-light);border-color:var(--red-mid);color:#991B1B;margin-top:10px;"></div>
+      <div id="cicMain" style="margin-top:14px;">
+        <div id="cicPhase" style="font-size:13px;font-weight:700;margin-bottom:6px;"></div>
+        <div id="cicDots" class="cic-dots"></div>
+        <div class="sac-expl" id="cicText" style="margin:8px 0 10px;min-height:76px;"></div>
+        <div class="cic-ctl">
+          <button class="btn-next" id="cicPrev" onclick="cicGo(-1)"><i class="ri-arrow-left-s-line"></i> Anterior</button>
+          <button class="btn-check" id="cicNext" onclick="cicGo(1)">Siguiente <i class="ri-arrow-right-s-line"></i></button>
+        </div>
+        <div class="cic-ctl" style="margin-bottom:12px;">
+          <button class="btn-next" id="cicPlay" onclick="cicPlay()"><i class="ri-play-line"></i> Reproducir</button>
+          <button class="btn-next" onclick="cicReset()"><i class="ri-restart-line"></i> Reiniciar</button>
+        </div>
+
+        <div class="cic-grp">
+          <div class="cic-gt">Unidad de control (UC)</div>
+          <div class="cic-regs">
+            <div class="cic-reg" id="cic_CP"><span class="cl">CP · Contador de programa</span><span class="cv">—</span></div><div class="cic-reg" id="cic_RI"><span class="cl">RI · Registro de instrucción</span><span class="cv">—</span></div><div class="cic-reg" id="cic_DEC"><span class="cl">Decodificador</span><span class="cv">—</span></div><div class="cic-reg" id="cic_SEC"><span class="cl">Secuenciador</span><span class="cv">micro-órdenes</span></div><div class="cic-reg" id="cic_CLK"><span class="cl">Reloj</span><span class="cv">impulsos constantes</span></div>
+          </div>
+        </div>
+        <div class="cic-grp">
+          <div class="cic-gt">Unidad aritmético-lógica (ALU)</div>
+          <div class="cic-regs">
+            <div class="cic-reg" id="cic_REN1"><span class="cl">REN1 · Registro de entrada 1</span><span class="cv">—</span></div><div class="cic-reg" id="cic_REN2"><span class="cl">REN2 · Registro de entrada 2</span><span class="cv">—</span></div><div class="cic-reg" id="cic_COP"><span class="cl">Circuito operacional</span><span class="cv">realiza la operación</span></div><div class="cic-reg" id="cic_ACC"><span class="cl">Acumulador</span><span class="cv">—</span></div><div class="cic-reg" id="cic_RES"><span class="cl">RES · Registro de estado</span><span class="cv">—</span></div>
+          </div>
+        </div>
+        <div class="cic-grp">
+          <div class="cic-gt">Memoria central</div>
+          <div class="cic-regs">
+            <div class="cic-reg" id="cic_RDM"><span class="cl">RDM · Registro de dirección</span><span class="cv">—</span></div><div class="cic-reg" id="cic_RIM"><span class="cl">RIM · Registro de intercambio</span><span class="cv">—</span></div><div class="cic-reg" id="cic_SEL"><span class="cl">Selector de memoria</span><span class="cv">conecta RDM con RIM</span></div>
+          </div>
+          <div class="cic-mt">Celdas utilizadas</div>
+          <div id="cicMem"></div>
+        </div>
+        <div class="cic-grp">
+          <div class="cic-gt">Bus del sistema</div>
+          <div class="cic-regs">
+            <div class="cic-reg" id="cicBusDir"><span class="cl">Bus de direcciones</span><span class="cv">—</span></div>
+            <div class="cic-reg" id="cicBusCtrl"><span class="cl">Bus de control</span><span class="cv">—</span></div>
+            <div class="cic-reg" id="cicBusDat"><span class="cl">Bus de datos</span><span class="cv">—</span></div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--gray-400);line-height:1.55;margin-top:10px;">Borde verde: componente que participa en el paso. Relleno verde: valor que se acaba de modificar. «—» significa que aún no tiene valor o que el bus no se usa en ese paso.</div>
+      </div>
+    </div>
+
+    <!-- Simulador de planificación (Implantación de sistemas operativos) -->
+    <div class="sac-view" id="sacSim">
+      <button class="btn-back-subject" onclick="sacShow('menu')"><i class="ri-arrow-left-line"></i> Volver</button>
+      <p class="menu-title">Simulador de planificación</p>
+      <p class="menu-sub">Define la llegada y la ráfaga de CPU de cada proceso, elige el algoritmo y observa el orden de ejecución.</p>
+      <div class="curso-label">Procesos</div>
+      <div id="simProcs"></div>
+      <div style="display:flex;gap:8px;margin:8px 0 4px;">
+        <button class="btn-next" style="margin:0;flex:0 0 auto;width:auto;padding:10px 14px;" onclick="simAdd()"><i class="ri-add-line"></i> Añadir</button>
+        <select id="simPreset" class="fh-in" style="margin:0;flex:1;" onchange="if(this.value){simPreset(this.value);this.selectedIndex=0;}"><option value="">Cargar un ejemplo…</option></select>
+      </div>
+      <div class="curso-label" style="margin-top:14px;">Algoritmo</div>
+      <div class="sim-seg" id="simSeg">
+        <button data-a="fifo" onclick="simSetAlgo('fifo')">FIFO</button>
+        <button data-a="sjf" onclick="simSetAlgo('sjf')">SJF</button>
+        <button data-a="rr" onclick="simSetAlgo('rr')">Round-Robin</button>
+      </div>
+      <div id="simQBox" style="display:none;margin-bottom:4px;">
+        <label style="font-size:12px;font-weight:600;color:var(--gray-600);">Quantum (unidades de tiempo)</label>
+        <input class="sim-in" id="simQ" type="number" inputmode="numeric" min="1" max="20" value="4" oninput="sim.q=this.value;simRun()" style="margin-top:4px;">
+      </div>
+      <div id="simOut"></div>
+      <div style="font-size:11px;color:var(--gray-400);line-height:1.55;margin-top:14px;">Criterios: FIFO y SJF no son expulsivos. En empates gana el que llegó antes y, si coinciden, el de menor número. En Round-Robin, un proceso que llega justo cuando acaba un quantum entra en la cola antes que el proceso expulsado.</div>
     </div>
 
     <!-- Tarjetas -->
@@ -1657,7 +1833,7 @@
       document.getElementById('menuScreen').classList.add('active');
     } else if (subj === 'mkt') {
       document.getElementById('mktMenuScreen').classList.add('active');
-    } else if (subj === 'sac' || subj === 'vt' || subj === 'fh') {
+    } else if (subj === 'sac' || subj === 'vt' || subj === 'fh' || subj === 'iso') {
       qzUse(subj);
       document.getElementById('sacScreen').classList.add('active');
       sacShow('menu');
@@ -2589,6 +2765,705 @@
     notesDesc:'Resumen del tema 1 por apartados: bits, numeración, conversiones, textos, unidades y comunicación.',
     docCount:55, genTypes:12};
 
+  // ===================== ISO (Implantación de sistemas operativos) — perfil Hugo =====================
+  // Unidad 1: apartados 1 a 7 del temario (los apartados 8 en adelante no entran en el examen).
+  var ISO_SECTIONS = {
+    hw:  {n:'Hardware y software', i:'ri-computer-line'},
+    cpu: {n:'La CPU: unidad de control y ALU', i:'ri-cpu-line'},
+    mem: {n:'Memoria central y bus del sistema', i:'ri-database-2-line'},
+    jer: {n:'Jerarquía de memorias y ciclo de instrucción', i:'ri-stack-line'},
+    his: {n:'Evolución histórica (apdo. 2)', i:'ri-history-line'},
+    fun: {n:'Funciones y componentes del S.O. (apdo. 3)', i:'ri-settings-4-line'},
+    pro: {n:'Procesos: estados y servicios (apdo. 3.1)', i:'ri-loader-4-line'},
+    pla: {n:'Planificación y bloqueos (apdo. 3.1.4-3.1.5)', i:'ri-timer-line'},
+    mpm: {n:'Gestión de memoria (apdo. 3.1.7-3.1.11)', i:'ri-pie-chart-2-line'},
+    car: {n:'Características y arquitectura (apdo. 4)', i:'ri-organization-chart'},
+    tip: {n:'Tipos de S.O. (apdo. 5)', i:'ri-node-tree'},
+    lic: {n:'Licencias y comercialización (apdos. 6 y 7)', i:'ri-copyright-line'}
+  };
+
+  var ISO_NOTES = {
+    hw: `<div class="sac-box">Un <b>ordenador</b> es una máquina que <b>almacena y automatiza la información</b> mediante programas informáticos. Es de <b>propósito general</b>: puede adaptarse a numerosas funciones según las instrucciones que recibe.</div>
+      <p>Todo ordenador tiene <b>dos elementos básicos</b>:</p>
+      <ul><li><b>Hardware</b>: sistema <b>físico</b>, «tangible» (monitor, teclado, cables, chips).</li>
+      <li><b>Software</b>: sistema <b>lógico</b>, «intangible». Son las aplicaciones y programas que permiten operar con el ordenador y controlar y coordinar el hardware. Solo se accede a él a través de los <b>dispositivos de entrada y salida</b>.</li></ul>
+      <h4>Componentes del hardware</h4>
+      <table><tr><th>Componente</th><th>Función</th></tr>
+      <tr><td>CPU</td><td>«Cerebro»: ejecuta instrucciones y procesa datos</td></tr>
+      <tr><td>Memoria RAM</td><td>Almacena <b>temporalmente</b> los datos y programas en uso</td></tr>
+      <tr><td>Disco duro (HDD) / SSD</td><td>Almacenan los datos de forma <b>permanente</b></td></tr>
+      <tr><td>Placa base</td><td>Circuito principal que conecta todos los componentes; contiene el chipset, los puertos de expansión y las conexiones</td></tr>
+      <tr><td>Fuente de alimentación</td><td>Suministra energía eléctrica a todos los componentes</td></tr>
+      <tr><td>Tarjeta gráfica (GPU)</td><td>Procesa y genera las imágenes que se muestran en el monitor</td></tr>
+      <tr><td>Periféricos</td><td>Dispositivos <b>externos</b> conectados al ordenador (teclado, ratón, monitor, impresora…)</td></tr></table>
+      <h4>Arquitectura de Von Neumann</h4>
+      <ul><li>La presentó el matemático <b>John Von Neumann en 1944</b>; los ordenadores actuales la siguen con pequeños cambios.</li>
+      <li><b>Idea clave:</b> todos los componentes están conectados y controlados por un control central, y el <b>programa y los datos se almacenan en la misma memoria</b>.</li>
+      <li>Partes: <b>CPU</b>, <b>memoria central</b> y <b>unidades de entrada/salida</b> (periféricos), conectadas por el <b>bus del sistema</b>.</li></ul>
+      <h4>Periféricos de entrada/salida (4 tipos)</h4>
+      <table><tr><th>Tipo</th><th>Función</th><th>Ejemplos</th></tr>
+      <tr><td>Entrada</td><td>Introducir datos externos para que la CPU los trate</td><td>Teclado, ratón, panel táctil, escáner, lector de código de barras, sensor de huella, webcam, micrófono</td></tr>
+      <tr><td>Salida</td><td>Comunicar el ordenador con el medio externo</td><td>Monitor, impresora, proyector, altavoz</td></tr>
+      <tr><td>Almacenamiento</td><td>Guardar los datos que usa la CPU</td><td>Tarjeta perforada, cinta magnética, disquete, disco duro, CD/DVD/Blu-ray, USB, tarjetas de memoria, SSD</td></tr>
+      <tr><td>Comunicación</td><td>Interacción entre dos o más dispositivos</td><td>Tarjeta de red, hub, switch, router, Bluetooth, infrarrojos, Wi-Fi</td></tr></table>`,
+
+    cpu: `<div class="sac-box">La <b>CPU</b> (Unidad Central de Proceso) es el elemento principal del ordenador. Tiene <b>tres partes</b>: Unidad de Control, ALU y Registros.</div>
+      <ul><li><b>Unidad de Control (UC)</b>: gobierna al resto de unidades, interpreta y ejecuta las instrucciones controlando su secuencia.</li>
+      <li><b>Unidad Aritmético-Lógica (ALU)</b>: realiza todas las operaciones elementales aritméticas y lógicas.</li>
+      <li><b>Registros</b>: celdas de memoria de almacenamiento interno de la CPU, de carácter temporal.</li></ul>
+      <h4>La unidad de control: 5 elementos</h4>
+      <p>Lee las instrucciones de la memoria principal y genera las <b>señales de control</b> (micro-órdenes) para coordinar el resto de unidades.</p>
+      <table><tr><th>Elemento</th><th>Qué hace</th></tr>
+      <tr><td><b>Contador de programa (CP)</b></td><td>Contiene la <b>dirección de la siguiente instrucción</b> a ejecutar. Se incrementa en 1 automáticamente al concluir cada instrucción</td></tr>
+      <tr><td><b>Registro de instrucción (RI)</b></td><td>Almacena la <b>instrucción en curso</b> (la que se está ejecutando)</td></tr>
+      <tr><td><b>Decodificador (D)</b></td><td>Analiza la instrucción y emite las señales necesarias al resto de elementos a través del secuenciador</td></tr>
+      <tr><td><b>Secuenciador (S)</b></td><td>Genera las <b>micro-órdenes</b>, órdenes muy elementales que ejecutan poco a poco la instrucción cargada en el RI</td></tr>
+      <tr><td><b>Reloj (R)</b></td><td>Proporciona <b>impulsos eléctricos a intervalos constantes</b> (hercios) que marcan cuándo comienza cada paso de la instrucción</td></tr></table>
+      <h4>La ALU: 4 elementos</h4>
+      <p>Operaciones aritméticas (suma, resta, multiplicación, división) y lógicas (AND, OR, NOT).</p>
+      <table><tr><th>Elemento</th><th>Qué hace</th></tr>
+      <tr><td><b>Circuito operacional (COP)</b></td><td>Realiza las operaciones con los datos de los registros de entrada</td></tr>
+      <tr><td><b>Registros de entrada (REN1 y REN2)</b></td><td>Almacenan los <b>datos que intervienen</b> en la operación</td></tr>
+      <tr><td><b>Registro de estado (RES)</b></td><td>Deja constancia de condiciones de la última operación (p. ej. en una resta: resultado <b>cero, positivo o negativo</b>)</td></tr>
+      <tr><td><b>Acumulador</b></td><td>Almacena el <b>resultado</b> de la operación</td></tr></table>`,
+
+    mem: `<div class="sac-box">La <b>memoria central</b> (principal) almacena <b>datos e instrucciones de programa de forma temporal</b>. Para ejecutar un programa, este debe estar cargado en memoria junto con sus datos.</div>
+      <ul><li>Está formada por multitud de <b>celdas contiguas</b> numeradas de forma consecutiva. A esa numeración se le llama <b>dirección de memoria</b>.</li>
+      <li>Por su dirección se accede <b>directamente</b> a cualquier celda, sea para leer o para escribir.</li></ul>
+      <h4>Elementos de acceso a memoria</h4>
+      <table><tr><th>Elemento</th><th>Qué contiene / hace</th></tr>
+      <tr><td><b>RDM</b> · Registro de Dirección de Memoria</td><td>La <b>dirección</b> de la celda a la que se va a acceder (lectura o escritura)</td></tr>
+      <tr><td><b>RIM</b> · Registro de Intercambio de Memoria</td><td>El <b>dato</b> que se lee o escribe. Zona de paso intermedia entre la memoria y el resto de unidades</td></tr>
+      <tr><td><b>SM</b> · Selector de Memoria</td><td>Conecta la celda cuya dirección figura en el RDM con el RIM, permitiendo la transferencia en un sentido u otro</td></tr></table>
+      <p>Regla: <b>RDM = dónde</b> (dirección) · <b>RIM = qué</b> (dato).</p>
+      <h4>El bus del sistema</h4>
+      <p>Conjunto de hilos o conexiones que comunican la CPU con el resto de unidades. Hay <b>3 tipos</b>:</p>
+      <table><tr><th>Bus</th><th>Transporta</th></tr>
+      <tr><td><b>Bus de datos</b></td><td>Los datos que hay que enviar de un elemento a otro</td></tr>
+      <tr><td><b>Bus de direcciones</b></td><td>La dirección del elemento al que se quiere acceder</td></tr>
+      <tr><td><b>Bus de control</b></td><td>Las órdenes que activan la lectura o escritura en memoria y las señales que abren o cierran los canales hacia los periféricos</td></tr></table>
+      <p><b>Ejemplo (lectura):</b> la CPU indica la dirección por el <b>bus de direcciones</b>, manda una señal de lectura por el <b>bus de control</b> y recibe la información por el <b>bus de datos</b>.</p>`,
+
+    jer: `<h4>Jerarquía de memorias</h4>
+      <p>Organización <b>piramidal</b> en niveles según <b>velocidad, coste y capacidad</b>. Cuatro niveles principales:</p>
+      <table><tr><th>Nivel</th><th>Memoria</th><th>Características</th></tr>
+      <tr><td>0</td><td><b>Registros</b></td><td>Dentro de la CPU, con datos inmediatos. Los <b>más rápidos</b>, muy poca capacidad</td></tr>
+      <tr><td>1</td><td><b>Memoria caché</b></td><td>Rápida y pequeña, <b>entre la CPU y la memoria principal</b>. Guarda datos de uso frecuente</td></tr>
+      <tr><td>2</td><td><b>Memoria principal (RAM)</b></td><td>Memoria de trabajo: programas y datos en uso. Más lenta que la caché pero con más capacidad</td></tr>
+      <tr><td>3</td><td><b>Memoria secundaria</b></td><td>Almacenamiento masivo (HDD, SSD). Datos de forma <b>permanente</b>. Muy lenta, gran capacidad</td></tr></table>
+      <p>Hacia arriba: más rápida, más cara y menos capacidad. Hacia abajo: más lenta, más barata y más capacidad. El objetivo es <b>minimizar el tiempo de acceso</b> a los datos más usados.</p>
+      <h4>Ciclo de instrucción</h4>
+      <div class="sac-box">Conjunto de acciones que se llevan a cabo en la realización de <b>una instrucción</b>. Dos fases: <b>búsqueda</b> (la instrucción pasa de la memoria central a la unidad de control) y <b>ejecución</b> (se realizan las acciones de la propia instrucción).</div>
+      <p>Una instrucción tiene <b>código de operación</b> y las direcciones de sus operandos. Ejemplo: <b>SUMAR 33 992 993</b> = sumar el contenido de las posiciones 33 y 992 y guardar el resultado en la 993.</p>
+      <h4>Fase de búsqueda (5 pasos)</h4>
+      <ol><li>La UC envía una micro-orden: el contenido del <b>CP</b> (dirección de la siguiente instrucción) pasa al <b>RDM</b>.</li>
+      <li>El <b>selector</b> usa la dirección del RDM y transfiere el contenido (la instrucción) al <b>RIM</b>.</li>
+      <li>La instrucción pasa del <b>RIM</b> al <b>RI</b>.</li>
+      <li>El <b>decodificador</b> interpreta la instrucción (SUMAR), queda dispuesto para activar el circuito sumador de la ALU e informa al secuenciador.</li>
+      <li>El <b>CP</b> se autoincrementa en 1 (usando la ALU) para apuntar a la siguiente instrucción. Si es una instrucción de ruptura de secuencia, el CP se carga con la dirección que corresponda.</li></ol>
+      <h4>Fase de ejecución (10 pasos, para SUMAR 33 992 993)</h4>
+      <ol><li>Dirección del <b>primer operando</b>: del RI al RDM.</li>
+      <li>El selector extrae el dato de memoria y lo deja en el RIM.</li>
+      <li>Del RIM al <b>REN1</b> de la ALU.</li>
+      <li>Dirección del <b>segundo operando</b>: del RI al RDM.</li>
+      <li>El selector extrae el dato de memoria y lo deja en el RIM.</li>
+      <li>Del RIM al <b>REN2</b> de la ALU.</li>
+      <li>El secuenciador ordena a la ALU ejecutar la operación; el resultado queda en el <b>acumulador</b>.</li>
+      <li>Del acumulador al <b>RIM</b>.</li>
+      <li>Dirección donde guardar el resultado: del RI al RDM.</li>
+      <li>Del RIM a la dirección de memoria indicada en el RDM (se guarda el resultado).</li></ol>
+      <h4>Arquitecturas internas</h4>
+      <table><tr><th>Arquitectura</th><th>Características</th><th>Uso</th></tr>
+      <tr><td><b>Von Neumann</b></td><td>Programas y datos en la <b>misma memoria</b></td><td>Más común en ordenadores de propósito general</td></tr>
+      <tr><td><b>Harvard</b></td><td><b>Buses separados</b> para datos e instrucciones</td><td>Sistemas donde rendimiento y eficiencia son críticos: dispositivos embebidos (electrodomésticos, ECU del motor, frenos ABS, monitores de signos vitales, marcapasos)</td></tr></table>`,
+
+    his: `<table><tr><th>Década</th><th>Qué ocurre</th></tr>
+      <tr><td><b>1940</b></td><td>La informática surge tras la II Guerra Mundial. <b>No existía el concepto de S.O.</b>: se programaba directamente el hardware en <b>lenguaje máquina</b> (0s y 1s). <b>ENIAC</b>: se programaba interconectando cables y operando unos <b>6.000 interruptores</b>; cambiar el programa llevaba días o semanas</td></tr>
+      <tr><td><b>1950</b></td><td><b>Surge el concepto de S.O.</b> El primer S.O. (<b>1956</b>) fue para el <b>IBM 704</b> y solo comenzaba un programa cuando el anterior terminaba. Programas con <b>tarjetas perforadas</b></td></tr>
+      <tr><td><b>1960</b></td><td>Revolución: <b>multitarea, multiusuario, multiprocesador y tiempo real</b>. A finales aparece <b>UNIX</b> (base de la mayoría de S.O. actuales), solo en modo texto</td></tr>
+      <tr><td><b>1970</b></td><td>Primeros <b>ordenadores personales</b> (Xerox Alto 1973, IBM 5100 1975). Se crea el lenguaje <b>C</b> para reescribir UNIX</td></tr>
+      <tr><td><b>1980</b></td><td>Prioridad: la <b>facilidad de uso</b> → primeras interfaces de usuario. Nacen <b>MacOS, MS-DOS y Windows</b>; boom del PC</td></tr>
+      <tr><td><b>1990</b></td><td><b>Linux</b>: primera versión del núcleo en septiembre de <b>1991</b>, que se unió al proyecto <b>GNU</b> (de ahí GNU/Linux). Microsoft lanza <b>Windows 95</b> (PC) y <b>Windows NT</b> (servidores)</td></tr>
+      <tr><td><b>2000 en adelante</b></td><td>Más accesibles, estables y seguros; pantallas táctiles, asistentes de voz e IA. <b>2007</b>: Apple presenta <b>iOS</b> con el primer iPhone. <b>2008</b>: primeros móviles con <b>Android</b> (Google). Windows 10 (2015) y Windows 11 (2021)</td></tr></table>
+      <h4>S.O. actuales y proyectos recientes</h4>
+      <ul><li><b>Android</b>: el S.O. móvil con más presencia mundial (aprox. 75 % de las ventas de smartphones frente al 20 % de iOS, 2.º trimestre de 2026).</li>
+      <li><b>ChromeOS</b> (Google, basado en tecnologías Linux): ordenadores económicos y ámbito educativo.</li>
+      <li><b>Fuchsia</b> (Google): código abierto; desarrollo público desde ~2016-2017.</li>
+      <li><b>HarmonyOS</b> (<b>Huawei</b>): sistema <b>multidispositivo</b> para interconectar teléfonos, tabletas, relojes, TV, vehículos… (IoT). Aprox. 24 % de las ventas de smartphones en China y 5 % mundial.</li></ul>
+      <p>Los S.O. actuales se adaptan a movilidad, <b>nube, IoT, seguridad e inteligencia artificial</b>.</p>`,
+
+    fun: `<div class="sac-box">Un <b>proceso</b> es un <b>programa en ejecución</b>, por tanto está ubicado en la <b>memoria principal</b> (el programa está en el disco).</div>
+      <h4>Funciones principales del S.O.</h4>
+      <table><tr><th>Función</th><th>Qué hace</th></tr>
+      <tr><td><b>Planificación de procesos</b></td><td>Determina el <b>orden</b> en que el procesador ejecuta los procesos</td></tr>
+      <tr><td><b>Administración de la memoria principal</b></td><td>Obtiene la máxima utilidad de la memoria, organizando los procesos para <b>aprovechar al máximo el espacio disponible</b></td></tr>
+      <tr><td><b>Administración de ficheros</b></td><td>Gestiona el uso y acceso a <b>archivos y directorios</b>; permite localizarlos y acceder rápido</td></tr>
+      <tr><td><b>Gestión de dispositivos de E/S</b></td><td>Controla los dispositivos de entrada/salida: la <b>comunicación entre la memoria y los periféricos</b> (teclado, ratón, monitor, disco, impresoras…)</td></tr></table>
+      <h4>Componentes del S.O. (los 9)</h4>
+      <ol><li>Gestor de procesos</li><li>Gestor de memoria virtual</li><li>Gestor de entrada y salida</li><li>Sistema de archivos</li><li>Sistemas de protección</li><li>Sistema de comunicaciones</li><li>Programas de sistema</li><li>Gestor de recursos</li><li>Gestor de almacenamiento secundario</li></ol>
+      <p><b>Qué hace cada uno (idea corta):</b></p>
+      <ul><li><b>Sistema de archivos</b>: gestiona el almacenamiento y el acceso a los datos en disco.</li>
+      <li><b>Sistema de protección</b>: protege los recursos del acceso de usuarios no autorizados.</li>
+      <li><b>Sistema de comunicaciones</b>: intercambio de información entre procesos y dispositivos.</li>
+      <li><b>Gestor de memoria virtual</b>: administra el uso de la memoria virtual.</li></ul>
+      <p><b>No pertenecen al S.O.</b> (son aplicaciones o utilidades): navegador web, editor de imágenes, utilidades de contabilidad…</p>`,
+
+    pro: `<div class="sac-box"><b>Programa</b> = objeto <b>pasivo</b> (en disco). <b>Proceso</b> = objeto <b>activo</b>: un programa en ejecución al que el S.O. asigna recursos (tiempo de CPU, memoria, archivos y dispositivos de E/S) y cuya ejecución controla. Un proceso se compone de <b>código y datos</b>.</div>
+      <h4>Estados de un proceso (simplificado a 3)</h4>
+      <svg viewBox="0 0 320 170" style="width:100%;max-width:340px;display:block;margin:8px auto;" role="img" aria-label="Diagrama de estados: preparado, ejecución y bloqueado con las transiciones 1 a 4">
+        <defs><marker id="isoAr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--gray-600)"/></marker></defs>
+        <rect x="8" y="25" width="104" height="40" rx="10" style="fill:var(--gray-50);stroke:var(--gray-400);stroke-width:1.5"/>
+        <text x="60" y="50" text-anchor="middle" style="fill:var(--gray-800);font-size:13px;font-weight:700">Preparado</text>
+        <rect x="208" y="25" width="104" height="40" rx="10" style="fill:var(--gray-50);stroke:var(--gray-400);stroke-width:1.5"/>
+        <text x="260" y="50" text-anchor="middle" style="fill:var(--gray-800);font-size:13px;font-weight:700">Ejecución</text>
+        <rect x="108" y="115" width="104" height="40" rx="10" style="fill:var(--gray-50);stroke:var(--gray-400);stroke-width:1.5"/>
+        <text x="160" y="140" text-anchor="middle" style="fill:var(--gray-800);font-size:13px;font-weight:700">Bloqueado</text>
+        <path d="M112,36 L206,36" style="fill:none;stroke:var(--gray-600);stroke-width:1.6" marker-end="url(#isoAr)"/>
+        <text x="159" y="30" text-anchor="middle" style="fill:#0F766E;font-size:13px;font-weight:700">3</text>
+        <path d="M208,56 L114,56" style="fill:none;stroke:var(--gray-600);stroke-width:1.6" marker-end="url(#isoAr)"/>
+        <text x="159" y="73" text-anchor="middle" style="fill:#0F766E;font-size:13px;font-weight:700">2</text>
+        <path d="M275,67 Q275,134 214,134" style="fill:none;stroke:var(--gray-600);stroke-width:1.6" marker-end="url(#isoAr)"/>
+        <text x="288" y="112" text-anchor="middle" style="fill:#0F766E;font-size:13px;font-weight:700">1</text>
+        <path d="M106,134 Q45,134 45,67" style="fill:none;stroke:var(--gray-600);stroke-width:1.6" marker-end="url(#isoAr)"/>
+        <text x="32" y="112" text-anchor="middle" style="fill:#0F766E;font-size:13px;font-weight:700">4</text>
+      </svg>
+      <ul><li><b>Ejecución</b>: tiene asignada la CPU. <b>Solo uno</b> a la vez (por núcleo).</li>
+      <li><b>Preparado</b>: listo para ejecutarse, esperando su turno. Hay una <b>lista de procesos preparados</b> (<b>ordenada</b>).</li>
+      <li><b>Bloqueado</b>: detenido esperando un <b>suceso o evento externo</b>. Hay una lista de bloqueados (<b>no se ordena</b>). Al ocurrir el evento pasan a <b>preparado</b>.</li></ul>
+      <table><tr><th>Nº</th><th>Transición</th><th>Cuándo</th></tr>
+      <tr><td>1</td><td>Ejecución → Bloqueado</td><td>Necesita un recurso o señal para continuar</td></tr>
+      <tr><td>2</td><td>Ejecución → Preparado</td><td>Agota su tiempo de CPU; va al final de la cola</td></tr>
+      <tr><td>3</td><td>Preparado → Ejecución</td><td>Le llega su turno y toma el procesador</td></tr>
+      <tr><td>4</td><td>Bloqueado → Preparado</td><td>Recibe el recurso, dato o señal que esperaba</td></tr></table>
+      <p>No existe Bloqueado → Ejecución directa: siempre se pasa por Preparado.</p>
+      <h4>Bloque de Control de Proceso (BCP / PCB)</h4>
+      <p>Estructura de datos que el S.O. guarda <b>por cada proceso</b>. Contiene: <b>PID</b> (identificador), <b>estado</b>, <b>prioridad</b>, <b>zona de memoria asignada</b> (que otro proceso no puede interferir), <b>recursos utilizados</b>, <b>estadísticas</b> y <b>datos del propietario</b> (owner). Al terminar el proceso, su BCP se borra.</p>
+      <h4>Dispatcher (planificador)</h4>
+      <p>Para dar sensación de ejecución simultánea (<b>multiprogramación</b>), el componente del S.O. llamado <b>dispatcher o planificador</b> quita la CPU al proceso en ejecución y se la asigna a otro en estado preparado.</p>
+      <h4>Primer y segundo plano · servicios · modos</h4>
+      <ul><li><b>Primer plano</b>: interactúan con el usuario (p. ej. Firefox). <b>Segundo plano</b>: realizan una función sin interacción del usuario.</li>
+      <li>Los procesos de segundo plano del S.O. se llaman <b>servicios en Windows</b> y <b>demonios en Linux</b>. El administrador puede iniciarlos, detenerlos, pausarlos y reanudarlos.</li>
+      <li>Procesos del <b>sistema</b> → <b>modo kernel</b> (privilegiado, acceso a cualquier recurso). Procesos del <b>usuario</b> → <b>modo usuario</b> (acceso restringido al hardware).</li>
+      <li><b>Cuenta de servicio local</b> (Windows): cuenta <b>limitada</b>, para servicios estándar con menos privilegios. <b>Cuenta de servicio de red</b>: para ejecutar servicios <b>privilegiados</b>.</li></ul>
+      <h4>Ver los procesos</h4>
+      <ul><li><b>Windows</b>: Administrador de tareas (Ctrl+Alt+Supr), Monitor de recursos (<b>resmon</b>) y Explorador de procesos (aplicación externa, Process Explorer).</li>
+      <li><b>Linux</b>: Monitor del sistema.</li></ul>`,
+
+    pla: `<div class="sac-box">La <b>multiprogramación</b> se consigue con la <b>ejecución alternativa de procesos</b>. La parte del S.O. que elige el siguiente proceso es el <b>planificador</b>, y la regla que usa es el <b>algoritmo de planificación</b>.</div>
+      <table><tr><th>Algoritmo</th><th>Cómo funciona</th><th>Notas</th></tr>
+      <tr><td><b>FIFO / FCFS</b><br>First In First Out</td><td>Por <b>orden de llegada</b>. El primero no libera recursos hasta terminar</td><td><b>No expulsivo</b>. El más sencillo pero el más ineficaz. Típico en <b>colas de impresión</b></td></tr>
+      <tr><td><b>Round-Robin</b> (rueda)</td><td>Mismo tiempo a cada proceso, de forma rotatoria. Ese tiempo es el <b>quantum</b></td><td>De los más sencillos, justos y de uso más amplio</td></tr>
+      <tr><td><b>SJF</b><br>Shortest Job First</td><td>Primero el que <b>menos tiempo total de CPU</b> requiere</td><td><b>No expulsivo</b>. Ej.: la persona con menos compra pasa primero en la caja del súper</td></tr>
+      <tr><td><b>SRTF</b><br>Shortest Remaining Time First</td><td>Primero al que <b>menos tiempo de CPU le queda</b></td><td>Variante expulsiva del SJF: si llega un proceso más corto, expulsa al actual. Los trabajos largos no se ejecutan mientras haya cortos</td></tr>
+      <tr><td><b>Por prioridades</b></td><td>Se ejecuta primero el de <b>mayor prioridad</b></td><td>—</td></tr></table>
+      <p>FIFO y Round-Robin son los utilizados actualmente en Windows y Linux (según el temario); SJF, SRTF y prioridades son menos usados.</p>
+      <h4>Inconvenientes de FIFO</h4>
+      <ul><li>Mal tiempo medio de espera.</li><li><b>Efecto convoy</b>: procesos con largos tiempos de CPU retrasan a los procesos cortos.</li><li>No válido para procesos interactivos.</li></ul>
+      <p><b>Ejemplo para entender el convoy</b> (no es del temario): llegan A (24 u. de CPU), B (3) y C (3). Con <b>FIFO</b> esperan 0, 24 y 27 → media 17. Con <b>SJF</b> (B, C, A) esperan 0, 3 y 6 → media 3.</p>
+      <h4>Bloqueos</h4>
+      <p>En los sistemas de tiempo compartido los procesos compiten por los recursos, y el S.O. debe ofrecer mecanismos para <b>sincronizar</b> su ejecución. Un proceso puede estar en ejecución, <b>bloqueado</b> (esperando p. ej. la impresora) o <b>suspendido</b> (no usa la memoria principal, aunque la tiene solicitada).</p>
+      <div class="sac-box"><b>Interbloqueo (deadlock):</b> dos procesos necesitan los mismos dos recursos y cada uno tiene asignado uno. Ambos quedan bloqueados esperando el que les falta, y <b>ninguno libera el que ya posee</b>.</div>`,
+
+    mpm: `<div class="sac-box">El <b>administrador de memoria</b> reserva espacio en memoria para los procesos y lo <b>libera</b> cuando terminan. También gestiona el intercambio de datos entre memoria y E/S, y la <b>protección y el uso compartido</b> de la memoria.</div>
+      <ul><li>En los sistemas <b>monousuario y monoproceso</b> era muy sencilla: solo se reservaba una parte de la memoria para el S.O.</li>
+      <li>Con los sistemas <b>multiusuario y multitarea</b> se hizo mucho más compleja y es una de las funciones más importantes.</li>
+      <li>Por norma, un proceso <b>solo puede acceder a su propio espacio de direcciones</b>: el S.O. debe evitar que invada la zona de otro proceso o del S.O.</li></ul>
+      <p>Métodos de administración: <b>paginación, segmentación y memoria virtual</b>.</p>
+      <table><tr><th></th><th>Paginación</th><th>Segmentación</th></tr>
+      <tr><td><b>Bloques</b></td><td>Tamaño <b>fijo</b>: la memoria en <b>marcos de página</b> (frames) y el programa en <b>páginas</b></td><td>Tamaño <b>variable</b>: <b>segmentos</b></td></tr>
+      <tr><td><b>Ventaja</b></td><td><b>Simplicidad</b></td><td>Más eficiente; acomoda programas de tamaño variable</td></tr>
+      <tr><td><b>Desventaja</b></td><td><b>Fragmentación interna</b> (desperdicio al final de la última página)</td><td><b>Complejidad de gestión</b>; fragmentación dentro de los segmentos</td></tr></table>
+      <p>Los S.O. actuales <b>combinan paginación y segmentación</b>. Al cargar un proceso en paginación se cargan todas sus páginas en marcos libres.</p>
+      <h4>Escasez de memoria y memoria virtual</h4>
+      <ul><li><b>Causas</b>: procesos que necesitan más memoria física de la disponible y el aumento del grado de multitarea.</li>
+      <li><b>Swapping</b> (intercambio): usa el disco duro para guardar los procesos que no caben en memoria.</li>
+      <li><b>Memoria virtual</b>: permite ejecutar procesos sin tener todo su espacio lógico en memoria principal. Se carga la parte que se está ejecutando y el resto queda en memoria secundaria (disco), en una <b>zona de intercambio (swap)</b>. Así el conjunto de procesos puede ser <b>mayor que la RAM</b>.</li></ul>
+      <h4>Linux y Windows</h4>
+      <table><tr><th></th><th>Linux</th><th>Windows (núcleo NT, desde XP)</th></tr>
+      <tr><td>Paginación</td><td>Multinivel</td><td>Multinivel</td></tr>
+      <tr><td>Memoria virtual</td><td>Partición de intercambio <b>swap</b></td><td>Archivo de paginación <b>pagefile.sys</b></td></tr></table>
+      <p>El tamaño recomendado de la swap depende de la <b>RAM</b> del equipo.</p>`,
+
+    car: `<div class="sac-box">El <b>sistema operativo</b> es el software que <b>coordina y dirige todos los servicios y aplicaciones</b> del ordenador. Gestiona todos los <b>recursos hardware</b> y actúa como <b>intermediario entre el usuario y el hardware</b>, ocultando su complejidad con una interfaz fácil de usar. Sin S.O. no se puede hacer nada en el ordenador; una vez cargado, ya se ejecutan aplicaciones.</div>
+      <ul><li>Gestiona recursos de <b>hardware</b> (disco, pantalla, teclado) y de <b>software</b> (datos y programas).</li>
+      <li>Suele venir <b>precargado</b>; se puede actualizar o cambiar, teniendo en cuenta sus <b>requisitos</b>.</li></ul>
+      <h4>Estructura en capas (de arriba abajo)</h4>
+      <ol><li><b>Programas de usuario</b> (aplicaciones)</li><li><b>Interfaz gráfica</b> del S.O. (parte visible)</li><li><b>Núcleo o kernel</b></li><li><b>Hardware</b></li></ol>
+      <p>El <b>núcleo (kernel)</b> es el elemento más importante: está en la capa inferior (la más alejada del usuario), se <b>carga primero</b>, está en contacto directo con el hardware, lo inicia y le transmite los comandos de los programas.</p>
+      <h4>Modos de ejecución</h4>
+      <ul><li><b>Modo usuario</b>: el <b>menos privilegiado</b>, acceso restringido a los recursos. Lo usan todos los programas de aplicación.</li>
+      <li><b>Modo núcleo</b> (kernel o supervisor): modo <b>privilegiado</b> con acceso <b>completo y sin restricciones</b> al hardware.</li></ul>
+      <h4>Estructura interna del núcleo</h4>
+      <table><tr><th>Tipo</th><th>Características</th><th>Ejemplos</th></tr>
+      <tr><td><b>Monolítico</b></td><td>El núcleo concentra casi toda la funcionalidad (planificación, memoria, ficheros, E/S) y todo se ejecuta en <b>modo núcleo</b>. <b>+ Rendimiento.</b> Contras: muy complicado al crecer y baja confiabilidad (componentes no aislados)</td><td>Solaris, FreeBSD, OSX (anterior a la 9), GNU/Linux, Windows de escritorio anteriores a XP</td></tr>
+      <tr><td><b>Micronúcleo</b></td><td>Solo el micronúcleo va en modo privilegiado (servicios básicos, p. ej. planificación). Drivers, sistema de archivos, E/S… en <b>modo usuario</b>. <b>+ Fiable</b>: un error en un módulo no afecta al resto; los módulos se programan, compilan y cargan por separado</td><td>AIX, AmigaOS, Minix, Symbian</td></tr>
+      <tr><td><b>Híbrido</b></td><td>Mitad de camino: incluye la gestión de E/S en modo supervisor para mejorar el rendimiento. Solución de compromiso</td><td>Windows de escritorio desde XP, todas las versiones de Servidor y macOS</td></tr></table>
+      <h4>Intérprete de comandos e interfaces</h4>
+      <p>El <b>intérprete de comandos</b> es un programa intermediario entre el usuario y el S.O.: procesa y ejecuta los comandos de texto que se introducen (Símbolo del sistema en Windows, Terminal en Linux).</p>
+      <ul><li><b>Interfaz de texto (TUI / CLI)</b>: todo con comandos. MS-DOS, UNIX y Linux (terminales), CMD y PowerShell. En Windows Server, <b>Server Core</b> permite instalar sin interfaz gráfica de escritorio.</li>
+      <li><b>Interfaz gráfica (GUI)</b>: ventanas, iconos, menús, botones y punteros; ratón, teclado y pantallas táctiles.</li></ul>
+      <table><tr><th>Aspecto</th><th>Comandos</th><th>Entorno gráfico</th></tr>
+      <tr><td>Eficiencia</td><td>Rápido para usuarios avanzados</td><td>Más lento pero intuitivo para novatos</td></tr>
+      <tr><td>Control</td><td>Total, con opciones avanzadas</td><td>Limitado a funciones comunes</td></tr>
+      <tr><td>Accesibilidad</td><td>Requiere conocimiento técnico</td><td>Fácil para la mayoría</td></tr>
+      <tr><td>Automatización</td><td>Se pueden usar <b>scripts</b></td><td>No admite automatización</td></tr>
+      <tr><td>Interactividad</td><td>Solo texto, menos visual</td><td>Visual, retroalimentación inmediata</td></tr></table>`,
+
+    tip: `<div class="sac-box">Los S.O. se clasifican según varios criterios. Estos son los del temario:</div>
+      <table><tr><th>Criterio</th><th>Tipos</th></tr>
+      <tr><td><b>Nº de usuarios</b></td><td><b>Monousuario</b>: un solo usuario a la vez (MS-DOS, Windows 10/11, Android, iOS).<br><b>Multiusuario</b>: varios usuarios acceden <b>simultáneamente</b> (UNIX, Linux, Windows Server, macOS, Solaris, IBM AIX). Si hay varios usuarios dados de alta pero no pueden trabajar a la vez, no es multiusuario</td></tr>
+      <tr><td><b>Nº de tareas</b></td><td><b>Monotarea</b>: un programa a la vez (MS-DOS).<br><b>Multitarea</b>: varios procesos «a la vez», repartiendo los recursos (Windows, Linux)</td></tr>
+      <tr><td><b>Nº de procesadores</b></td><td><b>Monoprocesador</b>: gestiona solo 1; si hubiera más, no los usaría.<br><b>Multiprocesador</b>: usa varios simultáneamente. <b>Asimétrico</b>: el S.O. reparte las tareas y ciertos procesos los ejecuta siempre un procesador concreto (sistemas más grandes). <b>Simétrico</b>: los procesos se envían indistintamente a cualquier procesador</td></tr>
+      <tr><td><b>Manejo de recursos</b></td><td><b>Centralizados</b>: recursos de una única computadora.<br><b>Distribuidos</b>: recursos compartidos entre varias computadoras interconectadas; el usuario percibe un sistema único</td></tr>
+      <tr><td><b>Tiempo de respuesta</b></td><td><b>Tiempo real duro</b>: respuesta exacta y sin retrasos (si falla, fallo crítico): aeronaves, equipos médicos, robótica industrial; VxWorks, QNX.<br><b>Tiempo real suave</b>: toleran pequeños retrasos: streaming, embebidos, industriales de bajo riesgo; Embedded Linux.<br><b>Tiempo compartido</b>: reparten el tiempo de CPU entre usuarios o tareas sin requisitos de tiempo exacto (macOS, Windows, Linux)</td></tr>
+      <tr><td><b>Portabilidad</b></td><td><b>Portátiles</b>: funcionan en distintos tipos de hardware (Linux: PC, servidores, embebidos).<br><b>No portátiles</b>: para un hardware específico (iOS en dispositivos Apple)</td></tr></table>`,
+
+    lic: `<div class="sac-box">Una <b>licencia</b> es un <b>contrato entre el proveedor</b> de un programa y el usuario (o empresa) que fija las condiciones que obligan a ambas partes mientras el programa esté en uso.</div>
+      <p>Una licencia regula, entre otros aspectos: la vinculación del programa a un <b>hardware</b>, el <b>número de copias</b>, los <b>derechos del usuario</b>, la <b>responsabilidad del proveedor</b> sobre los fallos y si el programa se puede <b>ceder</b> a otras personas.</p>
+      <h4>1. Licencia propietaria (código cerrado)</h4>
+      <p>El S.O. es propiedad de una empresa o individuo. Código fuente privado; el usuario solo puede <b>usar</b>, no modificar ni distribuir.</p>
+      <ul><li><b>CLUF / EULA</b> (Contrato de Licencia para Usuario Final / End User License Agreement): Windows, macOS, algunos UNIX comerciales. Redistribución, copia y modificación prohibidas; puede requerir compra o suscripción.</li>
+      <li><b>Freeware</b>: gratuito por tiempo indefinido; normalmente se permite redistribuir pero <b>no modificar</b>, a veces tampoco el uso comercial; sin código fuente.</li>
+      <li><b>Shareware</b>: permite <b>evaluar</b> el software con límite de tiempo o de funciones; para tenerlo sin limitaciones hay que <b>pagar</b>.</li>
+      <li><b>Adware</b>: totalmente gratuito pero con <b>publicidad</b> (en la instalación o en el uso). Puede ser shareware y adware a la vez.</li></ul>
+      <h4>2. Licencia de código abierto (open source)</h4>
+      <p>Pone a disposición el <b>código fuente</b>; suele ir unida al <b>software libre</b>. Dos subtipos:</p>
+      <ul><li><b>Permisivas (académicas)</b>: se puede modificar o crear programas nuevos <b>sin mantener</b> las condiciones de la licencia original. Ej.: Apache Software License, PHP License, Perl License.</li>
+      <li><b>No permisivas</b>: se puede modificar, pero el resultado debe publicarse <b>bajo los mismos términos</b>. Ej.: GNU General Public License (GPL), Common Public License, OpenSSL License.</li></ul>
+      <h4>3. Creative Commons</h4>
+      <p>Licencias estandarizadas y gratuitas para que los creadores compartan sus obras bajo ciertas condiciones. Se combinan 4 variables:</p>
+      <table><tr><th>Sigla</th><th>Significado</th></tr>
+      <tr><td><b>BY</b> · Atribución</td><td>Hay que <b>citar al autor</b></td></tr>
+      <tr><td><b>SA</b> · Share Alike (Compartir igual)</td><td>La obra derivada se publica con la <b>misma licencia</b></td></tr>
+      <tr><td><b>NC</b> · Non-Commercial</td><td><b>No</b> se puede usar con fines <b>comerciales</b></td></tr>
+      <tr><td><b>ND</b> · No Derivative Works</td><td><b>No se puede modificar</b> la obra</td></tr></table>
+      <p>Combinándolas salen <b>seis licencias</b> más la <b>CC0</b> (Creative Commons Zero, dominio público: sin restricciones, ni siquiera citar al autor; típica de los bancos de imágenes gratuitos).</p>
+      <p>Las seis: <b>CC BY</b> · <b>BY-SA</b> · <b>BY-ND</b> · <b>BY-NC</b> · <b>BY-NC-SA</b> · <b>BY-NC-ND</b>.</p>
+      <h4>Comercialización de licencias propietarias (apdo. 7)</h4>
+      <table><tr><th>Vía</th><th>Características</th></tr>
+      <tr><td><b>Retail / FPP</b><br>Full Packaged Product</td><td>Compra habitual en tienda. Para usuarios que no necesitan <b>más de cinco licencias</b>. Variantes: <b>producto completo</b> (no requiere versión previa, puede traer CD/DVD) y <b>actualización (upgrade)</b>: parte de una versión previa con licencia y suele costar menos</td></tr>
+      <tr><td><b>OEM</b><br>Original Equipment Manufacturer</td><td>Software <b>preinstalado</b> al comprar un ordenador nuevo. La licencia lo <b>vincula al hardware</b>: no se puede instalar en otro equipo. Sí suele permitirse ceder el equipo completo (hardware y software)</td></tr>
+      <tr><td><b>Por volumen</b></td><td>Contratos para <b>entidades o empresas</b> que necesitan muchas licencias. Pueden incluir derechos de transferencia, producto completo o actualización, y derechos de <b>downgrade</b></td></tr></table>
+      <p><b>Downgrade</b>: sustituir la versión actual de un producto por otra <b>más antigua</b> por rendimiento o compatibilidad con otro software o con el hardware.</p>`
+  };
+
+  // En cada pregunta la primera opción (o[0]) es la correcta; la app las mezcla al mostrarlas.
+  var ISO_QS = [
+    // ---- Hardware y software (test T-101 a T-120) ----
+    {s:'hw', q:'¿Qué es un ordenador?', o:['Una máquina que almacena y automatiza información','Una máquina únicamente de juegos y ocio en general','Un dispositivo solo para cálculos científicos'], e:'Es una máquina que almacena y automatiza la información mediante programas diseñados para esa tarea.'},
+    {s:'hw', q:'¿Por qué es de propósito general un ordenador?', o:['Porque se adapta a muchas funciones','Porque no usa programas de propósito general','Porque solo procesa cálculos'], e:'Puede adaptarse a numerosas funciones según las instrucciones que recibe.'},
+    {s:'hw', q:'¿Cuántos elementos básicos tiene un ordenador?', o:['Dos','Cuatro','Tres'], e:'Dos: el hardware (sistema físico) y el software (sistema lógico).'},
+    {s:'hw', q:'¿Cómo se llama el sistema físico de un ordenador?', o:['Hardware','Firmware','Software'], e:'El hardware es la parte física, los elementos tangibles.'},
+    {s:'hw', q:'¿Cómo se llama el sistema lógico de un ordenador?', o:['Software','Hardware','Periférico'], e:'El software es el elemento lógico: aplicaciones y programas.'},
+    {s:'hw', q:'¿Qué parte del ordenador es tangible?', o:['El hardware','El software','Los datos'], e:'El hardware (monitor, teclado, cables, chips). El software es intangible.'},
+    {s:'hw', q:'¿Qué parte del ordenador es intangible?', o:['El software','El hardware','La energía eléctrica'], e:'El software es intangible: sabemos que está, pero solo accedemos a él mediante la entrada y salida del hardware.'},
+    {s:'hw', q:'¿Cómo accedemos al software del ordenador?', o:['Mediante los dispositivos de entrada y salida','Conectando un disco externo','Directamente desde la memoria RAM'], e:'Al ser intangible, solo se accede a él a través de los elementos de entrada y salida del hardware.'},
+    {s:'hw', q:'¿Qué componente es considerado el «cerebro» del ordenador?', o:['La CPU','El disco duro','La RAM'], e:'La CPU ejecuta instrucciones y procesa datos.'},
+    {s:'hw', q:'¿Qué función tiene la CPU?', o:['Ejecutar instrucciones y procesar datos','Generar imágenes en pantalla','Almacenar datos temporalmente'], e:'Generar imágenes es de la GPU y almacenar temporalmente, de la RAM.'},
+    {s:'hw', q:'¿Qué almacena la memoria RAM?', o:['Datos y programas en uso temporal','Únicamente instrucciones de arranque','Datos de manera permanente'], e:'La RAM almacena temporalmente los datos y programas en uso.'},
+    {s:'hw', q:'¿Qué dispositivo almacena datos de forma permanente?', o:['Disco duro o SSD','Memoria RAM','Procesador'], e:'HDD y SSD son dispositivos de almacenamiento permanente.'},
+    {s:'hw', q:'¿Qué es la placa base?', o:['El circuito principal que conecta los componentes','El encargado de generar energía','Un dispositivo de almacenamiento externo'], e:'Es el circuito principal (motherboard) que conecta todos los componentes.'},
+    {s:'hw', q:'¿Qué contiene la placa base?', o:['Chipset, puertos de expansión y conexiones','Datos y programas','Energía eléctrica'], e:'Contiene el chipset, los puertos de expansión y las conexiones para los periféricos.'},
+    {s:'hw', q:'¿Qué componente suministra energía al ordenador?', o:['Fuente de alimentación','Tarjeta gráfica','Memoria RAM'], e:'La fuente de alimentación suministra energía eléctrica a todos los componentes.'},
+    {s:'hw', q:'¿Qué hace la tarjeta gráfica (GPU)?', o:['Procesa y genera imágenes','Ejecuta programas lógicos','Controla la energía eléctrica'], e:'Procesa y genera las imágenes que se muestran en el monitor.'},
+    {s:'hw', q:'¿Qué son los dispositivos periféricos?', o:['Dispositivos externos conectados al ordenador','Chips de la placa base','Programas de software'], e:'Son dispositivos externos que se conectan al ordenador: teclado, ratón, monitor, impresora…'},
+    {s:'hw', q:'¿Qué tipo de periférico es el teclado?', o:['Dispositivo de entrada','Dispositivo de almacenamiento','Dispositivo de salida'], e:'Introduce datos externos al ordenador.'},
+    {s:'hw', q:'¿Qué tipo de periférico es el monitor?', o:['Dispositivo de salida','Dispositivo mixto','Dispositivo de entrada'], e:'Sirve para comunicar el ordenador con el medio externo.'},
+    {s:'hw', q:'¿Qué ejemplo es un periférico externo?', o:['Impresora','Placa base','CPU'], e:'La placa base y la CPU son componentes internos.'},
+    {s:'hw', q:'¿A qué tipo de periféricos pertenecen la tarjeta de red, el router y el Wi-Fi?', o:['Comunicación','Almacenamiento','Salida'], e:'Los periféricos de comunicación permiten la interacción entre dos o más dispositivos.'},
+    {s:'hw', q:'¿Quién presentó en 1944 la arquitectura en la que programa y datos se almacenan en la misma memoria?', o:['John Von Neumann','Alan Turing','Charles Babbage'], e:'Es la arquitectura de Von Neumann, base (con pequeños cambios) de los ordenadores actuales.'},
+    {s:'hw', q:'Según la arquitectura de Von Neumann, ¿qué partes están conectadas por el bus del sistema?', o:['CPU, memoria central y unidades de entrada/salida','CPU, disco duro y fuente de alimentación','Placa base, GPU y periféricos','UC, ALU y registros'], e:'CPU, memoria central y periféricos (E/S), conectados por el bus del sistema.'},
+
+    // ---- CPU: UC y ALU ----
+    {s:'cpu', q:'¿Qué significa CPU en informática?', o:['Unidad Central de Proceso','Central Peripheral Unit','Circuito Procesador Único','Unidad de Control de Periféricos'], e:'CPU = Central Process Unit, Unidad Central de Proceso.'},
+    {s:'cpu', q:'¿Qué componente de la CPU se encarga de interpretar y ejecutar las instrucciones?', o:['Unidad de Control','ALU','Registros','Bus de datos'], e:'La unidad de control gobierna al resto de unidades, interpreta y ejecuta las instrucciones controlando su secuencia.'},
+    {s:'cpu', q:'¿Cuál es la unidad encargada de realizar las operaciones aritméticas y lógicas en un ordenador?', o:['ALU','UC','CPU','RDM'], e:'La ALU (Unidad Aritmético-Lógica) realiza las operaciones elementales aritméticas y lógicas.'},
+    {s:'cpu', q:'¿Qué elemento contiene la dirección de la siguiente instrucción a ejecutar?', o:['Contador de programa','Registro de instrucción','Acumulador','RDM'], e:'Es el contador de programa (CP); se incrementa en uno automáticamente al concluir cada instrucción.'},
+    {s:'cpu', q:'¿Qué registro almacena la instrucción en curso en la CPU?', o:['Registro de instrucción','Registro de estado','Acumulador','Contador de programa'], e:'El registro de instrucción (RI) guarda la instrucción que se está ejecutando.'},
+    {s:'cpu', q:'¿Qué elemento analiza la instrucción y emite señales para su ejecución?', o:['Decodificador','Secuenciador','Reloj','Acumulador'], e:'El decodificador analiza la instrucción y emite las señales al resto de elementos a través del secuenciador.'},
+    {s:'cpu', q:'¿Qué componente genera micro-órdenes para ejecutar paso a paso las instrucciones?', o:['Secuenciador','Decodificador','Bus de control','Reloj'], e:'El secuenciador genera órdenes muy elementales (micro-órdenes) que ejecutan poco a poco la instrucción del RI.'},
+    {s:'cpu', q:'¿Qué proporciona el reloj de la CPU?', o:['Impulsos eléctricos a intervalos constantes','Señales gráficas al monitor','Energía a la memoria RAM','Señales de impresión a la impresora'], e:'Marcan los instantes en que comienzan los distintos pasos de cada instrucción (se miden en hercios).'},
+    {s:'cpu', q:'¿Dónde se almacena el resultado de una operación aritmético-lógica?', o:['Acumulador','Registro de instrucción','RDM','Contador de programa'], e:'El acumulador almacena el resultado de la operación realizada en el circuito operacional.'},
+    {s:'cpu', q:'¿Qué unidad almacena los datos de entrada para la ALU?', o:['Registros de entrada','Acumulador','Registro de estado','Decodificador'], e:'Los registros de entrada (REN1 y REN2) guardan los datos que intervienen en la operación.'},
+    {s:'cpu', q:'¿Qué registro deja constancia de condiciones como cero, positivo o negativo en una operación?', o:['Registro de estado','Registro de instrucción','Acumulador','REN1'], e:'El registro de estado deja constancia de las condiciones de la última operación para tenerlas en cuenta en las siguientes.'},
+    {s:'cpu', q:'¿Cuáles son las tres partes de la CPU?', o:['Unidad de control, ALU y registros','Unidad de control, memoria y buses','ALU, memoria caché y reloj','Registros, buses y periféricos'], e:'UC, ALU y registros (celdas de almacenamiento interno y temporal).'},
+    {s:'cpu', q:'¿Cuál de estos elementos NO pertenece a la unidad de control?', o:['Acumulador','Contador de programa','Decodificador','Reloj'], e:'El acumulador es de la ALU. La UC tiene: CP, RI, decodificador, secuenciador y reloj.'},
+    {s:'cpu', q:'¿Cuál de estos elementos NO pertenece a la ALU?', o:['Secuenciador','Circuito operacional','Registro de estado','Registros de entrada'], e:'El secuenciador es de la unidad de control. La ALU tiene: circuito operacional, REN1 y REN2, registro de estado y acumulador.'},
+    {s:'cpu', q:'¿Qué operaciones lógicas realiza la ALU?', o:['AND, OR y NOT','Suma y resta','Multiplicación y división','Lectura y escritura'], e:'Las aritméticas son suma, resta, multiplicación y división; las lógicas, AND, OR y NOT.'},
+    {s:'cpu', q:'¿Qué elemento realiza las operaciones con los datos de los registros de entrada?', o:['Circuito operacional','Secuenciador','Acumulador','Selector de memoria'], e:'El circuito operacional (COP) realiza las operaciones con los datos de REN1 y REN2.'},
+
+    // ---- Memoria central y bus ----
+    {s:'mem', q:'¿Qué registro contiene la dirección de memoria a acceder?', o:['RDM','RIM','Registro de instrucción','Contador de programa'], e:'El RDM (Registro de Dirección de Memoria) contiene la dirección de la celda a la que se va a acceder.'},
+    {s:'mem', q:'¿Qué registro actúa como zona intermedia de datos en memoria?', o:['RIM','RDM','Acumulador','Contador de programa'], e:'El RIM (Registro de Intercambio de Memoria) contiene el dato que se lee o escribe: es la zona de paso entre la memoria y el resto de unidades.'},
+    {s:'mem', q:'¿Qué dispositivo conecta la dirección de memoria al registro de intercambio?', o:['Selector de memoria','RIM','RDM','Decodificador'], e:'El selector de memoria conecta la celda cuya dirección está en el RDM con el RIM.'},
+    {s:'mem', q:'¿Qué tipo de bus transporta direcciones de memoria?', o:['Bus de direcciones','Bus de datos','Bus de control','Bus lógico'], e:'El bus de direcciones transporta la dirección del elemento al que se quiere acceder.'},
+    {s:'mem', q:'¿Qué tipo de bus transporta los datos?', o:['Bus de datos','Bus de direcciones','Bus de control','Bus lógico'], e:'El bus de datos lleva los datos que es necesario enviar de un elemento a otro.'},
+    {s:'mem', q:'¿Qué unidad conecta memoria y CPU transfiriendo datos?', o:['Bus del sistema','RDM','RIM','Decodificador'], e:'El bus del sistema es el conjunto de conexiones que comunica la CPU con el resto de unidades.'},
+    {s:'mem', q:'¿Qué transporta el bus de control?', o:['Las órdenes que activan la lectura o escritura y abren o cierran los canales a los periféricos','Las direcciones de memoria','Los datos de los programas','Las instrucciones decodificadas'], e:'Por el bus de control viajan las órdenes (p. ej. una señal de lectura).'},
+    {s:'mem', q:'Para leer una posición de memoria, la CPU indica la dirección por el bus de direcciones y manda una señal de lectura por el bus de control. ¿Por dónde recibe la información?', o:['Por el bus de datos','Por el bus de direcciones','Por el bus de control','Por el RDM'], e:'La información leída llega por el bus de datos.'},
+    {s:'mem', q:'¿Cuál es la función de la memoria principal en el ordenador?', o:['Almacenar datos e instrucciones de programa de forma temporal','Almacenar datos de forma permanente','Realizar operaciones aritméticas','Interpretar las instrucciones'], e:'Para que un programa se ejecute tiene que estar cargado en la memoria junto con sus datos.'},
+    {s:'mem', q:'¿A qué se llama dirección de memoria?', o:['A la numeración consecutiva de las celdas de memoria','Al contenido de cada celda de memoria','Al registro que guarda el dato leído','Al conjunto de hilos que comunica CPU y memoria'], e:'Por la dirección se accede directamente a cualquier celda, para leer o escribir.'},
+
+    // ---- Jerarquía de memorias y ciclo de instrucción ----
+    {s:'jer', q:'¿Qué memoria es más rápida pero con poca capacidad dentro de la CPU?', o:['Registros','Memoria caché','Memoria principal','Memoria secundaria'], e:'Los registros (nivel 0) son los más rápidos y con muy poca capacidad.'},
+    {s:'jer', q:'¿Qué memoria intermedia entre CPU y RAM guarda los datos más frecuentes?', o:['Memoria caché','Registros','Memoria principal','Memoria secundaria'], e:'La memoria caché (nivel 1) es rápida y pequeña y almacena datos de uso frecuente para acelerar el acceso.'},
+    {s:'jer', q:'¿Qué memoria almacena temporalmente datos e instrucciones en uso?', o:['Memoria principal','Registros','Memoria caché','Memoria secundaria'], e:'La memoria principal (RAM, nivel 2) es la memoria de trabajo donde se cargan los programas y datos en uso.'},
+    {s:'jer', q:'¿Cuál es el orden de la jerarquía de memorias, de más rápida a más lenta?', o:['Registros, caché, memoria principal, memoria secundaria','Caché, registros, memoria principal, memoria secundaria','Registros, memoria principal, caché, memoria secundaria','Memoria secundaria, principal, caché, registros'], e:'Niveles 0 a 3: registros, caché, principal (RAM) y secundaria (HDD/SSD).'},
+    {s:'jer', q:'¿En función de qué características se organiza la jerarquía de memorias?', o:['Velocidad, coste y capacidad','Tamaño, color y peso','Fabricante, marca y modelo','Voltaje, potencia y frecuencia'], e:'Organización piramidal según velocidad, coste y capacidad.'},
+    {s:'jer', q:'¿En qué memoria se guardan los datos de forma permanente y masiva (discos duros, SSD)?', o:['Memoria secundaria','Memoria principal','Memoria caché','Registros'], e:'La memoria secundaria (nivel 3) es la más lenta pero la de mayor capacidad.'},
+    {s:'jer', q:'¿En cuántas fases se divide el ciclo de instrucción?', o:['Dos: búsqueda y ejecución','Tres: búsqueda, decodificación y ejecución','Una sola: ejecución','Cuatro: lectura, cálculo, escritura y reinicio'], e:'Fase de búsqueda y fase de ejecución.'},
+    {s:'jer', q:'¿Qué ocurre en la fase de búsqueda del ciclo de instrucción?', o:['La instrucción se transfiere desde la memoria central a la unidad de control','Se realizan las acciones que conlleva la instrucción','Se guarda el resultado en memoria','Se transfiere el dato desde el periférico a la CPU'], e:'La fase de ejecución es la que realiza las acciones de la propia instrucción.'},
+    {s:'jer', q:'Primer paso de la fase de búsqueda: ¿qué se transfiere al RDM?', o:['El contenido del contador de programa','El contenido del registro de instrucción','El contenido del acumulador','El contenido del RIM'], e:'El CP contiene la dirección de la siguiente instrucción y se envía al RDM.'},
+    {s:'jer', q:'En la fase de búsqueda, después de que el selector lleve la instrucción al RIM, ¿qué ocurre?', o:['La instrucción pasa del RIM al registro de instrucción','La instrucción pasa a la ALU','La instrucción pasa al acumulador','El decodificador la guarda en memoria'], e:'Después el decodificador la interpreta y el CP se autoincrementa.'},
+    {s:'jer', q:'¿Cuándo se autoincrementa el contador de programa en la fase de búsqueda?', o:['Al final de la fase, para apuntar a la siguiente instrucción','Al principio de la fase de ejecución','Solo si hay una ruptura de secuencia','Nunca: lo incrementa el usuario'], e:'Es el último paso de la búsqueda. Si la instrucción es de ruptura de secuencia, el CP se carga con la dirección que corresponda.'},
+    {s:'jer', q:'En SUMAR 33 992 993, ¿qué indica el último número (993)?', o:['La dirección donde se almacena el resultado','La dirección del primer operando','La dirección del segundo operando','El código de operación'], e:'Formato: código de operación, dirección del operando 1, del operando 2 y del resultado.'},
+    {s:'jer', q:'En la fase de ejecución, ¿a qué registro de la ALU se lleva el primer operando?', o:['REN1','REN2','Acumulador','Registro de estado'], e:'El primer operando va del RIM al REN1 y el segundo al REN2.'},
+    {s:'jer', q:'En la fase de ejecución de una suma, ¿dónde queda el resultado de la operación tras ejecutarla la ALU?', o:['En el acumulador','En el registro de estado','En el REN1','En el registro de instrucción'], e:'Después pasa del acumulador al RIM y se guarda en la dirección indicada.'},
+    {s:'jer', q:'¿Qué arquitectura usa buses separados para datos e instrucciones?', o:['Harvard','Von Neumann','Monolítica','Híbrida'], e:'Von Neumann almacena programas y datos en la misma memoria.'},
+    {s:'jer', q:'¿Dónde se usa con frecuencia la arquitectura Harvard?', o:['En dispositivos embebidos como marcapasos o frenos ABS','En ordenadores de propósito general','En los servidores de Windows','En los teléfonos de 2007'], e:'La arquitectura Von Neumann es más común en los de propósito general.'},
+
+    // ---- Evolución histórica ----
+    {s:'his', q:'¿Cómo programaban los ordenadores en la década de 1940?', o:['En lenguaje máquina, directamente con 0s y 1s','Con interfaces gráficas','Usando sistemas operativos multitarea','Con lenguajes de alto nivel'], e:'No existía el concepto de S.O.: se interactuaba directamente con el hardware en binario.'},
+    {s:'his', q:'¿Qué máquina requería interconectar cables y operar unos 6.000 interruptores para programarse?', o:['ENIAC','IBM 5100','IBM 704','Xerox Alto'], e:'Cualquier cambio en la programación del ENIAC requería días o incluso semanas.'},
+    {s:'his', q:'¿En qué década surge el concepto de Sistema Operativo?', o:['1950','1940','1960','1970'], e:'Surge en la década de 1950.'},
+    {s:'his', q:'¿Para qué ordenador fue creado el primer Sistema Operativo de la historia en 1956?', o:['Para el ordenador IBM 704','Para el ordenador ENIAC','Para el ordenador Xerox Alto','Para el ordenador IBM 5100'], e:'Básicamente solo comenzaba la ejecución de un programa cuando el anterior terminaba.'},
+    {s:'his', q:'¿Cómo se introducían los programas en los ordenadores de los años 50?', o:['Con tarjetas perforadas','Con discos duros','Con memorias USB','Con interfaces gráficas'], e:'A través de un lector de tarjetas perforadas situado en la consola de control.'},
+    {s:'his', q:'¿En qué década aparecen conceptos como multitarea, multiusuario y multiprocesador?', o:['1960','1950','1970','1980'], e:'En los años 60 (junto con los sistemas en tiempo real).'},
+    {s:'his', q:'¿Qué sistema operativo aparece a finales de los 60 como base de muchos actuales?', o:['UNIX','Linux','Windows','MS-DOS'], e:'UNIX es la base de la gran mayoría de S.O. actuales, aunque entonces solo en modo texto.'},
+    {s:'his', q:'¿En qué década aparecen los primeros ordenadores personales (PC)?', o:['1970','1960','1980','1990'], e:'En los años 70 (Xerox Alto 1973, IBM 5100 1975).'},
+    {s:'his', q:'¿Cuál de los siguientes ordenadores personales se lanzó en los años 70?', o:['Xerox Alto','Windows 95','Macintosh','IBM PC'], e:'El Xerox Alto es de 1973. Windows 95 es un S.O. de los años 90.'},
+    {s:'his', q:'¿Qué lenguaje de programación fue diseñado en los años 70 para reescribir UNIX?', o:['C','Fortran','Pascal','Java'], e:'El lenguaje C se diseñó específicamente para reescribir por completo el código de UNIX.'},
+    {s:'his', q:'¿Qué prioridad en el diseño surge en los años 80 para los sistemas operativos?', o:['Facilidad de uso mediante interfaces gráficas','Uso exclusivo de tarjetas perforadas','Optimización exclusiva de cálculos científicos','Restricción a entornos militares'], e:'El crecimiento de usuarios sin conocimientos técnicos hizo que la prioridad fuese la facilidad de uso (primeras interfaces de usuario).'},
+    {s:'his', q:'¿Qué sistemas operativos nacieron en la década de 1980?', o:['MacOS, MS-DOS y Windows','UNIX, Linux e iOS','Android, Fuchsia y HarmonyOS','FreeBSD, Solaris y AIX'], e:'Aparecieron las primeras interfaces de usuario y hubo un boom de los ordenadores personales.'},
+    {s:'his', q:'¿Qué sistema operativo fue lanzado en 1991 con núcleo libre?', o:['Linux','Windows 95','Solaris','Android'], e:'La primera versión del núcleo se publicó en septiembre de 1991.'},
+    {s:'his', q:'¿Qué sistema operativo libre unió su núcleo a GNU en los años 90?', o:['GNU/Linux','QNX','Windows NT','FreeBSD'], e:'GNU era un S.O. libre similar a UNIX al que le faltaba un núcleo funcional; el sistema se llama realmente GNU/Linux.'},
+    {s:'his', q:'¿Qué versión de Windows lanzó Microsoft en los años 90 para ordenadores personales?', o:['Windows 95','Windows XP','Windows Vista','Windows 2000'], e:'En los 90 también lanzó Windows NT, pero para servidores.'},
+    {s:'his', q:'¿Qué sistemas operativos revolucionaron la telefonía móvil en 2007 y 2008?', o:['iOS y Android','Linux y FreeBSD','BlackberryOS y PalmOS','Windows Mobile y Symbian'], e:'iOS salió con el primer iPhone (2007) y los primeros móviles con Android llegaron en 2008.'},
+    {s:'his', q:'¿Qué característica clave incorporaron iOS y Android respecto a versiones anteriores?', o:['Soporte para pantallas táctiles y dispositivos de bolsillo','Compatibilidad con ordenadores de escritorio y portátiles','Trabajo en modo texto y gráfico','Uso exclusivo de teclado físico'], e:'Diseñados para pantallas táctiles, conexión permanente a Internet y acceso a aplicaciones.'},
+    {s:'his', q:'¿Qué sistema operativo comenzó a desarrollar Google en 2017 como sustituto de Android?', o:['Fuchsia OS','HarmonyOS','ChromeOS','Symbian'], e:'Fuchsia es de código abierto y su desarrollo se hizo público hacia 2016-2017.'},
+    {s:'his', q:'¿Qué compañía lanzó HarmonyOS como alternativa a Android?', o:['Huawei','Google','Apple','Microsoft'], e:'HarmonyOS es de Huawei.'},
+    {s:'his', q:'¿Qué objetivo principal persigue HarmonyOS?', o:['Interconectar dispositivos inteligentes del IoT','Optimizar cálculos científicos','Sustituir Windows en servidores','Mejorar la programación en binario'], e:'Es un ecosistema multidispositivo: teléfonos, tabletas, relojes, TV, vehículos… que comparten recursos.'},
+    {s:'his', q:'¿Qué S.O. de Google, basado en tecnologías de Linux, se consolidó en ordenadores económicos y en el ámbito educativo?', o:['ChromeOS','Fuchsia','HarmonyOS','Android'], e:'ChromeOS está basado en tecnologías de Linux.'},
+
+    // ---- Funciones y componentes del S.O. ----
+    {s:'fun', q:'¿Qué determina el sistema operativo en la planificación de procesos?', o:['El orden en que la CPU ejecuta los procesos','La cantidad de archivos en el disco','La velocidad del disco duro','El tamaño de la memoria principal'], e:'La planificación de procesos determina el orden en que el procesador ejecuta los procesos.'},
+    {s:'fun', q:'¿Qué busca la administración de la memoria principal?', o:['Aprovechar de la mejor manera posible el espacio disponible','Reemplazar la memoria secundaria por RAM','Usar solo memoria caché','Aumentar el tamaño físico de la memoria'], e:'Obtener la máxima utilidad de la memoria organizando los procesos que se ejecutan.'},
+    {s:'fun', q:'¿Qué función del sistema operativo gestiona archivos y directorios?', o:['Administración de ficheros','Administración de memoria','Gestión de E/S','Planificación de procesos'], e:'Gestiona el uso y acceso de archivos y directorios.'},
+    {s:'fun', q:'¿Qué controla la gestión de dispositivos de E/S?', o:['Los periféricos del ordenador y su comunicación con la memoria','Solo el monitor','Únicamente la impresora','La velocidad de la CPU'], e:'Controla todos los dispositivos de entrada/salida: teclado, ratón, monitor, disco, impresoras…'},
+    {s:'fun', q:'¿Cuál de los siguientes es un componente de un sistema operativo?', o:['Gestor de procesos','Navegador web','Editor de imágenes','Driver de impresora independiente'], e:'Navegadores y editores son aplicaciones, no componentes del S.O.'},
+    {s:'fun', q:'¿Qué componente administra el uso de la memoria virtual?', o:['Gestor de memoria virtual','Planificador de CPU','Sistema de archivos','Registro de instrucciones'], e:'Es uno de los componentes del S.O.'},
+    {s:'fun', q:'¿Qué función cumple el sistema de archivos?', o:['Gestionar almacenamiento y acceso a datos en disco','Planificar procesos en ejecución en orden secuencial','Controlar interrupciones y errores de la CPU','Controlar el acceso a la memoria RAM de los procesos de manera ordenada'], e:'Gestiona el almacenamiento y el acceso a los datos en disco.'},
+    {s:'fun', q:'¿Qué protege un sistema de protección en un S.O.?', o:['Recursos y acceso de usuarios no autorizados','Solo la memoria RAM','Únicamente la impresora y los periféricos de escritura','La ejecución en paralelo de procesos'], e:'Protege los recursos frente al acceso de usuarios no autorizados.'},
+    {s:'fun', q:'¿Qué permite la gestión de comunicaciones en un sistema operativo?', o:['Intercambio de información entre procesos y dispositivos','Guardar datos en caché de manera eficiente','Aumentar la velocidad del reloj de CPU cuando sea requerido','Desfragmentar discos para que el acceso sea inmediato'], e:'Es el sistema de comunicaciones del S.O.'},
+    {s:'fun', q:'¿Qué elemento NO pertenece a un sistema operativo?', o:['Utilidades de contabilidad','Gestor de procesos','Sistema de archivos','Gestor de memoria virtual'], e:'Las utilidades de contabilidad son aplicaciones, no un componente del S.O.'},
+    {s:'fun', q:'¿Cuántas funciones principales realiza el sistema operativo según el temario?', o:['Cuatro: procesos, memoria, ficheros y E/S','Tres: procesos, memoria y red','Cinco: procesos, memoria, ficheros, E/S y seguridad','Dos: hardware y software'], e:'Planificación de procesos, administración de la memoria principal, administración de ficheros y gestión de dispositivos de E/S.'},
+
+    // ---- Procesos ----
+    {s:'pro', q:'¿Qué diferencia a un proceso de un programa?', o:['El proceso es un programa en ejecución con recursos asignados','El proceso es pasivo y el programa activo','El programa siempre usa memoria RAM y el proceso memoria caché','El proceso es un archivo almacenado en disco y no usa la memoria principal'], e:'El programa es un objeto pasivo; el proceso es un objeto activo al que el S.O. asigna recursos.'},
+    {s:'pro', q:'¿Qué contiene un proceso además del código?', o:['Datos','Tablas FAT','Manuales de usuario','Direcciones MAC'], e:'Un proceso está formado por código y datos.'},
+    {s:'pro', q:'¿Cuántos procesos pueden estar en ejecución a la vez en un núcleo de un procesador?', o:['Solo uno','Dos por núcleo','Todos los procesos listos','Cien simultáneamente'], e:'Solo puede haber un proceso en ejecución a la vez.'},
+    {s:'pro', q:'¿Qué significa que un proceso esté en estado preparado?', o:['Está listo para ejecutarse, esperando turno','Ha terminado su ejecución','Está bloqueado permanentemente sin posibilidad de ejecución','Está siendo ejecutado por la CPU en ese momento'], e:'Los procesos preparados esperan en una lista ordenada.'},
+    {s:'pro', q:'¿Qué ocurre con un proceso bloqueado?', o:['Está detenido esperando un evento externo','Desaparece del sistema hasta que se vuelve a ejecutar','Se convierte en un archivo en el disco duro','Consume más memoria que si no lo estuviera'], e:'No puede ejecutarse hasta que ocurre el evento externo que esperaba.'},
+    {s:'pro', q:'¿Qué transición ocurre cuando un proceso agota su tiempo en CPU?', o:['De ejecución a preparado','De ejecución a bloqueado','De preparado a ejecución','De bloqueado a ejecución'], e:'Transición 2: debe dejar paso al siguiente y se va a la cola.'},
+    {s:'pro', q:'¿Qué transición ocurre cuando un proceso necesita un recurso para continuar?', o:['De ejecución a bloqueado','De bloqueado a preparado','De preparado a terminado','De ejecución a terminado'], e:'Transición 1: el proceso en ejecución necesita un recurso o señal para continuar.'},
+    {s:'pro', q:'¿Qué transición ocurre cuando un proceso bloqueado recibe el recurso que esperaba?', o:['De bloqueado a preparado','De ejecución a preparado','De preparado a nuevo','De terminado a bloqueado'], e:'Transición 4: pasa a preparado para competir de nuevo por el procesador.'},
+    {s:'pro', q:'¿Qué transición se produce cuando a un proceso preparado le llega su turno?', o:['De preparado a ejecución','De bloqueado a ejecución','De ejecución a preparado','De preparado a bloqueado'], e:'Transición 3: se le asigna un nuevo intervalo de tiempo y toma posesión del procesador.'},
+    {s:'pro', q:'¿Qué componente del sistema operativo reparte el tiempo de CPU entre procesos preparados?', o:['Dispatcher o planificador','Gestor de archivos','Administrador de memoria','BIOS'], e:'Quita la CPU al proceso en ejecución y se la asigna a otro preparado.'},
+    {s:'pro', q:'¿Qué estructura de datos gestiona la información de cada proceso?', o:['Bloque de Control de Proceso (BCP)','Árbol de directorios','Registro de Datos del Proceso (RDP)','Tabla de Información del Sistema (TIS)'], e:'El BCP (PCB en inglés) guarda PID, estado, prioridad, memoria, recursos, estadísticas y propietario.'},
+    {s:'pro', q:'¿Qué identifica de forma única a cada proceso en el BCP?', o:['El PID','La prioridad','El propietario','La zona de memoria'], e:'A cada proceso se le asigna un número identificador (PID).'},
+    {s:'pro', q:'¿Qué es un proceso en primer plano?', o:['Proceso que interactúa con el usuario','Proceso exclusivo del kernel','Proceso que corre oculto','Proceso que no consume CPU'], e:'Ejemplo: Firefox. Se ejecutan en modo usuario.'},
+    {s:'pro', q:'¿Qué es un proceso en segundo plano?', o:['Proceso que funciona sin interacción del usuario','Proceso exclusivo del usuario administrador','Proceso que se ejecuta en BIOS','Proceso que siempre usa gráficos para simplificar la tarea'], e:'Realiza una función específica sin que interactúe el usuario.'},
+    {s:'pro', q:'¿Cómo se llaman los procesos en segundo plano en Windows?', o:['Servicios','Demonios','Drivers','Threads'], e:'En Windows: servicios. En Linux: demonios.'},
+    {s:'pro', q:'¿Cómo se llaman los procesos en segundo plano en Linux?', o:['Demonios','Servicios','Hilos','Núcleos'], e:'En Linux: demonios. En Windows: servicios.'},
+    {s:'pro', q:'¿En qué modo corren los procesos del sistema operativo?', o:['Modo kernel','Modo usuario','Modo seguro','Modo red'], e:'Modo kernel o modo privilegiado: pueden acceder a cualquier recurso.'},
+    {s:'pro', q:'¿En qué modo corren los procesos creados por el usuario?', o:['Modo usuario','Modo kernel','Modo seguro','Modo BIOS'], e:'Modo usuario, con restricciones de acceso a los recursos hardware.'},
+    {s:'pro', q:'¿Qué ventaja da el modo kernel?', o:['Acceso total a los recursos','Acceso restringido al hardware del sistema','Menor consumo de memoria','Menor velocidad de ejecución'], e:'Acceso completo y sin restricciones al hardware.'},
+    {s:'pro', q:'¿Qué es una cuenta de servicio local (en Windows)?', o:['Cuenta limitada para servicios estándar','Cuenta de administrador del sistema','Cuenta de usuario normal','Cuenta usada en Linux para usuarios con privilegios'], e:'Es una cuenta limitada que ejecuta servicios estándar con menos privilegios.'},
+    {s:'pro', q:'¿Qué es una cuenta de servicio de red (en Windows)?', o:['Cuenta para ejecutar servicios privilegiados','Cuenta con pocos privilegios','Cuenta de usuario invitado','Cuenta usada en BIOS'], e:'Se destina a ejecutar servicios privilegiados. La de servicio local es la limitada.'},
+    {s:'pro', q:'¿Qué herramienta de Windows se abre con el comando resmon?', o:['Monitor de recursos','Administrador de tareas','Explorador de procesos','Monitor del sistema'], e:'El Monitor de recursos viene por defecto. El Explorador de procesos (Process Explorer) es una aplicación externa.'},
+
+    // ---- Planificación y bloqueos ----
+    {s:'pla', q:'¿Qué permite la multiprogramación?', o:['Ejecutar procesos de forma alterna','Ejecutar solo un proceso hasta que finalice su ejecución','Desactivar el planificador hasta un nuevo reinicio','Detener los servicios de kernel en modo privilegiado'], e:'Se consigue con la ejecución alternativa de procesos.'},
+    {s:'pla', q:'¿Qué parte del sistema operativo selecciona el proceso a ejecutar?', o:['El planificador','El BIOS, al arrancar decide el algoritmo a utilizar','La RAM, según el espacio libre','El kernel gráfico'], e:'El planificador usa un algoritmo de planificación.'},
+    {s:'pla', q:'¿Qué es un algoritmo de planificación?', o:['Método para decidir qué proceso ejecutar','Método para liberar memoria','Método de cifrado de procesos','Método para iniciar BIOS'], e:'Decide qué proceso ha de ejecutarse y los estados por los que debe pasar.'},
+    {s:'pla', q:'¿Qué significa FIFO?', o:['First In First Out','First In Fast Open','Free In Free Out','Fast Input Fast Output'], e:'También se conoce como FCFS.'},
+    {s:'pla', q:'¿Cómo funciona FIFO?', o:['Ejecuta procesos por orden de llegada','Ejecuta el más corto primero','Ejecuta por prioridad','Ejecuta al azar'], e:'Es no expulsivo: el primero no libera recursos hasta que termina.'},
+    {s:'pla', q:'¿Qué es el efecto convoy?', o:['Procesos largos retrasan a los cortos','Procesos cortos bloquean a los largos','El kernel detiene procesos más largos','Los usuarios eliminan procesos cortos'], e:'Inconveniente de FIFO: procesos con largos tiempos de CPU retrasan a los cortos.'},
+    {s:'pla', q:'¿Cómo reparte tiempo Round-Robin?', o:['Da el mismo tiempo a cada proceso','Da más tiempo al más largo','Da tiempo aleatorio','Da tiempo solo al kernel'], e:'Asigna el mismo tiempo de ejecución a los procesos de forma rotatoria.'},
+    {s:'pla', q:'¿Cómo se llama el tiempo asignado en Round-Robin?', o:['Quantum','Slot','Tick Tock','Frame lapse'], e:'Quantum.'},
+    {s:'pla', q:'¿Qué significa SJF?', o:['Shortest Job First','Shortest Jump First','Smallest Job Found','Simple Job Frame'], e:'Primero el trabajo más corto.'},
+    {s:'pla', q:'¿Qué ejecuta primero SJF?', o:['El proceso que requiere menos CPU','El proceso que llegó primero a la cola','El proceso más largo','El proceso de mayor prioridad'], e:'Primero el que menos tiempo total de CPU requiere; es no expulsivo.'},
+    {s:'pla', q:'¿Qué diferencia a SRTF de SJF?', o:['SRTF expulsa al proceso en ejecución si llega uno con menos tiempo restante','SRTF ejecuta por orden de llegada','SRTF reparte el mismo quantum a todos','SRTF no usa el tiempo de CPU'], e:'SRTF es una variante expulsiva de SJF: elige al que menos tiempo de CPU le queda.'},
+    {s:'pla', q:'¿Qué es un interbloqueo o deadlock?', o:['Dos procesos esperan recursos que posee el otro','La RAM llena la cola de procesos','El BIOS detiene la CPU a la espera de poseer los recursos','El kernel bloquea un servicio que no tiene todos los recursos'], e:'Cada proceso tiene un recurso que necesita el otro y ninguno libera el suyo.'},
+    {s:'pla', q:'¿En qué tipo de gestión se usa normalmente FIFO según el temario?', o:['En la cola de impresión','En la memoria virtual','En el arranque de la BIOS','En la planificación de procesos interactivos'], e:'Gestiona los trabajos que van llegando a la impresora. No es válido para procesos interactivos.'},
+    {s:'pla', q:'¿Cuál es un proceso suspendido?', o:['El que no está usando la memoria principal aunque la tiene solicitada','El que está en ejecución en la CPU','El que espera la impresora','El que ha terminado y borra su BCP'], e:'Según el temario, el proceso suspendido no usa la memoria principal aunque la tiene solicitada.'},
+
+    // ---- Gestión de memoria ----
+    {s:'mpm', q:'¿Qué hizo más compleja la gestión de memoria?', o:['Los sistemas multiusuario y multitarea','La aparición de discos SSD','El uso de redes locales','Las tarjetas gráficas'], e:'Pasó de ser muy sencilla a ser una de las funciones más importantes del S.O.'},
+    {s:'mpm', q:'¿Qué reservaban los sistemas monousuario y monoproceso en memoria?', o:['Una parte para el sistema operativo','Toda la memoria para el usuario','Toda la memoria para procesos','Exclusivamente para la red'], e:'Las memorias tenían poca capacidad y solo se reservaba una parte para el S.O.'},
+    {s:'mpm', q:'¿Qué función cumple el administrador de memoria?', o:['Reservar y liberar espacio en memoria','Planificar la CPU','Gestionar impresoras','Sincronizar periféricos'], e:'Reserva espacio para los procesos y lo libera cuando han finalizado.'},
+    {s:'mpm', q:'¿Qué debe evitar el sistema operativo en la gestión de memoria?', o:['Que un proceso acceda a la zona de otro','Que los procesos usen la red','Que el usuario use la RAM','Que los programas accedan al disco'], e:'Los procesos solo pueden acceder a su propio espacio de direcciones.'},
+    {s:'mpm', q:'¿En qué consiste la paginación?', o:['Dividir memoria en marcos fijos y programas en páginas','Usar el disco duro como RAM para los procesos que excedan la memoria','Dividir memoria en bloques variables y los programas en bloques fijos','Guardar datos en la caché para usarlos cuando sea necesario'], e:'Marcos de página (frames) y páginas, ambos del mismo tamaño fijo.'},
+    {s:'mpm', q:'¿Qué ventaja tiene la paginación?', o:['Simplicidad','Se adapta a programas grandes','No necesita administración','Uso eficiente de todos los huecos'], e:'La ventaja principal de la paginación es la simplicidad.'},
+    {s:'mpm', q:'¿Qué desventaja tiene la paginación?', o:['Fragmentación interna','Complejidad de gestión','Imposibilidad de multitarea','Lentitud extrema'], e:'Al asignarse memoria en bloques fijos, un proceso pequeño puede desperdiciar mucho espacio.'},
+    {s:'mpm', q:'¿En qué consiste la segmentación?', o:['Dividir memoria en bloques variables llamados segmentos','Dividir memoria en páginas fijas llamadas frames','Guardar todo en disco en memoria RAM','Ejecutar programas en caché de tamaño variable llamadas tracks'], e:'Es similar a la paginación pero con bloques de tamaño variable.'},
+    {s:'mpm', q:'¿Qué ventaja tiene la segmentación?', o:['Es más eficiente y acomoda programas variables','Simplicidad extrema','No requiere hardware adicional','No usa espacio en disco'], e:'Asigna a cada programa la cantidad de memoria que requiere.'},
+    {s:'mpm', q:'¿Qué problema puede generar la segmentación?', o:['Fragmentación dentro de los segmentos','Pérdida de procesos en disco','Exceso de simplicidad','Bloqueo de periféricos'], e:'Además de la complejidad de gestión.'},
+    {s:'mpm', q:'¿Qué diferencia clave hay entre paginación y segmentación?', o:['Las páginas son fijas, los segmentos variables','La segmentación es más simple que la paginación','La paginación usa disco y la segmentación usa memoria RAM','La paginación no se usa en Windows, pero sí en Linux'], e:'Las páginas son de tamaño fijo y los segmentos no.'},
+    {s:'mpm', q:'¿Qué combinan la mayoría de los sistemas actuales?', o:['Paginación y segmentación','Segmentación y swapping','Paginación y swapping','Caché y swapping'], e:'Así aprovechan la división lógica de los programas (segmentos) y la de las páginas.'},
+    {s:'mpm', q:'¿Qué causa provoca la escasez de memoria?', o:['Los procesos requieren más de la disponible','El sistema pierde los drivers','Los programas no cargan en red','La CPU se bloquea al ejecutar varios procesos simultáneamente'], e:'Causas: procesos que necesitan más memoria física que la disponible y más grado de multitarea.'},
+    {s:'mpm', q:'¿Qué técnica usa el swapping?', o:['Guardar procesos en disco cuando no caben en memoria','Dividir memoria en segmentos de tamaño variable','Reservar toda la RAM al kernel','Ejecutar procesos solo en caché de disco'], e:'Utiliza el disco duro para almacenar los procesos que no caben en memoria.'},
+    {s:'mpm', q:'¿Qué permite la memoria virtual?', o:['Ejecutar procesos mayores que la RAM disponible','Usar solo memoria secundaria','Evitar procesos en primer plano','Bloquear la multitarea'], e:'Se carga en memoria principal la parte del proceso que se está ejecutando y el resto queda en el disco.'},
+    {s:'mpm', q:'¿Qué mantiene el sistema operativo en memoria principal respecto a la memoria virtual?', o:['Los procesos en uso','Todos los procesos completos','Solo el sistema operativo','La caché del disco'], e:'El S.O. deja en memoria principal los procesos que se están utilizando y el resto en el disco.'},
+    {s:'mpm', q:'¿Cómo se llama la zona del disco usada en memoria virtual?', o:['Swap','Cache','Buffer','Boot'], e:'Zona de intercambio (swap).'},
+    {s:'mpm', q:'¿Qué archivo usa Windows como memoria virtual?', o:['pagefile.sys','swapfile.sys','virtualmem.sys','memory.dat'], e:'Archivo de paginación de disco (pagefile.sys) en Windows con núcleo NT. Linux usa una partición swap.'},
+    {s:'mpm', q:'¿Qué técnica de paginación usa Linux?', o:['Paginación multinivel','Segmentación simple','Paginación fija','Caché por bloques'], e:'Linux (y Windows NT) usan paginación multinivel.'},
+    {s:'mpm', q:'¿De qué depende el tamaño recomendado de la swap?', o:['De la RAM disponible','Del número de núcleos','De la velocidad del procesador','Del espacio de red'], e:'Depende de la RAM que tenga el ordenador.'},
+
+    // ---- Características y arquitectura ----
+    {s:'car', q:'¿Cuál es la mejor definición de sistema operativo?', o:['Software que coordina los servicios y aplicaciones, gestiona el hardware y actúa de intermediario con el usuario','Conjunto de componentes físicos del ordenador','Programa de aplicación para editar documentos','Memoria donde se guardan los datos de forma permanente'], e:'Oculta la complejidad del hardware con una interfaz fácil de usar y lo utiliza de forma eficiente.'},
+    {s:'car', q:'¿Qué recursos gestiona el sistema operativo?', o:['De hardware (disco, pantalla, teclado) y de software (datos y programas)','Solo los de hardware','Solo los de software','Solo la CPU y la memoria'], e:'Gestiona recursos tanto de hardware como de software.'},
+    {s:'car', q:'¿Qué es el núcleo (kernel) del sistema operativo?', o:['La capa inferior, en contacto directo con el hardware; se carga primero','La interfaz gráfica de usuario','El intérprete de comandos','Un programa de aplicación'], e:'Es el elemento más importante: inicia el hardware y le transmite los comandos de los programas.'},
+    {s:'car', q:'En un ordenador dividido en 4 capas, ¿cuál es el orden de arriba abajo?', o:['Programas de usuario, interfaz gráfica, núcleo y hardware','Hardware, núcleo, interfaz gráfica y programas de usuario','Núcleo, programas de usuario, hardware e interfaz gráfica','Interfaz gráfica, programas de usuario, hardware y núcleo'], e:'El núcleo está en la capa inferior del software, la más alejada de la interfaz de usuario.'},
+    {s:'car', q:'¿Qué modo de funcionamiento es el menos privilegiado?', o:['Modo usuario','Modo kernel','Modo supervisor','Modo núcleo'], e:'Es un modo restringido de acceso a los recursos, usado por las aplicaciones.'},
+    {s:'car', q:'¿Cómo se llama también el modo núcleo?', o:['Modo kernel o modo supervisor','Modo usuario','Modo seguro','Modo restringido'], e:'Los programas se ejecutan en modo privilegiado, con acceso completo al hardware.'},
+    {s:'car', q:'¿Qué caracteriza a un núcleo monolítico?', o:['El núcleo concentra casi toda la funcionalidad y todo se ejecuta en modo núcleo','Solo el micronúcleo se ejecuta en modo privilegiado','Los drivers se ejecutan siempre en modo usuario','No tiene gestión de memoria'], e:'Planificación, memoria, ficheros y E/S van dentro del núcleo.'},
+    {s:'car', q:'¿Cuál es una desventaja de los núcleos monolíticos?', o:['Al crecer son muy complicados y los componentes no están aislados (baja confiabilidad)','Tienen peor rendimiento que los micronúcleos','No pueden usar drivers','Solo funcionan en modo usuario'], e:'Su ventaja es el rendimiento.'},
+    {s:'car', q:'¿Qué caracteriza a un micronúcleo?', o:['Solo el micronúcleo va en modo privilegiado; drivers, sistema de archivos y E/S van en modo usuario','Todo el sistema se ejecuta en modo núcleo','Incluye la gestión de E/S en modo supervisor','No tiene núcleo'], e:'Es más fiable: un error en un módulo afecta menos al resto.'},
+    {s:'car', q:'¿Qué sistemas operativos usan arquitectura de micronúcleo?', o:['AIX, AmigaOS, Minix y Symbian','Solaris, FreeBSD y GNU/Linux','Windows de escritorio desde XP y macOS','Windows de escritorio anteriores a XP'], e:'Solaris, FreeBSD y GNU/Linux son monolíticos.'},
+    {s:'car', q:'¿Qué sistemas usan un núcleo híbrido?', o:['Windows de escritorio desde XP, versiones de Servidor y macOS','Minix y Symbian','Solaris y FreeBSD','MS-DOS y Windows 95'], e:'Solución de compromiso entre monolítico y micronúcleo: incluye la gestión de E/S en modo supervisor para mejorar el rendimiento.'},
+    {s:'car', q:'En el esquema monolítico – micronúcleo – híbrido, ¿qué se prioriza en cada extremo?', o:['Monolítico: más rendimiento; micronúcleo: más fiabilidad','Monolítico: más fiabilidad; micronúcleo: más rendimiento','Ambos priorizan la fiabilidad','Ambos priorizan el rendimiento'], e:'El híbrido está a medio camino.'},
+    {s:'car', q:'¿Qué es el intérprete de comandos?', o:['Un programa intermediario entre el usuario y el S.O. que procesa comandos de texto','La interfaz gráfica de usuario','El núcleo del sistema operativo','Un gestor de arranque'], e:'Ejemplos: Símbolo del sistema en Windows y Terminal de Linux.'},
+    {s:'car', q:'¿Cuál de estos ejemplos es una interfaz de tipo texto (TUI/CLI)?', o:['MS-DOS, PowerShell y las terminales de Linux','Windows 11 con el escritorio','Los menús y ventanas de macOS','Las pantallas táctiles de Android'], e:'Las interfaces de texto trabajan con comandos. En Windows Server la opción Server Core permite instalar sin interfaz gráfica de escritorio.'},
+    {s:'car', q:'¿Qué elementos usa una interfaz gráfica (GUI)?', o:['Ventanas, iconos, menús, botones y punteros','Solo comandos escritos','Solo scripts','Solo la consola de texto'], e:'Se maneja principalmente con ratón y teclado, aunque también con pantallas táctiles.'},
+    {s:'car', q:'¿Qué tipo de interfaz permite automatizar tareas con scripts?', o:['La interfaz de comandos (texto)','La interfaz gráfica','Ninguna de las dos','Ambas por igual'], e:'Según la comparativa del temario, el entorno gráfico no admite automatización.'},
+    {s:'car', q:'¿Qué interfaz resulta intuitiva y fácil de usar para la mayoría de usuarios pero con opciones limitadas a funciones comunes?', o:['La interfaz gráfica','La interfaz de comandos','El intérprete de comandos','La BIOS'], e:'La de comandos es más rápida para usuarios avanzados y ofrece control total, pero requiere conocimiento técnico.'},
+
+    // ---- Tipos de S.O. ----
+    {s:'tip', q:'¿Cuál es un sistema operativo monousuario?', o:['Windows 10/11','UNIX','Linux','Windows Server'], e:'Monousuario: MS-DOS, Windows 10 y 11, Android, iOS. Multiusuario: UNIX, Linux, Windows Server, macOS, Solaris, AIX.'},
+    {s:'tip', q:'¿Cuándo es multiusuario un S.O.?', o:['Cuando varios usuarios pueden acceder simultáneamente a los recursos','Cuando hay más de un usuario dado de alta en el sistema','Cuando tiene varias cuentas protegidas con contraseña','Cuando admite varios procesadores'], e:'Si hay varios usuarios dados de alta pero no pueden trabajar a la vez, no es multiusuario.'},
+    {s:'tip', q:'¿Qué es un S.O. monotarea?', o:['El que solo puede ejecutar un programa a la vez (p. ej. MS-DOS)','El que ejecuta varios procesos a la vez','El que gestiona varios procesadores','El que solo tiene un usuario'], e:'Es una característica de los S.O. más antiguos; hoy la mayoría de propósito general son multitarea.'},
+    {s:'tip', q:'¿Qué es un S.O. monoprocesador?', o:['El que solo gestiona 1 procesador, aunque tuviese más','El que ejecuta un solo programa','El que solo tiene un usuario','El que gestiona varios procesadores a la vez'], e:'Si el equipo tuviese más procesadores, no los utilizaría.'},
+    {s:'tip', q:'En un multiprocesador asimétrico…', o:['El S.O. reparte las tareas y ciertos procesos los ejecuta siempre un procesador concreto','Los procesos se envían indistintamente a cualquier procesador','Todos los procesadores ejecutan el mismo proceso','Solo trabaja un procesador'], e:'Se usa en los sistemas más grandes; puede que un procesador esté siempre trabajando y otro a veces inactivo.'},
+    {s:'tip', q:'En un multiprocesador simétrico…', o:['Los procesos se envían indistintamente a cualquiera de los procesadores disponibles','Cada procesador ejecuta siempre el mismo tipo de procesos','Solo un procesador trabaja','El S.O. no usa la memoria'], e:'Es lo contrario del asimétrico.'},
+    {s:'tip', q:'¿Qué es un sistema operativo distribuido?', o:['El que gestiona recursos compartidos entre varias computadoras interconectadas, percibido como un sistema único','El que administra los recursos de una única computadora','El que se instala en varios discos duros','El que solo funciona en red local'], e:'El centralizado administra los recursos de una única computadora.'},
+    {s:'tip', q:'¿Qué caracteriza a un sistema de tiempo real duro?', o:['Requiere un tiempo de respuesta exacto y sin retrasos; si no se cumple, el fallo es crítico','Tolera pequeños retrasos en la respuesta','Reparte el tiempo de CPU sin requisitos de tiempo exacto','Solo se usa en ordenadores personales'], e:'Ejemplos: control de aeronaves, equipos médicos, robótica industrial (VxWorks, QNX).'},
+    {s:'tip', q:'¿Qué caracteriza a un sistema de tiempo real suave?', o:['Tolera pequeños retrasos en la respuesta','Exige respuesta exacta sin retrasos','Reparte la CPU entre muchos usuarios','No usa procesadores'], e:'Ejemplos: streaming de medios, sistemas embebidos y industriales de bajo riesgo (Embedded Linux).'},
+    {s:'tip', q:'¿Qué hacen los sistemas de tiempo compartido?', o:['Administran el tiempo de CPU entre múltiples usuarios o tareas sin requisitos de tiempo exacto','Responden a eventos externos con tiempo exacto','Gestionan un solo proceso','Controlan aeronaves'], e:'Ejemplos: macOS, Windows y Linux.'},
+    {s:'tip', q:'¿Qué es un sistema operativo portátil?', o:['El diseñado para funcionar en diferentes tipos de hardware (p. ej. Linux)','El que solo funciona en portátiles','El que se instala desde un USB','El diseñado para un hardware específico (p. ej. iOS)'], e:'iOS es no portátil: está diseñado para dispositivos Apple.'},
+
+    // ---- Licencias y comercialización ----
+    {s:'lic', q:'¿Qué es una licencia de software?', o:['Un contrato entre el proveedor del programa y el usuario que fija las condiciones de uso','Un tipo de virus informático','Un componente del hardware','Un formato de archivo'], e:'Fija las condiciones a las que se obligan ambas partes mientras el programa esté en uso.'},
+    {s:'lic', q:'¿Cuál NO es un aspecto que regula normalmente una licencia de software?', o:['La velocidad de ejecución del programa','La vinculación a un determinado hardware','El número de copias que se pueden utilizar','La posibilidad de ceder el programa a otras personas'], e:'También regula los derechos del usuario y la responsabilidad del proveedor ante fallos.'},
+    {s:'lic', q:'¿Qué significan las siglas CLUF / EULA?', o:['Contrato de Licencia para Usuario Final / End User License Agreement','Código Libre de Uso Frecuente / Easy User License Agreement','Certificado de Licencia Universal / European Union License Act','Contrato Libre de Uso Familiar / Extended Use License Agreement'], e:'Son licencias propietarias, como las de Windows y macOS.'},
+    {s:'lic', q:'¿Qué es el software freeware?', o:['Gratuito por tiempo indefinido; suele permitir la redistribución pero no la modificación','Gratuito pero con publicidad','De pago tras un periodo de prueba','Con código fuente abierto y modificable'], e:'Normalmente tampoco incluye el código fuente.'},
+    {s:'lic', q:'¿Qué es el software shareware?', o:['Se puede evaluar con límite de tiempo o funciones y hay que pagar para quitar las limitaciones','Es completamente gratuito y con publicidad','Es gratuito por tiempo indefinido','Tiene el código fuente abierto'], e:'Evalúas antes de comprar.'},
+    {s:'lic', q:'¿Qué es el adware?', o:['Programa totalmente gratuito que incluye publicidad','Programa de pago sin publicidad','Programa de evaluación limitado en el tiempo','Programa con código abierto'], e:'La publicidad puede aparecer durante la instalación o el uso. Puede ser shareware y adware a la vez.'},
+    {s:'lic', q:'¿Qué diferencia hay entre las licencias open source permisivas y las no permisivas?', o:['Las permisivas no obligan a mantener las condiciones de la licencia original; las no permisivas sí','Las permisivas no tienen código fuente','Las no permisivas son siempre de pago','Las permisivas prohíben modificar el programa'], e:'Permisivas: Apache, PHP, Perl. No permisivas: GNU GPL, Common Public License, OpenSSL.'},
+    {s:'lic', q:'¿A qué tipo de licencia pertenece la GNU General Public License (GPL)?', o:['Open source no permisiva','Open source permisiva','Propietaria','Creative Commons'], e:'El resultado de modificarla debe publicarse bajo los mismos términos.'},
+    {s:'lic', q:'En Creative Commons, ¿qué significa la sigla BY?', o:['Atribución: hay que citar al autor','Compartir igual','No comercial','No derivadas'], e:'SA = compartir igual; NC = no comercial; ND = no derivadas.'},
+    {s:'lic', q:'En Creative Commons, ¿qué significa SA?', o:['Compartir igual: la obra derivada se publica con la misma licencia','Sin atribución','Solo autor','Sin alteraciones'], e:'Share Alike.'},
+    {s:'lic', q:'En Creative Commons, ¿qué significa ND?', o:['No derivadas: no se puede modificar la obra','No distribuir','No datos','Nueva distribución'], e:'No Derivative Works. Por ejemplo, no podrías coger una fotografía y añadirle texto.'},
+    {s:'lic', q:'¿Qué permite la licencia CC0 (Creative Commons Zero)?', o:['Usar la obra sin restricciones, ni siquiera citar al autor','Usar la obra sin modificarla','Usar la obra solo en proyectos no comerciales','Usar la obra citando al autor y compartiendo igual'], e:'Es la licencia de dominio público, típica de los bancos de imágenes gratuitos.'},
+    {s:'lic', q:'¿Qué permite una licencia CC BY-NC-SA?', o:['Usar la obra en proyectos no comerciales, citando al autor y publicando la nueva obra con la misma licencia','Usar la obra sin modificarla y en proyectos comerciales','Usar la obra sin restricciones','Usarla solo si se cita al autor, sea o no comercial'], e:'Atribución + No Comercial + Compartir Igual.'},
+    {s:'lic', q:'¿Cuántas licencias Creative Commons se obtienen al combinar las cuatro variables, además de la CC0?', o:['Seis','Cuatro','Diez','Dieciséis'], e:'CC BY, BY-SA, BY-ND, BY-NC, BY-NC-SA y BY-NC-ND, más la CC0.'},
+    {s:'lic', q:'¿Qué significa Retail o FPP en las licencias propietarias?', o:['Full Packaged Product: compra habitual en tienda, para quien necesita no más de cinco licencias','Free Public Product: producto de distribución gratuita','Final Production Plan: contrato para grandes empresas','First Party Program: software preinstalado'], e:'Variantes: producto completo y actualización (upgrade), esta última de menor coste.'},
+    {s:'lic', q:'¿Qué es una licencia OEM?', o:['La del software preinstalado al comprar un ordenador, vinculada a ese hardware','La que se compra en tienda para varios ordenadores','El contrato para empresas con muchas licencias','La licencia gratuita para estudiantes'], e:'No se puede instalar en otro equipo, pero normalmente sí se puede ceder el equipo completo.'},
+    {s:'lic', q:'¿Cuándo se usan las licencias por volumen?', o:['Cuando entidades o empresas necesitan un número de licencias mayor que un usuario normal','Cuando el usuario compra una sola licencia en tienda','Cuando el software viene preinstalado','Cuando el software es gratuito'], e:'Suelen incluir derechos de transferencia y de downgrade.'},
+    {s:'lic', q:'¿Qué es el downgrade?', o:['Sustituir una versión actual por otra más antigua por rendimiento o compatibilidad','Actualizar a una versión más moderna','Comprar una licencia más barata','Quitar la publicidad de un programa'], e:'Es frecuente en las licencias por volumen para dar soporte a sistemas más antiguos.'}
+  ];
+
+  ISO_QS.push(
+    // ---- Verdadero / Falso ----
+    {s:'hw', vf:true, q:'El hardware es la parte tangible del ordenador y el software la parte intangible.', e:'Verdadero.'},
+    {s:'hw', vf:false, q:'Se puede acceder al software directamente, sin pasar por ningún dispositivo de entrada o salida.', e:'Falso: el software es intangible y solo se accede a él a través de los elementos de entrada y salida del hardware.'},
+    {s:'hw', vf:false, q:'La memoria RAM almacena los datos de forma permanente.', e:'Falso: los almacena temporalmente. El almacenamiento permanente es del HDD o SSD.'},
+    {s:'hw', vf:true, q:'La placa base contiene el chipset, los puertos de expansión y las conexiones para los periféricos.', e:'Verdadero.'},
+    {s:'hw', vf:false, q:'La tarjeta gráfica (GPU) suministra energía eléctrica a los componentes.', e:'Falso: eso lo hace la fuente de alimentación. La GPU procesa y genera imágenes.'},
+    {s:'hw', vf:true, q:'La arquitectura de Von Neumann almacena el programa y los datos en la misma memoria.', e:'Verdadero.'},
+    {s:'hw', vf:false, q:'Los periféricos de almacenamiento incluyen el monitor y la impresora.', e:'Falso: monitor e impresora son de salida. El almacenamiento incluye disco duro, USB, SSD…'},
+    {s:'cpu', vf:true, q:'La unidad de control lee las instrucciones de la memoria principal y genera las señales de control para el resto de unidades.', e:'Verdadero.'},
+    {s:'cpu', vf:false, q:'El contador de programa almacena la instrucción que se está ejecutando.', e:'Falso: eso lo hace el registro de instrucción. El CP contiene la dirección de la siguiente instrucción.'},
+    {s:'cpu', vf:true, q:'El registro de estado deja constancia de si el resultado de la última operación fue cero, positivo o negativo.', e:'Verdadero.'},
+    {s:'cpu', vf:false, q:'El secuenciador y el decodificador forman parte de la ALU.', e:'Falso: son elementos de la unidad de control.'},
+    {s:'cpu', vf:true, q:'El reloj proporciona impulsos eléctricos a intervalos constantes que marcan el comienzo de cada paso de una instrucción.', e:'Verdadero.'},
+    {s:'cpu', vf:false, q:'La ALU solo realiza operaciones lógicas (AND, OR, NOT).', e:'Falso: realiza también las aritméticas (suma, resta, multiplicación y división).'},
+    {s:'mem', vf:true, q:'El RDM contiene la dirección de la celda de memoria a la que se va a acceder.', e:'Verdadero.'},
+    {s:'mem', vf:false, q:'El RIM contiene la dirección de memoria y el RDM el dato leído.', e:'Falso: es al revés. RDM = dirección; RIM = dato.'},
+    {s:'mem', vf:true, q:'Por el bus de control viajan las órdenes que activan la lectura o escritura en memoria.', e:'Verdadero.'},
+    {s:'mem', vf:false, q:'El bus de datos transporta las direcciones de memoria.', e:'Falso: lo hace el bus de direcciones.'},
+    {s:'mem', vf:true, q:'El programa debe estar cargado en la memoria principal, junto con sus datos, para poder ejecutarse.', e:'Verdadero.'},
+    {s:'jer', vf:true, q:'Los registros son la memoria más rápida de la jerarquía y la de menor capacidad.', e:'Verdadero.'},
+    {s:'jer', vf:false, q:'La memoria caché se sitúa entre la memoria principal y el disco duro.', e:'Falso: se sitúa entre la CPU y la memoria principal.'},
+    {s:'jer', vf:true, q:'La memoria secundaria es la más lenta de la jerarquía, pero la de mayor capacidad.', e:'Verdadero.'},
+    {s:'jer', vf:false, q:'En la fase de ejecución se transfiere la instrucción desde la memoria central a la unidad de control.', e:'Falso: eso ocurre en la fase de búsqueda.'},
+    {s:'jer', vf:true, q:'Durante la fase de búsqueda, el contador de programa se incrementa para apuntar a la siguiente instrucción.', e:'Verdadero (salvo ruptura de secuencia, en la que se carga con la dirección que corresponda).'},
+    {s:'jer', vf:false, q:'La arquitectura Harvard guarda programas y datos en la misma memoria.', e:'Falso: usa buses separados para datos e instrucciones. Esa es la de Von Neumann.'},
+    {s:'his', vf:true, q:'El primer sistema operativo de la historia se creó en 1956 para el IBM 704.', e:'Verdadero.'},
+    {s:'his', vf:false, q:'En los años 40 los programadores usaban sistemas operativos multitarea.', e:'Falso: ni siquiera existía el concepto de S.O.; se programaba en lenguaje máquina.'},
+    {s:'his', vf:true, q:'El lenguaje C se diseñó en los años 70 para reescribir UNIX.', e:'Verdadero.'},
+    {s:'his', vf:false, q:'Windows 95 se lanzó para servidores y Windows NT para ordenadores personales.', e:'Falso: al revés. Windows 95 para PC y Windows NT para servidores.'},
+    {s:'his', vf:true, q:'El núcleo de Linux se publicó por primera vez en septiembre de 1991.', e:'Verdadero.'},
+    {s:'his', vf:false, q:'iOS apareció en 2008 y Android en 2007.', e:'Falso: iOS en 2007 (con el primer iPhone) y los primeros móviles con Android en 2008.'},
+    {s:'his', vf:true, q:'HarmonyOS, de Huawei, busca interconectar distintos dispositivos (móviles, relojes, TV, vehículos…).', e:'Verdadero.'},
+    {s:'fun', vf:true, q:'Un proceso es un programa en ejecución y, por tanto, está ubicado en la memoria principal.', e:'Verdadero.'},
+    {s:'fun', vf:false, q:'La administración de ficheros se encarga de planificar el orden en que el procesador ejecuta los procesos.', e:'Falso: eso es la planificación de procesos. La administración de ficheros gestiona archivos y directorios.'},
+    {s:'fun', vf:true, q:'El sistema de protección protege los recursos frente al acceso de usuarios no autorizados.', e:'Verdadero.'},
+    {s:'pro', vf:true, q:'Solo puede haber un proceso en ejecución a la vez en un núcleo del procesador.', e:'Verdadero.'},
+    {s:'pro', vf:false, q:'Un proceso bloqueado puede pasar directamente a ejecución cuando recibe el recurso que esperaba.', e:'Falso: pasa a preparado y compite por el procesador.'},
+    {s:'pro', vf:true, q:'Cuando termina un proceso, su BCP se borra.', e:'Verdadero.'},
+    {s:'pro', vf:false, q:'La lista de procesos bloqueados está ordenada, igual que la de preparados.', e:'Falso: la de preparados se ordena; la de bloqueados no.'},
+    {s:'pro', vf:true, q:'Los procesos de usuario se ejecutan en modo usuario, con restricciones de acceso al hardware.', e:'Verdadero.'},
+    {s:'pro', vf:false, q:'En Linux, los procesos en segundo plano se llaman servicios.', e:'Falso: en Linux son demonios; en Windows, servicios.'},
+    {s:'pro', vf:true, q:'Un programa es un objeto pasivo y un proceso es un objeto activo.', e:'Verdadero.'},
+    {s:'pla', vf:true, q:'FIFO es un algoritmo no expulsivo.', e:'Verdadero.'},
+    {s:'pla', vf:false, q:'El efecto convoy consiste en que los procesos cortos retrasan a los largos.', e:'Falso: los procesos largos retrasan a los cortos.'},
+    {s:'pla', vf:true, q:'En Round-Robin cada proceso recibe el mismo tiempo de CPU, llamado quantum.', e:'Verdadero.'},
+    {s:'pla', vf:false, q:'SJF ejecuta primero el proceso que llegó antes.', e:'Falso: ejecuta primero el que menos tiempo total de CPU requiere.'},
+    {s:'pla', vf:true, q:'SRTF es una variante expulsiva de SJF.', e:'Verdadero.'},
+    {s:'pla', vf:true, q:'En un interbloqueo, ningún proceso libera el recurso que ya posee.', e:'Verdadero.'},
+    {s:'mpm', vf:true, q:'En la paginación los programas se dividen en páginas y la memoria en marcos de tamaño fijo.', e:'Verdadero.'},
+    {s:'mpm', vf:false, q:'En la segmentación los bloques de memoria son de tamaño fijo.', e:'Falso: son de tamaño variable.'},
+    {s:'mpm', vf:true, q:'La memoria virtual permite que el conjunto de procesos sea mayor que la memoria física disponible.', e:'Verdadero.'},
+    {s:'mpm', vf:false, q:'Windows usa una partición swap y Linux el archivo pagefile.sys.', e:'Falso: al revés. Linux usa una partición swap y Windows el archivo pagefile.sys.'},
+    {s:'mpm', vf:true, q:'La mayoría de los sistemas actuales combinan paginación y segmentación.', e:'Verdadero.'},
+    {s:'mpm', vf:false, q:'La desventaja de la paginación es la fragmentación externa.', e:'Falso: es la fragmentación interna.'},
+    {s:'car', vf:true, q:'El núcleo del S.O. se carga primero y es la parte en contacto directo con el hardware.', e:'Verdadero.'},
+    {s:'car', vf:false, q:'En un micronúcleo todos los componentes se ejecutan en modo núcleo.', e:'Falso: eso es el monolítico. En el micronúcleo solo el micronúcleo va en modo privilegiado.'},
+    {s:'car', vf:true, q:'Linux es un S.O. de núcleo monolítico, según el temario.', e:'Verdadero (junto con Solaris y FreeBSD).'},
+    {s:'car', vf:false, q:'Windows desde XP usa núcleo monolítico.', e:'Falso: desde XP es híbrido (los de escritorio anteriores a XP eran monolíticos).'},
+    {s:'car', vf:true, q:'La interfaz de línea de comandos permite automatizar tareas mediante scripts.', e:'Verdadero.'},
+    {s:'car', vf:false, q:'Server Core es una opción de Windows Server con interfaz gráfica completa.', e:'Falso: permite instalar Windows Server sin la interfaz gráfica de escritorio.'},
+    {s:'tip', vf:true, q:'Android y iOS son sistemas monousuario.', e:'Verdadero.'},
+    {s:'tip', vf:false, q:'Un S.O. con varios usuarios dados de alta, pero que no pueden trabajar simultáneamente, es multiusuario.', e:'Falso: para ser multiusuario deben poder trabajar de forma simultánea.'},
+    {s:'tip', vf:true, q:'En un sistema distribuido los usuarios perciben el sistema como si fuera único.', e:'Verdadero.'},
+    {s:'tip', vf:false, q:'Un S.O. de tiempo real suave no tolera ningún retraso en la respuesta.', e:'Falso: tolera pequeños retrasos. El que no los tolera es el de tiempo real duro.'},
+    {s:'tip', vf:true, q:'iOS es un ejemplo de S.O. no portátil.', e:'Verdadero: está diseñado para dispositivos Apple.'},
+    {s:'lic', vf:true, q:'Una licencia OEM vincula el software al hardware con el que se adquiere.', e:'Verdadero.'},
+    {s:'lic', vf:false, q:'El freeware permite siempre modificar el código fuente.', e:'Falso: normalmente permite redistribuir pero no modificar, y no suele incluir el código fuente.'},
+    {s:'lic', vf:true, q:'Con una licencia Creative Commons BY hay que citar al autor.', e:'Verdadero.'},
+    {s:'lic', vf:false, q:'La licencia CC0 obliga a citar al autor de la obra.', e:'Falso: permite usar la obra sin restricciones, ni siquiera citar al autor.'},
+    {s:'lic', vf:true, q:'La licencia Retail está dirigida a usuarios que no necesitan más de cinco licencias.', e:'Verdadero.'},
+    {s:'lic', vf:false, q:'La GPL es una licencia permisiva.', e:'Falso: es no permisiva (el resultado debe publicarse con los mismos términos).'},
+
+    // ---- Desarrollo ----
+    {s:'hw', dev:true, q:'Explica qué es un ordenador, qué dos elementos básicos tiene y por qué se dice que es de propósito general.', a:'Un ordenador es una máquina que almacena y automatiza la información mediante programas informáticos. Es de propósito general porque se adapta a numerosas funciones según las instrucciones que recibe. Sus dos elementos básicos son el hardware (sistema físico, tangible: monitor, teclado, cables, chips) y el software (sistema lógico, intangible: aplicaciones y programas que controlan y coordinan el hardware y a los que solo se accede mediante los dispositivos de entrada y salida).', k:['Máquina que almacena y automatiza información','Propósito general: se adapta a muchas funciones','Hardware: físico y tangible','Software: lógico e intangible']},
+    {s:'hw', dev:true, q:'Describe la arquitectura de Von Neumann y cita los tipos de periféricos.', a:'Presentada por John Von Neumann en 1944, su idea clave es que todos los componentes están conectados y controlados por un control central y que el programa y los datos se almacenan en la misma memoria. Consta de la CPU, la memoria central y las unidades de entrada/salida (periféricos), conectadas por el bus del sistema. Los periféricos son de cuatro tipos: entrada (teclado, ratón…), salida (monitor, impresora…), almacenamiento (disco duro, USB, SSD…) y comunicación (tarjeta de red, router, Wi-Fi…).', k:['Von Neumann, 1944','Programa y datos en la misma memoria','CPU, memoria central y E/S unidas por el bus','4 tipos de periféricos con ejemplos']},
+    {s:'cpu', dev:true, q:'Describe las partes de la CPU y los elementos de la unidad de control y de la ALU.', a:'La CPU consta de unidad de control (UC), unidad aritmético-lógica (ALU) y registros. La UC lee las instrucciones y genera las señales de control; tiene contador de programa (dirección de la siguiente instrucción), registro de instrucción (instrucción en curso), decodificador (analiza la instrucción), secuenciador (genera micro-órdenes) y reloj (impulsos a intervalos constantes). La ALU realiza operaciones aritméticas y lógicas; tiene circuito operacional, registros de entrada REN1 y REN2 (datos de la operación), registro de estado (condiciones del último resultado) y acumulador (resultado).', k:['UC, ALU y registros','UC: CP, RI, decodificador, secuenciador y reloj','ALU: circuito operacional, REN1/REN2, registro de estado y acumulador']},
+    {s:'mem', dev:true, q:'Explica cómo funciona la memoria central (RDM, RIM y selector) y los tres tipos de bus.', a:'La memoria central almacena datos e instrucciones de forma temporal en celdas numeradas (direcciones). Para acceder a una celda, su dirección se coloca en el RDM; el selector de memoria conecta esa celda con el RIM, que contiene el dato que se lee o escribe. El bus del sistema comunica la CPU con el resto de unidades: bus de datos (transporta los datos), bus de direcciones (la dirección del elemento) y bus de control (las órdenes de lectura o escritura y las señales a los periféricos). Para leer: dirección por el bus de direcciones, señal de lectura por el de control y el dato llega por el bus de datos.', k:['RDM = dirección; RIM = dato; selector las conecta','Bus de datos, direcciones y control','Ejemplo de lectura']},
+    {s:'jer', dev:true, q:'Explica la jerarquía de memorias, con sus cuatro niveles y su criterio de organización.', a:'Es una organización piramidal según velocidad, coste y capacidad. Nivel 0, registros: dentro de la CPU, los más rápidos y con muy poca capacidad. Nivel 1, memoria caché: rápida y pequeña, entre la CPU y la memoria principal, con datos de uso frecuente. Nivel 2, memoria principal (RAM): memoria de trabajo con programas y datos en uso, más lenta que la caché pero mayor. Nivel 3, memoria secundaria (HDD, SSD): almacenamiento masivo y permanente, muy lenta pero con gran capacidad. Así se minimiza el tiempo de acceso a los datos más usados.', k:['Pirámide: velocidad, coste y capacidad','Registros, caché, principal y secundaria','Características de cada nivel']},
+    {s:'jer', dev:true, q:'Describe el ciclo de instrucción y los pasos de la fase de búsqueda.', a:'El ciclo de instrucción es el conjunto de acciones para realizar una instrucción; tiene dos fases: búsqueda y ejecución. En la búsqueda la instrucción pasa de la memoria central a la unidad de control: 1) el contenido del contador de programa pasa al RDM; 2) el selector lleva el contenido de esa dirección (la instrucción) al RIM; 3) del RIM pasa al registro de instrucción; 4) el decodificador la interpreta e informa al secuenciador; 5) el contador de programa se incrementa en 1 para apuntar a la siguiente instrucción (o se carga con otra dirección si hay ruptura de secuencia).', k:['Dos fases: búsqueda y ejecución','CP → RDM → selector → RIM → RI','Decodificador interpreta','CP + 1']},
+    {s:'jer', dev:true, q:'Compara la arquitectura Von Neumann y la arquitectura Harvard.', a:'En Von Neumann el programa y los datos se almacenan en la misma memoria; es la más común en ordenadores de propósito general. En Harvard se emplean buses separados para datos e instrucciones; se usa en sistemas donde el rendimiento y la eficiencia son críticos, como los dispositivos embebidos (electrodomésticos, unidades de control del motor, frenos ABS, monitores de signos vitales, marcapasos).', k:['Von Neumann: memoria común, propósito general','Harvard: buses separados','Ejemplos de embebidos']},
+    {s:'his', dev:true, q:'Resume la evolución histórica de los sistemas operativos por décadas, de 1940 a 1990.', a:'1940: sin S.O.; se programaba en lenguaje máquina (ENIAC, con cables y unos 6.000 interruptores). 1950: nace el concepto de S.O.; el primero (1956, IBM 704) solo iniciaba un programa al terminar el anterior; tarjetas perforadas. 1960: multitarea, multiusuario, multiprocesador y tiempo real; a finales aparece UNIX (solo texto). 1970: primeros PC (Xerox Alto, IBM 5100) y lenguaje C para reescribir UNIX. 1980: prioridad en la facilidad de uso con interfaces gráficas; nacen MacOS, MS-DOS y Windows. 1990: Linux (núcleo de 1991, unido a GNU), Windows 95 y Windows NT.', k:['1940 lenguaje máquina y ENIAC','1950 primer S.O. en 1956 (IBM 704)','1960 multitarea y UNIX','1970 PC y lenguaje C','1980 interfaces gráficas: MacOS, MS-DOS, Windows','1990 Linux, Windows 95 y NT']},
+    {s:'his', dev:true, q:'Explica los sistemas operativos del siglo XXI: móviles, Fuchsia y HarmonyOS.', a:'En 2007 Apple presentó iOS con el primer iPhone y en 2008 aparecieron los primeros móviles con Android (Google), diseñados para pantallas táctiles, conexión permanente y aplicaciones; Android es el móvil con mayor presencia mundial. Windows 10 (2015) y Windows 11 (2021) en PC; ChromeOS, basado en Linux, en ordenadores económicos y educación. Fuchsia es un S.O. de código abierto de Google (desarrollo público desde ~2016-2017). HarmonyOS, de Huawei, es un ecosistema multidispositivo que interconecta móviles, tabletas, relojes, TV y vehículos (IoT).', k:['iOS 2007 y Android 2008','Windows 10 y 11, ChromeOS','Fuchsia (Google)','HarmonyOS (Huawei): multidispositivo e IoT']},
+    {s:'fun', dev:true, q:'Enumera las funciones principales del sistema operativo y los componentes que lo forman.', a:'Funciones: planificación de procesos (orden de ejecución), administración de la memoria principal (aprovechar el espacio), administración de ficheros (archivos y directorios) y gestión de dispositivos de E/S (comunicación entre memoria y periféricos). Componentes: gestor de procesos, gestor de memoria virtual, gestor de entrada y salida, sistema de archivos, sistemas de protección, sistema de comunicaciones, programas de sistema, gestor de recursos y gestor de almacenamiento secundario.', k:['4 funciones principales','9 componentes']},
+    {s:'pro', dev:true, q:'Explica los estados de un proceso y las cuatro transiciones entre ellos.', a:'Estados: ejecución (tiene la CPU; solo uno a la vez), preparado (listo y esperando su turno, en una lista ordenada) y bloqueado (detenido esperando un evento externo, en una lista no ordenada). Transiciones: 1) ejecución a bloqueado, cuando necesita un recurso o señal; 2) ejecución a preparado, cuando agota su tiempo y va a la cola; 3) preparado a ejecución, cuando le llega su turno; 4) bloqueado a preparado, cuando recibe lo que esperaba.', k:['Tres estados con su definición','1: ejec→bloq','2: ejec→prep','3: prep→ejec','4: bloq→prep']},
+    {s:'pro', dev:true, q:'¿Qué es el BCP y qué información almacena? ¿Qué hace el dispatcher?', a:'El Bloque de Control de Proceso (PCB) es una estructura de datos que el S.O. guarda por cada proceso. Almacena: identificación (PID), estado, prioridad, zona de memoria asignada, recursos utilizados, estadísticas y datos del propietario. Se borra al terminar el proceso. El dispatcher o planificador quita la CPU al proceso en ejecución y se la asigna a otro preparado, para dar sensación de ejecución simultánea (multiprogramación).', k:['BCP por cada proceso','PID, estado, prioridad, memoria, recursos, estadísticas, propietario','Se borra al terminar','Dispatcher reparte la CPU']},
+    {s:'pro', dev:true, q:'Diferencia entre procesos en primer y segundo plano, servicios y demonios, y modo usuario y modo kernel.', a:'Los procesos de primer plano interactúan con el usuario (p. ej. Firefox) y los de segundo plano realizan una función específica sin interacción. Los de segundo plano del sistema se llaman servicios en Windows y demonios en Linux, y el administrador puede iniciarlos, detenerlos, pausarlos y reanudarlos. Los procesos del sistema se ejecutan en modo kernel (privilegiado, acceso a cualquier recurso) y los del usuario en modo usuario (con restricciones de acceso al hardware).', k:['Primer plano: interacción','Segundo plano: servicios (Windows) y demonios (Linux)','Modo kernel: acceso total','Modo usuario: restringido']},
+    {s:'pla', dev:true, q:'Explica los algoritmos de planificación FIFO, Round-Robin y SJF, con sus ventajas e inconvenientes.', a:'FIFO (FCFS): por orden de llegada; no expulsivo; muy sencillo (cola) pero ineficaz: mal tiempo medio de espera, efecto convoy y no válido para procesos interactivos; se usa en colas de impresión. Round-Robin: da el mismo tiempo (quantum) a cada proceso de forma rotatoria; sencillo, justo y muy extendido. SJF: primero el proceso que menos tiempo total de CPU requiere; no expulsivo; su variante expulsiva es SRTF (menos tiempo restante).', k:['FIFO: orden de llegada, convoy','Round-Robin: quantum','SJF: el más corto primero','SRTF: variante expulsiva']},
+    {s:'pla', dev:true, q:'¿Qué es un interbloqueo (deadlock)? Explícalo con un ejemplo.', a:'Es una situación en la que dos procesos necesitan los dos mismos recursos y cada uno tiene asignado uno de ellos. Ambos quedan bloqueados esperando el recurso que les falta y, como ninguno libera el que ya posee, no pueden continuar. El S.O. debe intentar evitarlo y ofrecer mecanismos para sincronizar la ejecución de los procesos.', k:['Dos procesos y dos recursos','Cada uno tiene uno y espera el otro','Ninguno libera el suyo']},
+    {s:'mpm', dev:true, q:'Compara paginación y segmentación (concepto, ventajas y desventajas).', a:'Paginación: memoria dividida en marcos de tamaño fijo y programas en páginas; ventaja: simplicidad; desventaja: fragmentación interna (se desperdicia el final de la última página). Segmentación: bloques de tamaño variable (segmentos) ajustados a lo que necesita cada programa; ventaja: más eficiente, acomoda programas variables; desventaja: complejidad de gestión y fragmentación dentro de los segmentos. La mayoría de los sistemas actuales combinan ambas.', k:['Paginación: marcos y páginas fijas, simple, fragmentación interna','Segmentación: bloques variables, eficiente, compleja','Se combinan']},
+    {s:'mpm', dev:true, q:'Explica el problema de la escasez de memoria y cómo lo resuelven el swapping y la memoria virtual, incluyendo Linux y Windows.', a:'La escasez aparece porque los procesos necesitan más memoria física de la disponible y aumenta la multitarea. El swapping usa el disco duro para guardar los procesos que no caben en memoria. La memoria virtual permite ejecutar procesos sin tener todo su espacio lógico en memoria principal: se carga la parte en ejecución y el resto queda en disco (zona de intercambio). Así el conjunto de procesos puede ser mayor que la RAM. Linux usa paginación multinivel y una partición swap; Windows (núcleo NT) paginación multinivel y el archivo pagefile.sys. El tamaño de la swap depende de la RAM.', k:['Causas de la escasez','Swapping: disco para procesos que no caben','Memoria virtual: parte en RAM y resto en swap','Linux: partición swap; Windows: pagefile.sys']},
+    {s:'car', dev:true, q:'Explica la estructura en capas de un S.O., los modos usuario y kernel y los tipos de núcleo (monolítico, micronúcleo e híbrido).', a:'De arriba abajo: programas de usuario, interfaz gráfica del S.O., núcleo (kernel) y hardware. El núcleo se carga primero y está en contacto directo con el hardware. Modo usuario: restringido, para las aplicaciones. Modo kernel o supervisor: privilegiado, acceso total al hardware. Monolítico: casi todo en el núcleo y en modo núcleo; más rendimiento pero difícil de gestionar y poco fiable (Solaris, FreeBSD, GNU/Linux). Micronúcleo: solo el micronúcleo es privilegiado; drivers, archivos y E/S en modo usuario; más fiable (AIX, AmigaOS, Minix, Symbian). Híbrido: compromiso, con la E/S en modo supervisor (Windows desde XP, Server y macOS).', k:['4 capas','Modo usuario y modo kernel','Monolítico: rendimiento','Micronúcleo: fiabilidad','Híbrido: compromiso y ejemplos']},
+    {s:'car', dev:true, q:'Compara la interfaz de texto (CLI) con la interfaz gráfica (GUI).', a:'La interfaz de texto trabaja con comandos (MS-DOS, terminales de Linux, CMD y PowerShell): es rápida para usuarios avanzados, ofrece control total, requiere conocimiento técnico, permite automatizar con scripts y es poco visual. La interfaz gráfica usa ventanas, iconos, menús, botones y punteros: es más lenta pero intuitiva para novatos, con opciones limitadas a funciones comunes, fácil de usar, sin automatización y con retroalimentación visual inmediata.', k:['Eficiencia','Control','Accesibilidad','Automatización con scripts','Interactividad']},
+    {s:'tip', dev:true, q:'Clasifica los sistemas operativos según el número de usuarios, de tareas y de procesadores, con ejemplos.', a:'Usuarios: monousuario (MS-DOS, Windows 10/11, Android, iOS) y multiusuario (UNIX, Linux, Windows Server, macOS), que permiten acceso simultáneo. Tareas: monotarea (MS-DOS) y multitarea (Windows, Linux). Procesadores: monoprocesador (solo gestiona uno) y multiprocesador, que puede ser asimétrico (el S.O. reparte las tareas y ciertos procesos los ejecuta siempre el mismo procesador) o simétrico (los procesos van indistintamente a cualquier procesador).', k:['Mono y multiusuario','Mono y multitarea','Mono y multiprocesador (asimétrico y simétrico)']},
+    {s:'tip', dev:true, q:'Explica los sistemas de tiempo real (duro y suave) y de tiempo compartido, y la clasificación por portabilidad.', a:'Tiempo real duro: respuesta exacta y sin retrasos; un fallo es crítico (aeronaves, equipos médicos, robótica; VxWorks, QNX). Tiempo real suave: tolera pequeños retrasos (streaming, embebidos y sistemas industriales de bajo riesgo; Embedded Linux). Tiempo compartido: reparte la CPU entre usuarios o tareas sin requisitos de tiempo exacto (macOS, Windows, Linux). Por portabilidad: portátiles (funcionan en distintos hardware, como Linux) y no portátiles (hardware específico, como iOS).', k:['Real duro y ejemplos','Real suave y ejemplos','Tiempo compartido','Portátiles y no portátiles']},
+    {s:'lic', dev:true, q:'Explica los tipos de licencias de software: propietaria (CLUF, freeware, shareware, adware), open source y Creative Commons.', a:'Una licencia es un contrato entre proveedor y usuario. Propietaria: código cerrado; incluye CLUF/EULA (Windows, macOS), freeware (gratis indefinido, sin modificar), shareware (evaluación limitada; hay que pagar) y adware (gratis con publicidad). Open source: pone el código fuente a disposición; permisivas (Apache, PHP, Perl) y no permisivas (GPL, Common Public License, OpenSSL), cuyo resultado debe publicarse con la misma licencia. Creative Commons: BY (citar autor), SA (compartir igual), NC (no comercial) y ND (no derivadas), que dan seis licencias más la CC0 (dominio público).', k:['Propietaria: CLUF, freeware, shareware, adware','Open source: permisivas y no permisivas','Creative Commons: BY, SA, NC, ND y CC0']},
+    {s:'lic', dev:true, q:'Explica las formas de comercialización de licencias propietarias: Retail/FPP, OEM y por volumen.', a:'Retail o FPP (Full Packaged Product): compra habitual en tienda, para usuarios que no necesitan más de cinco licencias; puede ser producto completo (sin versión previa) o actualización (upgrade, más barata). OEM (Original Equipment Manufacturer): software preinstalado al comprar un ordenador, vinculado a ese hardware (no se puede pasar a otro equipo, aunque sí ceder el equipo completo). Por volumen: contratos para entidades o empresas con muchas licencias; incluyen producto completo o actualización y suelen dar derechos de downgrade (usar una versión anterior).', k:['Retail/FPP: ≤5 licencias; completo y upgrade','OEM: preinstalada y ligada al hardware','Volumen: empresas y downgrade']}
+  );
+
+  var ISO_CARDS = [
+    {s:'hw', f:'Ordenador', b:'Máquina que almacena y automatiza la información mediante programas. Es de propósito general: se adapta a muchas funciones.'},
+    {s:'hw', f:'Elementos básicos de un ordenador', b:'Dos: hardware (sistema físico, tangible) y software (sistema lógico, intangible).'},
+    {s:'hw', f:'Software: cómo se accede a él', b:'Solo a través de los dispositivos de entrada y salida del hardware.'},
+    {s:'hw', f:'CPU', b:'El «cerebro»: ejecuta instrucciones y procesa datos.'},
+    {s:'hw', f:'RAM vs disco duro/SSD', b:'RAM: datos y programas en uso, temporalmente. HDD/SSD: almacenamiento permanente.'},
+    {s:'hw', f:'Placa base', b:'Circuito principal que conecta todos los componentes. Contiene el chipset, los puertos de expansión y las conexiones.'},
+    {s:'hw', f:'Fuente de alimentación y GPU', b:'Fuente: suministra energía eléctrica. GPU: procesa y genera las imágenes del monitor.'},
+    {s:'hw', f:'Arquitectura de Von Neumann', b:'Presentada en 1944. Programa y datos en la misma memoria. CPU + memoria central + E/S unidas por el bus del sistema.'},
+    {s:'hw', f:'4 tipos de periféricos', b:'Entrada, salida, almacenamiento y comunicación.'},
+    {s:'cpu', f:'Partes de la CPU', b:'Unidad de control (UC), unidad aritmético-lógica (ALU) y registros.'},
+    {s:'cpu', f:'Unidad de control: 5 elementos', b:'Contador de programa, registro de instrucción, decodificador, secuenciador y reloj.'},
+    {s:'cpu', f:'Contador de programa (CP)', b:'Contiene la dirección de la siguiente instrucción. Se incrementa en 1 al concluir cada instrucción.'},
+    {s:'cpu', f:'Registro de instrucción (RI)', b:'Almacena la instrucción en curso (la que se está ejecutando).'},
+    {s:'cpu', f:'Decodificador', b:'Analiza la instrucción y emite las señales necesarias al resto, a través del secuenciador.'},
+    {s:'cpu', f:'Secuenciador', b:'Genera micro-órdenes: órdenes muy elementales que ejecutan poco a poco la instrucción.'},
+    {s:'cpu', f:'Reloj', b:'Impulsos eléctricos a intervalos constantes (hercios) que marcan el comienzo de cada paso.'},
+    {s:'cpu', f:'ALU: 4 elementos', b:'Circuito operacional, registros de entrada (REN1 y REN2), registro de estado y acumulador.'},
+    {s:'cpu', f:'Registro de estado (RES)', b:'Deja constancia de condiciones de la última operación (cero, positivo, negativo).'},
+    {s:'cpu', f:'Acumulador', b:'Almacena el resultado de la operación del circuito operacional.'},
+    {s:'cpu', f:'Registros de entrada (REN1 y REN2)', b:'Almacenan los datos que intervienen en la operación de la ALU.'},
+    {s:'mem', f:'Memoria central', b:'Almacena datos e instrucciones de forma temporal. Celdas numeradas: la numeración es la dirección de memoria.'},
+    {s:'mem', f:'RDM', b:'Registro de Dirección de Memoria: contiene la dirección de la celda a la que se accede.'},
+    {s:'mem', f:'RIM', b:'Registro de Intercambio de Memoria: contiene el dato que se lee o escribe (zona intermedia).'},
+    {s:'mem', f:'Selector de memoria', b:'Conecta la celda cuya dirección está en el RDM con el RIM, en un sentido u otro.'},
+    {s:'mem', f:'Bus de datos', b:'Lleva los datos de un elemento a otro.'},
+    {s:'mem', f:'Bus de direcciones', b:'Transporta la dirección del elemento al que se quiere acceder.'},
+    {s:'mem', f:'Bus de control', b:'Órdenes de lectura/escritura en memoria y señales que abren o cierran los canales a los periféricos.'},
+    {s:'jer', f:'Jerarquía de memorias (niveles)', b:'0 registros · 1 caché · 2 memoria principal (RAM) · 3 memoria secundaria. Se organiza por velocidad, coste y capacidad.'},
+    {s:'jer', f:'Registros', b:'Nivel 0. Dentro de la CPU. Los más rápidos y con muy poca capacidad.'},
+    {s:'jer', f:'Memoria caché', b:'Nivel 1. Rápida y pequeña, entre la CPU y la RAM. Datos de uso frecuente.'},
+    {s:'jer', f:'Ciclo de instrucción', b:'Acciones para realizar una instrucción. Dos fases: búsqueda y ejecución.'},
+    {s:'jer', f:'Fase de búsqueda (5 pasos)', b:'CP → RDM · selector → RIM · RIM → RI · el decodificador interpreta · el CP se incrementa en 1.'},
+    {s:'jer', f:'Fase de ejecución (SUMAR 33 992 993)', b:'Operando 1: RI→RDM→RIM→REN1. Operando 2: RI→RDM→RIM→REN2. ALU suma → acumulador → RIM. Dirección del resultado: RI→RDM; RIM → memoria.'},
+    {s:'jer', f:'Von Neumann vs Harvard', b:'Von Neumann: programas y datos en la misma memoria. Harvard: buses separados para datos e instrucciones (sistemas embebidos).'},
+    {s:'his', f:'Años 40', b:'Sin S.O.: lenguaje máquina (0s y 1s). ENIAC: cables y unos 6.000 interruptores.'},
+    {s:'his', f:'Años 50', b:'Surge el concepto de S.O. Primero en 1956, para el IBM 704. Programas con tarjetas perforadas.'},
+    {s:'his', f:'Años 60', b:'Multitarea, multiusuario, multiprocesador y tiempo real. Finales: UNIX (solo texto).'},
+    {s:'his', f:'Años 70', b:'Primeros PC (Xerox Alto 1973, IBM 5100 1975). Lenguaje C para reescribir UNIX.'},
+    {s:'his', f:'Años 80', b:'Prioridad: facilidad de uso (interfaces). Nacen MacOS, MS-DOS y Windows.'},
+    {s:'his', f:'Años 90', b:'Linux (núcleo en sept. 1991, unido a GNU), Windows 95 (PC) y Windows NT (servidores).'},
+    {s:'his', f:'Siglo XXI: móviles', b:'iOS (2007, primer iPhone) y Android (2008). Pantallas táctiles. Android es el más extendido.'},
+    {s:'his', f:'Fuchsia, HarmonyOS y ChromeOS', b:'Fuchsia: código abierto de Google. HarmonyOS: Huawei, multidispositivo/IoT. ChromeOS: Google, basado en Linux.'},
+    {s:'fun', f:'Proceso', b:'Programa en ejecución, ubicado en la memoria principal.'},
+    {s:'fun', f:'4 funciones principales del S.O.', b:'Planificación de procesos · administración de la memoria principal · administración de ficheros · gestión de E/S.'},
+    {s:'fun', f:'Componentes del S.O. (9)', b:'Gestor de procesos, de memoria virtual, de E/S, sistema de archivos, de protección, de comunicaciones, programas de sistema, gestor de recursos y de almacenamiento secundario.'},
+    {s:'fun', f:'Sistema de protección', b:'Protege los recursos frente al acceso de usuarios no autorizados.'},
+    {s:'pro', f:'Programa vs proceso', b:'Programa: objeto pasivo. Proceso: objeto activo, con recursos asignados. Un proceso = código + datos.'},
+    {s:'pro', f:'Estados de un proceso', b:'Ejecución (solo uno), preparado (lista ordenada) y bloqueado (lista no ordenada).'},
+    {s:'pro', f:'Transiciones 1, 2, 3 y 4', b:'1 ejecución→bloqueado · 2 ejecución→preparado · 3 preparado→ejecución · 4 bloqueado→preparado.'},
+    {s:'pro', f:'BCP (PCB)', b:'Estructura por proceso: PID, estado, prioridad, zona de memoria, recursos, estadísticas y propietario. Se borra al terminar.'},
+    {s:'pro', f:'Dispatcher', b:'Reparte la CPU: quita el proceso en ejecución y asigna otro preparado.'},
+    {s:'pro', f:'Servicios y demonios', b:'Procesos en segundo plano: servicios en Windows, demonios en Linux.'},
+    {s:'pro', f:'Modo kernel vs modo usuario', b:'Kernel: privilegiado, acceso total (procesos del S.O.). Usuario: restringido (procesos del usuario).'},
+    {s:'pro', f:'Cuentas de servicio (Windows)', b:'Servicio local: limitada, servicios estándar. Servicio de red: servicios privilegiados.'},
+    {s:'pla', f:'FIFO / FCFS', b:'Por orden de llegada. No expulsivo. Efecto convoy. Típico en colas de impresión.'},
+    {s:'pla', f:'Round-Robin', b:'Mismo tiempo (quantum) a cada proceso, rotando. Sencillo y justo.'},
+    {s:'pla', f:'SJF y SRTF', b:'SJF: primero el de menos CPU total (no expulsivo). SRTF: primero el de menos tiempo restante (expulsivo).'},
+    {s:'pla', f:'Efecto convoy', b:'Los procesos largos retrasan a los cortos (problema de FIFO).'},
+    {s:'pla', f:'Interbloqueo (deadlock)', b:'Dos procesos, cada uno con un recurso que necesita el otro; ninguno libera el suyo.'},
+    {s:'mpm', f:'Paginación', b:'Memoria en marcos fijos y programas en páginas. Ventaja: simplicidad. Desventaja: fragmentación interna.'},
+    {s:'mpm', f:'Segmentación', b:'Bloques de tamaño variable (segmentos). Más eficiente pero compleja; fragmentación en los segmentos.'},
+    {s:'mpm', f:'Swapping', b:'Guardar en disco los procesos que no caben en memoria.'},
+    {s:'mpm', f:'Memoria virtual', b:'Ejecutar procesos sin tener todo su espacio en RAM; el resto está en disco (swap). Permite superar la RAM.'},
+    {s:'mpm', f:'Linux vs Windows en memoria', b:'Ambos: paginación multinivel. Linux: partición swap. Windows (NT): archivo pagefile.sys. Tamaño según la RAM.'},
+    {s:'car', f:'Sistema operativo', b:'Software que coordina servicios y aplicaciones, gestiona el hardware y hace de intermediario entre usuario y hardware.'},
+    {s:'car', f:'Capas del S.O. (de arriba abajo)', b:'Programas de usuario · interfaz gráfica · núcleo (kernel) · hardware.'},
+    {s:'car', f:'Núcleo monolítico', b:'Casi todo en el núcleo, en modo núcleo. + Rendimiento. Solaris, FreeBSD, GNU/Linux.'},
+    {s:'car', f:'Micronúcleo', b:'Solo el micronúcleo en modo privilegiado; drivers y archivos en modo usuario. + Fiable. AIX, AmigaOS, Minix, Symbian.'},
+    {s:'car', f:'Núcleo híbrido', b:'Compromiso: E/S en modo supervisor. Windows desde XP, Server y macOS.'},
+    {s:'car', f:'Interfaz TUI/CLI vs GUI', b:'TUI/CLI: comandos; rápida para expertos, automatizable con scripts. GUI: ventanas e iconos; intuitiva, sin automatización.'},
+    {s:'tip', f:'Monousuario vs multiusuario', b:'Mono: un usuario a la vez (Windows 10/11, Android). Multi: varios simultáneos (UNIX, Linux, Windows Server).'},
+    {s:'tip', f:'Monotarea vs multitarea', b:'Mono: un programa a la vez (MS-DOS). Multi: varios procesos a la vez (Windows, Linux).'},
+    {s:'tip', f:'Multiprocesador asimétrico vs simétrico', b:'Asimétrico: tareas repartidas, ciertos procesos siempre en un procesador. Simétrico: procesos a cualquier procesador.'},
+    {s:'tip', f:'Centralizado vs distribuido', b:'Centralizado: una computadora. Distribuido: varias interconectadas, vistas como un sistema único.'},
+    {s:'tip', f:'Tiempo real duro, suave y compartido', b:'Duro: respuesta exacta (VxWorks, QNX). Suave: tolera retrasos (Embedded Linux). Compartido: reparte CPU (Windows, Linux).'},
+    {s:'tip', f:'Portátil vs no portátil', b:'Portátil: varios tipos de hardware (Linux). No portátil: un hardware específico (iOS).'},
+    {s:'lic', f:'Licencia de software', b:'Contrato entre proveedor y usuario que fija las condiciones de uso.'},
+    {s:'lic', f:'Freeware, shareware y adware', b:'Freeware: gratis indefinido. Shareware: evaluación limitada, hay que pagar. Adware: gratis con publicidad.'},
+    {s:'lic', f:'CLUF / EULA', b:'Contrato de Licencia para Usuario Final (End User License Agreement). Propietaria: Windows, macOS.'},
+    {s:'lic', f:'Open source: permisivas y no permisivas', b:'Permisivas: sin mantener la licencia (Apache, PHP, Perl). No permisivas: misma licencia (GPL, Common Public, OpenSSL).'},
+    {s:'lic', f:'Creative Commons: siglas', b:'BY atribución · SA compartir igual · NC no comercial · ND no derivadas. 6 licencias + CC0 (dominio público).'},
+    {s:'lic', f:'Retail / FPP', b:'Compra en tienda, hasta 5 licencias. Producto completo o actualización (upgrade, más barata).'},
+    {s:'lic', f:'OEM', b:'Preinstalada con el equipo nuevo y vinculada a ese hardware. Se puede ceder el equipo completo.'},
+    {s:'lic', f:'Licencia por volumen y downgrade', b:'Para empresas con muchas licencias. Downgrade: sustituir por una versión más antigua.'}
+  ];
+
+  QZ_SETS.iso = {sections:ISO_SECTIONS, notes:ISO_NOTES, qs:ISO_QS, cards:ISO_CARDS, color:'#0D9488', bg:'#F0FDFA', cls:'iso',
+    pill:'<i class="ri-computer-line"></i> Implantación de sistemas operativos',
+    title:'Tema 1: Introducción a los Sistemas Operativos',
+    notesDesc:'Resumen de los apartados 1 a 7 de la unidad: hardware, CPU, historia, procesos, memoria, tipos y licencias.'};
+
   // ---------- Herramientas y recursos ----------
   function fhFmtNum(x){ return x.toLocaleString('es-ES', {maximumSignificantDigits:12}); }
   function fhBaseConv(){
@@ -2664,12 +3539,383 @@
     fhBaseConv(); fhUnitConv(); fhTextConv();
   }
 
+  // ---------- Simulador de planificación (ISO): FIFO, SJF y Round-Robin ----------
+  var SIM_COLORS = ['#93C5FD','#6EE7B7','#FCA5A5','#FCD34D','#C4B5FD','#F9A8D4','#67E8F9','#FBB07E'];
+  var SIM_MAX = 8;
+  var SIM_ALGOS = {fifo:'FIFO', sjf:'SJF', rr:'Round-Robin'};
+  var SIM_PRESETS = {
+    convoy:   {n:'Efecto convoy (A=24, B=3, C=3)', p:[[0,24],[0,3],[0,3]]},
+    llegadas: {n:'Llegadas escalonadas (4 procesos)', p:[[0,8],[1,4],[2,9],[3,5]]},
+    cortos:   {n:'Muchos procesos cortos tras uno largo', p:[[0,10],[1,2],[2,1],[3,3],[4,2]]}
+  };
+  var sim = {procs:[[0,24],[0,3],[0,3]], algo:'fifo', q:4};
+
+  function simRead(){
+    return sim.procs.map(function(r){
+      var a = parseInt(r[0], 10), b = parseInt(r[1], 10);
+      return {a: isNaN(a) || a < 0 ? 0 : a, b: isNaN(b) || b < 1 ? 1 : b};
+    });
+  }
+  function simQuantum(){ var q = parseInt(sim.q, 10); return isNaN(q) || q < 1 ? 1 : q; }
+
+  // Devuelve {sl:[{p, s, e}] (p = -1: CPU ociosa), fin:[]}
+  function simulate(ps, algo, q){
+    var n = ps.length, sl = [], fin = [], t = 0, i;
+    var order = ps.map(function(_, k){ return k; }).sort(function(x, y){ return ps[x].a - ps[y].a || x - y; });
+    function idle(until){ if(until > t){ sl.push({p:-1, s:t, e:until}); t = until; } }
+    function run(p, d){ sl.push({p:p, s:t, e:t + d}); t += d; }
+    if(algo === 'fifo'){
+      order.forEach(function(p){ idle(ps[p].a); run(p, ps[p].b); fin[p] = t; });
+    } else if(algo === 'sjf'){
+      var done = {}, left = n;
+      while(left){
+        var ready = order.filter(function(p){ return !done[p] && ps[p].a <= t; });
+        if(!ready.length){
+          var nxt = order.filter(function(p){ return !done[p]; })[0];
+          idle(ps[nxt].a); continue;
+        }
+        ready.sort(function(x, y){ return ps[x].b - ps[y].b || ps[x].a - ps[y].a || x - y; });
+        var pk = ready[0];
+        run(pk, ps[pk].b); fin[pk] = t; done[pk] = true; left--;
+      }
+    } else {
+      var rem = ps.map(function(p){ return p.b; }), queue = [], nextIn = 0;
+      function admit(){ while(nextIn < n && ps[order[nextIn]].a <= t){ queue.push(order[nextIn]); nextIn++; } }
+      admit();
+      while(queue.length || nextIn < n){
+        if(!queue.length){ idle(ps[order[nextIn]].a); admit(); continue; }
+        var p = queue.shift(), d = Math.min(q, rem[p]);
+        run(p, d); rem[p] -= d;
+        admit();                       // los que llegan durante la ráfaga entran antes que el proceso expulsado
+        if(rem[p] > 0) queue.push(p); else fin[p] = t;
+      }
+    }
+    // une trozos consecutivos del mismo proceso
+    var merged = [];
+    sl.forEach(function(x){
+      var l = merged[merged.length - 1];
+      if(l && l.p === x.p && l.e === x.s) l.e = x.e; else merged.push({p:x.p, s:x.s, e:x.e});
+    });
+    var ret = [], esp = [], sr = 0, se = 0;
+    for(i = 0; i < n; i++){ ret[i] = fin[i] - ps[i].a; esp[i] = ret[i] - ps[i].b; sr += ret[i]; se += esp[i]; }
+    return {sl:merged, fin:fin, ret:ret, esp:esp, mRet:sr / n, mEsp:se / n};
+  }
+
+  function simNum(x){ return (Math.round(x * 100) / 100).toLocaleString('es-ES', {maximumFractionDigits:2}); }
+  function simEl(tag, cls, txt){ var e = document.createElement(tag); if(cls) e.className = cls; if(txt !== undefined) e.textContent = txt; return e; }
+
+  function simRenderInputs(){
+    var box = document.getElementById('simProcs');
+    box.innerHTML = '';
+    var head = simEl('div', 'sim-row');
+    head.appendChild(simEl('span', '', ''));
+    ['Llegada', 'Ráfaga de CPU', ''].forEach(function(t){ var h = simEl('span', '', t); h.style.cssText = 'font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.04em;'; head.appendChild(h); });
+    box.appendChild(head);
+    sim.procs.forEach(function(r, i){
+      var row = simEl('div', 'sim-row');
+      var tag = simEl('span', 'sim-tag', 'P' + (i + 1)); tag.style.background = SIM_COLORS[i % SIM_COLORS.length];
+      row.appendChild(tag);
+      [0, 1].forEach(function(k){
+        var inp = simEl('input', 'sim-in');
+        inp.type = 'number'; inp.inputMode = 'numeric'; inp.min = k ? 1 : 0; inp.max = 99; inp.value = r[k];
+        inp.setAttribute('aria-label', (k ? 'Ráfaga de CPU de P' : 'Llegada de P') + (i + 1));
+        inp.oninput = function(){ r[k] = inp.value; simRun(); };
+        row.appendChild(inp);
+      });
+      var x = simEl('button', 'sim-x'); x.innerHTML = '<i class="ri-close-line"></i>'; x.title = 'Quitar proceso'; x.setAttribute('aria-label', 'Quitar P' + (i + 1));
+      x.onclick = function(){ if(sim.procs.length > 1){ sim.procs.splice(i, 1); simRenderInputs(); simRun(); } };
+      row.appendChild(x);
+      box.appendChild(row);
+    });
+  }
+
+  function simAdd(){
+    if(sim.procs.length >= SIM_MAX) return;
+    sim.procs.push([rnd(0, 4), rnd(1, 9)]);
+    simRenderInputs(); simRun();
+  }
+  function simPreset(k){
+    if(k === 'rand'){
+      var n = rnd(3, 6);
+      sim.procs = []; for(var i = 0; i < n; i++) sim.procs.push([rnd(0, 6), rnd(1, 12)]);
+    } else if(SIM_PRESETS[k]){
+      sim.procs = SIM_PRESETS[k].p.map(function(r){ return r.slice(); });
+    }
+    simRenderInputs(); simRun();
+  }
+  function simSetAlgo(a){
+    sim.algo = a;
+    document.querySelectorAll('#simSeg button').forEach(function(b){ b.classList.toggle('on', b.dataset.a === a); });
+    document.getElementById('simQBox').style.display = a === 'rr' ? 'block' : 'none';
+    simRun();
+  }
+
+  function simGantt(res, ps){
+    var wrap = simEl('div', 'sim-gantt'), bar = simEl('div', 'sim-bar'), ticks = simEl('div', 'sim-ticks');
+    var U = 24;
+    res.sl.forEach(function(x){
+      var w = (x.e - x.s) * U;
+      var b = simEl('div', 'sim-blk' + (x.p < 0 ? ' sim-idle' : ''), x.p < 0 ? (w >= 40 ? 'libre' : '') : 'P' + (x.p + 1));
+      b.style.width = w + 'px';
+      if(x.p >= 0) b.style.background = SIM_COLORS[x.p % SIM_COLORS.length];
+      b.title = (x.p < 0 ? 'CPU libre' : 'P' + (x.p + 1)) + ': ' + x.s + ' → ' + x.e;
+      bar.appendChild(b);
+      var t = simEl('div', '', String(x.s)); t.style.width = w + 'px'; t.style.flex = 'none';
+      ticks.appendChild(t);
+    });
+    var last = res.sl[res.sl.length - 1];
+    var te = simEl('div', '', String(last.e)); te.style.width = '30px'; ticks.appendChild(te);
+    var inner = simEl('div'); inner.style.cssText = 'display:inline-block;min-width:100%;';
+    inner.appendChild(bar); inner.appendChild(ticks);
+    wrap.appendChild(inner);
+    return wrap;
+  }
+
+  function simTable(res, ps){
+    var t = simEl('table', 'merc-table');
+    var h = '<tr><th>Proc.</th><th>Llegada</th><th>CPU</th><th>Fin</th><th>Retorno</th><th>Espera</th></tr>';
+    ps.forEach(function(p, i){ h += '<tr><td><b>P' + (i + 1) + '</b></td><td>' + p.a + '</td><td>' + p.b + '</td><td>' + res.fin[i] + '</td><td>' + res.ret[i] + '</td><td>' + res.esp[i] + '</td></tr>'; });
+    h += '<tr class="total-row"><td colspan="4">Media</td><td>' + simNum(res.mRet) + '</td><td>' + simNum(res.mEsp) + '</td></tr>';
+    t.innerHTML = h;
+    return t;
+  }
+
+  function simRun(){
+    var out = document.getElementById('simOut');
+    if(!out) return;
+    var ps = simRead(), q = simQuantum(), res = simulate(ps, sim.algo, q);
+    out.innerHTML = '';
+    var ttl = simEl('div', 'curso-label', 'Diagrama de Gantt · ' + SIM_ALGOS[sim.algo] + (sim.algo === 'rr' ? ' (quantum = ' + q + ')' : ''));
+    ttl.style.marginTop = '16px';
+    out.appendChild(ttl);
+    out.appendChild(simGantt(res, ps));
+    var order = res.sl.filter(function(x){ return x.p >= 0; }).map(function(x){ return 'P' + (x.p + 1); }).join(' → ');
+    var ord = simEl('div', 'sac-expl', 'Orden de ejecución: ' + order);
+    ord.style.cssText = 'background:var(--gray-50);border-color:var(--gray-200);color:var(--gray-800);margin:10px 0;';
+    out.appendChild(ord);
+    var tl = simEl('div', 'curso-label', 'Tiempos por proceso'); tl.style.marginTop = '14px'; out.appendChild(tl);
+    out.appendChild(simTable(res, ps));
+    var note = simEl('div', '', 'Retorno = fin − llegada · Espera = retorno − ráfaga de CPU (tiempo que pasa en la cola de preparados).');
+    note.style.cssText = 'font-size:11px;color:var(--gray-400);margin:6px 0 0;line-height:1.5;';
+    out.appendChild(note);
+
+    // comparación de los tres algoritmos con los mismos procesos
+    var cl = simEl('div', 'curso-label', 'Comparación con los mismos procesos'); cl.style.marginTop = '18px'; out.appendChild(cl);
+    var all = Object.keys(SIM_ALGOS).map(function(k){ return {k:k, r:simulate(ps, k, q)}; });
+    var best = Math.min.apply(null, all.map(function(x){ return x.r.mEsp; }));
+    var ct = simEl('table', 'merc-table');
+    var h = '<tr><th>Algoritmo</th><th>Espera media</th><th>Retorno medio</th></tr>';
+    all.forEach(function(x){
+      var isBest = Math.abs(x.r.mEsp - best) < 1e-9;
+      h += '<tr' + (x.k === sim.algo ? ' style="background:var(--gray-50);"' : '') + '><td><b>' + SIM_ALGOS[x.k] + '</b>' + (x.k === 'rr' ? ' (q=' + q + ')' : '') + '</td><td>' + simNum(x.r.mEsp) + (isBest ? ' ✓' : '') + '</td><td>' + simNum(x.r.mRet) + '</td></tr>';
+    });
+    ct.innerHTML = h;
+    out.appendChild(ct);
+    var fifo = all[0].r, sjf = all[1].r;
+    var msg = '';
+    if(fifo.mEsp > sjf.mEsp + 1e-9) msg = 'Con estos procesos FIFO tiene peor espera media que SJF: los procesos largos que llegan primero retrasan a los cortos (efecto convoy).';
+    else if(Math.abs(fifo.mEsp - sjf.mEsp) < 1e-9) msg = 'Aquí FIFO y SJF dan la misma espera media: el orden de llegada ya coincide con el de menor ráfaga.';
+    var mb = simEl('div', 'sac-expl', msg || 'El ✓ marca la menor espera media.');
+    mb.style.marginTop = '10px';
+    out.appendChild(mb);
+  }
+
+  function simInit(){
+    if(document.getElementById('simProcs').dataset.init) return;
+    document.getElementById('simProcs').dataset.init = '1';
+    var sel = document.getElementById('simPreset');
+    Object.keys(SIM_PRESETS).forEach(function(k){ var o = document.createElement('option'); o.value = k; o.textContent = SIM_PRESETS[k].n; sel.appendChild(o); });
+    var ro = document.createElement('option'); ro.value = 'rand'; ro.textContent = 'Procesos aleatorios'; sel.appendChild(ro);
+    simRenderInputs();
+    simSetAlgo(sim.algo);
+  }
+
+  // ---------- Simulador del ciclo de instrucción (ISO) ----------
+  // Instrucción de 3 direcciones, como en el temario: CÓDIGO OP1 OP2 RESULTADO (p. ej. SUMAR 33 992 993).
+  var CIC_OPS = {
+    SUMAR:       {f:function(a, b){ return a + b; }, sym:'+', circ:'sumador'},
+    RESTAR:      {f:function(a, b){ return a - b; }, sym:'−', circ:'restador'},
+    MULTIPLICAR: {f:function(a, b){ return a * b; }, sym:'×', circ:'multiplicador'},
+    AND:         {f:function(a, b){ return a & b; }, sym:'AND', circ:'lógico AND'},
+    OR:          {f:function(a, b){ return a | b; }, sym:'OR', circ:'lógico OR'}
+  };
+  var CIC_PRESETS = {
+    temario: {n:'Ejemplo del temario: SUMAR 33 992 993', c:{op:'SUMAR', cp:100, a1:33, v1:4, a2:992, v2:3, r:993}},
+    negativo:{n:'Resta con resultado negativo', c:{op:'RESTAR', cp:100, a1:20, v1:3, a2:21, v2:8, r:22}},
+    cero:    {n:'Resta con resultado cero', c:{op:'RESTAR', cp:100, a1:50, v1:6, a2:51, v2:6, r:52}},
+    mult:    {n:'Multiplicación', c:{op:'MULTIPLICAR', cp:100, a1:7, v1:5, a2:8, v2:6, r:9}}
+  };
+  var cic = {cfg:{op:'SUMAR', cp:100, a1:33, v1:4, a2:992, v2:3, r:993}, steps:[], i:0, timer:null};
+
+  function cicInt(x){ var n = parseInt(x, 10); return isNaN(n) ? null : n; }
+
+  // Devuelve un mensaje de error, o null si la configuración es válida.
+  function cicValidate(c){
+    var k, keys = ['cp', 'a1', 'a2', 'r', 'v1', 'v2'];
+    for(k = 0; k < keys.length; k++) if(cicInt(c[keys[k]]) === null) return 'Rellena todos los campos con números enteros.';
+    var addr = [cicInt(c.cp), cicInt(c.a1), cicInt(c.a2), cicInt(c.r)];
+    for(k = 0; k < addr.length; k++) if(addr[k] < 0 || addr[k] > 9999) return 'Las direcciones van de 0 a 9999.';
+    if(cicInt(c.v1) < -999 || cicInt(c.v1) > 999 || cicInt(c.v2) < -999 || cicInt(c.v2) > 999) return 'Los valores van de −999 a 999.';
+    if(addr[0] === addr[1] || addr[0] === addr[2] || addr[0] === addr[3]) return 'La dirección de la instrucción no puede coincidir con la de un operando ni con la del resultado.';
+    if(c.op === 'AND' || c.op === 'OR'){ if(cicInt(c.v1) < 0 || cicInt(c.v2) < 0) return 'Para AND y OR usa valores no negativos.'; }
+    return null;
+  }
+
+  // Calcula el estado de la CPU tras cada paso: steps[0] es el estado inicial; luego 5 de búsqueda y 10 de ejecución.
+  function cicBuild(c){
+    var op = c.op, cp = cicInt(c.cp), a1 = cicInt(c.a1), a2 = cicInt(c.a2), r = cicInt(c.r), v1 = cicInt(c.v1), v2 = cicInt(c.v2);
+    var instr = op + ' ' + a1 + ' ' + a2 + ' ' + r, O = CIC_OPS[op];
+    var S = {CP:cp, RDM:null, RIM:null, RI:null, DEC:null, REN1:null, REN2:null, ACC:null, RES:null, mem:{}};
+    S.mem[cp] = instr; S.mem[a1] = v1; S.mem[a2] = (a2 === a1) ? v1 : v2;
+    var steps = [];
+    function snap(){ var m = {}; Object.keys(S.mem).forEach(function(k){ m[k] = S.mem[k]; }); return {CP:S.CP, RDM:S.RDM, RIM:S.RIM, RI:S.RI, DEC:S.DEC, REN1:S.REN1, REN2:S.REN2, ACC:S.ACC, RES:S.RES, mem:m}; }
+    function add(fase, n, t, act, chg, bus, cell){ steps.push({fase:fase, n:n, t:t, act:act, chg:chg, bus:bus || {}, cell:cell, st:snap()}); }
+    function rd(){ return {dir:'RDM', ctrl:'lectura'}; }
+    steps.push({fase:'inicio', n:0, t:'Estado inicial. La instrucción «' + instr + '» está almacenada en la dirección ' + cp + ' de la memoria central y el contador de programa apunta a ella. Pulsa «Siguiente» para avanzar paso a paso.', act:[], chg:[], bus:{}, st:snap()});
+
+    S.RDM = S.CP;
+    add('búsqueda', 1, 'La unidad de control envía una micro-orden: el contenido del contador de programa (CP = ' + cp + '), que es la dirección de la siguiente instrucción, pasa al registro de dirección de memoria (RDM).', ['CP', 'RDM'], ['RDM']);
+    S.RIM = S.mem[S.RDM];
+    add('búsqueda', 2, 'El selector de memoria usa la dirección del RDM (' + cp + ') y transfiere el contenido de esa celda, la instrucción «' + instr + '», al registro de intercambio de memoria (RIM).', ['RDM', 'SEL', 'RIM'], ['RIM'], {dir:S.RDM, ctrl:'lectura', dat:instr}, cp);
+    S.RI = S.RIM;
+    add('búsqueda', 3, 'La instrucción se transfiere del RIM al registro de instrucción (RI).', ['RIM', 'RI'], ['RI']);
+    S.DEC = op;
+    add('búsqueda', 4, 'El decodificador interpreta la instrucción que acaba de llegar al RI: el código de operación es ' + op + '. Queda dispuesto para activar el circuito ' + O.circ + ' de la ALU e informa al secuenciador.', ['RI', 'DEC', 'SEC'], ['DEC']);
+    S.CP = S.CP + 1;
+    add('búsqueda', 5, 'El contador de programa se autoincrementa en 1 (utilizando la ALU): pasa de ' + cp + ' a ' + S.CP + ' y queda apuntando a la siguiente instrucción. Si la instrucción fuera de ruptura de secuencia, el CP se cargaría con la dirección que corresponda.', ['CP', 'COP'], ['CP']);
+
+    S.RDM = a1;
+    add('ejecución', 1, 'Se transfiere la dirección del primer operando (' + a1 + ') desde el registro de instrucción al RDM.', ['RI', 'RDM'], ['RDM']);
+    S.RIM = S.mem[S.RDM];
+    add('ejecución', 2, 'El selector extrae de la memoria el contenido de la dirección ' + a1 + ' (valor ' + S.RIM + ') y lo deposita en el RIM.', ['RDM', 'SEL', 'RIM'], ['RIM'], {dir:a1, ctrl:'lectura', dat:S.RIM}, a1);
+    S.REN1 = S.RIM;
+    add('ejecución', 3, 'Se lleva este operando desde el RIM al registro de entrada 1 (REN1) de la ALU.', ['RIM', 'REN1'], ['REN1']);
+    S.RDM = a2;
+    add('ejecución', 4, 'Se transfiere la dirección del segundo operando (' + a2 + ') desde el registro de instrucción al RDM.', ['RI', 'RDM'], ['RDM']);
+    S.RIM = S.mem[S.RDM];
+    add('ejecución', 5, 'El selector extrae de la memoria el contenido de la dirección ' + a2 + ' (valor ' + S.RIM + ') y lo deposita en el RIM.', ['RDM', 'SEL', 'RIM'], ['RIM'], {dir:a2, ctrl:'lectura', dat:S.RIM}, a2);
+    S.REN2 = S.RIM;
+    add('ejecución', 6, 'Se lleva este operando desde el RIM al registro de entrada 2 (REN2) de la ALU.', ['RIM', 'REN2'], ['REN2']);
+    var res = O.f(S.REN1, S.REN2);
+    S.ACC = res; S.RES = res === 0 ? 'cero' : res > 0 ? 'positivo' : 'negativo';
+    add('ejecución', 7, 'El secuenciador envía una micro-orden a la ALU para que ejecute la operación (' + S.REN1 + ' ' + O.sym + ' ' + S.REN2 + ' = ' + res + '). El resultado queda en el acumulador y el registro de estado deja constancia de que es ' + S.RES + '.', ['SEC', 'REN1', 'REN2', 'COP', 'ACC', 'RES'], ['ACC', 'RES']);
+    S.RIM = S.ACC;
+    add('ejecución', 8, 'El resultado (' + res + ') se envía desde el acumulador al RIM.', ['ACC', 'RIM'], ['RIM']);
+    S.RDM = r;
+    add('ejecución', 9, 'Se transfiere desde el registro de instrucción al RDM la dirección donde ha de almacenarse el resultado (' + r + ').', ['RI', 'RDM'], ['RDM']);
+    S.mem[S.RDM] = S.RIM;
+    add('ejecución', 10, 'El selector transfiere el resultado desde el RIM a la celda ' + r + ' de la memoria: escritura. Aquí termina el ciclo de instrucción; el CP (' + S.CP + ') apunta a la siguiente instrucción.', ['RDM', 'SEL', 'RIM'], [], {dir:r, ctrl:'escritura', dat:res}, r);
+    steps[steps.length - 1].chg = ['mem'];
+    return steps;
+  }
+
+  function cicEl(tag, cls, txt){ var e = document.createElement(tag); if(cls) e.className = cls; if(txt !== undefined) e.textContent = txt; return e; }
+
+  function cicReadInputs(){
+    var c = cic.cfg;
+    c.op = document.getElementById('cicOp').value;
+    ['cp', 'a1', 'v1', 'a2', 'v2', 'r'].forEach(function(k){ c[k] = document.getElementById('cic_' + k).value; });
+  }
+  function cicWriteInputs(){
+    var c = cic.cfg;
+    document.getElementById('cicOp').value = c.op;
+    ['cp', 'a1', 'v1', 'a2', 'v2', 'r'].forEach(function(k){ document.getElementById('cic_' + k).value = c[k]; });
+  }
+  function cicChanged(){ cicStop(); cicReadInputs(); cic.i = 0; cicRecalc(); }
+  function cicPreset(k){
+    if(!CIC_PRESETS[k]) return;
+    var p = CIC_PRESETS[k].c; cic.cfg = {op:p.op, cp:p.cp, a1:p.a1, v1:p.v1, a2:p.a2, v2:p.v2, r:p.r};
+    cicStop(); cicWriteInputs(); cic.i = 0; cicRecalc();
+  }
+  function cicRecalc(){
+    var err = cicValidate(cic.cfg), w = document.getElementById('cicWarn'), main = document.getElementById('cicMain');
+    if(err){ w.textContent = err; w.style.display = 'block'; main.style.display = 'none'; cic.steps = []; return; }
+    var c = cic.cfg;
+    w.style.display = 'none';
+    if(cicInt(c.a1) === cicInt(c.a2) && cicInt(c.v1) !== cicInt(c.v2)){
+      w.textContent = 'Los dos operandos están en la misma dirección, así que el segundo valor será el mismo que el primero.'; w.style.display = 'block';
+    }
+    main.style.display = 'block';
+    cic.steps = cicBuild(c);
+    cicRender();
+  }
+
+  function cicVal(v){ return v === null || v === undefined ? '—' : String(v); }
+
+  function cicRender(){
+    var s = cic.steps[cic.i], st = s.st, n = cic.steps.length - 1;
+    // etiqueta de fase y progreso
+    var ph = document.getElementById('cicPhase');
+    ph.textContent = s.fase === 'inicio' ? 'Inicio · paso 0 de ' + n : (s.fase === 'búsqueda' ? 'Fase de búsqueda · paso ' + s.n + ' de 5' : 'Fase de ejecución · paso ' + s.n + ' de 10') + ' (' + cic.i + '/' + n + ')';
+    ph.style.color = s.fase === 'ejecución' ? '#B45309' : '#0F766E';
+    var dots = document.getElementById('cicDots'); dots.innerHTML = '';
+    cic.steps.forEach(function(x, k){
+      if(k === 0) return;
+      var d = cicEl('button', 'cic-dot' + (x.fase === 'ejecución' ? ' ex' : '') + (k === cic.i ? ' cur' : '') + (k < cic.i ? ' done' : ''));
+      d.setAttribute('aria-label', 'Ir al paso ' + k); d.onclick = function(){ cicStop(); cic.i = k; cicRender(); };
+      dots.appendChild(d);
+    });
+    var tx = document.getElementById('cicText'); tx.textContent = s.t;
+    document.getElementById('cicPrev').disabled = cic.i === 0;
+    document.getElementById('cicNext').disabled = cic.i === n;
+    // registros
+    var vals = {CP:st.CP, RI:st.RI, DEC:st.DEC, SEC:null, CLK:null, REN1:st.REN1, REN2:st.REN2, COP:null, ACC:st.ACC, RES:st.RES, RDM:st.RDM, RIM:st.RIM, SEL:null};
+    Object.keys(vals).forEach(function(id){
+      var box = document.getElementById('cic_' + id); if(!box) return;
+      box.classList.toggle('act', s.act.indexOf(id) !== -1);
+      box.classList.toggle('chg', s.chg.indexOf(id) !== -1);
+      var v = box.querySelector('.cv'); if(v && vals[id] !== null) v.textContent = cicVal(vals[id]);
+    });
+    // memoria
+    var cells = [cicInt(cic.cfg.cp), cicInt(cic.cfg.a1), cicInt(cic.cfg.a2), cicInt(cic.cfg.r)];
+    var uniq = cells.filter(function(a, k){ return cells.indexOf(a) === k; }).sort(function(a, b){ return a - b; });
+    var mc = document.getElementById('cicMem'); mc.innerHTML = '';
+    uniq.forEach(function(a){
+      var row = cicEl('div', 'cic-cell' + (s.cell === a ? ' act' : '') + (s.cell === a && s.chg.indexOf('mem') !== -1 ? ' chg' : ''));
+      row.appendChild(cicEl('span', 'ca', String(a)));
+      var role = a === cells[0] ? 'instrucción' : '';
+      row.appendChild(cicEl('span', 'cr', role));
+      row.appendChild(cicEl('span', 'cv2', cicVal(st.mem[a])));
+      mc.appendChild(row);
+    });
+    // buses
+    var b = s.bus || {};
+    function bus(id, v){ var e = document.getElementById(id); e.classList.toggle('act', v !== undefined && v !== null); e.querySelector('.cv').textContent = v === undefined || v === null ? '—' : v; }
+    bus('cicBusDir', b.dir); bus('cicBusCtrl', b.ctrl); bus('cicBusDat', b.dat);
+  }
+
+  function cicGo(d){ var k = cic.i + d; if(k < 0 || k > cic.steps.length - 1) return; cic.i = k; cicRender(); if(cic.i === cic.steps.length - 1) cicStop(); }
+  function cicReset(){ cicStop(); cic.i = 0; if(cic.steps.length) cicRender(); }
+  function cicStop(){
+    if(cic.timer){ clearInterval(cic.timer); cic.timer = null; }
+    var b = document.getElementById('cicPlay'); if(b) b.innerHTML = '<i class="ri-play-line"></i> Reproducir';
+  }
+  function cicPlay(){
+    if(cic.timer){ cicStop(); return; }
+    if(!cic.steps.length) return;
+    if(cic.i >= cic.steps.length - 1) cic.i = 0;
+    document.getElementById('cicPlay').innerHTML = '<i class="ri-pause-line"></i> Pausar';
+    cicRender();
+    cic.timer = setInterval(function(){ cicGo(1); }, 1800);
+  }
+
+  function cicInit(){
+    if(document.getElementById('cicPreset').dataset.init) return;
+    document.getElementById('cicPreset').dataset.init = '1';
+    var sel = document.getElementById('cicPreset');
+    Object.keys(CIC_PRESETS).forEach(function(k){ var o = document.createElement('option'); o.value = k; o.textContent = CIC_PRESETS[k].n; sel.appendChild(o); });
+    var op = document.getElementById('cicOp');
+    Object.keys(CIC_OPS).forEach(function(k){ var o = document.createElement('option'); o.value = k; o.textContent = k; op.appendChild(o); });
+    cicWriteInputs();
+    cicRecalc();
+  }
+
 
   function qzUse(k){
     if(qz === QZ_SETS[k]) return;
     qz = QZ_SETS[k];
     var scr = document.getElementById('sacScreen');
-    scr.classList.remove('sac','vt','fh'); scr.classList.add(qz.cls);
+    scr.classList.remove('sac','vt','fh','iso'); scr.classList.add(qz.cls);
     var pill = document.getElementById('qzPill');
     pill.className = 'subject-pill pill-' + qz.cls; pill.innerHTML = qz.pill;
     document.getElementById('qzTitle').textContent = qz.title;
@@ -2713,7 +3959,7 @@
   }
 
   function sacShow(v){
-    var map = {menu:'sacMenu', notes:'sacNotes', pick:'sacPick', quiz:'sacQuiz', result:'sacResult', cards:'sacCards', stats:'sacStats', tools:'sacTools'};
+    var map = {menu:'sacMenu', notes:'sacNotes', pick:'sacPick', quiz:'sacQuiz', result:'sacResult', cards:'sacCards', stats:'sacStats', tools:'sacTools', sim:'sacSim', cic:'sacCic'};
     Object.keys(map).forEach(function(k){ document.getElementById(map[k]).classList.remove('active'); });
     document.getElementById(map[v]).classList.add('active');
     document.body.classList.toggle('footer-hidden', v === 'quiz');
@@ -2723,6 +3969,9 @@
     if(v==='pick') sacRenderPick();
     if(v==='stats') sacRenderStats();
     if(v==='tools') fhToolsInit();
+    if(v!=='cic' && typeof cicStop === 'function') cicStop();
+    if(v==='sim') simInit();
+    if(v==='cic') cicInit();
     if(v==='cards') sacCardsStart();
     if(v==='menu'){
       document.getElementById('sacVfCount').textContent = qz.qs.filter(function(q){return q.vf!==undefined;}).length;
