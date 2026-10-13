@@ -990,6 +990,22 @@
   [data-theme="dark"] .subject-card.ia { border-color: #92400E; }
   [data-theme="dark"] .subject-card.ia .subject-icon { background: rgba(148,163,184,.16); }
   [data-theme="dark"] .pill-ia { background: rgba(148,163,184,.16); border-color: rgba(148,163,184,.3); }
+
+  /* ===== Gestión de un pequeño negocio (Rita) ===== */
+  .pill-gpn { background: #F0F9FF; color: #0369A1; border: 1px solid #BAE6FD; }
+  .subject-card.gpn { border-color: #BAE6FD; }
+  .subject-card.gpn:hover { border-color: #0369A1; }
+  .subject-card.gpn .subject-card-accent { background: linear-gradient(90deg, #0369A1, #38BDF8); }
+  .subject-card.gpn .subject-icon { background: #F0F9FF; color: #0369A1; }
+  #sacScreen.gpn .sac-acc-body h4, #sacScreen.gpn .sac-opt .l, #sacScreen.gpn .sac-score { color: #0369A1; }
+  #sacScreen.gpn .sac-box { background: #F0F9FF; border-color: #BAE6FD; color: #075985; }
+  #sacScreen.gpn .sac-opt:hover:not(:disabled) { border-color: #0369A1; }
+  #sacScreen.gpn .sac-bar > div { background: #0369A1; }
+  [data-theme="dark"] .subject-card.gpn { border-color: #075985; }
+  [data-theme="dark"] .subject-card.gpn .subject-icon { background: rgba(148,163,184,.16); }
+  [data-theme="dark"] .pill-gpn { background: rgba(148,163,184,.16); border-color: rgba(148,163,184,.3); }
+  [data-theme="dark"] #sacScreen.gpn .sac-box { background: rgba(3,105,161,.2); border-color: rgba(56,189,248,.35); color: #BAE6FD; }
+  [data-theme="dark"] #sacScreen.gpn .sac-acc-body h4, [data-theme="dark"] #sacScreen.gpn .sac-opt .l, [data-theme="dark"] #sacScreen.gpn .sac-score { color: #7DD3FC; }
 </style>
 </head>
 <body>
@@ -1092,6 +1108,19 @@
         </div>
       </div>
       <div class="subject-desc">Qué es la IA, usos en el comercio (automatizar, decidir, segmentar, experiencia del cliente), limitaciones, privacidad y normativa.</div>
+      <i class="ri-arrow-right-s-line subject-arrow"></i>
+    </div>
+
+    <div class="subject-card gpn" onclick="goSubject('gpn')">
+      <div class="subject-card-accent"></div>
+      <div class="subject-header">
+        <div class="subject-icon"><i class="ri-store-3-line"></i></div>
+        <div>
+          <div class="subject-name">Gestión de un pequeño negocio</div>
+          <div class="subject-code">Temas 1 y 2 — La empresa y su forma jurídica</div>
+        </div>
+      </div>
+      <div class="subject-desc">Sectores, factores, áreas de la empresa, clasificación, pymes y entorno; y todas las formas jurídicas con sus trámites.</div>
       <i class="ri-arrow-right-s-line subject-arrow"></i>
     </div>
 
@@ -1856,7 +1885,7 @@
       document.getElementById('menuScreen').classList.add('active');
     } else if (subj === 'mkt') {
       document.getElementById('mktMenuScreen').classList.add('active');
-    } else if (subj === 'sac' || subj === 'vt' || subj === 'fh' || subj === 'iso' || subj === 'ia') {
+    } else if (subj === 'sac' || subj === 'vt' || subj === 'fh' || subj === 'iso' || subj === 'ia' || subj === 'gpn') {
       qzUse(subj);
       document.getElementById('sacScreen').classList.add('active');
       sacShow('menu');
@@ -2355,6 +2384,517 @@
           title:'Unidad 1: Venta de productos industriales', notesDesc:'Resumen fácil de toda la unidad por apartados (1 a 7).'}
   };
   var qz = QZ_SETS.sac;
+
+  // ===================== GPN: GESTIÓN DE UN PEQUEÑO NEGOCIO (Rita) — Temas 1 y 2 =====================
+  var GPN_SECTIONS = {
+    e1: {n:'T1 · 1.1–1.2 Organización y sectores de producción', i:'ri-organization-chart'},
+    e2: {n:'T1 · 1.3–1.5 Factores, objetivos y RSC', i:'ri-seedling-line'},
+    e3: {n:'T1 · 2 Elementos de la empresa', i:'ri-building-line'},
+    e4: {n:'T1 · 3 Funciones básicas (áreas)', i:'ri-flow-chart'},
+    e5: {n:'T1 · 4 La persona empresaria', i:'ri-user-star-line'},
+    e6: {n:'T1 · 5 Clasificación de las empresas', i:'ri-node-tree'},
+    e7: {n:'T1 · 6 La pyme y el comercio de proximidad', i:'ri-store-2-line'},
+    e8: {n:'T1 · 7 Relaciones con el entorno', i:'ri-global-line'},
+    f1: {n:'T2 · 1 Personalidad física y jurídica', i:'ri-user-3-line'},
+    f2: {n:'T2 · 2 Empresa individual o autónomo', i:'ri-user-line'},
+    f3: {n:'T2 · 3–4 Comunidad de bienes y sociedad civil', i:'ri-team-line'},
+    f4: {n:'T2 · 5 Sociedad de responsabilidad limitada', i:'ri-government-line'},
+    f5: {n:'T2 · 6 Sociedad anónima', i:'ri-bank-line'},
+    f6: {n:'T2 · 7 Otras formas jurídicas', i:'ri-links-line'},
+    f7: {n:'T2 · 8–9 Elección de la forma y trámites', i:'ri-file-list-3-line'}
+  };
+
+  var GPN_NOTES = {
+    e1: '<h4>1.1 La organización de medios materiales y humanos</h4><p>Consiste en <b>planificar y gestionar los recursos</b> necesarios para el funcionamiento de la empresa. Se establece un <b>modelo organizativo</b> que define cómo se estructuran los recursos, para que cada miembro sepa cuáles son sus tareas y responsabilidades. Así se utilizan adecuadamente los recursos y se alcanzan los objetivos.</p>' +
+      '<h4>1.2 Los sectores de producción</h4><ul>' +
+      '<li><b>Primario:</b> empresas que <b>extraen recursos naturales</b> (agrícolas, ganaderas, pesqueras, forestales, mineras). Producen materias primas.</li>' +
+      '<li><b>Secundario:</b> <b>transforman</b> las materias primas en productos acabados o semielaborados (empresas industriales y constructoras).</li>' +
+      '<li><b>Terciario:</b> ofrecen el producto acabado al consumidor final y prestan <b>servicios</b> (entidades financieras, transporte, asesoramiento, comercios).</li></ul>' +
+      '<p><b>Caso práctico:</b> Bosques S. A. (tala y reforestación) → primario · Hermes Pino S. L. (madera en tablas y listones) e Industrias Mueble S. L. (fabrica muebles) → secundario · Transportes Zas S. L. (transporta los muebles) y Muebles González S. A. (los vende al consumidor) → terciario.</p>',
+    e2: '<h4>1.3 Factores de producción</h4><p>Son los <b>recursos básicos</b> de la empresa para realizar su actividad:</p><ul>' +
+      '<li><b>Tierra:</b> recursos naturales de los que dispone; todo lo que se obtiene directamente de la naturaleza.</li>' +
+      '<li><b>Trabajo:</b> el grupo de personas que aporta su actividad al proceso productivo.</li>' +
+      '<li><b>Capital:</b> el dinero que posee la empresa y los bienes duraderos (edificios, maquinaria, instalaciones) y de funcionamiento (materias primas, materias auxiliares…).</li>' +
+      '<li><b>Capacidad empresarial:</b> habilidad para organizar los otros factores, tomar decisiones estratégicas y <b>asumir riesgos</b>. Se asocia a la persona empresaria o emprendedora.</li></ul>' +
+      '<h4>1.4 Objetivos</h4><p>El principal objetivo es <b>lograr beneficios</b> a cambio de la actividad que desarrolla. También hay objetivos <b>secundarios o específicos</b> (satisfacer al consumidor, presentar al mercado un nuevo producto o servicio…), que persiguen el mismo fin: obtener beneficios.</p>' +
+      '<h4>1.5 Responsabilidad social corporativa (RSC)</h4><div class="sac-box">Compromiso que asume una empresa para contribuir al <b>bienestar social, económico y/o ambiental</b>, poniendo en marcha iniciativas con impacto positivo en la sociedad y el entorno.</div><ul>' +
+      '<li><b>Responsabilidad con los trabajadores:</b> mejorar las condiciones de trabajo (flexibilidad horaria, programas de bienestar, servicios de guardería).</li>' +
+      '<li><b>Prácticas ambientales:</b> reducir la huella de carbono, usar materiales reciclados, reducir productos tóxicos contaminantes.</li>' +
+      '<li><b>Compromiso con la comunidad:</b> destinar recursos a acciones de apoyo a la sociedad (patrocinios, participación en iniciativas sociales).</li></ul>' +
+      '<p>La RSC está relacionada con los Objetivos de Desarrollo Sostenible (ODS).</p>',
+    e3: '<div class="sac-box"><b>Elementos de la empresa:</b> conjunto de medios que sirven para realizar la actividad empresarial con el fin de alcanzar los objetivos.</div>' +
+      '<ul><li><b>2.1 Humanos:</b> los <b>trabajadores</b> (realizan las tareas productivas, administrativas, comerciales…), los <b>socios</b> (aportan el capital) y el <b>empresario</b> (coordina y organiza las actividades).</li>' +
+      '<li><b>2.2 Materiales:</b> bienes vinculados a la actividad productiva: recursos naturales y <b>materias primas</b> (suelen emplearse en un mismo ejercicio económico) y elementos que se usan en <b>varios ejercicios</b> (maquinaria, instalaciones, herramientas).</li>' +
+      '<li><b>2.3 Inmateriales (intangibles):</b> no se pueden tocar, carecen de cuerpo físico. Aportan <b>valor añadido</b>: nombre comercial, marca, imagen de empresa, <i>know-how</i> (saber hacer) y patentes.</li></ul>' +
+      '<p><b>Caso: tienda de ropa.</b> Humanos: propietario/a, vendedores, personal de limpieza. Materiales: local comercial, mobiliario, equipo informático y productos a la venta. Inmateriales: nombre de la empresa, experiencia del gerente, base de datos de clientes, relaciones con proveedores.</p>',
+    e4: '<p>El conjunto de tareas del proceso productivo se divide en <b>áreas de gestión</b>:</p>' +
+      '<h4>Área de explotación (Tabla 1.1)</h4><ul>' +
+      '<li><b>Aprovisionamiento:</b> búsqueda y selección de proveedores y compra de bienes primarios y auxiliares; también gestión y almacenamiento.</li>' +
+      '<li><b>Producción:</b> transformación de materias primas en productos acabados; incluye investigación, desarrollo e innovación, controles de calidad y planificación de la producción.</li>' +
+      '<li><b>Comercialización:</b> poner el producto en manos del comprador: publicidad de la empresa y del producto, diseño del empaquetado y <i>merchandising</i>, distribución y técnicas de venta.</li></ul>' +
+      '<h4>Área de dirección (Tabla 1.2)</h4><ul>' +
+      '<li><b>Planificación:</b> elaborar un proyecto considerando lo propio de la empresa y su entorno, con los objetivos y el plazo para lograrlos.</li>' +
+      '<li><b>Gestión de la información:</b> registros contables, datos de ventas y compras; también revistas, informes y estudios de organismos oficiales, organizaciones empresariales y entidades financieras.</li>' +
+      '<li><b>Comunicación y control:</b> dar a conocer las decisiones al resto de colaboradores y verificar el grado de cumplimiento de los objetivos.</li></ul>' +
+      '<h4>Área económico-financiera (Tabla 1.3)</h4><ul>' +
+      '<li><b>Financiación:</b> obtención y administración de los recursos económicos (cómo conseguir dinero suficiente).</li>' +
+      '<li><b>Inversión:</b> planificar cómo emplear esos recursos y estudiar las operaciones que se desea efectuar; decidir su destino.</li></ul>' +
+      '<p><b>Merchandising:</b> técnicas que se desarrollan en el punto de venta para animar al cliente a que compre.</p>' +
+      '<p><b>Caso Lucía López (zapatería):</b> necesita mobiliario y estanterías por 18.750 € y no tiene suficiente dinero → área económico-financiera: pide un préstamo al banco (<b>financiación</b>) y con ese dinero compra el mobiliario (<b>inversión</b>).</p>',
+    e5: '<p>La persona empresaria es la que tiene la <b>iniciativa</b> de poner en marcha un negocio:</p><ul><li>Identifica las oportunidades de negocio.</li><li>Aporta el capital necesario.</li><li>Dirige y toma las decisiones estratégicas.</li><li>Asume los riesgos del emprendimiento.</li></ul>' +
+      '<h4>Por qué beneficia a la sociedad y al mercado</h4><ul>' +
+      '<li><b>Impulsan la competitividad:</b> más oferta → mejor calidad, precios más bajos y más variedad.</li>' +
+      '<li><b>Fomentan la innovación:</b> invierten en innovación y desarrollo; aceleran el avance tecnológico y social.</li>' +
+      '<li><b>Generan empleo:</b> reducen el desempleo y mejoran la calidad de vida.</li>' +
+      '<li><b>Son fuente de recaudación fiscal:</b> los impuestos financian sanidad, educación, seguridad e infraestructuras.</li>' +
+      '<li><b>Promocionan el desarrollo económico:</b> local (nuevos comercios y servicios), regional y global (exportación).</li></ul>',
+    e6: '<table><tr><th>Criterio</th><th>Tipos</th></tr>' +
+      '<tr><td>5.1 Finalidad</td><td><b>Lucrativas</b> (obtener beneficios; la gran mayoría) · <b>No lucrativas</b> (algo distinto: deporte, cultura musical…)</td></tr>' +
+      '<tr><td>5.2 Actividad</td><td>Sector primario · secundario · terciario</td></tr>' +
+      '<tr><td>5.3 Propiedad del capital</td><td><b>Públicas</b> (capital de la Administración: Estado, CCAA, diputaciones, ayuntamientos) · <b>Privadas</b> (personas particulares o empresas privadas) · <b>Mixtas</b> (parte pública y parte privada)</td></tr>' +
+      '<tr><td>5.4 Naturaleza jurídica</td><td><b>Individuales</b> (una persona física, en nombre propio) · <b>Colectivas</b> (varios propietarios que forman una persona jurídica)</td></tr>' +
+      '<tr><td>5.5 Tamaño</td><td>Microempresa · pequeña · mediana · grande</td></tr></table>' +
+      '<h4>Tamaño (Comisión Europea) — Tabla 1.4</h4>' +
+      '<table><tr><th>Categoría</th><th>Nº medio de empleados</th><th>Volumen de negocios netos</th><th>o Total del balance</th></tr>' +
+      '<tr><td>Microempresa</td><td>Menos de 10</td><td>Menos de 2 mill. €</td><td>Menos de 2 mill. €</td></tr>' +
+      '<tr><td>Pequeña</td><td>10 y 49</td><td>Entre 2 y 10 mill. €</td><td>Entre 2 y 10 mill. €</td></tr>' +
+      '<tr><td>Mediana</td><td>Entre 50 y 249</td><td>Entre 10 y 50 mill. €</td><td>Entre 10 y 43 mill. €</td></tr>' +
+      '<tr><td>Grande</td><td>Más de 250</td><td>Más de 50 mill. €</td><td>Más de 43 mill. €</td></tr></table>',
+    e7: '<div class="sac-box"><b>PYME:</b> acrónimo de <b>pequeña y mediana empresa</b>. En la Unión Europea incluye las <b>microempresas</b> y las pequeñas y medianas: empresas con <b>menos de 250 personas</b> y un volumen anual de negocios que no excede los <b>50 millones</b> o cuyo balance general no supera los <b>43 millones</b> de euros.</div>' +
+      '<h4>6.1 Características</h4><ul><li>El <b>99 %</b> de las empresas de España son pymes; la gran mayoría son pymes sin asalariados (autónomos), microempresas o pequeñas empresas.</li><li>Son el <b>mayor empleador</b> del país y contribuyen de forma significativa al producto interior bruto.</li><li>La mayoría pertenece al <b>sector servicios</b> (comercio, hostelería, servicios profesionales).</li><li>La Subdirección General de Emprendimiento y PYME publica estadísticas periódicas.</li></ul>' +
+      '<h4>6.2 El comercio de proximidad (comercio local)</h4><p>Pymes que ofrecen sus servicios directamente en barrios y comunidades locales; generan empleo y los ingresos se quedan en la zona. <b>Ventajas frente a las grandes superficies:</b></p><ul>' +
+      '<li><b>Atención personalizada:</b> trato más cercano; conocen mejor las necesidades y preferencias.</li>' +
+      '<li><b>Productos frescos y de calidad</b> (productos locales).</li>' +
+      '<li><b>Impacto económico local:</b> empleo, apoyo a productores locales, riqueza en la comunidad.</li>' +
+      '<li><b>Menor impacto ambiental:</b> menos transporte, menos emisiones de carbono, productos de kilómetro 0 y consumo responsable.</li></ul>',
+    e8: '<div class="sac-box"><b>Entorno de la empresa:</b> todos los factores que rodean a la organización y que influyen, directa o indirectamente, en su funcionamiento. (Se vuelve a tratar en la Unidad 4.)</div>' +
+      '<ul><li><b>Entorno general o macroentorno:</b> factores <b>externos</b> que la empresa <b>no puede controlar</b> y apenas modificar (por ejemplo, que suba el IPC). Afecta a todas las empresas por igual.</li>' +
+      '<li><b>Entorno específico o microentorno:</b> factores más próximos (el mercado o sector donde actúa); la empresa <b>sí puede influir</b> sobre ellos.</li></ul>' +
+      '<h4>Macroentorno (Fig. 1.2)</h4><ul>' +
+      '<li><b>Sociocultural:</b> tradición de la sociedad, costumbres y estilo de vida.</li>' +
+      '<li><b>Político-legal:</b> poderes públicos (Estado, comunidades autónomas, ayuntamientos): ideología de los mandatarios, estabilidad política y leyes.</li>' +
+      '<li><b>Económico:</b> política fiscal, política monetaria, ciclo económico.</li>' +
+      '<li><b>Tecnológico:</b> influencia de las nuevas tecnologías sobre las empresas.</li>' +
+      '<li><b>Demográfico:</b> tamaño de la población y sus características.</li>' +
+      '<li><b>Ecológico:</b> normativa de sostenibilidad y mayor conciencia social.</li></ul>' +
+      '<h4>Microentorno</h4><ul><li>Competidores (empresas que ofrecen productos similares y buscan los mismos clientes).</li><li>Poder de negociación de los <b>proveedores</b>.</li><li>Poder de negociación de los <b>clientes</b>.</li><li>Influencia de los <b>intermediarios</b> del canal.</li><li>Papel de las <b>instituciones</b> que regulan, supervisan o fomentan la actividad comercial.</li></ul>',
+    f1: '<div class="sac-box">Tener <b>personalidad</b> (en sentido legal) implica tener <b>derechos y deberes</b>: determina qué puede y qué debe hacer un individuo.</div>' +
+      '<ul><li><b>Personalidad física:</b> atribución jurídica que se otorga a todo ser humano <b>desde su nacimiento</b> (derecho a la vida, a la libertad, a la igualdad). Se inscribe en el <b>Registro Civil</b>. Ej.: un fontanero autónomo.</li>' +
+      '<li><b>Personalidad jurídica:</b> cualidad que el ordenamiento concede a empresas, asociaciones o fundaciones para actuar como una persona física: pueden tener bienes, contraer deudas, celebrar contratos y ser responsables de sus actos. Se inscribe en el <b>Registro Mercantil</b>. Ej.: El Corte Inglés.</li></ul>' +
+      '<p>Atributos de las personas: nombre, domicilio, nacionalidad, patrimonio y capacidad para ejercer derechos y obligaciones.</p>' +
+      '<p><b>Emancipación:</b> permite a quien es mayor de 16 y menor de 18 años hacer uso de su persona como si fuera mayor de edad.</p>' +
+      '<h4>Tabla 2.1: formas jurídicas</h4><table><tr><th>Personalidad</th><th>Formas jurídicas</th></tr>' +
+      '<tr><td>Persona física</td><td>Empresario individual o autónomo · Emprendedor de responsabilidad limitada</td></tr>' +
+      '<tr><td>Entidades sin personalidad jurídica</td><td>Comunidad de bienes · Sociedad civil</td></tr>' +
+      '<tr><td>Persona jurídica</td><td>Sociedad de responsabilidad limitada · Sociedad anónima · Sociedad colectiva · Sociedad laboral · Sociedad cooperativa · Sociedad profesional</td></tr></table>' +
+      '<p><b>Entidad sin personalidad jurídica:</b> no tiene personalidad jurídica propia, pero permite a los socios iniciar una actividad económica de forma sencilla, respondiendo de forma <b>ilimitada</b> ante las deudas.</p>' +
+      '<p><b>Denominación social</b> (sociedades: identifica a la sociedad en las operaciones jurídicas) frente a <b>nombre comercial</b> (se usa en la publicidad y en la relación con la clientela).</p>',
+    f2: '<div class="sac-box"><b>Empresa individual (EI):</b> aquella cuya titularidad recae sobre una <b>persona física</b>, denominada <b>empresario</b>, que lleva a cabo una actividad industrial, comercial o de prestación de servicios en nombre propio. <b>No tiene personalidad jurídica propia:</b> la persona física y el negocio son lo mismo.</div>' +
+      '<h4>Características</h4><ul>' +
+      '<li>Derechos y obligaciones personales: <b>Código Civil</b>; actividades de la empresa: <b>Código de Comercio</b>.</li>' +
+      '<li>Puede serlo cualquier persona física <b>mayor de edad o menor emancipada</b>.</li>' +
+      '<li>Tiene todo el control y es la <b>responsable máxima</b> de la gestión.</li>' +
+      '<li>Responde <b>personalmente con su patrimonio</b>, presente y futuro, ante las deudas.</li>' +
+      '<li>Obligada a darse de alta en la <b>Seguridad Social en el RETA</b> y en la Agencia Tributaria (declaración censal).</li>' +
+      '<li><b>No</b> se requiere inscripción en el Registro Mercantil.</li></ul>' +
+      '<table><tr><th>Denominación</th><th>Capital</th><th>Responsabilidad</th><th>Socios</th><th>Fiscalidad</th><th>Formalidades</th><th>Órganos</th></tr><tr><td>Libre (nombre comercial)</td><td>Sin mínimo legal</td><td>Ilimitada</td><td>1</td><td>IRPF</td><td>Ninguna</td><td>El propietario</td></tr></table>' +
+      '<h4>Ventajas e inconvenientes</h4><ul><li><b>Ventajas:</b> la más adecuada para pequeñas empresas; sencilla en el trámite y la gestión; rápida de constituir; gastos de constitución mínimos.</li><li><b>Inconvenientes:</b> responsabilidad ilimitada (patrimonio personal, actual y futuro); si hay grandes beneficios pueden gravarse con tipos impositivos elevados.</li></ul>' +
+      '<p><b>Caso Virginia:</b> única propietaria, quiere el nombre «Modas Virgi» y una constitución rápida y sencilla → le conviene la empresa individual (no requiere formalidades).</p>',
+    f3: '<h4>3. Comunidad de bienes (C. B.)</h4><div class="sac-box">Figura jurídica en la que <b>dos o más personas</b> (<b>comuneros</b>) acuerdan explotar conjuntamente la propiedad de un bien o de un conjunto de bienes.</div><ul>' +
+      '<li>Regulada por el <b>Código Civil</b> (derechos y obligaciones) y el <b>Código de Comercio</b> (materia mercantil).</li>' +
+      '<li><b>No</b> tiene personalidad jurídica propia.</li>' +
+      '<li>Responsabilidad de los miembros <b>ilimitada y solidaria</b>.</li>' +
+      '<li>Se exige un <b>contrato privado</b> con las aportaciones y el porcentaje de participación; si se aportan <b>bienes inmuebles</b>, escritura pública.</li>' +
+      '<li>Mínimo <b>2 personas</b>; no se requiere aportación mínima.</li></ul>' +
+      '<p><b>Responsabilidad ilimitada y solidaria:</b> en caso de deuda, cada miembro puede ser obligado a pagar la parte que corresponda a su cuota de participación, y al ser ilimitada responde con su patrimonio personal y no solo con los bienes aportados.</p>' +
+      '<p><b>Trámites:</b> 1) contrato privado entre los socios; 2) escritura pública ante notario si hay inmuebles o derechos reales; 3) alta en el Registro Mercantil (no obligatoria, pero recomendable); 4) Agencia Tributaria: NIF, declaración censal y alta de cada socio en el censo de empresarios; 5) Seguridad Social si los socios trabajan en la C. B.</p>' +
+      '<table><tr><th>Denominación</th><th>Capital</th><th>Resp.</th><th>Socios</th><th>Fiscalidad</th><th>Formalidades</th><th>Órganos</th></tr><tr><td>Libre</td><td>Sin mínimo</td><td>Ilimitada</td><td>Mín. 2</td><td>IRPF</td><td>Escritura o documento privado</td><td>Según pacto</td></tr></table>' +
+      '<p><b>Caso:</b> tres hermanos que heredan una finca y quieren explotarla sin crear una sociedad mercantil → comunidad de bienes.</p>' +
+      '<h4>4. Sociedad civil</h4><div class="sac-box">Se constituye cuando <b>dos o más personas</b> acuerdan, mediante un <b>contrato</b>, realizar una actividad con la finalidad de <b>repartirse las ganancias</b>. Cada socio aporta <b>dinero, bienes o trabajo</b>; beneficios y pérdidas se reparten en la proporción pactada o, si no, en partes iguales.</div><ul>' +
+      '<li>Si se formaliza en <b>escritura pública</b> e inscribe en el Registro Mercantil → adquiere <b>personalidad jurídica propia</b>; si no, existe pero sin personalidad (los socios actúan en nombre propio).</li>' +
+      '<li>Escritura pública obligatoria si se aportan bienes inmuebles o derechos reales.</li>' +
+      '<li>Responsabilidad personal e <b>ilimitada</b>. Sin capital mínimo. Regulada por el Código Civil.</li></ul>' +
+      '<table><tr><th>Denominación</th><th>Capital</th><th>Resp.</th><th>Socios</th><th>Fiscalidad</th><th>Formalidades</th><th>Órganos</th></tr><tr><td>Libre</td><td>Sin mínimo</td><td>Ilimitada</td><td>Mín. 2</td><td>Imp. de sociedades si tiene objeto mercantil; IRPF si no</td><td>Escritura o documento privado</td><td>Según pacto</td></tr></table>' +
+      '<ul><li><b>Ventajas:</b> trámites sencillos; sin escritura ni Registro si los pactos son privados; sin capital mínimo; se disuelve con facilidad.</li><li><b>Inconvenientes:</b> responsabilidad ilimitada; sin personalidad jurídica propia si los pactos son privados.</li></ul><p>Suele usarse en profesionales (despachos de abogados, clínicas…).</p>',
+    f4: '<div class="sac-box"><b>Sociedad de responsabilidad limitada (S. L. / S. R. L.):</b> sociedad mercantil <b>capitalista</b> cuyo capital social está dividido en partes iguales, denominadas <b>participaciones</b>, que se pueden acumular pero no dividir. La responsabilidad de los <b>socios</b> se limita al capital aportado.</div>' +
+      '<h4>5.1 Características</h4><ul>' +
+      '<li>Responsabilidad limitada: si no puede pagar las deudas, los socios solo pierden lo invertido, no su patrimonio personal.</li>' +
+      '<li>Si un socio la abandona, los demás tienen <b>preferencia</b> para adquirir sus participaciones.</li>' +
+      '<li><b>Personalidad jurídica propia.</b> Constitución mediante <b>escritura pública</b> e inscripción en el <b>Registro Mercantil</b>.</li>' +
+      '<li>Puede constituirse con <b>un solo socio</b> (sociedad limitada unipersonal, <b>S. L. U.</b>), que debe indicarse en todos los documentos.</li>' +
+      '<li>Es sociedad mercantil independientemente del objetivo.</li>' +
+      '<li>El capital debe estar <b>desembolsado</b> en la constitución (metálico o bienes y derechos valorados económicamente).</li>' +
+      '<li>Libros: inventarios y cuentas anuales, diario, libro de actas y libro de registro de socios.</li>' +
+      '<li>Órganos: <b>junta general</b> y <b>administradores</b>.</li></ul>' +
+      '<table><tr><th>Denominación</th><th>Capital</th><th>Resp.</th><th>Socios</th><th>Fiscalidad</th><th>Formalidades</th><th>Órganos</th></tr><tr><td>Distinta de otra sociedad + S. R. L. o S. L.</td><td>Mínimo <b>1 €</b></td><td>Limitada a las aportaciones</td><td>Mín. 1</td><td>Imp. de sociedades</td><td>Escritura, estatutos, inscripción en el Reg. Mercantil</td><td>Junta general y administración</td></tr></table>' +
+      '<p><b>Ejemplo:</b> Noelia y Pedro abren una tienda como S. L. con 4.000 €. Si hay deudas que no pueden pagar, pierden lo aportado, pero no responden con su patrimonio personal.</p>' +
+      '<h4>5.2 Órganos</h4><ul><li><b>Junta general de socios:</b> todos los socios; toman las decisiones. Competencias: aprobar las cuentas anuales y su destino; separar y nombrar administradores; autorizarles; aprobar aumentos o disminuciones de capital; modificar estatutos; acordar transformación, fusión y separación; aprobar la disolución.</li><li><b>Administradores:</b> gestión administrativa diaria y representación frente a terceros. Los nombra la junta general; se requiere ser socio salvo que los estatutos digan lo contrario.</li></ul>' +
+      '<h4>5.3 Ventajas e inconvenientes</h4><ul><li><b>Ventajas:</b> responsabilidad limitada; capital mínimo muy reducido y sin máximo; se puede aportar dinero o bienes; menos rigidez que la S. A.; libertad de pactos; modificar estatutos no exige hacerlo público.</li><li><b>Inconvenientes:</b> restricciones al transmitir participaciones; contabilidad formal y cuentas anuales en el Registro Mercantil; mayores gastos de gestión que el empresario individual, la C. B. o la sociedad civil; impuesto de sociedades complejo; <b>no puede cotizar en bolsa</b>.</li></ul>' +
+      '<h4>5.4 Trámites de constitución (en este orden)</h4><ol><li><b>Certificación negativa del nombre</b> (garantiza que no existe otra sociedad con el mismo nombre).</li><li><b>NIF</b> provisional (el definitivo, tras inscribirse en el Registro Mercantil).</li><li><b>Escritura de constitución</b> ante notario (voluntad de constituir, aportaciones y numeración de participaciones, identificación de socios, estatutos, forma de administración, datos de los administradores).</li><li><b>ITPyAJD</b> (grava la transmisión de los bienes aportados; lo gestiona la comunidad autónoma).</li><li><b>Inscripción en el Registro Mercantil</b> (plena capacidad jurídica).</li></ol>',
+    f5: '<div class="sac-box"><b>Sociedad anónima (S. A.):</b> sociedad mercantil <b>capitalista</b>, con el capital dividido en partes iguales llamadas <b>acciones</b>, que pueden transmitirse libremente (venta, donación, herencia). La responsabilidad de los socios se limita al capital que han aportado.</div>' +
+      '<h4>6.1 Características</h4><ul>' +
+      '<li>Mercantil independientemente del objetivo. <b>Personalidad jurídica propia.</b></li>' +
+      '<li>Constitución mediante <b>escritura pública</b> e inscripción en el Registro Mercantil.</li>' +
+      '<li>Capital mínimo <b>60.000 €</b>, suscrito totalmente y <b>desembolsado al menos el 25 %</b> al constituirse.</li>' +
+      '<li>Las acciones se entregan cuando la sociedad está inscrita; pueden ser <b>nominativas o al portador</b>; son <b>indivisibles</b>.</li>' +
+      '<li>Responsabilidad limitada al <b>valor nominal</b> de las acciones.</li>' +
+      '<li>Órganos: <b>junta general de accionistas</b>, <b>administradores</b> y <b>auditor de cuentas</b>. Se rige por mayoría de votos.</li>' +
+      '<li>El capital puede aportarse en metálico o bienes; <b>no</b> se puede aportar trabajo personal o servicios.</li></ul>' +
+      '<table><tr><th>Denominación</th><th>Capital</th><th>Resp.</th><th>Socios</th><th>Fiscalidad</th><th>Formalidades</th><th>Órganos</th></tr><tr><td>Distinta + S. A.</td><td>Mín. <b>60.000 €</b></td><td>Limitada al patrimonio social</td><td>Mín. 1</td><td>Imp. de sociedades</td><td>Escritura, estatutos, inscripción</td><td>Junta de accionistas, administradores, auditor</td></tr></table>' +
+      '<p><b>6.2 Constitución:</b> el capital debe estar <b>suscrito</b> (los socios se comprometen a aportarlo) en su totalidad y <b>desembolsado al menos el 25 %</b>; el resto, en los plazos de los estatutos. Los trámites son los mismos que para la S. L.</p>' +
+      '<h4>6.3 Órganos</h4><ul><li><b>Junta general de accionistas:</b> órgano supremo; reúne a todos los socios; la convocan los administradores. Aprueba cuentas anuales, nombra administradores, modifica estatutos y decide sobre el capital social.</li><li><b>Administradores:</b> representación y gestión (una persona, varias o un consejo de administración).</li><li><b>Auditores de cuentas:</b> órgano interno que revisa la contabilidad; los nombra la junta y cesan al aprobarse las cuentas.</li></ul>' +
+      '<h4>6.4 Ventajas e inconvenientes</h4><ul><li><b>Ventajas:</b> responsabilidad limitada; transmisión libre de acciones; puede constituirse con un solo socio.</li><li><b>Inconvenientes:</b> capital elevado; organización más compleja; junta general al menos una vez al año; cuentas anuales obligatorias en el Registro Mercantil.</li></ul>' +
+      '<div class="sac-box"><b>Valor nominal de una acción = capital social ÷ nº de acciones.</b><br>Textil del Mediterráneo S. A.: 950.000 € ÷ 950 acciones = <b>1.000 €</b>.<br>Torba S. A.: 2.500 acciones × 120 € = 300.000 € de capital; 25 % desembolsado = 75.000 €; 50 % = 150.000 €.</div>',
+    f6: '<h4>7.1 Emprendedor de responsabilidad limitada (ERL)</h4><div class="sac-box">Persona <b>física</b> que emprende una actividad económica de forma habitual, personal, directa y por cuenta propia, con o sin trabajadores, con <b>limitación de su responsabilidad patrimonial</b> ante terceros.</div><ul>' +
+      '<li>La persona titular tiene el control total; <b>no se crea persona jurídica</b> distinta.</li>' +
+      '<li>Responde personalmente de las deudas, pero <b>se excluye su vivienda habitual</b>.</li>' +
+      '<li><b>Sin capital mínimo.</b> Rendimientos sujetos a <b>IRPF</b>.</li>' +
+      '<li>Se inscribe en el <b>Registro Mercantil</b> y en el <b>Registro de la Propiedad</b> (datos de la vivienda excluida).</li>' +
+      '<li>Lleva contabilidad como una sociedad y deposita las cuentas anuales en el Registro Mercantil.</li>' +
+      '<li>Constitución: acta notarial, inscripción en el Registro Mercantil y liquidación del ITPyAJD.</li></ul>' +
+      '<h4>7.2 Sociedad colectiva</h4><div class="sac-box">Sociedad mercantil de tipo <b>personalista</b>. Los socios, con un nombre colectivo y una razón social, participan en derechos y obligaciones y responden <b>personal y solidariamente</b> de las deudas.</div><ul>' +
+      '<li>Nombre colectivo o razón social, con las siglas <b>SC</b> o <b>SRC</b>.</li><li>Mínimo <b>2 socios</b>; responsabilidad <b>ilimitada y solidaria</b>; sin capital mínimo; se rige por el Código de Comercio.</li><li>Dos tipos de socios: <b>capitalista</b> (aporta capital) e <b>industrial</b> (aporta trabajo o servicios).</li></ul>' +
+      '<h4>7.3 Sociedades laborales</h4><div class="sac-box">Sociedades mercantiles <b>especiales</b> con forma de <b>S. A. o S. L.</b>, en las que la <b>mayoría del capital</b> pertenece a trabajadores con una relación laboral por <b>tiempo indefinido</b>. Normativa: Ley 44/2015, de 14 de octubre.</div><ul>' +
+      '<li>Nº mínimo de socios al constituirse: <b>2</b>; en 36 meses se amplía al menos a <b>3</b>.</li>' +
+      '<li>Responsabilidad limitada a las aportaciones.</li>' +
+      '<li>Ningún socio puede tener más de <b>un tercio</b> del capital (salvo constitución inicial por dos socios; entidades públicas, hasta el 49 %).</li>' +
+      '<li>Horas-año de trabajadores indefinidos no socios: máximo <b>49 %</b> de las de los socios trabajadores.</li>' +
+      '<li>Nombre con «sociedad anónima laboral» o «sociedad de responsabilidad limitada laboral» (siglas <b>SAL</b> o <b>SLL</b>).</li>' +
+      '<li><b>Fondo especial de reserva:</b> 10 % del beneficio neto de cada ejercicio.</li>' +
+      '<li>Impuesto de sociedades y bonificación en el ITPyAJD.</li>' +
+      '<li>Capital mínimo: <b>1 €</b> si es SLL; <b>60.000 €</b> si es SAL.</li>' +
+      '<li>Constitución: mismos trámites que S. L. y S. A., pero antes se solicita la <b>calificación de sociedad laboral</b> y se inscribe en el Registro de Sociedades Laborales.</li></ul>' +
+      '<p><b>Caso:</b> cinco trabajadores de hostelería, todos socios, participación igualitaria (20 % cada uno), cada uno aporta 5.000 € (capital 25.000 €) y no quieren arriesgar patrimonio personal → sociedad de responsabilidad limitada laboral.</p>' +
+      '<h4>7.4 Sociedades cooperativas</h4><div class="sac-box">Agrupación <b>voluntaria</b> de personas físicas o jurídicas para realizar una actividad empresarial que satisfaga sus necesidades y aspiraciones económicas y sociales, con estructura y funcionamiento <b>democráticos</b>.</div><ul>' +
+      '<li>Socios que se adhieren o dan de baja libremente; <b>un voto por socio</b>, sea cual sea su aportación.</li>' +
+      '<li>Responsabilidad limitada al capital aportado (salvo estatutos); mínimo <b>3 socios</b>.</li>' +
+      '<li>Los estatutos fijan el capital social mínimo; beneficios repartidos de forma <b>equitativa</b>, no según el capital.</li>' +
+      '<li>Nombre con «Sociedad Cooperativa» o <b>S. Coop.</b>; impuesto de sociedades (régimen especial).</li>' +
+      '<li><b>Órganos:</b> asamblea general de socios; <b>consejo rector</b> (alta gestión, supervisión de directivos y representación); <b>intervención</b> (comprueba la documentación); <b>comité de recursos</b> (resuelve recursos contra sanciones).</li>' +
+      '<li>Se inscribe en el Registro de Sociedades Cooperativas.</li></ul>' +
+      '<h4>7.5 Sociedades profesionales</h4><p>Se constituyen para <b>ejercer en común una determinada actividad profesional</b>. Requisitos: los socios poseen titulación universitaria oficial o profesional acreditada y están inscritos en un colegio profesional. Pueden adoptar cualquier forma jurídica añadiendo una <b>«P»</b> de profesional (por ejemplo, <b>SLP</b>). Ej.: cuatro abogadas que crean una sociedad limitada profesional.</p>',
+    f7: '<h4>8. Elección de la forma jurídica</h4><p>Es importante porque la forma jurídica nos <b>identifica legalmente</b> ante instituciones públicas, entidades financieras, proveedores y clientes, y porque puede afectar al <b>patrimonio particular</b> del empresario o de los socios.</p><ul>' +
+      '<li><b>Responsabilidad de los socios:</b> <b>limitada</b> (solo el patrimonio de la empresa) o <b>ilimitada</b> (también el patrimonio de los socios).</li>' +
+      '<li><b>Número de socios:</b> cada forma admite o limita el número.</li>' +
+      '<li><b>Capital social:</b> aportaciones en dinero, bienes o trabajo; las no dinerarias se deben valorar.</li>' +
+      '<li><b>Aspectos fiscales:</b> unas formas pagan más impuestos u obligaciones que otras.</li></ul>' +
+      '<div class="sac-box">Prioridades (Fig. 2.3): <b>Capital social → Responsabilidad → Número de personas → Obligaciones fiscales</b></div>' +
+      '<h4>Cuadro comparativo (Tabla 2.11)</h4>' +
+      '<table><tr><th>Forma</th><th>Socios</th><th>Capital</th><th>Responsab.</th><th>Fiscalidad</th></tr>' +
+      '<tr><td>Empresario individual</td><td>1</td><td>Sin mínimo</td><td>Ilimitada</td><td>IRPF</td></tr>' +
+      '<tr><td>Emprendedor resp. limitada</td><td>1</td><td>Sin mínimo</td><td>Ilimitada, salvo vivienda habitual</td><td>IRPF</td></tr>' +
+      '<tr><td>Comunidad de bienes</td><td>Mín. 2</td><td>Sin mínimo</td><td>Ilimitada</td><td>IRPF</td></tr>' +
+      '<tr><td>Sociedad civil</td><td>Mín. 2</td><td>Sin mínimo</td><td>Ilimitada</td><td>I. Sociedades (objeto mercantil) / IRPF</td></tr>' +
+      '<tr><td>S. L.</td><td>Mín. 1</td><td>1 €</td><td>Limitada al capital</td><td>I. Sociedades</td></tr>' +
+      '<tr><td>S. A.</td><td>Mín. 1</td><td>60.000 €</td><td>Limitada al capital</td><td>I. Sociedades</td></tr>' +
+      '<tr><td>Sociedades laborales</td><td>Mín. 2 (3 en 36 meses)</td><td>SRLL 1 € · SAL 60.000 €</td><td>Limitada</td><td>I. Sociedades</td></tr>' +
+      '<tr><td>Cooperativas</td><td>Mín. 3</td><td>Fijado en estatutos</td><td>Limitada</td><td>I. Sociedades (régimen especial)</td></tr>' +
+      '<tr><td>Sociedades profesionales</td><td>Mín. 1</td><td>Según la forma social</td><td>Limitada</td><td>Según la forma social</td></tr>' +
+      '<tr><td>Sociedad colectiva</td><td>Mín. 2</td><td>Sin mínimo</td><td>Ilimitada</td><td>I. Sociedades</td></tr></table>' +
+      '<h4>9. Trámites para la puesta en marcha</h4><ol>' +
+      '<li><b>Certificación negativa del nombre:</b> acredita que no existe otra empresa con el mismo nombre. La solicitan las <b>sociedades mercantiles</b> en el <b>Registro Mercantil Central</b> (las cooperativas, en el Registro de Sociedades Cooperativas). Presencial, correo o telemática.</li>' +
+      '<li><b>NIF:</b> código que identifica a la sociedad a efectos fiscales; lo solicita toda persona jurídica en la Agencia Tributaria (<b>Modelo 036</b>), gratuito. Primero un NIF <b>provisional</b>; con la escritura se pide el <b>definitivo</b>.</li>' +
+      '<li><b>Escritura pública:</b> los socios fundadores firman ante notario (con la certificación negativa, los estatutos y la acreditación del capital desembolsado). Obligatoria para todas las sociedades y para las entidades sin personalidad (C. B. y sociedad civil) cuando se aportan bienes inmuebles o derechos reales.</li>' +
+      '<li><b>ITPyAJD</b> (impuesto de transmisiones patrimoniales y actos jurídicos documentados): grava la constitución. Se presenta en la Consejería de Hacienda de la comunidad autónoma.</li>' +
+      '<li><b>Inscripción en el Registro Mercantil:</b> da plena capacidad jurídica. Obligatoria para sociedades mercantiles y ERL; <b>voluntaria</b> para el empresario individual. Se aporta escritura, NIF y liquidación del ITPyAJD.</li>' +
+      '<li><b>Registros especiales:</b> cooperativas → Registro de Sociedades Cooperativas; sociedades laborales → Registro de Sociedades Laborales (además, certificado de calificación laboral).</li></ol>' +
+      '<p><b>Ponte a prueba:</b> Marcos, empresario individual, quiere llamar a su academia «Aprender Soñando» y pide la certificación negativa en el Registro Mercantil Central: <b>no es correcto</b>, porque esa certificación es para sociedades mercantiles; el empresario individual usa un <b>nombre comercial</b>, no una denominación social.</p>'
+  };
+
+  var GPN_QS = [
+    // ---- T1 · 1.1–1.2 ----
+    {s:'e1', q:'¿En qué consiste la organización en la empresa?', o:['En planificar y gestionar los recursos necesarios, definiendo un modelo organizativo con las tareas y responsabilidades de cada miembro','En contratar personal y vender productos','En fijar los precios de los productos','En registrar la empresa en el Registro Mercantil'], e:'Así se utilizan adecuadamente los recursos y se alcanzan los objetivos.'},
+    {s:'e1', q:'Una empresa agrícola pertenece al sector…', o:['Primario','Secundario','Terciario','Cuaternario'], e:'Extrae recursos naturales: agrícolas, ganaderas, pesqueras, forestales y mineras.'},
+    {s:'e1', q:'Una empresa constructora pertenece al sector…', o:['Secundario','Primario','Terciario','Primario y terciario'], e:'Transforma materias primas en productos acabados o semielaborados (industriales y constructoras).'},
+    {s:'e1', q:'Un banco, un transportista y un comercio pertenecen al sector…', o:['Terciario','Secundario','Primario','Industrial'], e:'Terciario: servicios y entrega del producto acabado al consumidor final.'},
+    {s:'e1', q:'Una empresa que se dedica a la tala y reforestación de bosques para obtener madera es…', o:['Primaria','Secundaria','Terciaria','Mixta'], e:'Bosques S. A.: explota recursos naturales.'},
+    {s:'e1', q:'Hermes Pino, S. L., transforma madera en tablas y listones, e Industrias Mueble fabrica muebles con ellos. ¿A qué sector pertenecen?', o:['Secundario','Primario','Terciario','Una al primario y otra al terciario'], e:'Ambas transforman materias primas o productos semielaborados.'},
+    {s:'e1', q:'Muebles González, S. A., vende los muebles al consumidor final en sus establecimientos. ¿Sector?', o:['Terciario','Secundario','Primario','Industrial'], e:'Los comercios son del sector terciario.'},
+    {s:'e1', q:'¿Cuál de estas empresas es del sector secundario?', o:['Una fábrica de calzado','Una empresa pesquera','Una asesoría','Una empresa de transporte'], e:'Transforma materias primas en productos acabados. Pesquera: primario. Asesoría y transporte: terciario.'},
+    // ---- T1 · 1.3–1.5 ----
+    {s:'e2', q:'Los factores de producción son…', o:['Tierra, trabajo, capital y capacidad empresarial','Humanos, materiales e inmateriales','Aprovisionamiento, producción y comercialización','Planificación, información y control'], e:'Son los recursos básicos que se emplean para realizar la actividad empresarial.'},
+    {s:'e2', q:'La maquinaria de una empresa se considera un factor de producción de tipo…', o:['Capital','Trabajo','Tierra','Capacidad empresarial'], e:'El capital incluye dinero y bienes duraderos (edificios, maquinaria, instalaciones).'},
+    {s:'e2', q:'El factor «capacidad empresarial» consiste en…', o:['Organizar los demás factores, tomar decisiones estratégicas y asumir riesgos','Aportar el dinero de la empresa','Realizar las tareas productivas','Disponer de recursos naturales'], e:'Se asocia a la figura de la persona empresaria o emprendedora.'},
+    {s:'e2', q:'El factor «tierra» incluye…', o:['Los recursos naturales: todo lo que se obtiene directamente de la naturaleza','El dinero y los edificios','Al grupo de personas que trabaja','Las patentes y la marca'], e:'Los edificios y el dinero son capital; el grupo de personas es trabajo.'},
+    {s:'e2', q:'¿Qué incluye el factor «capital»?', o:['El dinero y los bienes duraderos y de funcionamiento (edificios, maquinaria, materias primas, auxiliares…)','Solo el dinero','Solo los edificios','Las personas que trabajan'], e:'Capital = dinero + bienes duraderos + bienes de funcionamiento.'},
+    {s:'e2', q:'¿Cuál es el principal objetivo de la empresa?', o:['Lograr beneficios a cambio de la actividad que desarrolla','Satisfacer al consumidor','Presentar un nuevo producto al mercado','Generar empleo'], e:'Los demás son objetivos secundarios o específicos que persiguen el mismo fin.'},
+    {s:'e2', q:'Satisfacer al consumidor o presentar un nuevo producto al mercado son objetivos…', o:['Secundarios o específicos','Principales','Fiscales','Jurídicos'], e:'Todos persiguen el mismo fin: obtener beneficios.'},
+    {s:'e2', q:'La responsabilidad social corporativa (RSC) es…', o:['El compromiso de la empresa de contribuir al bienestar social, económico y/o ambiental','La obligación de pagar impuestos','La responsabilidad de los socios ante las deudas','Un tipo de forma jurídica'], e:'Se trata de iniciativas que busquen un impacto positivo en la sociedad y el entorno.'},
+    {s:'e2', q:'¿Cuál de estas es una acción de RSC?', o:['Reducir el uso de productos tóxicos contaminantes','Buscar accionistas para la empresa','Formar a los trabajadores en nuevas tecnologías para vender más','Subir los precios'], e:'Es una práctica ambiental. Buscar accionistas no es RSC.'},
+    {s:'e2', q:'La flexibilidad horaria, los programas de bienestar y los servicios de guardería son RSC de tipo…', o:['Responsabilidad con los trabajadores','Prácticas ambientales','Compromiso con la comunidad','Política fiscal'], e:'Mejoran las condiciones de trabajo del equipo humano.'},
+    {s:'e2', q:'Patrocinios y participación en iniciativas sociales son RSC de tipo…', o:['Compromiso con la comunidad','Responsabilidad con los trabajadores','Prácticas ambientales','Responsabilidad fiscal'], e:'Destinar recursos a acciones de apoyo a la sociedad.'},
+    {s:'e2', q:'Reducir la huella de carbono y usar materiales reciclados son RSC de tipo…', o:['Prácticas ambientales','Compromiso con la comunidad','Responsabilidad con los trabajadores','Capacidad empresarial'], e:'Acciones con impacto positivo en el medioambiente.'},
+    // ---- T1 · 2 Elementos ----
+    {s:'e3', q:'Los elementos de la empresa son…', o:['El conjunto de medios que sirven para realizar la actividad empresarial y alcanzar los objetivos','Los factores de producción únicamente','Las áreas de gestión','Los tipos de empresas'], e:'Se clasifican en humanos, materiales e inmateriales.'},
+    {s:'e3', q:'El agente comercial de una empresa se considera un elemento…', o:['Humano','Material','Inmaterial','Financiero'], e:'Los elementos humanos son trabajadores, socios y empresario.'},
+    {s:'e3', q:'Los socios que aportan el capital pertenecen a los elementos…', o:['Humanos','Materiales','Inmateriales','De entorno'], e:'Humanos: trabajadores, socios y empresario.'},
+    {s:'e3', q:'La imagen de empresa se considera un elemento…', o:['Inmaterial','Humano','Material','Fiscal'], e:'Los inmateriales son intangibles: aportan valor añadido y no se pueden tocar.'},
+    {s:'e3', q:'¿Cuál de estos es un elemento inmaterial?', o:['El know-how o saber hacer','La maquinaria','El mobiliario','Las materias primas'], e:'También: nombre comercial, marca, imagen de empresa y patentes.'},
+    {s:'e3', q:'Las materias primas y la maquinaria se consideran elementos…', o:['Materiales','Humanos','Inmateriales','De dirección'], e:'Bienes vinculados a la actividad productiva; la maquinaria se usa en varios ejercicios.'},
+    {s:'e3', q:'En una tienda de ropa, ¿cuál es un elemento inmaterial?', o:['La base de datos de clientes y el nombre de la empresa','El local comercial','El equipo informático','El personal de limpieza'], e:'Local, mobiliario, equipo y productos son materiales; el personal es humano.'},
+    {s:'e3', q:'Los elementos materiales que suelen emplearse en un mismo ejercicio económico son…', o:['Los recursos naturales o materias primas','La maquinaria','Las instalaciones','Las herramientas'], e:'Maquinaria, instalaciones y herramientas se usan en varios ejercicios.'},
+    // ---- T1 · 3 Funciones ----
+    {s:'e4', q:'La transformación de las materias primas en productos acabados corresponde al área…', o:['De explotación (función de producción)','De dirección','Económico-financiera','De comercialización'], e:'La producción incluye también investigación, desarrollo, innovación y controles de calidad.'},
+    {s:'e4', q:'La obtención y administración de los recursos económicos corresponde al área…', o:['Económico-financiera','De explotación','De dirección','De comercialización'], e:'Financiación: cómo obtener dinero suficiente. Inversión: cómo emplearlo.'},
+    {s:'e4', q:'Cuando un empresario elabora un proyecto con los objetivos que desea conseguir, está ejerciendo la tarea de…', o:['Planificación','Obtención de información','Comunicación y control','Aprovisionamiento'], e:'Planificación: proyecto con objetivos y plazo, considerando la empresa y su entorno.'},
+    {s:'e4', q:'¿Qué funciones forman el área de explotación?', o:['Aprovisionamiento, producción y comercialización','Planificación, información y comunicación y control','Financiación e inversión','Compras, ventas y marketing'], e:'Dirección: planificación, gestión de la información, comunicación y control. Económico-financiera: financiación e inversión.'},
+    {s:'e4', q:'La búsqueda y selección de proveedores y la compra de bienes primarios y auxiliares es la función de…', o:['Aprovisionamiento','Producción','Comercialización','Inversión'], e:'También incluye la gestión y el almacenamiento de esos bienes.'},
+    {s:'e4', q:'Hacer publicidad, diseñar el empaquetado, hacer merchandising, distribuir y ejecutar técnicas de venta es la función de…', o:['Comercialización','Producción','Aprovisionamiento','Planificación'], e:'Engloba las actividades para poner el producto en manos del comprador.'},
+    {s:'e4', q:'Los controles de calidad y la investigación y desarrollo de productos pertenecen a la función de…', o:['Producción','Aprovisionamiento','Comercialización','Gestión de la información'], e:'La producción no es solo transformar: incluye investigación, desarrollo e innovación.'},
+    {s:'e4', q:'Dar a conocer las decisiones al resto de colaboradores y verificar el cumplimiento de los objetivos es…', o:['Comunicación y control','Planificación','Gestión de la información','Financiación'], e:'Función del área de dirección.'},
+    {s:'e4', q:'Los registros contables, los datos de ventas y los informes de organismos oficiales son fuentes de…', o:['La gestión de la información','La planificación','La inversión','La comercialización'], e:'Área de dirección.'},
+    {s:'e4', q:'Cómo emplear los recursos conseguidos y decidir su destino es la función de…', o:['Inversión','Financiación','Planificación','Comercialización'], e:'Financiación = obtener los recursos; inversión = decidir en qué emplearlos.'},
+    {s:'e4', q:'Lucía López pide un préstamo al banco para comprar mobiliario para su zapatería. Pedir el préstamo es… y comprar el mobiliario es…', o:['Financiación; inversión','Inversión; financiación','Planificación; control','Aprovisionamiento; comercialización'], e:'Ambas funciones son del área económico-financiera.'},
+    {s:'e4', q:'El merchandising es…', o:['El conjunto de técnicas en el punto de venta para animar al cliente a que compre','La publicidad en televisión','El diseño del producto','La selección de proveedores'], e:'Es una técnica de la comercialización.'},
+    // ---- T1 · 4 Persona empresaria ----
+    {s:'e5', q:'¿Cuál de estas acciones es de la persona empresaria?', o:['Identificar oportunidades de negocio, aportar capital, dirigir y asumir riesgos','Solo realizar las tareas productivas','Solo cobrar un salario','Solo controlar la calidad'], e:'Es la figura clave: tiene la iniciativa de poner en marcha un negocio.'},
+    {s:'e5', q:'Las personas empresarias impulsan la competitividad porque…', o:['Al haber más oferta, las empresas mejoran la calidad, reducen precios y ofrecen más variedad','Suben los precios','Reducen la oferta','Eliminan la competencia'], e:'Fomentan la competencia al crear nuevos productos o servicios.'},
+    {s:'e5', q:'¿Por qué las personas empresarias son una fuente de recaudación fiscal?', o:['Porque los ingresos de las empresas están sujetos a impuestos que financian sanidad, educación o infraestructuras','Porque cobran tasas a los ciudadanos','Porque el Estado les concede subvenciones','Porque no pagan impuestos'], e:'Aportan económicamente al sector público.'},
+    {s:'e5', q:'La exportación de los productos fortalece las relaciones económicas entre países. ¿A qué beneficio de la persona empresaria corresponde?', o:['Promocionan el desarrollo económico (nivel global)','Generan empleo','Impulsan la competitividad','Son fuente de recaudación fiscal'], e:'A nivel local contribuyen al entorno cercano; a nivel global, por la exportación.'},
+    {s:'e5', q:'Pan de Oro, panadería familiar que se ha expandido, ha abierto más locales y ha contratado personal. ¿Qué impacto genera?', o:['Generación de empleo y desarrollo económico local','Solo recaudación fiscal','Solo innovación tecnológica','Ninguno'], e:'Se crean nuevos puestos de trabajo y se amplía la actividad local.'},
+    {s:'e5', q:'Muchas personas empresarias invierten en innovación y desarrollo. ¿Qué beneficio es?', o:['Fomentan la innovación','Impulsan la competitividad únicamente','Generan empleo','Recaudan impuestos'], e:'Amplía el abanico de productos y acelera el avance tecnológico y social.'},
+    // ---- T1 · 5 Clasificación ----
+    {s:'e6', q:'Una empresa forestal desarrolla una actividad empresarial de tipo…', o:['Primario','Secundario','Terciario','Mixto'], e:'Clasificación por actividad.'},
+    {s:'e6', q:'Según la finalidad, una asociación cuyo objetivo es el fomento de la cultura musical es una empresa…', o:['No lucrativa','Lucrativa','Pública','Mixta'], e:'Su objetivo no es obtener beneficios económicos.'},
+    {s:'e6', q:'Según la propiedad del capital, una cafetería abierta al público es una empresa…', o:['Privada','Pública','Mixta','Cooperativa'], e:'El capital lo aportan personas particulares o empresas privadas.'},
+    {s:'e6', q:'Una empresa cuyo capital lo aportan en parte organismos públicos y en parte particulares es…', o:['Mixta','Pública','Privada','Colectiva'], e:'Públicas: solo la Administración Pública. Privadas: solo particulares.'},
+    {s:'e6', q:'Una empresa con capital del Estado, las comunidades autónomas, las diputaciones o los ayuntamientos es…', o:['Pública','Privada','Mixta','Individual'], e:'El capital lo aporta la Administración Pública.'},
+    {s:'e6', q:'Según la naturaleza jurídica, un empresario autónomo que se dedica a la fontanería se considera una empresa…', o:['Individual','Colectiva','Pública','Mixta'], e:'Individual: una persona física que ejerce en nombre propio una actividad.'},
+    {s:'e6', q:'Las empresas colectivas son aquellas que…', o:['Pertenecen a varios propietarios y forman una persona jurídica','Pertenecen a una sola persona física','Tienen capital público','Son siempre cooperativas'], e:'Individuales: una persona física.'},
+    {s:'e6', q:'Según su tamaño, una empresa con cinco trabajadores y un volumen de negocios inferior a 2 millones de euros es una…', o:['Microempresa','Pequeña empresa','Mediana empresa','Gran empresa'], e:'Microempresa: menos de 10 empleados y menos de 2 millones.'},
+    {s:'e6', q:'Una empresa con 120 empleados y un volumen de negocios de 30 millones de euros es…', o:['Mediana','Pequeña','Micro','Grande'], e:'Mediana: entre 50 y 249 empleados y entre 10 y 50 millones.'},
+    {s:'e6', q:'Una empresa con 30 empleados y un volumen de negocios de 8 millones de euros es…', o:['Pequeña','Micro','Mediana','Grande'], e:'Pequeña: entre 10 y 49 empleados y entre 2 y 10 millones.'},
+    {s:'e6', q:'¿Cuál es el límite del total del balance de una mediana empresa?', o:['Entre 10 y 43 millones de euros','Entre 10 y 50 millones de euros','Entre 2 y 10 millones de euros','Más de 43 millones de euros'], e:'El volumen de negocios llega a 50 millones; el balance, a 43.'},
+    {s:'e6', q:'¿Quién recomienda la clasificación de las empresas según su tamaño?', o:['La Comisión Europea','El Banco de España','El Registro Mercantil','La Agencia Tributaria'], e:'Se basa en el número medio de empleados y el volumen de negocios o el balance.'},
+    // ---- T1 · 6 Pyme ----
+    {s:'e7', q:'PYME es el acrónimo de…', o:['Pequeña y mediana empresa','Proyectos y metas emprendedoras','Planificación y mantenimiento de empresas','Pequeña y microempresa'], e:'En la UE incluye microempresas, pequeñas y medianas.'},
+    {s:'e7', q:'¿Qué porcentaje de las empresas españolas son pymes?', o:['El 99 %','El 75 %','El 50 %','El 90 %'], e:'La gran mayoría son autónomos, microempresas o pequeñas empresas.'},
+    {s:'e7', q:'¿Qué sector aglutina más empresas en España?', o:['Servicios','Agrario','Construcción','Industria'], e:'Principalmente comercio, hostelería y servicios profesionales.'},
+    {s:'e7', q:'Una pyme ocupa a…', o:['Menos de 250 personas, con volumen anual de negocios hasta 50 millones o balance hasta 43 millones','Menos de 50 personas','Más de 250 personas','Menos de 10 personas'], e:'Incluye microempresas, pequeñas y medianas.'},
+    {s:'e7', q:'El comercio de proximidad es…', o:['El que ofrece sus servicios directamente en barrios y comunidades locales (comercio local)','Las grandes superficies comerciales','Solo el comercio online','El comercio exterior'], e:'Un porcentaje elevado de pymes son comercios de proximidad.'},
+    {s:'e7', q:'¿Cuál es una ventaja del comercio de proximidad frente a las grandes superficies?', o:['Atención personalizada','Mayor variedad de productos importados','Precios siempre menores','Mayor número de empleados'], e:'También: productos frescos y de calidad, impacto económico local y menor impacto ambiental.'},
+    {s:'e7', q:'¿Por qué el comercio de proximidad tiene menor impacto ambiental?', o:['Porque requiere menos transporte, reduce emisiones y puede ofrecer productos de kilómetro 0','Porque no usa electricidad','Porque no vende productos envasados','Porque está subvencionado'], e:'Fomenta el consumo responsable.'},
+    {s:'e7', q:'¿Quién publica periódicamente estadísticas sobre las pymes en España?', o:['La Subdirección General de Emprendimiento y PYME','El Registro Civil','La Comisión Europea únicamente','El Registro Mercantil'], e:'Permite conocer el porcentaje de empresas de cada tipo y su distribución sectorial.'},
+    // ---- T1 · 7 Entorno ----
+    {s:'e8', q:'El entorno general o macroentorno comprende…', o:['Factores externos que la empresa no puede controlar y apenas puede modificar','Factores próximos sobre los que la empresa sí puede influir','Los elementos humanos de la empresa','Las áreas de gestión'], e:'El microentorno es el entorno específico.'},
+    {s:'e8', q:'El poder de negociación de los clientes es un factor del entorno…', o:['Específico (microentorno)','General (macroentorno)','Económico','Sociocultural'], e:'Específico: competidores, proveedores, clientes, intermediarios e instituciones.'},
+    {s:'e8', q:'Una subida del IPC es un factor del entorno…', o:['General: la empresa no puede controlarlo','Específico: la empresa lo controla','Interno','De dirección'], e:'Es un ejemplo del propio texto de macroentorno.'},
+    {s:'e8', q:'La política fiscal, la política monetaria y el ciclo económico componen el factor…', o:['Económico','Político-legal','Sociocultural','Demográfico'], e:'Entorno general.'},
+    {s:'e8', q:'La estabilidad política y las leyes que emanan de los poderes públicos son el factor…', o:['Político-legal','Económico','Ecológico','Tecnológico'], e:'Incluye Estado, comunidades autónomas, ayuntamientos y la ideología de los mandatarios.'},
+    {s:'e8', q:'Las tradiciones, las costumbres y el estilo de vida de una sociedad son el factor…', o:['Sociocultural','Demográfico','Político-legal','Ecológico'], e:'Entorno general.'},
+    {s:'e8', q:'La normativa relacionada con la sostenibilidad y una mayor conciencia social es el factor…', o:['Ecológico','Sociocultural','Económico','Tecnológico'], e:'Entorno general.'},
+    {s:'e8', q:'El tamaño de la población y sus características son el factor…', o:['Demográfico','Sociocultural','Económico','Ecológico'], e:'Entorno general.'},
+    {s:'e8', q:'La influencia de las nuevas tecnologías sobre las empresas es el factor…', o:['Tecnológico','Demográfico','Ecológico','Económico'], e:'Entorno general.'},
+    {s:'e8', q:'Los competidores, los proveedores, los clientes, los intermediarios y las instituciones son factores del…', o:['Entorno específico (microentorno)','Entorno general (macroentorno)','Entorno ecológico','Entorno demográfico'], e:'La empresa sí puede influir sobre ellos.'},
+    {s:'e8', q:'Una tienda de ropa low cost abre en una calle próxima a la de la tienda Lolita. ¿Qué factor del entorno es?', o:['Competidores (entorno específico)','Sociocultural (entorno general)','Ecológico (entorno general)','Económico (entorno general)'], e:'Empresas que ofrecen productos similares y buscan atraer a los mismos clientes.'},
+    // ---- T2 · 1 Personalidad ----
+    {s:'f1', q:'Tener personalidad, en sentido legal, implica…', o:['Tener derechos y deberes','Tener patrimonio','Tener empleados','Tener un NIF'], e:'Determina qué puede y qué debe hacer un individuo.'},
+    {s:'f1', q:'La personalidad física se atribuye a todo ser humano…', o:['En el momento de su nacimiento','Al cumplir 18 años','Al inscribirse en el Registro Mercantil','Al emanciparse'], e:'Se inscribe en el Registro Civil.'},
+    {s:'f1', q:'La personalidad jurídica de una empresa se genera al inscribirse en el…', o:['Registro Mercantil','Registro Civil','Registro de la Propiedad únicamente','Registro de Empleados'], e:'Persona física → Registro Civil. Persona jurídica → Registro Mercantil.'},
+    {s:'f1', q:'El Corte Inglés es un ejemplo de…', o:['Persona jurídica','Persona física','Entidad sin personalidad jurídica','Empresario individual'], e:'Un fontanero autónomo es un ejemplo de persona física.'},
+    {s:'f1', q:'¿Cuál de estas formas jurídicas NO tiene personalidad jurídica propia?', o:['La comunidad de bienes','La sociedad anónima','La sociedad limitada','La sociedad cooperativa'], e:'Entidades sin personalidad jurídica: comunidad de bienes y sociedad civil.'},
+    {s:'f1', q:'El empresario individual y el emprendedor de responsabilidad limitada son…', o:['Personas físicas','Personas jurídicas','Entidades sin personalidad jurídica','Sociedades mercantiles'], e:'Tabla 2.1.'},
+    {s:'f1', q:'La comunidad de bienes y la sociedad civil se clasifican como…', o:['Entidades sin personalidad jurídica','Personas físicas','Personas jurídicas','Sociedades capitalistas'], e:'No tienen personalidad jurídica propia, pero permiten iniciar una actividad de forma sencilla.'},
+    {s:'f1', q:'¿Cuál de estas formas es una persona jurídica?', o:['La sociedad laboral','El empresario individual','La comunidad de bienes','El emprendedor de responsabilidad limitada'], e:'Personas jurídicas: S. L., S. A., colectiva, laboral, cooperativa y profesional.'},
+    {s:'f1', q:'La emancipación permite a un menor de entre 16 y 18 años…', o:['Hacer uso de su persona como si fuera mayor de edad','Constituir una sociedad anónima sin límites','No pagar impuestos','Ser administrador sin capital'], e:'Por eso una persona menor emancipada puede ser empresario individual.'},
+    {s:'f1', q:'¿Cuál es la diferencia entre denominación social y nombre comercial?', o:['La denominación social identifica a la sociedad en las operaciones jurídicas; el nombre comercial se usa en publicidad y relación con la clientela','Son lo mismo','El nombre comercial es obligatorio y la denominación social no','La denominación social solo la tienen las personas físicas'], e:'Una empresa puede tener ambos.'},
+    {s:'f1', q:'Una persona jurídica puede…', o:['Tener bienes, contraer deudas, celebrar contratos y ser responsable de sus actos','Solo tener bienes','Solo celebrar contratos','Nada, solo sus socios pueden actuar'], e:'Actúa en el mundo jurídico de forma similar a una persona física.'},
+    // ---- T2 · 2 Empresa individual ----
+    {s:'f2', q:'La empresa individual…', o:['No tiene personalidad jurídica propia: la persona física y el negocio son lo mismo','Tiene personalidad jurídica propia','Debe inscribirse obligatoriamente en el Registro Mercantil','Requiere un capital mínimo de 3.000 €'], e:'No se requiere inscripción en el Registro Mercantil.'},
+    {s:'f2', q:'La responsabilidad del empresario individual es…', o:['Ilimitada: responde con su patrimonio presente y futuro','Limitada al capital aportado','Limitada, excepto la vivienda habitual','Solo con los bienes del negocio'], e:'Es su principal inconveniente.'},
+    {s:'f2', q:'La fiscalidad de la empresa individual es…', o:['IRPF','Impuesto de sociedades','Régimen especial de cooperativas','Exenta'], e:'Los rendimientos tributan por IRPF.'},
+    {s:'f2', q:'El empresario individual debe darse de alta en la Seguridad Social en el…', o:['RETA (Régimen Especial de Trabajadores Autónomos)','Régimen General','Régimen Agrario','Registro Mercantil'], e:'Además, en la Agencia Tributaria mediante declaración censal.'},
+    {s:'f2', q:'El nombre de una empresa individual…', o:['Es libre, será su nombre comercial','Debe incluir S. L.','Debe ser aprobado por la junta general','Debe ser el del propietario obligatoriamente'], e:'Tabla 2.2.'},
+    {s:'f2', q:'¿Cuál es una ventaja de la empresa individual?', o:['Es rápida de constituir y tiene gastos mínimos','Tiene responsabilidad limitada','Tributa por impuesto de sociedades','No paga impuestos'], e:'Es la forma más adecuada para las pequeñas empresas.'},
+    {s:'f2', q:'¿Cuál es un inconveniente de la empresa individual?', o:['Responsabilidad ilimitada y posible tributación elevada de grandes beneficios','Exige un capital mínimo de 60.000 €','Necesita escritura pública','Requiere un mínimo de 3 socios'], e:'Los grandes beneficios pueden gravarse con tipos impositivos elevados.'},
+    {s:'f2', q:'Virginia quiere abrir sola un comercio con el nombre de Modas Virgi y quiere una constitución rápida y sencilla. ¿Qué forma le conviene?', o:['Empresa individual','Sociedad anónima','Sociedad cooperativa','Comunidad de bienes'], e:'Es la única propietaria y no requiere formalidades.'},
+    {s:'f2', q:'Puede ser empresario individual…', o:['Cualquier persona física mayor de edad o menor emancipada','Solo una persona jurídica','Solo mayores de 18 con estudios universitarios','Solo comerciantes inscritos'], e:'Tiene todo el control y es el responsable máximo.'},
+    // ---- T2 · 3–4 CB y SC ----
+    {s:'f3', q:'Una comunidad de bienes es una figura en la que…', o:['Dos o más personas acuerdan explotar conjuntamente la propiedad de un bien o conjunto de bienes','Una persona explota un bien en solitario','Los socios responden de forma limitada','Se reparte capital en acciones'], e:'A los miembros se les llama comuneros.'},
+    {s:'f3', q:'El mínimo de personas para crear una comunidad de bienes es…', o:['Dos','Una','Tres','Cinco'], e:'No se requiere ninguna aportación mínima.'},
+    {s:'f3', q:'La responsabilidad de los miembros de una comunidad de bienes es…', o:['Ilimitada y solidaria','Limitada al capital aportado','Limitada, salvo la vivienda habitual','Solo con los bienes de la comunidad'], e:'Cada socio responde con su patrimonio personal.'},
+    {s:'f3', q:'La constitución de una comunidad de bienes exige…', o:['Un contrato privado; escritura pública si se aportan inmuebles','Siempre escritura pública','Inscripción obligatoria en el Registro Mercantil','Un capital mínimo de 3.000 €'], e:'La inscripción en el Registro Mercantil no es obligatoria, pero sí recomendable.'},
+    {s:'f3', q:'Tres hermanos heredan una finca y quieren explotarla sin crear una estructura jurídica compleja. ¿Qué forma es la más adecuada?', o:['Comunidad de bienes','Sociedad anónima','Sociedad cooperativa','Sociedad colectiva'], e:'Permite gestionar un patrimonio compartido de forma sencilla.'},
+    {s:'f3', q:'La fiscalidad de la comunidad de bienes es…', o:['IRPF','Impuesto de sociedades siempre','Régimen especial de cooperativas','Exenta'], e:'Sus socios tributan por IRPF.'},
+    {s:'f3', q:'La sociedad civil se constituye…', o:['Cuando dos o más personas acuerdan por contrato realizar una actividad para repartirse las ganancias','Por la voluntad de una sola persona','Mediante acciones','Siempre mediante escritura pública'], e:'Cada socio aporta dinero, bienes o trabajo.'},
+    {s:'f3', q:'¿Cuándo adquiere personalidad jurídica propia una sociedad civil?', o:['Cuando se formaliza mediante escritura pública y se inscribe en el Registro Mercantil','Siempre desde el contrato','Nunca','Cuando tiene más de 5 socios'], e:'Si los pactos son privados, existe pero los socios actúan en nombre propio.'},
+    {s:'f3', q:'En una sociedad civil, los beneficios y pérdidas se reparten…', o:['En la proporción pactada o, en su defecto, en partes iguales','Siempre en función del capital','Solo entre quienes aportan dinero','Siempre a partes iguales'], e:'Cada socio puede aportar dinero, bienes o trabajo.'},
+    {s:'f3', q:'La fiscalidad de la sociedad civil es…', o:['Impuesto de sociedades si tiene objeto mercantil; IRPF si no lo tiene','Siempre IRPF','Siempre impuesto de sociedades','Exenta'], e:'Tabla 2.5.'},
+    {s:'f3', q:'¿Cuál es una ventaja de la sociedad civil?', o:['No se exige capital mínimo y se disuelve con facilidad','Responsabilidad limitada','Personalidad jurídica propia siempre','Puede cotizar en bolsa'], e:'Los trámites son sencillos y no requiere escritura si los pactos son privados.'},
+    // ---- T2 · 5 SL ----
+    {s:'f4', q:'En la sociedad de responsabilidad limitada el capital está dividido en…', o:['Participaciones','Acciones','Cuotas de comunero','Cartillas'], e:'En la S. A. son acciones.'},
+    {s:'f4', q:'El capital mínimo de una S. L. es…', o:['1 €','3.000 €','60.000 €','No existe mínimo legal'], e:'Tabla 2.7.'},
+    {s:'f4', q:'La responsabilidad de los socios de una S. L. está…', o:['Limitada al capital que han aportado','Limitada, salvo la vivienda habitual','Ilimitada y solidaria','Limitada a 60.000 €'], e:'Si no pueden pagar las deudas, pierden lo aportado, no su patrimonio personal.'},
+    {s:'f4', q:'Una S. L. puede constituirse con un solo socio. En ese caso se denomina…', o:['Sociedad limitada unipersonal (S. L. U.)','Empresario individual','Sociedad laboral','Sociedad civil'], e:'Debe indicarse en todos los documentos.'},
+    {s:'f4', q:'Los órganos sociales de la S. L. son…', o:['La junta general de socios y los administradores','La asamblea general y el consejo rector','La junta general de accionistas, los administradores y el auditor','El propietario'], e:'Consejo rector y asamblea: cooperativas. Auditor: S. A.'},
+    {s:'f4', q:'¿Cuál NO es una competencia de la junta general de socios de una S. L.?', o:['La gestión administrativa diaria y la representación frente a terceros','Aprobar las cuentas anuales','Nombrar y separar a los administradores','Aprobar la disolución de la sociedad'], e:'Eso corresponde a los administradores.'},
+    {s:'f4', q:'Los administradores de una S. L. son nombrados por…', o:['La junta general','El notario','El Registro Mercantil','La Agencia Tributaria'], e:'Se requiere la condición de socio, salvo que los estatutos indiquen lo contrario.'},
+    {s:'f4', q:'El primer trámite para constituir una S. L. es…', o:['La certificación negativa del nombre','La escritura de constitución','La inscripción en el Registro Mercantil','El pago del ITPyAJD'], e:'Orden: certificación negativa, NIF, escritura, ITPyAJD, inscripción.'},
+    {s:'f4', q:'¿Cuál es el orden correcto de los trámites de constitución de una S. L.?', o:['Certificación negativa → NIF → Escritura → ITPyAJD → Inscripción en el Registro Mercantil','NIF → Escritura → Certificación negativa → Inscripción → ITPyAJD','Escritura → NIF → ITPyAJD → Certificación negativa → Inscripción','Inscripción → NIF → Escritura → Certificación → ITPyAJD'], e:'Fig. 2.2.'},
+    {s:'f4', q:'¿Quién tiene preferencia para adquirir las participaciones de un socio que deja la S. L.?', o:['Los demás socios','Cualquier persona','El Estado','La Agencia Tributaria'], e:'Hay restricciones al transmitir participaciones.'},
+    {s:'f4', q:'Un inconveniente de la S. L. es que…', o:['No puede cotizar en bolsa y exige contabilidad formal','Tiene responsabilidad ilimitada','Exige un capital de 60.000 €','No tiene personalidad jurídica'], e:'También: mayores gastos de gestión y un impuesto de sociedades complejo.'},
+    {s:'f4', q:'Noelia y Pedro abren una tienda como S. L. con 4.000 € y acumulan deudas. ¿Qué pierden?', o:['El dinero aportado, pero no responden con su patrimonio personal','Todo su patrimonio personal','Solo su vivienda','Nada'], e:'Es la ventaja de la responsabilidad limitada.'},
+    // ---- T2 · 6 SA ----
+    {s:'f5', q:'El capital de una sociedad anónima está dividido en…', o:['Acciones','Participaciones','Cuotas','Bonos'], e:'Pueden transmitirse libremente por venta, donación o herencia.'},
+    {s:'f5', q:'El capital mínimo de una S. A. es…', o:['60.000 €','3.000 €','1 €','No existe'], e:'Debe estar totalmente suscrito y desembolsado al menos el 25 %.'},
+    {s:'f5', q:'Para constituir una S. A., el capital debe estar suscrito y desembolsado como mínimo en un…', o:['25 %','50 %','10 %','100 %'], e:'Suscribir es comprometerse a aportarlo.'},
+    {s:'f5', q:'Los órganos de la S. A. son…', o:['Junta general de accionistas, administradores y auditor de cuentas','Junta general y administradores únicamente','Asamblea, consejo rector e intervención','El propietario'], e:'El auditor de cuentas es el órgano interno que revisa la contabilidad.'},
+    {s:'f5', q:'El valor nominal de una acción se calcula…', o:['Dividiendo el capital social entre el número de acciones','Multiplicando el capital por el número de socios','Restando el capital desembolsado','Dividiendo el beneficio entre las acciones'], e:'Textil del Mediterráneo: 950.000 ÷ 950 = 1.000 €.'},
+    {s:'f5', q:'Torba S. A. tiene 2.500 acciones de 120 € cada una. ¿Cuál es su capital social?', o:['300.000 €','120.000 €','250.000 €','30.000 €'], e:'2.500 × 120 = 300.000 €.'},
+    {s:'f5', q:'En Torba S. A. (capital 300.000 €), si se ha desembolsado el 25 %, el importe desembolsado es…', o:['75.000 €','60.000 €','100.000 €','150.000 €'], e:'300.000 × 0,25 = 75.000 €. Al 50 %: 150.000 €.'},
+    {s:'f5', q:'¿Qué NO se puede aportar al capital de una S. A.?', o:['Trabajo personal o servicios','Dinero','Bienes','Derechos valorados económicamente'], e:'Solo se aportan dinero o bienes y derechos valorables.'},
+    {s:'f5', q:'La responsabilidad de los socios de una S. A. está limitada…', o:['Al valor nominal de las acciones','Al 25 % del capital','Al patrimonio personal','A 60.000 €'], e:'No responden con su patrimonio personal.'},
+    {s:'f5', q:'La junta general de accionistas debe convocarse…', o:['Al menos una vez al año','Cada mes','Cada cinco años','Solo cuando haya pérdidas'], e:'Es uno de los inconvenientes de la S. A.'},
+    {s:'f5', q:'Las acciones de una S. A. pueden ser…', o:['Nominativas o al portador, e indivisibles','Solo nominativas','Divisibles','Solo al portador'], e:'Se entregan cuando la sociedad ya está inscrita en el Registro Mercantil.'},
+    {s:'f5', q:'¿Cuál es una ventaja de la S. A.?', o:['Transmisión libre de las acciones','Capital mínimo muy reducido','Organización muy sencilla','No tiene que presentar cuentas'], e:'Inconvenientes: capital elevado, organización compleja, cuentas anuales obligatorias.'},
+    {s:'f5', q:'¿Cuál es la diferencia de capital mínimo entre S. L. y S. A.?', o:['S. L.: 1 €; S. A.: 60.000 €','S. L.: 60.000 €; S. A.: 1 €','Las dos: 3.000 €','Las dos: 1 €'], e:'Ambas con responsabilidad limitada y mínimo un socio.'},
+    // ---- T2 · 7 Otras ----
+    {s:'f6', q:'El emprendedor de responsabilidad limitada (ERL) es…', o:['Una persona física con limitación de su responsabilidad patrimonial: se excluye la vivienda habitual','Una persona jurídica','Una sociedad con capital de 3.000 €','Una cooperativa unipersonal'], e:'No se crea una persona jurídica distinta.'},
+    {s:'f6', q:'¿Dónde debe inscribirse el ERL?', o:['En el Registro Mercantil y en el Registro de la Propiedad','Solo en el Registro Civil','Solo en el Registro de Cooperativas','En ninguno'], e:'En el de la Propiedad se indica la vivienda habitual excluida de la responsabilidad.'},
+    {s:'f6', q:'La fiscalidad del ERL es…', o:['IRPF','Impuesto de sociedades','Régimen especial','Exenta'], e:'Es una persona física y no hay capital mínimo.'},
+    {s:'f6', q:'La sociedad colectiva es una sociedad…', o:['Mercantil de tipo personalista, con responsabilidad personal, ilimitada y solidaria','Capitalista de responsabilidad limitada','Sin personalidad jurídica','Pública'], e:'Se rige por el Código de Comercio.'},
+    {s:'f6', q:'En una sociedad colectiva, ¿cuántos socios hacen falta como mínimo?', o:['Dos','Uno','Tres','Cinco'], e:'No se exige capital mínimo.'},
+    {s:'f6', q:'El socio industrial de una sociedad colectiva es el que…', o:['Aporta trabajo o servicios','Aporta capital','Solo tiene derecho a voto','No responde de las deudas'], e:'El socio capitalista aporta capital.'},
+    {s:'f6', q:'Las siglas de la sociedad colectiva son…', o:['SC o SRC','SL o SA','SLP','S. Coop.'], e:'SRC = sociedad regular colectiva.'},
+    {s:'f6', q:'Las sociedades laborales pueden adoptar la forma de…', o:['Sociedad anónima o de responsabilidad limitada','Solo cooperativa','Solo comunidad de bienes','Sociedad colectiva'], e:'Siglas SAL o SLL.'},
+    {s:'f6', q:'En una sociedad laboral, la mayoría del capital social corresponde a…', o:['Trabajadores con una relación laboral por tiempo indefinido','Accionistas externos','Administraciones públicas','Los administradores'], e:'Ley 44/2015, de 14 de octubre.'},
+    {s:'f6', q:'El nº mínimo de socios de una sociedad laboral en su constitución es… y en 36 meses debe ampliarse al menos a…', o:['2 y 3','1 y 2','3 y 5','2 y 4'], e:'Tabla 2.11.'},
+    {s:'f6', q:'Ningún socio de una sociedad laboral puede poseer más de…', o:['Un tercio del capital (salvo excepciones)','El 10 % del capital','La mitad del capital','El 75 % del capital'], e:'Las entidades públicas pueden llegar al 49 %.'},
+    {s:'f6', q:'El fondo especial de reserva de una sociedad laboral se forma con…', o:['El 10 % del beneficio neto de cada ejercicio','El 25 % del beneficio','El 5 % del capital','El 49 % de los beneficios'], e:'Es una obligación específica de estas sociedades.'},
+    {s:'f6', q:'El capital mínimo de una sociedad laboral es…', o:['1 € si es SLL y 60.000 € si es SAL','60.000 € en ambos casos','1 € en ambos casos','3.000 € si es SLL'], e:'Igual que S. L. y S. A.'},
+    {s:'f6', q:'Cinco trabajadores de hostelería quieren participación igualitaria, gestionar el negocio ellos mismos, repartir beneficios equitativamente y no arriesgar su patrimonio personal. ¿Qué forma les conviene?', o:['Sociedad de responsabilidad limitada laboral','Sociedad colectiva','Comunidad de bienes','Empresario individual'], e:'Limita la responsabilidad, garantiza que la mayoría del capital sea de trabajadores y fomenta una gestión participativa.'},
+    {s:'f6', q:'En una cooperativa, cada socio tiene…', o:['Un voto, con independencia del capital aportado','Votos en proporción a su capital','Un voto por cada acción','Solo voto el consejo rector'], e:'Los beneficios se reparten de forma equitativa, no según el capital.'},
+    {s:'f6', q:'El número mínimo de socios de una cooperativa es…', o:['Tres','Dos','Uno','Cinco'], e:'Tabla 2.11.'},
+    {s:'f6', q:'El órgano colegiado de una cooperativa que se encarga de la alta gestión, la supervisión de los directivos y la representación es…', o:['El consejo rector','La asamblea general','La intervención','El comité de recursos'], e:'La asamblea general es el órgano de todos los socios.'},
+    {s:'f6', q:'¿Qué órgano de una cooperativa resuelve los recursos contra sanciones impuestas a los socios?', o:['El comité de recursos','La intervención','El consejo rector','El auditor de cuentas'], e:'La intervención comprueba la documentación y verifica si es correcta.'},
+    {s:'f6', q:'La abreviatura de la sociedad cooperativa es…', o:['S. Coop.','S. C.','S. L.','SAL'], e:'En el nombre debe constar «Sociedad Cooperativa» o S. Coop.'},
+    {s:'f6', q:'Una sociedad profesional exige que los socios…', o:['Tengan titulación universitaria o profesional oficial y estén inscritos en un colegio profesional','Aporten 60.000 €','Sean trabajadores indefinidos','Sean funcionarios'], e:'Se añade una «P» a la forma jurídica elegida (por ejemplo, SLP).'},
+    {s:'f6', q:'Cuatro abogadas crean una sociedad limitada profesional. Sus siglas serían…', o:['SLP','SAL','SC','SCP'], e:'S. L. + P de profesional.'},
+    // ---- T2 · 8–9 Elección y trámites ----
+    {s:'f7', q:'¿Por qué es importante elegir bien la forma jurídica?', o:['Porque identifica legalmente a la empresa ante terceros y puede afectar al patrimonio particular del empresario o los socios','Porque determina el sector de actividad','Porque fija el precio de los productos','Porque no se puede cambiar nunca'], e:'Instituciones públicas, entidades financieras, proveedores, clientes…'},
+    {s:'f7', q:'¿Cuál es el orden de prioridades al elegir la forma jurídica (Fig. 2.3)?', o:['Capital social → Responsabilidad → Número de personas → Obligaciones fiscales','Responsabilidad → Capital → Fiscalidad → Personas','Número de personas → Capital → Responsabilidad → Fiscalidad','Obligaciones fiscales → Capital → Personas → Responsabilidad'], e:'Son los cuatro aspectos a considerar.'},
+    {s:'f7', q:'La responsabilidad limitada significa que…', o:['Los socios solo responden con el patrimonio de la empresa','Los socios responden con todo su patrimonio','La empresa no responde de nada','Solo responde el administrador'], e:'La ilimitada incluye también el patrimonio de los socios.'},
+    {s:'f7', q:'Tres trabajadores con contrato indefinido quieren constituir una empresa con mayoría de capital entre ellos y 1.600 € de capital total. ¿Qué forma?', o:['Sociedad laboral','Sociedad anónima','Cooperativa de 2 socios','Sociedad profesional'], e:'La mayoría del capital es de trabajadores; el capital mínimo de una SLL es de 1 €.'},
+    {s:'f7', q:'Noelia quiere abrir sola una zapatería, tiene algo de dinero y teme perder su vivienda habitual si hay deudas. ¿Qué forma elegir?', o:['Emprendedor de responsabilidad limitada','Empresario individual','Sociedad colectiva','Comunidad de bienes'], e:'Excluye la vivienda habitual de la responsabilidad.'},
+    {s:'f7', q:'Víctor (Derecho) y Azucena (Economía), colegiados, quieren ejercer su profesión en común. ¿Qué forma jurídica?', o:['Sociedad profesional','Sociedad laboral','Cooperativa','Comunidad de bienes'], e:'Requiere titulación universitaria oficial y colegiación.'},
+    {s:'f7', q:'¿Quién solicita la certificación negativa del nombre en el Registro Mercantil Central?', o:['Las sociedades mercantiles (las cooperativas, en su propio registro)','Los empresarios individuales','Todas las personas físicas','Solo las sociedades anónimas'], e:'Marcos, empresario individual, no debe pedirla: usa un nombre comercial.'},
+    {s:'f7', q:'Marcos, empresario individual, pide la certificación negativa de «Aprender Soñando» en el Registro Mercantil Central. ¿Es correcto el trámite?', o:['No: esa certificación es para sociedades; el empresario individual usa un nombre comercial','Sí, es obligatoria para todos','Sí, pero solo en el Registro Civil','No, porque debe pedirla en la Agencia Tributaria'], e:'Hay que diferenciar denominación social y nombre comercial.'},
+    {s:'f7', q:'El NIF se solicita en…', o:['La Agencia Tributaria, con el Modelo 036','El Registro Mercantil','La notaría','La Consejería de Hacienda'], e:'Es gratuito. Primero el provisional; con la escritura, el definitivo.'},
+    {s:'f7', q:'El otorgamiento de la escritura pública se hace ante…', o:['Notario','El Registro Mercantil','La Agencia Tributaria','La Consejería de Hacienda'], e:'Los socios fundadores la firman.'},
+    {s:'f7', q:'¿Cuándo es obligatoria la escritura pública para una comunidad de bienes o una sociedad civil?', o:['Cuando los socios o comuneros aportan bienes inmuebles o derechos reales','Siempre','Nunca','Cuando tienen más de 5 socios'], e:'Es obligatoria para todas las sociedades.'},
+    {s:'f7', q:'El ITPyAJD se presenta en…', o:['La Consejería de Hacienda de la comunidad autónoma','La Agencia Tributaria estatal','El Registro Mercantil','La notaría'], e:'Grava la constitución de la sociedad.'},
+    {s:'f7', q:'La inscripción en el Registro Mercantil es…', o:['Obligatoria para sociedades mercantiles y ERL; voluntaria para el empresario individual','Obligatoria para todos','Voluntaria para todos','Solo obligatoria para las S. A.'], e:'Dota a la sociedad de plena capacidad jurídica.'},
+    {s:'f7', q:'Las sociedades cooperativas y las laborales se inscriben además en…', o:['Su registro especial: de Sociedades Cooperativas y de Sociedades Laborales','El Registro Civil','El Registro de la Propiedad','Ninguno'], e:'Las laborales, además, necesitan el certificado de calificación laboral.'},
+    {s:'f7', q:'¿Qué forma jurídica NO tiene responsabilidad ilimitada?', o:['La sociedad limitada','La comunidad de bienes','La sociedad colectiva','La sociedad civil'], e:'Ilimitada: EI, C. B., sociedad civil y colectiva (ERL, salvo vivienda habitual).'},
+    {s:'f7', q:'¿Qué forma jurídica tributa por IRPF?', o:['El empresario individual','La sociedad anónima','La sociedad limitada','La sociedad colectiva'], e:'Las sociedades mercantiles pagan impuesto de sociedades.'},
+    {s:'f7', q:'¿Qué formas jurídicas exigen un mínimo de dos socios?', o:['Comunidad de bienes, sociedad civil y sociedad colectiva','Empresario individual y S. L.','S. A. y S. L.','Cooperativa'], e:'S. L., S. A. y profesional: mínimo 1. Cooperativa: mínimo 3.'},
+    {s:'f7', q:'¿Qué sociedad exige un mínimo de tres socios?', o:['La cooperativa','La sociedad colectiva','La S. L.','La sociedad civil'], e:'También las laborales a los 36 meses.'},
+
+    // ---- Verdadero / Falso ----
+    {s:'e1', vf:false, q:'El sector secundario comprende las empresas que extraen recursos naturales.', e:'Falso: esas son del sector primario. El secundario transforma materias primas.'},
+    {s:'e1', vf:true, q:'El sector terciario incluye las empresas de servicios y los comercios.', e:'Verdadero.'},
+    {s:'e2', vf:true, q:'La capacidad empresarial implica asumir riesgos.', e:'Verdadero.'},
+    {s:'e2', vf:false, q:'El principal objetivo de la empresa es satisfacer al consumidor.', e:'Falso: es lograr beneficios; satisfacer al consumidor es un objetivo secundario.'},
+    {s:'e2', vf:true, q:'La RSC busca contribuir al bienestar social, económico y/o ambiental.', e:'Verdadero.'},
+    {s:'e3', vf:false, q:'La marca y el nombre comercial son elementos materiales.', e:'Falso: son inmateriales (intangibles).'},
+    {s:'e3', vf:true, q:'Los socios que aportan el capital son elementos humanos.', e:'Verdadero.'},
+    {s:'e4', vf:true, q:'La función de producción incluye la investigación, el desarrollo y los controles de calidad.', e:'Verdadero.'},
+    {s:'e4', vf:false, q:'La financiación y la inversión pertenecen al área de dirección.', e:'Falso: son del área económico-financiera.'},
+    {s:'e4', vf:true, q:'La gestión del almacenamiento de bienes forma parte del aprovisionamiento.', e:'Verdadero.'},
+    {s:'e5', vf:false, q:'Las personas empresarias no contribuyen a la recaudación fiscal.', e:'Falso: sus ingresos están sujetos a impuestos que financian los servicios públicos.'},
+    {s:'e5', vf:true, q:'Las personas empresarias asumen los riesgos del emprendimiento.', e:'Verdadero.'},
+    {s:'e6', vf:true, q:'Las empresas mixtas tienen capital público y privado.', e:'Verdadero.'},
+    {s:'e6', vf:false, q:'Una empresa con 60 empleados y un volumen de negocios de 15 millones de euros es pequeña.', e:'Falso: es mediana (50–249 empleados; 10–50 millones).'},
+    {s:'e7', vf:true, q:'El 99 % de las empresas españolas son pymes.', e:'Verdadero.'},
+    {s:'e7', vf:false, q:'La mayoría de las pymes españolas pertenece al sector industrial.', e:'Falso: al sector servicios (comercio, hostelería, servicios profesionales).'},
+    {s:'e8', vf:true, q:'El macroentorno agrupa factores externos que la empresa no puede controlar.', e:'Verdadero.'},
+    {s:'e8', vf:false, q:'La empresa puede influir poco o nada en el microentorno.', e:'Falso: en el microentorno (entorno específico) sí puede influir.'},
+    {s:'f1', vf:true, q:'La persona jurídica se inscribe en el Registro Mercantil y la persona física en el Registro Civil.', e:'Verdadero.'},
+    {s:'f1', vf:false, q:'La sociedad civil y la comunidad de bienes tienen siempre personalidad jurídica propia.', e:'Falso: son entidades sin personalidad jurídica.'},
+    {s:'f2', vf:true, q:'La empresa individual no requiere inscripción en el Registro Mercantil.', e:'Verdadero.'},
+    {s:'f2', vf:false, q:'El empresario individual tiene responsabilidad limitada al capital aportado.', e:'Falso: responde con todo su patrimonio, presente y futuro.'},
+    {s:'f3', vf:true, q:'La responsabilidad de los comuneros de una comunidad de bienes es ilimitada y solidaria.', e:'Verdadero.'},
+    {s:'f3', vf:false, q:'La sociedad civil siempre tiene personalidad jurídica propia.', e:'Falso: solo si se formaliza en escritura pública y se inscribe en el Registro Mercantil.'},
+    {s:'f4', vf:true, q:'La S. L. se puede constituir con un solo socio.', e:'Verdadero (S. L. U.).'},
+    {s:'f4', vf:false, q:'La S. L. puede cotizar en bolsa.', e:'Falso: es uno de sus inconvenientes.'},
+    {s:'f4', vf:false, q:'El capital mínimo de una S. L. es de 60.000 €.', e:'Falso: es de 1 €. Los 60.000 € son de la S. A.'},
+    {s:'f5', vf:true, q:'En una S. A. hay que desembolsar al menos el 25 % del capital en la constitución.', e:'Verdadero.'},
+    {s:'f5', vf:false, q:'En una S. A. se puede aportar trabajo personal como capital.', e:'Falso: no se puede aportar trabajo ni servicios.'},
+    {s:'f5', vf:true, q:'La S. A. tiene un auditor de cuentas entre sus órganos.', e:'Verdadero.'},
+    {s:'f6', vf:true, q:'En una cooperativa cada socio tiene un voto, sin importar el capital aportado.', e:'Verdadero.'},
+    {s:'f6', vf:false, q:'En una sociedad colectiva los socios tienen responsabilidad limitada.', e:'Falso: es ilimitada y solidaria.'},
+    {s:'f6', vf:true, q:'El ERL excluye su vivienda habitual de la responsabilidad por las deudas.', e:'Verdadero.'},
+    {s:'f6', vf:false, q:'Las sociedades laborales pueden ser comunidades de bienes.', e:'Falso: adoptan la forma de S. A. o S. L.'},
+    {s:'f7', vf:true, q:'La certificación negativa del nombre es el primer trámite para constituir una sociedad.', e:'Verdadero.'},
+    {s:'f7', vf:false, q:'La inscripción en el Registro Mercantil es obligatoria para el empresario individual.', e:'Falso: es voluntaria para él.'},
+    {s:'f7', vf:true, q:'El ITPyAJD grava la constitución de la sociedad.', e:'Verdadero.'},
+
+    // ---- Desarrollo ----
+    {s:'e1', dev:true, q:'Explica los sectores de producción y pon un ejemplo de empresa de cada uno.', a:'Primario: empresas que extraen recursos naturales (agrícolas, ganaderas, pesqueras, forestales, mineras) y producen materias primas; ej. una empresa forestal que tala bosques. Secundario: transforman materias primas en productos acabados o semielaborados (industriales y constructoras); ej. una fábrica de muebles. Terciario: ofrecen el producto acabado al consumidor y prestan servicios (entidades financieras, transporte, asesoramiento, comercios); ej. un comercio o una empresa de transporte.', k:['Los tres sectores y su actividad','Un ejemplo correcto de cada uno']},
+    {s:'e2', dev:true, q:'Define los factores de producción y la responsabilidad social corporativa con ejemplos.', a:'Factores de producción: recursos básicos de la empresa: tierra (recursos naturales), trabajo (personas), capital (dinero y bienes duraderos y de funcionamiento) y capacidad empresarial (organizar los demás factores, decidir estratégicamente y asumir riesgos). RSC: compromiso de la empresa para contribuir al bienestar social, económico y/o ambiental; por ejemplo, con los trabajadores (flexibilidad horaria, guardería), prácticas ambientales (reducir huella de carbono, materiales reciclados) y compromiso con la comunidad (patrocinios).', k:['Los 4 factores','Definición de RSC','Tres tipos de acciones de RSC']},
+    {s:'e3', dev:true, q:'Clasifica los elementos de la empresa y pon ejemplos para una tienda de ropa.', a:'Humanos: trabajadores, socios y empresario (propietario, vendedores, personal de limpieza). Materiales: bienes vinculados a la actividad productiva (local comercial, mobiliario, equipo informático, productos a la venta). Inmateriales o intangibles: no se pueden tocar y aportan valor añadido (nombre de la empresa, marca, imagen, know-how, patentes, base de datos de clientes, relaciones con proveedores).', k:['Humanos, materiales e inmateriales','Ejemplos correctos de la tienda']},
+    {s:'e4', dev:true, q:'Explica las áreas de gestión de la empresa y sus funciones.', a:'Área de explotación: aprovisionamiento (proveedores, compras, almacenamiento), producción (transformación, I+D+i, control de calidad) y comercialización (publicidad, empaquetado, merchandising, distribución, ventas). Área de dirección: planificación, gestión de la información y comunicación y control. Área económico-financiera: financiación (obtener y administrar recursos económicos) e inversión (decidir su destino).', k:['Las 3 áreas','Las 8 funciones con su contenido']},
+    {s:'e5', dev:true, q:'¿Por qué es importante la persona empresaria para la economía? Cita al menos cuatro razones.', a:'Es quien identifica oportunidades, aporta capital, dirige y asume riesgos. Impulsa la competitividad (más oferta, mejor calidad y precios), fomenta la innovación, genera empleo, es fuente de recaudación fiscal (impuestos que financian sanidad, educación, seguridad e infraestructuras) y promociona el desarrollo económico local, regional y global (exportaciones).', k:['Funciones de la persona empresaria','Al menos 4 beneficios correctos']},
+    {s:'e6', dev:true, q:'Explica los criterios de clasificación de las empresas y los tipos según su tamaño.', a:'Finalidad (lucrativas y no lucrativas), actividad (sector primario, secundario, terciario), propiedad del capital (públicas, privadas, mixtas), naturaleza jurídica (individuales y colectivas) y tamaño (según la Comisión Europea): microempresa (menos de 10 empleados, menos de 2 millones), pequeña (10 a 49, hasta 10 millones), mediana (50 a 249, hasta 50 millones de negocios o 43 de balance) y grande (más de 250, más de 50 y 43 millones).', k:['Los 5 criterios','Tipos de cada criterio','Los 4 tamaños con sus límites']},
+    {s:'e7', dev:true, q:'Define pyme, indica sus características en España y las ventajas del comercio de proximidad.', a:'Pyme: pequeña y mediana empresa; en la UE incluye microempresas, pequeñas y medianas (menos de 250 personas; hasta 50 millones de negocios o 43 de balance). El 99 % de las empresas españolas son pymes, son el mayor empleador y contribuyen al PIB; la mayoría es del sector servicios. Comercio de proximidad: atención personalizada, productos frescos y de calidad, impacto económico local y menor impacto ambiental (menos transporte, kilómetro 0).', k:['Definición y límites','Datos de las pymes en España','Las 4 ventajas del comercio de proximidad']},
+    {s:'e8', dev:true, q:'Diferencia el entorno general y el específico y cita sus factores.', a:'Entorno general o macroentorno: factores externos que la empresa no puede controlar ni apenas modificar: sociocultural, político-legal, económico, tecnológico, demográfico y ecológico. Entorno específico o microentorno: factores próximos del mercado o sector sobre los que la empresa sí puede influir: competidores, proveedores, clientes, intermediarios del canal e instituciones.', k:['Control de la empresa en cada entorno','Los 6 factores generales','Los 5 factores específicos']},
+    {s:'f1', dev:true, q:'Explica la personalidad física y jurídica y clasifica las formas jurídicas según su personalidad.', a:'Tener personalidad implica tener derechos y deberes. Física: atribuida a todo ser humano desde su nacimiento; se inscribe en el Registro Civil. Jurídica: concedida a entidades (empresas, asociaciones, fundaciones) para actuar como persona física (tener bienes, contraer deudas, celebrar contratos); se inscribe en el Registro Mercantil. Persona física: empresario individual y emprendedor de responsabilidad limitada. Sin personalidad jurídica: comunidad de bienes y sociedad civil. Persona jurídica: S. L., S. A., colectiva, laboral, cooperativa y profesional.', k:['Definición de cada personalidad y su registro','Formas de cada grupo']},
+    {s:'f2', dev:true, q:'Describe la empresa individual: características, ventajas e inconvenientes.', a:'Titularidad de una persona física (empresario) que actúa en nombre propio; sin personalidad jurídica propia. Mayor de edad o menor emancipada; responde con todo su patrimonio presente y futuro (ilimitada); alta en el RETA y declaración censal; sin inscripción en el Registro Mercantil; sin capital mínimo; un solo socio; IRPF; sin formalidades de constitución. Ventajas: sencilla, rápida y barata. Inconvenientes: responsabilidad ilimitada y posible tributación elevada de los grandes beneficios.', k:['Persona física sin personalidad jurídica','Responsabilidad ilimitada','RETA y IRPF','Ventajas e inconvenientes']},
+    {s:'f3', dev:true, q:'Compara la comunidad de bienes y la sociedad civil.', a:'Comunidad de bienes: dos o más comuneros explotan conjuntamente un bien; sin personalidad jurídica; responsabilidad ilimitada y solidaria; contrato privado (escritura si hay inmuebles); IRPF; sin capital mínimo. Sociedad civil: dos o más personas, por contrato, para repartirse ganancias aportando dinero, bienes o trabajo; adquiere personalidad jurídica si se eleva a escritura pública y se inscribe en el Registro Mercantil; responsabilidad ilimitada; sin capital mínimo; impuesto de sociedades si su objeto es mercantil, IRPF si no.', k:['Definición de cada una','Personalidad jurídica','Responsabilidad ilimitada','Fiscalidad']},
+    {s:'f4', dev:true, q:'Explica la sociedad de responsabilidad limitada: características, órganos y trámites de constitución.', a:'Sociedad mercantil capitalista con capital dividido en participaciones y responsabilidad limitada al capital aportado; personalidad jurídica propia; capital mínimo 1 €; mínimo 1 socio (S. L. U.); impuesto de sociedades. Órganos: junta general de socios (decide cuentas, administradores, capital, estatutos, disolución) y administradores (gestión diaria y representación). Trámites: certificación negativa del nombre, NIF, escritura de constitución ante notario, ITPyAJD e inscripción en el Registro Mercantil.', k:['Participaciones y responsabilidad limitada','Capital 1 € y un socio mínimo','Junta general y administradores','Los 5 trámites en orden']},
+    {s:'f5', dev:true, q:'Explica la sociedad anónima y compárala con la sociedad limitada.', a:'S. A.: capital dividido en acciones libremente transmisibles; responsabilidad limitada al valor nominal; capital mínimo 60.000 € con al menos el 25 % desembolsado; mínimo 1 socio; órganos: junta general de accionistas, administradores y auditor de cuentas; más compleja y con cuentas anuales obligatorias. S. L.: participaciones, capital mínimo 1 €, sin auditor, transmisión restringida, más flexible. Ambas: personalidad jurídica, responsabilidad limitada e impuesto de sociedades.', k:['Acciones frente a participaciones','60.000 € y 25 % frente a 1 €','Órganos y auditor','Rasgos comunes']},
+    {s:'f6', dev:true, q:'Describe las sociedades laborales y las cooperativas.', a:'Sociedad laboral: S. A. o S. L. cuyo capital pertenece mayoritariamente a trabajadores indefinidos; mínimo 2 socios (3 a los 36 meses); responsabilidad limitada; nadie más de un tercio del capital; fondo de reserva del 10 % del beneficio; siglas SAL/SLL; capital 60.000 € (SAL) o 1 € (SLL). Cooperativa: agrupación voluntaria y democrática; un voto por socio; mínimo 3 socios; beneficios repartidos equitativamente; S. Coop.; órganos: asamblea general, consejo rector, intervención y comité de recursos.', k:['Rasgos clave de la laboral','Rasgos clave de la cooperativa','Órganos de la cooperativa']},
+    {s:'f7', dev:true, q:'¿Qué aspectos hay que valorar al elegir la forma jurídica y cuáles son los trámites de puesta en marcha?', a:'Aspectos: capital social, responsabilidad (limitada o ilimitada), número de socios y obligaciones fiscales. Trámites: 1) certificación negativa del nombre (sociedades mercantiles, Registro Mercantil Central); 2) NIF (Modelo 036, provisional y luego definitivo); 3) escritura pública ante notario; 4) ITPyAJD en la comunidad autónoma; 5) inscripción en el Registro Mercantil; 6) inscripción en registros especiales (cooperativas y laborales).', k:['Los 4 criterios de elección','Los 6 trámites en orden','Registros especiales']}
+  ];
+
+  var GPN_CARDS = [
+    {s:'e1', f:'Sector primario', b:'Empresas que extraen recursos naturales: agrícolas, ganaderas, pesqueras, forestales y mineras. Producen materias primas.'},
+    {s:'e1', f:'Sector secundario', b:'Transforman las materias primas en productos acabados o semielaborados: empresas industriales y constructoras.'},
+    {s:'e1', f:'Sector terciario', b:'Ofrecen el producto acabado al consumidor final y servicios: entidades financieras, transporte, asesoramiento, comercios.'},
+    {s:'e2', f:'Factores de producción', b:'Tierra, trabajo, capital y capacidad empresarial.'},
+    {s:'e2', f:'Capacidad empresarial', b:'Organizar los otros factores, tomar decisiones estratégicas y asumir riesgos. Se asocia a la persona empresaria.'},
+    {s:'e2', f:'Objetivo principal y secundarios', b:'Principal: lograr beneficios. Secundarios o específicos: satisfacer al consumidor, presentar un nuevo producto, etc.'},
+    {s:'e2', f:'RSC (responsabilidad social corporativa)', b:'Compromiso de la empresa de contribuir al bienestar social, económico y/o ambiental. Con trabajadores, ambiental y con la comunidad.'},
+    {s:'e3', f:'Elementos humanos', b:'Trabajadores, socios (aportan el capital) y empresario (coordina y organiza).'},
+    {s:'e3', f:'Elementos materiales', b:'Bienes vinculados a la actividad productiva: recursos naturales, materias primas, maquinaria, instalaciones, herramientas.'},
+    {s:'e3', f:'Elementos inmateriales (intangibles)', b:'No se pueden tocar; aportan valor añadido: nombre comercial, marca, imagen, know-how y patentes.'},
+    {s:'e4', f:'Área de explotación', b:'Aprovisionamiento, producción y comercialización.'},
+    {s:'e4', f:'Área de dirección', b:'Planificación, gestión de la información, y comunicación y control.'},
+    {s:'e4', f:'Área económico-financiera', b:'Financiación (obtener y administrar recursos) e inversión (decidir su destino).'},
+    {s:'e4', f:'Merchandising', b:'Técnicas en el punto de venta para animar al cliente a que compre.'},
+    {s:'e5', f:'Beneficios de la persona empresaria', b:'Impulsa la competitividad, fomenta la innovación, genera empleo, recauda impuestos y promociona el desarrollo económico.'},
+    {s:'e6', f:'Criterios de clasificación de las empresas', b:'Finalidad, actividad, propiedad del capital, naturaleza jurídica y tamaño.'},
+    {s:'e6', f:'Empresas públicas, privadas y mixtas', b:'Públicas: capital de la Administración. Privadas: capital de particulares o empresas privadas. Mixtas: parte pública y parte privada.'},
+    {s:'e6', f:'Tamaño: micro, pequeña, mediana, grande', b:'Micro: <10 empleados, <2 mill. · Pequeña: 10–49, 2–10 mill. · Mediana: 50–249, 10–50 mill. (balance hasta 43) · Grande: >250, >50 mill. (>43).'},
+    {s:'e7', f:'Pyme', b:'Pequeña y mediana empresa (incluye microempresas): menos de 250 personas y hasta 50 mill. de negocios o 43 mill. de balance. Son el 99 % de las empresas en España.'},
+    {s:'e7', f:'Ventajas del comercio de proximidad', b:'Atención personalizada, productos frescos y de calidad, impacto económico local y menor impacto ambiental.'},
+    {s:'e8', f:'Macroentorno y microentorno', b:'Macro: factores externos que la empresa no controla. Micro: factores próximos del sector sobre los que sí puede influir.'},
+    {s:'e8', f:'Factores del macroentorno', b:'Sociocultural, político-legal, económico, tecnológico, demográfico y ecológico.'},
+    {s:'e8', f:'Factores del microentorno', b:'Competidores, proveedores, clientes, intermediarios del canal e instituciones.'},
+    {s:'f1', f:'Persona física y persona jurídica', b:'Física: desde el nacimiento; Registro Civil. Jurídica: entidad con personalidad propia; Registro Mercantil.'},
+    {s:'f1', f:'Entidades sin personalidad jurídica', b:'Comunidad de bienes y sociedad civil: no tienen personalidad propia; los socios responden de forma ilimitada.'},
+    {s:'f2', f:'Empresa individual: ficha', b:'1 socio · sin capital mínimo · responsabilidad ilimitada · IRPF · sin formalidades · RETA · órgano: el propietario.'},
+    {s:'f3', f:'Comunidad de bienes: ficha', b:'Mín. 2 comuneros · sin capital mínimo · ilimitada y solidaria · IRPF · contrato privado (escritura si hay inmuebles).'},
+    {s:'f3', f:'Sociedad civil: ficha', b:'Mín. 2 socios · sin capital mínimo · ilimitada · impuesto de sociedades si es mercantil, IRPF si no · personalidad jurídica solo si escritura + Registro Mercantil.'},
+    {s:'f4', f:'Sociedad limitada (S. L.): ficha', b:'Participaciones · mín. 1 socio · capital mínimo 1 € · limitada · impuesto de sociedades · junta general y administradores.'},
+    {s:'f4', f:'Trámites de constitución de la S. L.', b:'Certificación negativa del nombre → NIF → escritura → ITPyAJD → inscripción en el Registro Mercantil.'},
+    {s:'f5', f:'Sociedad anónima (S. A.): ficha', b:'Acciones · mín. 1 socio · capital mínimo 60.000 € (25 % desembolsado) · limitada · junta de accionistas, administradores y auditor.'},
+    {s:'f5', f:'Valor nominal de una acción', b:'Capital social ÷ número de acciones. Ej.: 950.000 € ÷ 950 = 1.000 €.'},
+    {s:'f6', f:'Emprendedor de responsabilidad limitada (ERL)', b:'Persona física; excluye su vivienda habitual de la responsabilidad; sin capital mínimo; IRPF; se inscribe en el Registro Mercantil y en el de la Propiedad.'},
+    {s:'f6', f:'Sociedad colectiva', b:'Personalista; mín. 2 socios; responsabilidad ilimitada y solidaria; siglas SC o SRC; socios capitalista e industrial.'},
+    {s:'f6', f:'Sociedad laboral', b:'S. A. o S. L. con mayoría del capital de trabajadores indefinidos; mín. 2 socios (3 en 36 meses); fondo de reserva del 10 %; SAL (60.000 €) o SLL (1 €).'},
+    {s:'f6', f:'Sociedad cooperativa', b:'Voluntaria y democrática; un voto por socio; mín. 3 socios; beneficios equitativos; S. Coop.; consejo rector, asamblea, intervención y comité de recursos.'},
+    {s:'f6', f:'Sociedad profesional', b:'Para ejercer en común una profesión; socios titulados y colegiados; forma elegida + «P» (SLP).'},
+    {s:'f7', f:'Aspectos para elegir la forma jurídica', b:'Capital social → Responsabilidad → Número de personas → Obligaciones fiscales.'},
+    {s:'f7', f:'Certificación negativa del nombre', b:'Acredita que no existe otra empresa con ese nombre. La piden las sociedades mercantiles en el Registro Mercantil Central (cooperativas, en su registro).'},
+    {s:'f7', f:'NIF y ITPyAJD', b:'NIF: Agencia Tributaria, Modelo 036, gratuito (provisional y definitivo). ITPyAJD: impuesto sobre la constitución, Consejería de Hacienda de la CCAA.'},
+    {s:'f7', f:'Inscripción en el Registro Mercantil', b:'Da plena capacidad jurídica. Obligatoria para sociedades mercantiles y ERL; voluntaria para el empresario individual.'}
+  ];
+
+  QZ_SETS.gpn = {sections:GPN_SECTIONS, notes:GPN_NOTES, qs:GPN_QS, cards:GPN_CARDS, color:'#0369A1', bg:'#F0F9FF', cls:'gpn',
+    pill:'<i class="ri-store-3-line"></i> Gestión de un pequeño negocio',
+    title:'Temas 1 y 2: La empresa y su forma jurídica',
+    notesDesc:'Resumen de los temas 1 (la empresa y su entorno) y 2 (la forma jurídica de la empresa).'};
 
   // ===================== IA PARA EL MARKETING Y EL COMERCIO (Rita) — Unidad 1 =====================
   var IA_SECTIONS = {
@@ -4247,7 +4787,7 @@
     if(qz === QZ_SETS[k]) return;
     qz = QZ_SETS[k];
     var scr = document.getElementById('sacScreen');
-    scr.classList.remove('sac','vt','fh','iso','ia'); scr.classList.add(qz.cls);
+    scr.classList.remove('sac','vt','fh','iso','ia','gpn'); scr.classList.add(qz.cls);
     var pill = document.getElementById('qzPill');
     pill.className = 'subject-pill pill-' + qz.cls; pill.innerHTML = qz.pill;
     document.getElementById('qzTitle').textContent = qz.title;
