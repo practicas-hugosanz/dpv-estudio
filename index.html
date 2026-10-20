@@ -1006,6 +1006,16 @@
   [data-theme="dark"] .pill-gpn { background: rgba(148,163,184,.16); border-color: rgba(148,163,184,.3); }
   [data-theme="dark"] #sacScreen.gpn .sac-box { background: rgba(3,105,161,.2); border-color: rgba(56,189,248,.35); color: #BAE6FD; }
   [data-theme="dark"] #sacScreen.gpn .sac-acc-body h4, [data-theme="dark"] #sacScreen.gpn .sac-opt .l, [data-theme="dark"] #sacScreen.gpn .sac-score { color: #7DD3FC; }
+
+  /* ===== Técnicas de almacenamiento · Tema 2 ===== */
+  .calc-only { display: none !important; }
+  #sacScreen.tal .calc-only { display: flex !important; }
+  #sacScreen.tal .sac-acc-body h4, #sacScreen.tal .sac-opt .l, #sacScreen.tal .sac-score { color: #0E7490; }
+  #sacScreen.tal .sac-box { background: #ECFEFF; border-color: #A5F3FC; color: #155E75; }
+  #sacScreen.tal .sac-opt:hover:not(:disabled) { border-color: #0E7490; }
+  #sacScreen.tal .sac-bar > div { background: #0E7490; }
+  [data-theme="dark"] #sacScreen.tal .sac-box { background: rgba(14,116,144,.22); border-color: rgba(34,211,238,.35); color: #A5F3FC; }
+  [data-theme="dark"] #sacScreen.tal .sac-acc-body h4, [data-theme="dark"] #sacScreen.tal .sac-opt .l, [data-theme="dark"] #sacScreen.tal .sac-score { color: #67E8F9; }
 </style>
 </head>
 <body>
@@ -1051,10 +1061,10 @@
         <div class="subject-icon"><i class="ri-truck-line"></i></div>
         <div>
           <div class="subject-name">Técnicas de almacenamiento</div>
-          <div class="subject-code">Tema 1 — Distribución y transporte</div>
+          <div class="subject-code">Temas 1 y 2 — Distribución, transporte y el almacén</div>
         </div>
       </div>
-      <div class="subject-desc">Calcula cuántos vehículos de reparto necesitas según el peso y el volumen de la mercancía.</div>
+      <div class="subject-desc">Vehículos de reparto (tema 1) y el almacén: funciones, tipos, diseño, localización y codificación (tema 2).</div>
       <div class="subject-tags">
         <span class="subject-tag">Peso y volumen</span>
         <span class="subject-tag">Nº de vehículos</span>
@@ -1316,6 +1326,17 @@
     <p class="menu-title">Elige tipo de ejercicio</p>
     <p class="menu-sub">Aprende a calcular cuántos vehículos de reparto necesitas, paso a paso.</p>
 
+    <div class="curso-label" style="margin-top:6px;">Tema 2 · El almacén</div>
+    <div class="menu-card" onclick="goSubject('tal2')">
+      <div class="menu-icon" style="background:#ECFEFF;"><i class="ri-store-3-line ri-lg" style="color:#0E7490;"></i></div>
+      <div>
+        <div class="menu-card-title">Apuntes, tarjetas y test</div>
+        <div class="menu-card-desc">Funciones, tipos, diseño, localización y codificación del almacén. Test, verdadero/falso, desarrollo, modo examen y ejercicios de cálculo.</div>
+      </div>
+    </div>
+
+    <div class="curso-label">Tema 1 · Distribución y transporte</div>
+
     <div class="menu-card" onclick="startTalMode('vehiculos')">
       <div class="menu-icon" style="background:#ECFEFF;"><i class="ri-truck-line ri-lg" style="color:#0E7490;"></i></div>
       <div>
@@ -1345,7 +1366,7 @@
   <div class="screen" id="sacScreen">
     <!-- Menú -->
     <div class="sac-view active" id="sacMenu">
-      <button class="btn-back-subject" onclick="goBack()"><i class="ri-arrow-left-line"></i> Asignaturas</button>
+      <button class="btn-back-subject" onclick="sacBack()"><i class="ri-arrow-left-line"></i> Asignaturas</button>
       <div class="subject-pill pill-sac" id="qzPill"><i class="ri-customer-service-2-line"></i> Servicio de atención comercial</div>
       <p class="menu-title" id="qzTitle">Unidad 1: La actividad comercial</p>
       <p class="menu-sub">Estudia los apuntes y ponte a prueba con preguntas tipo test difíciles.</p>
@@ -1427,6 +1448,20 @@
         <div>
           <div class="menu-card-title">Ejercicios del temario</div>
           <div class="menu-card-desc">Los 10 ejercicios de tu hoja de conversión (55 apartados), corregidos automáticamente.</div>
+        </div>
+      </div>
+      <div class="menu-card calc-only" onclick="sacStart('calc')">
+        <div class="menu-icon" style="background:#ECFEFF;"><i class="ri-calculator-line ri-lg" style="color:#0E7490;"></i></div>
+        <div>
+          <div class="menu-card-title">Ejercicios de cálculo</div>
+          <div class="menu-card-desc">10 ejercicios aleatorios de centro de gravedad y ponderación de factores. Escribes el número y ves el procedimiento.</div>
+        </div>
+      </div>
+      <div class="menu-card calc-only" onclick="sacStart('doc')">
+        <div class="menu-icon" style="background:#ECFEFF;"><i class="ri-book-open-line ri-lg" style="color:#0E7490;"></i></div>
+        <div>
+          <div class="menu-card-title">Ejercicios del libro</div>
+          <div class="menu-card-desc">Los casos 3 y 4 y la actividad 6 con sus datos reales (7 apartados).</div>
         </div>
       </div>
       <div class="curso-label" style="margin-top:18px;">Evaluarte</div>
@@ -1889,8 +1924,25 @@
       qzUse(subj);
       document.getElementById('sacScreen').classList.add('active');
       sacShow('menu');
+    } else if (subj === 'tal2') {
+      document.getElementById('talMenuScreen').classList.remove('active');
+      qzUse('tal');
+      document.getElementById('sacScreen').classList.add('active');
+      sacShow('menu');
     } else {
       document.getElementById('talMenuScreen').classList.add('active');
+    }
+  }
+
+  // Vuelta desde el menú del quiz: al menú de la asignatura si viene de él, o a la lista de asignaturas.
+  function sacBack(){
+    if(qz && qz.backTo === 'tal'){
+      currentSubject = 'tal';
+      document.getElementById('sacScreen').classList.remove('active');
+      document.getElementById('talMenuScreen').classList.add('active');
+      document.body.classList.remove('footer-hidden');
+    } else {
+      goBack();
     }
   }
 
@@ -2384,6 +2436,414 @@
           title:'Unidad 1: Venta de productos industriales', notesDesc:'Resumen fácil de toda la unidad por apartados (1 a 7).'}
   };
   var qz = QZ_SETS.sac;
+
+  // ===================== TAL · TEMA 2: EL ALMACÉN (Rita) =====================
+  var TAL_SECTIONS = {
+    w1: {n:'1. El almacén y su papel logístico', i:'ri-store-3-line'},
+    w2: {n:'2.1–2.2 Recepción y almacenamiento', i:'ri-inbox-archive-line'},
+    w3: {n:'2.3–2.5 Conservación, expedición y existencias', i:'ri-truck-line'},
+    w4: {n:'3. Tipos de almacenes', i:'ri-building-4-line'},
+    w5: {n:'4.1–4.2 Ubicación y métodos de localización', i:'ri-map-pin-line'},
+    w6: {n:'4.3 Zonas externas: accesos, carga y muelles', i:'ri-road-map-line'},
+    w7: {n:'4.4 Zonas internas y layout', i:'ri-layout-grid-line'},
+    w8: {n:'4.4 E–F Flujo de productos y pasillos', i:'ri-route-line'},
+    w9: {n:'4.5 Codificación de zonas', i:'ri-barcode-line'},
+    calc:{n:'Ejercicios de cálculo (localización)', i:'ri-calculator-line'}
+  };
+
+  var TAL_NOTES = {
+    w1: '<div class="sac-box"><b>Logística:</b> actividad que permite disponer de las cosas como, donde y cuando se necesitan, con rapidez, seguridad y al menor coste posible.</div>' +
+      '<div class="sac-box"><b>Gestión de almacenes:</b> se centra en la <b>recepción</b>, el <b>almacenamiento</b> y el <b>movimiento</b> de los productos hasta los puntos de consumo, sin olvidar el tratamiento de la información que genera la actividad diaria.</div>' +
+      '<p>Se aplican <b>técnicas logísticas</b> que hagan óptimos, en calidad de servicio y coste, los procesos de producción, gestión y distribución de la mercancía. Un <b>sistema de gestión eficaz</b> debe aumentar la capacidad, la productividad y el nivel de servicio a un coste aceptable.</p>' +
+      '<p>El papel del almacén ha pasado de ser una simple instalación de guarda y custodia de stocks a ser un centro enfocado al <b>servicio al cliente</b>.</p>' +
+      '<h4>Motivos para disponer de almacenes</h4><ul>' +
+      '<li><b>Desequilibrios entre oferta y demanda:</b> pocos productos tienen una demanda que coincida en tiempo y cantidad con su oferta.</li>' +
+      '<li><b>Mejora de la calidad del servicio:</b> se reducen las demandas insatisfechas (<b>roturas de stock</b>) y se optimizan los plazos de entrega.</li>' +
+      '<li><b>Reducción de costes logísticos:</b> aprovisionarse en grandes cantidades permite <i>rappels</i> (descuentos por volumen) y tarifas más competitivas por transportar cargas completas, aunque se necesite más espacio.</li>' +
+      '<li><b>Complemento al proceso productivo</b> de las empresas industriales: controles de calidad obligatorios y necesidad de mantener stock de materias primas para no paralizar la producción.</li></ul>' +
+      '<p><b>Caso Dulia (galletas):</b> producir grandes cantidades logra mejores precios de materias primas, reparte los costes fijos entre más unidades y mejora la eficiencia → baja el coste unitario (<b>economías de escala</b>) y puede ofrecer precios más competitivos; pero se necesitan almacenes para mantener la producción.</p>',
+    w2: '<p>Los almacenes se estructuran para: <b>recepción, almacenamiento, conservación y manutención, expedición y organización y control de existencias</b>.</p>' +
+      '<h4>2.1 Recepción de las mercancías</h4><p>Se recepciona porque antes se ha emitido un <b>pedido</b>. Al llegar la mercancía se <b>verifica</b>:</p><ol>' +
+      '<li>Se comprueba que lo que llega (<b>albarán</b>) coincide con lo solicitado (<b>pedido</b>).</li>' +
+      '<li>Descarga.</li>' +
+      '<li><b>Control cuantitativo</b> mediante el cotejo de la mercancía.</li>' +
+      '<li><b>Control cualitativo:</b> se extrae una muestra del envío para comprobar su calidad.</li>' +
+      '<li>Termina con la <b>codificación</b> y <b>entrada</b> de la mercancía, una vez dada la conformidad.</li></ol>' +
+      '<p>Debe hacerse con rapidez y exactitud: una <b>disponibilidad inmediata</b> mejora el nivel de servicio al cliente.</p>' +
+      '<h4>2.2 Almacenamiento</h4><div class="sac-box">Tareas que realizan los operarios para <b>ubicar la mercancía en la zona más idónea</b>, con el fin de acceder a ella y localizarla fácilmente.</div>' +
+      '<p>La ubicación se asigna según las características de la mercancía: <b>rotación, peso, volumen</b>… Los software de control del almacén (SGA) asignan valores a cada ubicación (peso, volumen, capacidad, tipos de palés…). En todos los procesos se busca la <b>optimización de recorridos</b>.</p>',
+    w3: '<h4>2.3 Conservación y manutención</h4><p>Guarda y conservación de la mercancía en <b>perfecto estado</b> desde su entrada hasta su salida. Se debe aplicar la normativa de <b>seguridad e higiene</b>, tanto de los almacenes como de los productos.</p>' +
+      '<p><b>Rotura de stock:</b> el almacén no tiene stock suficiente para satisfacer la demanda (retrasos de proveedores o aumentos imprevistos de la demanda). Se evita con <b>stocks de seguridad</b>.</p>' +
+      '<h4>2.4 Expedición</h4><p>Satisface las necesidades del cliente con un elevado nivel de servicio. Actividades:</p><ul>' +
+      '<li><b>Selección de la mercancía</b>: si no sale en palés o unidades de carga completas se hace <b>picking</b>.</li>' +
+      '<li><b>Embalaje</b>: protege de daños de manipulación y transporte; se precinta y etiqueta para identificarla.</li>' +
+      '<li><b>Elección del medio de transporte</b> según mercancía, origen y destino; y cumplimentar la documentación (<b>albarán y carta de porte</b>).</li></ul>' +
+      '<p>La expedición concluye cuando se recibe el <b>albarán firmado por el cliente</b>.</p>' +
+      '<p><b>Formas de hacer picking:</b> (1) zona del almacén asignada al picking, donde hay unidades sueltas que se reponen desde la zona de almacenaje; (2) los huecos inferiores de las estanterías (nivel 0) como zona de picking y los palés se reponen desde la parte superior; (3) picking en todos los niveles con medios de manipulación que se elevan hasta la zona necesaria.</p>' +
+      '<h4>2.5 Organización y control de las existencias</h4><p>Determinar el <b>nivel de stock</b> de las referencias y establecer la <b>frecuencia y cantidad de pedido</b> para ofrecer el nivel de servicio deseado al menor coste posible. Los <b>Sistemas de Gestión del Almacén (SGA)</b> permiten programar <b>alarmas</b> personalizadas para avisar de los límites de stock y evitar roturas.</p>' +
+      '<p><b>Actividad 2:</b> comprobar la documentación, quitar el precinto, abrir el vehículo y revisar los productos y comprobar su calidad → <b>recepción</b>; asignar instrucciones sobre ubicación → <b>almacenamiento</b>; etiquetar el envío y confirmar la carga → <b>expedición</b>.</p>',
+    w4: '<p>Hay muchos tipos de almacenes según distintos criterios de clasificación:</p>' +
+      '<h4>3.1 Según la mercancía almacenada</h4><ul>' +
+      '<li><b>Materias primas:</b> materiales que se utilizarán en la producción (madera para papel).</li>' +
+      '<li><b>Materiales de repuesto:</b> piezas que forman parte del producto final (cartuchos de tinta, limpiaparabrisas, botones de camisas).</li>' +
+      '<li><b>Productos intermedios:</b> en pleno proceso productivo; la siguiente fase añadirá un elemento o tarea (camisas pendientes de botones).</li>' +
+      '<li><b>Productos terminados:</b> listos para comercializarse.</li>' +
+      '<li><b>Mercancías auxiliares:</b> suministran materiales para el proceso (combustible; material de limpieza, higiénicos, de oficina).</li>' +
+      '<li><b>Mercancía líquida:</b> tanques o contenedores y transporte en cisterna (leche).</li>' +
+      '<li><b>Mercancía a granel:</b> sin envases, en montones delimitados por tabiques; puede ir en <b>silos</b> (pienso).</li>' +
+      '<li><b>Gases:</b> medidas de seguridad especiales.</li>' +
+      '<li><b>Información:</b> documentos de la empresa.</li></ul>' +
+      '<h4>3.2 Según situación geográfica o función logística</h4><ul>' +
+      '<li><b>Central:</b> cerca de los centros de producción; capacidad elevada; dispone de todas las referencias; abastece a otros almacenes.</li>' +
+      '<li><b>Regional:</b> distribuido en el territorio y abastece una zona geográfica; se abastece de los centrales y sirve a detallistas y distribuidores con vehículos de menor capacidad.</li>' +
+      '<li><b>De consolidación:</b> agrupan pedidos de una zona para ahorrar coste de transporte.</li>' +
+      '<li><b>De tránsito:</b> almacena temporalmente la mercancía hasta cargarla en el medio de transporte (por ejemplo, en un puerto antes de cargar en el buque).</li></ul>' +
+      '<div class="sac-box"><b>Plataforma de distribución (cross docking):</b> no tiene la consideración de almacén, porque las mercancías permanecen en ella horas y no existe almacenamiento. Recibe información anticipada de los pedidos para preparar la distribución final. Se transfieren las entregas del punto de <b>recepción</b> al de <b>expedición</b> con perfecta sincronización; no hay operaciones de almacenaje como el picking (caso El Corte Inglés de Valdemoro).</div>' +
+      '<h4>3.3 Según el régimen jurídico</h4><ul>' +
+      '<li><b>En propiedad:</b> edificios del titular, que asume inversión y gastos. Rentable si se usan continuamente o con mercancías que requieren almacenamiento especializado; puede hacerse a medida.</li>' +
+      '<li><b>En alquiler:</b> opción más flexible; la empresa puede deshacerse rápidamente de él.</li>' +
+      '<li><b>En leasing (arrendamiento financiero):</b> alquiler con opción de compra; se pierde flexibilidad porque hay que contratar el alquiler durante un periodo predeterminado.</li></ul>' +
+      '<h4>3.4 Según su estructura</h4><ul><li><b>A cielo abierto:</b> sin estructura cubierta; superficie delimitada con valla, señal o pintada; la mercancía no necesita protección (como mucho lonas). Suele tener una pequeña construcción para oficinas.</li><li><b>Cubierto:</b> protege la mercancía de agentes meteorológicos y otros riesgos.</li></ul>' +
+      '<h4>3.5 Según el grado de automatización</h4><ul><li><b>Convencional:</b> la mecanización se reduce a medios de transporte internos sencillos; la intervención del personal es importante.</li><li><b>Automatizado:</b> la mayoría de operaciones sin personas; las órdenes emanan de un ordenador central y los medios de transporte interno están totalmente automatizados. Gran altura, pasillos estrechos, se optimiza la capacidad. Ejemplo: Cofares usa radiofrecuencia que reduce la probabilidad de error.</li></ul>',
+    w5: '<h4>4.1 Ubicación del almacén</h4><div class="sac-box">Es una <b>decisión estratégica</b>: una vez tomada no suele modificarse en el corto plazo. Hay que estudiar la localización, la estructura interna y externa y el sistema de codificación.</div>' +
+      '<p><b>Aspectos a analizar:</b></p><ul>' +
+      '<li>Tipo de transporte más frecuente; distancia entre proveedores y almacén; distancia del almacén a las zonas de entrega.</li>' +
+      '<li>Proximidad a los almacenes de la competencia.</li>' +
+      '<li>Zona bien comunicada; buenas carreteras (estado y flujo de circulación); servicios próximos.</li>' +
+      '<li>Facilidad para obtener suministro eléctrico, gas, agua…</li>' +
+      '<li>Disponibilidad y características de la mano de obra.</li>' +
+      '<li>Normativa de la zona (alturas máximas de edificación, distancias a viales, permisos de obra, autorizaciones).</li>' +
+      '<li>Coste de la parcela y posible revalorización del terreno; beneficios fiscales y oportunidad de la inversión.</li>' +
+      '<li>Superficie suficiente por si es necesario ampliar o destinar una zona a aparcamiento.</li>' +
+      '<li>Forma y relieve de la parcela (si es irregular se puede reducir la zona útil).</li></ul>' +
+      '<h4>4.2 Métodos de localización</h4><p>Modelos matemáticos que dan una aproximación a la ubicación óptima, teniendo siempre en cuenta los factores impuestos por la realidad empresarial.</p>' +
+      '<p><b>a) Centro de gravedad:</b> la ubicación viene dada por una <b>media ponderada</b> de las coordenadas de los puntos de demanda, tomando como ponderación la <b>cantidad demandada</b> (por frecuencia de pedido). Cuanto mayor es el volumen de pedido de un cliente, más probable que el almacén esté cerca de él. Se basa en que el coste del transporte es proporcional a la distancia recorrida, a la frecuencia y al volumen de carga.</p>' +
+      '<div class="sac-box">X₀ = Σ(xᵢ · Pᵢ) ÷ ΣPᵢ &nbsp;&nbsp;·&nbsp;&nbsp; Y₀ = Σ(yᵢ · Pᵢ) ÷ ΣPᵢ<br>(X₀, Y₀) = centro de gravedad · (xᵢ, yᵢ) = punto de demanda i · Pᵢ = cantidad demandada por frecuencia de pedido del cliente i</div>' +
+      '<p><b>b) Ponderación de factores:</b> ayuda a decidir entre dos o más ubicaciones según la ponderación y la puntuación de cada factor. Pasos: 1) determinar los n factores; 2) <b>ponderar</b> cada factor por su importancia (Wᵢ); 3) <b>puntuar</b> cada ubicación en cada factor (Pᵢ); 4) calcular la puntuación final.</p>' +
+      '<div class="sac-box">Puntuación final = Σ(Pᵢ · Wᵢ) ÷ ΣWᵢ</div>' +
+      '<p><b>Caso 3 (Bodegas Díaz Valdés, Pontevedra):</b> Cambados 3.000 u. (2,1; 5,9), El Grove 4.000 (3,3; 4,9), Cangas 2.500 (3,7; 6,9), Vigo 2.000 (6,8; 3,0) → X₀ = 42.350 ÷ 11.500 = <b>3,683</b> · Y₀ = 60.550 ÷ 11.500 = <b>5,265</b>. (El libro imprime 3,862 en X₀, pero el cálculo da 3,683.)</p>' +
+      '<p><b>Caso 4 (Madrid):</b> ponderaciones 30 coste terreno, 15 proximidad clientes, 10 impuestos-permisos, 10 accesibilidad, 20 zona comunicada, 15 ampliación → Móstoles <b>6,10</b> · Coslada <b>6,25</b> · Alcobendas <b>4,95</b> → la mejor ubicación es <b>Coslada</b>.</p>' +
+      '<p><b>Actividad 6:</b> con ponderaciones 40, 15, 10, 10, 15, 10, Madrid = 6,0 y Zaragoza = 6,2 → conviene <b>Zaragoza</b>.</p>',
+    w6: '<h4>A. Accesos</h4><p>Se planifican para eliminar interferencias entre vehículos y evitar accidentes.</p><ul>' +
+      '<li>Los accesos <b>en forma de Y</b> ofrecen mayores ventajas: los vehículos pueden abandonar rápido la carretera y los que salen se incorporan con facilidad.</li>' +
+      '<li>La superficie de rodadura debe soportar el peso de los camiones.</li>' +
+      '<li>El tráfico debe ir en sentido <b>contrario a las agujas del reloj</b>: mejor visibilidad del conductor al maniobrar y retroceder a los muelles.</li>' +
+      '<li>Puertas de acceso <b>independientes</b> para peatones y vehículos.</li></ul>' +
+      '<h4>B. Zonas de carga/descarga</h4><p>Son el <b>punto de conexión entre el transporte y el almacenaje</b>. Pueden estar integradas en el almacén o unidas a través de puertas de acceso o explanadas independientes. Así se reduce el tiempo de colocación del camión y el ciclo de carga/descarga es independiente del trabajo del almacén. Deben ser <b>amplias</b> para dar fluidez. Se acelera al máximo con <b>carga y descarga automática</b> mediante plataformas que introducen la mercancía en el vehículo por tracción mecánica.</p>' +
+      '<h4>C. Muelles</h4><p>Plataformas o estructuras de <b>hormigón</b>, separadas del almacén por un andén o adosadas, para que el suelo quede a la <b>misma altura de la caja del camión</b> (movimientos más rápidos).</p><ul>' +
+      '<li>El <b>número de muelles</b> se decide con un estudio de flujos de entrada y salida, tiempos de carga/descarga y medios de manipulación. El número de puestos debe ser igual al de camiones que cargan/descargan al mismo tiempo.</li>' +
+      '<li>El tipo de muelle depende de los vehículos, los equipos, la mercancía y las condiciones de construcción.</li>' +
+      '<li>Puertas de acceso: <b>con cierre metálico</b> (se abren al adosar el vehículo y cierran al terminar) o <b>con fuelle de abrigo</b> (abraza al camión para evitar cambios de temperatura).</li></ul>' +
+      '<div class="sac-box"><b>Normas de seguridad en el muelle:</b> el camión se fija a la zona de carga con un <b>gancho de metal</b> que impide que se mueva; hay <b>rampas niveladoras</b> (electrohidráulicas o automáticas) o plataformas elevadoras electrohidráulicas para situar el vehículo y la zona de trabajo a la misma altura.</div>',
+    w7: '<div class="sac-box"><b>Layout:</b> disposición en planta de las diferentes zonas del almacén.</div>' +
+      '<p>Se planifica para lograr la rentabilidad del plan logístico. Información necesaria: necesidades de las mercancías, metodología de trabajo, unidades recibidas por suministro y su frecuencia, medios de transporte de cada zona, técnicas de almacenaje, superficie disponible y limitaciones arquitectónicas, y personal de cada zona. <b>Objetivo:</b> aprovechamiento eficiente del espacio que facilite la rapidez y precisión en el suministro de pedidos.</p>' +
+      '<div class="sac-box"><b>Recomendaciones:</b> edificio de <b>una sola planta</b>; planta con máxima capacidad, máxima utilización del espacio y adaptable a cambios; <b>mínimos recorridos internos</b>; clasificar el stock por el <b>método ABC</b> (la A: productos que más rotan, los más cercanos a la salida); fácil acceso a los productos; suelos resistentes, seguros e higiénicos; buena iluminación; <b>no debe haber rampas</b> (si son necesarias, pendiente entre el <b>10 % y el 12 %</b>); medidas de seguridad.</div>' +
+      '<h4>A. Zona de recepción o de entrada</h4><p>Lo más independiente posible del resto y <b>próxima a los muelles</b>. Se divide en tres: <b>zona de control</b> (se comprueba el pedido con el albarán), <b>zona de inspección</b> (estado de una muestra) y <b>zona de transvase</b> de un palé a otro (palés incompatibles con los del almacenamiento). Tras codificar, el ordenador registra la entrada y genera la <b>etiqueta de ubicación</b>.</p>' +
+      '<h4>B. Zona de almacenamiento</h4><p>Donde la mercancía queda depositada hasta su expedición. Se tienen en cuenta <b>peso, volumen y rotación</b> para decidir el tamaño de las paletas, los equipos, el sistema de almacenamiento y la amplitud de los pasillos. El acceso debe ser sencillo y con poco recorrido.</p>' +
+      '<h4>C. Zona de expedición</h4><p>Se acumula la mercancía que ha de salir. La preparación de pedidos puede estar integrada en la zona de almacenaje o separada (entonces, próxima a expedición y muelles de salida). Áreas: <b>consolidación</b> (depósito y preparación de la mercancía de un pedido; se puede embalar), <b>embalaje-etiquetado</b> y <b>control de salidas</b> (se verifican los envíos). En producción <b>JIT</b> se minimiza el almacenamiento y el almacén actúa como centro de consolidación.</p>' +
+      '<h4>D. Zonas auxiliares</h4><p>Logística inversa y política de devoluciones. Áreas: <b>devoluciones</b>, <b>materiales obsoletos</b> (artículos y herramientas en malas condiciones), <b>palés vacíos</b> (identificar tipos, dimensiones y propietarios), <b>servicios</b> (descanso del personal) y <b>oficinas o administración</b> del almacén.</p>' +
+      '<h4>Principios del layout (caso 5)</h4><ul><li><b>Mínima distancia recorrida.</b></li><li><b>Accesibilidad:</b> las áreas con artículos de mayor movimiento o rotación, las más accesibles.</li><li><b>Espacio cúbico:</b> no solo superficie, también volumen (entreplantas o altillos).</li><li><b>Satisfacción y seguridad:</b> normativa de seguridad e higiene.</li><li><b>Flexibilidad:</b> prever futuras modificaciones.</li></ul>',
+    w8: '<h4>E. Flujo de productos</h4><ul><li><b>Almacén en forma de I (línea recta):</b> lo ideal es que haya especialización de muelles de carga y descarga (zonas muy concurridas).</li><li><b>Almacén en forma de U:</b> existe un <b>único muelle</b> para carga y descarga; el flujo sigue un recorrido semicircular.</li></ul>' +
+      '<h4>F. Pasillos</h4><p><b>Doble finalidad:</b> dividen zonas y facilitan el acceso a la mercancía.</p><ul>' +
+      '<li><b>Estanterías de dos en dos:</b> a cada una se accede por un pasillo; la primera se coloca adosada a la pared para aprovechar espacio.</li>' +
+      '<li><b>Estanterías de una en una:</b> dos pasillos por estantería (reposición y picking); interesa en almacenes con gran movimiento.</li></ul>' +
+      '<p><b>Normas:</b> dirección recta y orientada hacia las puertas; no ubicar pasillos junto a paredes sin puertas; el ancho depende de la tasa de ocupación, la operatividad y los medios mecánicos; estanterías orientadas en un mismo sentido para reducir intersecciones y colisiones.</p>' +
+      '<p><b>Caso 6:</b> es preferible priorizar un mayor ancho de pasillos que ganar capacidad: más rapidez en las operaciones, menos daños en equipos e instalaciones y menos accidentes.</p>',
+    w9: '<div class="sac-box">Toda ubicación debe tener una <b>codificación única</b> que la diferencie del resto, para reconocer rápido y sin errores cada área, pasillo o estantería. El método lo decide cada empresa. Los códigos se pasan a menudo a <b>código de barras</b> para leerlos con lector de infrarrojos.</div>' +
+      '<h4>Codificación por estantería o lineal</h4><p>Se numeran las estanterías correlativamente; empezando por la cabecera del recorrido se numeran los distintos <b>niveles de profundidad</b> (bacs o ubicaciones de cada una); en cada uno se numeran las <b>alturas</b> empezando por el suelo y ascendiendo. Permite recorridos de ida y vuelta en el mismo pasillo.</p>' +
+      '<h4>Codificación por pasillo o peine</h4><p>A cada pasillo se le asigna un número consecutivo y solo se recorre en un sentido. Cada dos estanterías se codifican en sentido ascendente de circulación, numerando alternativamente a izquierda y derecha los niveles de profundidad: <b>impares a la izquierda y pares a la derecha</b>, empezando por el extremo opuesto en el siguiente pasillo. Las alturas, empezando por el nivel inferior.</p>' +
+      '<p><b>Bac o cubeta:</b> contenedor diseñado para meter piezas pequeñas.</p>' +
+      '<div class="sac-box"><b>Caso 7:</b> con codificación por estanterías, (D, A, 7, 5) = <b>zona D</b>, <b>estantería A</b>, <b>nivel de profundidad 7</b> y <b>altura 5</b>. Con codificación por pasillo, (D, 2, 7, 5) = zona D, <b>pasillo 2</b>, profundidad 7 (impar → lado izquierdo) y altura 5.</div>',
+    calc: '<div class="sac-box">En esta sección practicas los <b>cálculos de localización</b> escribiendo el número. Se acepta coma o punto decimal.</div>' +
+      '<p><b>Centro de gravedad:</b> X₀ = Σ(xᵢ·Pᵢ) ÷ ΣPᵢ y Y₀ = Σ(yᵢ·Pᵢ) ÷ ΣPᵢ.</p>' +
+      '<p><b>Ponderación de factores:</b> puntuación = Σ(Pᵢ·Wᵢ) ÷ ΣWᵢ (con los pesos Wᵢ en %, divide la suma de productos entre 100).</p>' +
+      '<p>Pasos: 1) multiplica cada dato por su ponderación; 2) suma los productos; 3) divide entre la suma de ponderaciones.</p>'
+  };
+
+  var TAL_QS = [
+    // ---- w1 ----
+    {s:'w1', q:'¿Cómo se define la logística?', o:['Actividad que permite disponer de las cosas como, donde y cuando se necesitan, con rapidez, seguridad y al menor coste posible','Actividad de fabricar productos al menor coste','Conjunto de técnicas de venta','Gestión del personal del almacén'], e:'Definición del recuadro «Recuerda».'},
+    {s:'w1', q:'La gestión de almacenes se centra en…', o:['La recepción, el almacenamiento y el movimiento de productos hasta los puntos de consumo, sin olvidar el tratamiento de la información','Solo guardar la mercancía','Solo el transporte','Solo la compra de materias primas'], e:'Incluye la información que genera la actividad diaria.'},
+    {s:'w1', q:'El papel del almacén en la cadena ha pasado de…', o:['Una simple instalación de guarda y custodia de stocks a un centro enfocado al servicio al cliente','Centro de servicio al cliente a mera guarda de stocks','Instalación de transporte a instalación de venta','Instalación automatizada a instalación manual'], e:'Un sistema de gestión eficaz aumenta capacidad, productividad y nivel de servicio a un coste aceptable.'},
+    {s:'w1', q:'¿Cuál NO es un motivo para disponer de almacenes?', o:['Eliminar por completo la necesidad de controles de calidad','Desequilibrios entre oferta y demanda','Mejora de la calidad del servicio al cliente','Reducción de costes logísticos'], e:'Cuarto motivo: complemento al proceso productivo (controles de calidad obligatorios y stock de materias primas).'},
+    {s:'w1', q:'Los «rappels» son…', o:['Descuentos por volumen de compra','Tarifas de transporte de cargas parciales','Penalizaciones por rotura de stock','Gastos de almacenamiento'], e:'Junto a tarifas más competitivas por transportar cargas completas, reducen costes logísticos.'},
+    {s:'w1', q:'Una rotura de stock es…', o:['Cuando el almacén no tiene stock suficiente para satisfacer la demanda','Cuando se rompe la mercancía al descargarla','Cuando sobra mercancía','Cuando se pierde un albarán'], e:'Se suele producir por retrasos de proveedores o aumentos imprevistos de la demanda; se evita con stocks de seguridad.'},
+    {s:'w1', q:'¿Por qué a Dulia (galletas) le puede resultar más ventajoso producir grandes cantidades y almacenar?', o:['Obtiene economías de escala: mejores precios de materias primas, costes fijos repartidos y menor coste unitario','Porque no necesita almacenes','Porque desaparecen los costes fijos','Porque las galletas se conservan indefinidamente'], e:'Pero se necesitarán almacenes para mantener la producción.'},
+    // ---- w2 ----
+    {s:'w2', q:'¿Cuáles son las funciones del almacén?', o:['Recepción, almacenamiento, conservación y manutención, expedición y organización y control de existencias','Compra, producción y venta','Planificación, dirección y control','Recepción, producción y facturación'], e:'Son las cinco funciones del apartado 2.'},
+    {s:'w2', q:'Al recibir mercancía, lo primero que se comprueba es que…', o:['El albarán coincide con el pedido','El precio es el más bajo','El camión es el adecuado','La mercancía está codificada'], e:'Después: descarga, control cuantitativo (cotejo), control cualitativo (muestra) y codificación y entrada.'},
+    {s:'w2', q:'El control cuantitativo en la recepción consiste en…', o:['Contar la mercancía mediante el cotejo','Extraer una muestra para ver su calidad','Comprobar el precio','Etiquetar la mercancía'], e:'El cualitativo se hace con una muestra del envío.'},
+    {s:'w2', q:'El control cualitativo en la recepción se realiza…', o:['Extrayendo una muestra del envío para comprobar la calidad','Contando las unidades','Comparando el albarán con la factura','Descargando el camión'], e:'El cuantitativo es el cotejo (contar).'},
+    {s:'w2', q:'La recepción finaliza con…', o:['La codificación y entrada de la mercancía','La firma del albarán por el cliente','El picking','El embalaje'], e:'La firma del albarán por el cliente concluye la expedición.'},
+    {s:'w2', q:'¿Por qué la recepción debe hacerse con rapidez y exactitud?', o:['Porque una disponibilidad inmediata de la mercancía mejora el nivel de servicio al cliente','Porque así se evita el control de calidad','Porque reduce el precio','Porque es obligatorio por ley'], e:'Apartado 2.1.'},
+    {s:'w2', q:'El almacenamiento consiste en…', o:['Las tareas de los operarios para ubicar la mercancía en la zona más idónea y localizarla fácilmente','Comprobar el albarán','Preparar los pedidos','Elegir el medio de transporte'], e:'Se asigna la ubicación según rotación, peso y volumen.'},
+    {s:'w2', q:'Para asignar la ubicación de la mercancía se tienen en cuenta sus características, como…', o:['Rotación, peso y volumen','Color y marca','Precio y proveedor','Fecha de pedido'], e:'Los software (SGA) asignan valores a cada ubicación: peso, volumen, capacidad, tipos de palés.'},
+    {s:'w2', q:'En los procesos de almacenamiento se persigue…', o:['La optimización de recorridos dentro del almacén','Maximizar la distancia recorrida','Eliminar el stock','Reducir la seguridad'], e:'Apartado 2.2.'},
+    // ---- w3 ----
+    {s:'w3', q:'La conservación y manutención consiste en…', o:['La guarda y conservación de la mercancía en perfecto estado desde su entrada hasta su salida','La preparación de pedidos','La asignación de ubicaciones','El transporte al cliente'], e:'Se aplica la normativa de seguridad e higiene.'},
+    {s:'w3', q:'El picking se realiza cuando…', o:['La mercancía no sale en palés o unidades de carga completas','La mercancía sale en palés completos','Se recibe un pedido de materias primas','Se descarga un camión'], e:'Es la selección de la mercancía en la expedición.'},
+    {s:'w3', q:'¿Cuál NO es una actividad de la expedición?', o:['El control cuantitativo mediante cotejo','La selección de la mercancía','El embalaje','La elección del medio de transporte y documentación'], e:'El cotejo pertenece a la recepción.'},
+    {s:'w3', q:'La documentación que acompaña a la expedición es…', o:['El albarán y la carta de porte','El pedido y la factura','El albarán y el pedido','La carta de porte y el SGA'], e:'Apartado 2.4.'},
+    {s:'w3', q:'La expedición concluye cuando…', o:['Se recibe el albarán firmado por el cliente dando su conformidad','Se embala la mercancía','Sale el camión','Se emite la factura'], e:'Apartado 2.4.'},
+    {s:'w3', q:'El embalaje en la expedición sirve para…', o:['Proteger la mercancía de daños de manipulación y transporte; se precinta y etiqueta','Controlar la calidad','Ubicar la mercancía','Reducir el stock'], e:'Se etiqueta para identificar la mercancía.'},
+    {s:'w3', q:'¿Qué forma de picking consiste en usar los huecos inferiores de las estanterías (nivel 0) como zona de picking?', o:['La que establece los huecos inferiores como zona de picking y repone los palés desde la parte superior','La que asigna una zona del almacén al picking','La que hace picking en todos los niveles con medios de manipulación','La que usa solo cross docking'], e:'Hay tres formas de picking.'},
+    {s:'w3', q:'La organización y control de las existencias consiste en…', o:['Determinar el nivel de stock de las referencias y la frecuencia y cantidad de pedido para ofrecer el servicio deseado al menor coste','Controlar la entrada de camiones','Embalar los pedidos','Diseñar los pasillos'], e:'Apartado 2.5.'},
+    {s:'w3', q:'Los Sistemas de Gestión del Almacén (SGA) permiten…', o:['Programar alarmas personalizadas que avisan de los límites de stock y evitan roturas','Sustituir a los operarios','Eliminar el albarán','Construir el almacén'], e:'Comprueban periódicamente la situación del inventario.'},
+    {s:'w3', q:'Comprobar la documentación, quitar el precinto y abrir el vehículo son tareas de…', o:['Recepción','Expedición','Almacenamiento','Control de existencias'], e:'Actividad 2. Asignar instrucciones de ubicación = almacenamiento; etiquetar el envío = expedición.'},
+    {s:'w3', q:'Etiquetar el envío y confirmar la carga son tareas de…', o:['Expedición','Recepción','Almacenamiento','Conservación'], e:'Actividad 2.'},
+    // ---- w4 ----
+    {s:'w4', q:'Cartuchos de tinta, limpiaparabrisas o botones de camisa se guardan en un almacén de…', o:['Materiales de repuesto','Materias primas','Productos intermedios','Productos terminados'], e:'Son piezas que forman parte del producto final.'},
+    {s:'w4', q:'Camisas pendientes de que otra empresa les ponga los botones se guardan en un almacén de…', o:['Productos intermedios','Productos terminados','Materias primas','Mercancías auxiliares'], e:'Están en pleno proceso productivo.'},
+    {s:'w4', q:'El combustible y el material de limpieza se guardan en un almacén de…', o:['Mercancías auxiliares','Materias primas','Materiales de repuesto','Productos terminados'], e:'Suministran materiales para el proceso productivo.'},
+    {s:'w4', q:'El pienso para animales depositado en silos es un ejemplo de almacén de…', o:['Mercancía a granel','Mercancía líquida','Gases','Información'], e:'Sin envases, en montones delimitados o silos.'},
+    {s:'w4', q:'La leche almacenada en tanques y transportada en cisterna es mercancía…', o:['Líquida','A granel','Auxiliar','Intermedia'], e:'Requiere tanques o contenedores y transporte en cisterna.'},
+    {s:'w4', q:'¿Qué almacén se localiza lo más cerca posible de los centros de producción, con gran capacidad y todas las referencias?', o:['Central','Regional','De consolidación','De tránsito'], e:'Abastece a otros almacenes.'},
+    {s:'w4', q:'El almacén regional…', o:['Abastece una zona geográfica, se surte de los centrales y sirve a detallistas con vehículos de menor capacidad','Está junto a la fábrica y tiene todas las referencias','Agrupa pedidos de una zona para ahorrar transporte','Almacena temporalmente en un puerto'], e:'Está distribuido por el territorio comercial.'},
+    {s:'w4', q:'Los almacenes de consolidación…', o:['Agrupan pedidos de una zona geográfica para ahorrar coste de transporte','Almacenan temporalmente hasta cargar en el buque','Abastecen a los regionales','Se ubican junto a las fábricas'], e:'3.2: según función logística.'},
+    {s:'w4', q:'Un almacén donde la mercancía que llega a puerto espera para ser cargada en el buque es de…', o:['Tránsito','Consolidación','Central','Regional'], e:'Almacena de forma temporal hasta cargarla en el medio de transporte.'},
+    {s:'w4', q:'¿Por qué una plataforma de distribución (cross docking) no se considera un almacén?', o:['Porque las mercancías permanecen en ella horas y no existe almacenamiento','Porque no tiene muelles','Porque no tiene personal','Porque almacena a granel'], e:'Se transfieren las entregas de la recepción a la expedición.'},
+    {s:'w4', q:'En el cross docking, ¿qué operación de almacenaje no existe?', o:['El picking','La recepción','La expedición','La carga'], e:'Hay perfecta sincronización de entrada y salida.'},
+    {s:'w4', q:'Un almacén en propiedad…', o:['Es del titular, que asume la inversión y los gastos; rentable si se usa continuamente o requiere almacenamiento especializado','Se puede abandonar rápidamente','Es un alquiler con opción de compra','Se contrata por un periodo predeterminado'], e:'Se puede hacer a medida.'},
+    {s:'w4', q:'La principal ventaja del almacén en alquiler es…', o:['Su flexibilidad: la empresa puede deshacerse de él rápidamente','Que es de su propiedad','Que incluye opción de compra','Que se amortiza siempre'], e:'Apartado 3.3.'},
+    {s:'w4', q:'El almacén en leasing (arrendamiento financiero) es…', o:['Un alquiler con opción de compra; se pierde flexibilidad porque hay que contratar el alquiler durante un periodo predeterminado','Un almacén en propiedad','Un alquiler sin compromiso de duración','Un almacén del Estado'], e:'Apartado 3.3.'},
+    {s:'w4', q:'Un almacén a cielo abierto se caracteriza por…', o:['No tener estructura cubierta: superficie delimitada con valla, señal o pintada','Estar completamente cerrado','Tener pasillos automatizados','Proteger la mercancía de la lluvia siempre'], e:'La mercancía no necesita protección (como mucho lonas).'},
+    {s:'w4', q:'En un almacén automatizado…', o:['La mayoría de operaciones se hace sin personas, con órdenes de un ordenador central','La mecanización se reduce a medios de transporte sencillos','La intervención del personal es muy importante','Los pasillos son anchos'], e:'Se permite gran altura y pasillos estrechos.'},
+    {s:'w4', q:'En un almacén convencional…', o:['La mecanización se reduce a medios de transporte internos sencillos y la intervención del personal es importante','Todo lo decide un ordenador central','No hay personal','Los pasillos son estrechos'], e:'Frente al automatizado.'},
+    {s:'w4', q:'Los silos están destinados al almacenamiento de…', o:['Producto a granel','Líquidos','Gases','Documentos'], e:'Tienen canales internos que canalizan el grano hasta el conducto de descarga.'},
+    {s:'w4', q:'Según los criterios de clasificación, ¿qué tipo de almacén es el «automatizado»?', o:['Según el grado de automatización','Según la mercancía','Según el régimen jurídico','Según la estructura'], e:'3.1 mercancía · 3.2 situación geográfica · 3.3 régimen jurídico · 3.4 estructura · 3.5 automatización.'},
+    // ---- w5 ----
+    {s:'w5', q:'La ubicación del almacén es una decisión…', o:['Estratégica: una vez tomada no suele modificarse en el corto plazo','Táctica que se cambia cada año','Operativa diaria','Fiscal'], e:'Apartado 4.1.'},
+    {s:'w5', q:'¿Cuál NO es un aspecto a analizar para ubicar el almacén?', o:['El color de las estanterías','La distancia a proveedores','La normativa de edificación de la zona','El coste de la parcela y su posible revalorización'], e:'También: transporte, mano de obra, suministros, competencia, forma y relieve de la parcela, ampliaciones.'},
+    {s:'w5', q:'¿Por qué importa la forma y el relieve de la parcela?', o:['Porque si es irregular se puede reducir la zona de almacén al tener que desestimar varios metros cuadrados','Porque determina el color del edificio','Porque fija el precio de la mercancía','Porque afecta al albarán'], e:'Apartado 4.1.'},
+    {s:'w5', q:'El método del centro de gravedad se basa en que…', o:['El coste del transporte es proporcional a la distancia recorrida, la frecuencia y el volumen de carga transportada','El almacén debe ir siempre en el centro geográfico','El coste del terreno es proporcional a la superficie','El almacén debe estar lo más lejos posible de los clientes'], e:'Es una media ponderada de coordenadas, con la cantidad demandada como ponderación.'},
+    {s:'w5', q:'En el centro de gravedad, la ponderación Pᵢ es…', o:['La cantidad demandada por frecuencia de pedido del cliente i','La distancia al cliente','El precio del terreno','El número de clientes'], e:'X₀ = Σ(xᵢ·Pᵢ)/ΣPᵢ.'},
+    {s:'w5', q:'Con el método del centro de gravedad, cuanto mayor sea el volumen de pedido de un cliente…', o:['Más probable es que el almacén esté cerca de él','Más lejos estará el almacén','No influye','Se elimina al cliente'], e:'Por eso se pondera por la cantidad demandada.'},
+    {s:'w5', q:'¿Qué ayuda a decidir el método de ponderación de factores?', o:['Elegir entre dos o más ubicaciones según la ponderación y la puntuación de cada factor','Calcular las coordenadas exactas','Calcular el stock de seguridad','Medir la superficie de la nave'], e:'Se puntúa cada ubicación en cada factor.'},
+    {s:'w5', q:'¿Cuál es la fórmula de la puntuación final en la ponderación de factores?', o:['Σ(Pᵢ · Wᵢ) ÷ ΣWᵢ','Σ(Pᵢ + Wᵢ)','ΣPᵢ ÷ ΣWᵢ','Σ(xᵢ · Pᵢ) ÷ ΣPᵢ'], e:'La última es la del centro de gravedad.'},
+    {s:'w5', q:'¿Cuál es el orden de los pasos de la ponderación de factores?', o:['Determinar los factores → ponderarlos → puntuar cada ubicación → calcular la puntuación final','Puntuar → determinar factores → ponderar → calcular','Calcular → ponderar → puntuar → determinar','Ponderar → calcular → determinar → puntuar'], e:'Apartado 4.2 b).'},
+    {s:'w5', q:'Caso 4 (Madrid): según la ponderación de factores, ¿qué localización resulta más interesante?', o:['Coslada (6,25)','Móstoles (6,10)','Alcobendas (4,95)','Empatan Móstoles y Coslada'], e:'Móstoles 6,10; Coslada 6,25; Alcobendas 4,95.'},
+    {s:'w5', q:'Caso 4: la puntuación de Alcobendas es…', o:['4,95','6,10','6,25','5,95'], e:'2×0,3 + 7×0,15 + 2×0,1 + 8×0,1 + 7×0,2 + 6×0,15 = 4,95.'},
+    {s:'w5', q:'Actividad 6 (Madrid vs Zaragoza, ponderaciones 40-15-10-10-15-10): ¿qué ubicación resulta más conveniente?', o:['Zaragoza (6,2)','Madrid (6,0)','Madrid (6,2)','Empatan'], e:'Madrid 8·0,4+6·0,15+4·0,1+3·0,1+4·0,15+6·0,1 = 6,0; Zaragoza = 6,2.'},
+    {s:'w5', q:'Caso 3 (Bodegas Díaz Valdés): el valor de Y₀ del centro de gravedad es…', o:['5,265','3,683','4,9','6,8'], e:'Y₀ = (3000·5,9+4000·4,9+2500·6,9+2000·3)/11.500 = 60.550/11.500 = 5,265.'},
+    {s:'w5', q:'Caso 3: el valor de X₀ del centro de gravedad es…', o:['3,683','5,265','3,862','4,25'], e:'X₀ = 42.350/11.500 = 3,683 (el libro imprime 3,862, que no coincide con el cálculo).'},
+    // ---- w6 ----
+    {s:'w6', q:'¿Qué forma de acceso ofrece mayores ventajas?', o:['En forma de Y','En forma de T','En forma de L','Directo a la carretera'], e:'Los vehículos que entran abandonan rápido la carretera y los que salen se incorporan con facilidad.'},
+    {s:'w6', q:'El tráfico en el exterior del almacén debe circular…', o:['En sentido contrario a las agujas del reloj, para mejorar la visibilidad al maniobrar y retroceder a los muelles','En el sentido de las agujas del reloj','En doble sentido','En cualquier sentido'], e:'Apartado 4.3 A.'},
+    {s:'w6', q:'Las puertas de acceso al almacén deben ser…', o:['Independientes para peatones y vehículos','Comunes para peatones y vehículos','Solo de peatones','Solo de vehículos'], e:'Se evitan accidentes.'},
+    {s:'w6', q:'Las zonas de carga/descarga son…', o:['El punto de conexión entre el transporte y el almacenaje','La zona donde se guarda la mercancía','La zona de oficinas','La zona de devoluciones'], e:'Pueden estar integradas en el almacén o unidas por puertas o explanadas.'},
+    {s:'w6', q:'Las áreas de carga y descarga deben ser…', o:['Lo suficientemente amplias para conseguir fluidez en recepción y expedición','Lo más estrechas posible','Siempre cubiertas','Siempre de pavimento blando'], e:'Se acelera al máximo con carga y descarga automática (plataformas, tracción mecánica).'},
+    {s:'w6', q:'Los muelles son…', o:['Plataformas o estructuras de hormigón que dejan el suelo a la misma altura que la caja del camión','Zonas de almacenaje','Pasillos','Vestuarios'], e:'Pueden estar separados por un andén o adosados al almacén.'},
+    {s:'w6', q:'El número de puestos de muelle debe ser igual al…', o:['Número de camiones que cargan o descargan al mismo tiempo','Número de trabajadores','Número de estanterías','Número de pasillos'], e:'Se decide con un estudio de flujos, tiempos y medios de manipulación.'},
+    {s:'w6', q:'La puerta de muelle con fuelle de abrigo…', o:['Abraza al camión para evitar cambios de temperatura','Se abre al adosar el vehículo','Es siempre manual','Sirve solo para peatones'], e:'La de cierre metálico se abre al adosar el vehículo y cierra al terminar.'},
+    {s:'w6', q:'Una norma de seguridad en el muelle es…', o:['Fijar el camión con un gancho de metal que impide que se mueva durante la operación','Dejar el camión libre','Descargar con el motor en marcha','Prescindir de rampas'], e:'También: rampas niveladoras electrohidráulicas o automáticas o plataformas elevadoras.'},
+    {s:'w6', q:'Las rampas niveladoras sirven para…', o:['Situar el vehículo y la zona de trabajo del muelle a la misma altura','Subir los palés a los pisos','Frenar los camiones','Aparcar'], e:'Facilitan las tareas de carga y descarga.'},
+    {s:'w6', q:'La superficie de rodadura de los accesos debe…', o:['Soportar el peso de los camiones','Ser de césped','Ser solo peatonal','Ser siempre inclinada'], e:'Apartado 4.3 A.'},
+    // ---- w7 ----
+    {s:'w7', q:'El layout del almacén es…', o:['La disposición en planta de las diferentes zonas del almacén','La codificación de las ubicaciones','El conjunto de documentos del almacén','El sistema de transporte'], e:'Se planifica para lograr la rentabilidad del plan logístico.'},
+    {s:'w7', q:'El objetivo del layout es…', o:['Un aprovechamiento eficiente del espacio que facilite la rapidez y precisión en el suministro de pedidos','Maximizar el recorrido interno','Reducir el stock a cero','Aumentar el número de pasillos'], e:'Mejora el servicio al cliente.'},
+    {s:'w7', q:'Según las recomendaciones, el edificio del almacén debe ser…', o:['De una sola planta','De varias plantas','Un sótano','De cualquier altura'], e:'Además: máxima capacidad y adaptación a cambios, mínimos recorridos, ABC, suelos resistentes, buena iluminación, sin rampas (10–12 % si son necesarias).'},
+    {s:'w7', q:'Si en el almacén son necesarias rampas, la pendiente debe estar entre…', o:['El 10 % y el 12 %','El 1 % y el 3 %','El 20 % y el 25 %','El 5 % y el 7 %'], e:'En principio no deben existir rampas.'},
+    {s:'w7', q:'El método ABC clasifica las referencias según…', o:['La frecuencia de salida; la A es la que más rota y se sitúa más cerca de la salida','El precio unitario','El proveedor','El tamaño del palé'], e:'Permite una ordenación y categorización por frecuencia de salida en un periodo determinado.'},
+    {s:'w7', q:'La zona de recepción debe estar…', o:['Lo más independiente posible del resto del almacén y próxima a los muelles','Junto a las oficinas','Al fondo del almacén','Dentro de la zona de almacenamiento'], e:'Para trabajar con fluidez y facilitar la descarga.'},
+    {s:'w7', q:'En la zona de recepción, ¿dónde se comprueba el pedido con el albarán?', o:['Zona de control de la mercancía','Zona de inspección','Zona de transvase','Zona de consolidación'], e:'Inspección: estado de una muestra. Transvase: palés incompatibles.'},
+    {s:'w7', q:'La zona de transvase de una paleta a otra se usa cuando…', o:['Los palés recibidos son incompatibles con los usados para el almacenamiento','Hay que inspeccionar una muestra','Hay devoluciones','Faltan palés vacíos'], e:'Apartado 4.4 A.'},
+    {s:'w7', q:'Tras codificar la mercancía, el ordenador del almacén…', o:['Registra la entrada y genera la etiqueta de ubicación','Imprime la factura','Emite el albarán de salida','Cierra el pedido'], e:'La etiqueta la leerá el operario o equipo de transporte interno.'},
+    {s:'w7', q:'Para decidir el tamaño de las paletas, los equipos, el sistema de almacenamiento y la amplitud de los pasillos se tienen en cuenta…', o:['Peso, volumen y rotación de la mercancía','Color, marca y precio','Proveedor y cliente','Número de operarios'], e:'Zona de almacenamiento.'},
+    {s:'w7', q:'En la zona de expedición, el área destinada al depósito y preparación de la mercancía de un pedido es el área de…', o:['Consolidación','Control de salidas','Embalaje-etiquetado','Devoluciones'], e:'Aquí se puede realizar el embalaje.'},
+    {s:'w7', q:'El área de control de salidas sirve para…', o:['Verificar los envíos preparados y comprobar que la mercancía es la solicitada','Depositar devoluciones','Guardar palés vacíos','Descansar'], e:'Zona de expedición.'},
+    {s:'w7', q:'En los sistemas de producción JIT (Just in Time)…', o:['Se eliminan o minimizan los almacenes; el almacén actúa como centro de consolidación','Se almacena el máximo posible','No hay expedición','Se reciben devoluciones solo'], e:'Recuadro «¿Sabías que…?».'},
+    {s:'w7', q:'¿Qué zonas auxiliares tiene el almacén?', o:['Devoluciones, materiales obsoletos, palés vacíos, servicios y oficinas','Recepción, almacenamiento y expedición','Muelles, accesos y pasillos','Control, inspección y transvase'], e:'Zonas auxiliares (D).'},
+    {s:'w7', q:'La logística inversa y la política de devoluciones se relacionan con…', o:['El área de devoluciones, que admite el almacenamiento de devoluciones y su reciclado o reutilización','El área de servicios','El área de consolidación','El área de palés vacíos'], e:'Apartado 4.4 D.'},
+    {s:'w7', q:'El principio de la «mínima distancia recorrida» consiste en…', o:['Diseñar para que la distancia que hay que recorrer en las distintas tareas sea la más corta posible','Ordenar las áreas por orden alfabético','Reducir la altura de las estanterías','Aumentar los pasillos'], e:'Caso 5 a).'},
+    {s:'w7', q:'El principio de «accesibilidad» establece que…', o:['Las áreas con artículos de mayor movimiento o rotación sean las más accesibles','Todas las áreas estén igual de lejos','Los artículos pesados vayan arriba','Los artículos se ordenen por proveedor'], e:'Caso 5 b).'},
+    {s:'w7', q:'El principio del «espacio cúbico» recuerda que…', o:['Hay que considerar no solo la superficie, sino también el volumen','Todos los almacenes son cúbicos','Solo importa la altura','Solo importa la superficie'], e:'Por ejemplo, con entreplantas o altillos.'},
+    {s:'w7', q:'El principio de «flexibilidad» implica…', o:['Planificar teniendo en cuenta futuras modificaciones en función de las necesidades','Usar solo estanterías móviles','No tener pasillos','Cambiar el layout cada mes'], e:'Caso 5 e).'},
+    {s:'w7', q:'El principio de «satisfacción y seguridad» exige…', o:['Cuidar la seguridad de los trabajadores y la normativa de seguridad e higiene','Reducir la plantilla','Aumentar la velocidad de las carretillas','Eliminar los pasillos'], e:'Caso 5 d).'},
+    // ---- w8 ----
+    {s:'w8', q:'En un almacén distribuido en forma de I (línea recta)…', o:['Lo ideal es que exista una especialización de muelles de carga y descarga','Existe un único muelle de carga y descarga','El flujo es semicircular','No hay pasillos'], e:'Son zonas muy concurridas.'},
+    {s:'w8', q:'En un almacén en forma de U…', o:['Existe un único muelle para la carga y descarga y el flujo sigue un recorrido semicircular','Hay muelles de entrada y salida separados','El flujo es en línea recta','No hay zona de preparación'], e:'Apartado 4.4 E.'},
+    {s:'w8', q:'Los pasillos del almacén tienen una doble finalidad:', o:['Dividir zonas y facilitar el acceso a la mercancía','Aparcar carretillas y descansar','Almacenar y expedir','Cargar y descargar'], e:'Apartado 4.4 F.'},
+    {s:'w8', q:'En la colocación de estanterías «de dos en dos»…', o:['A cada una se accede por un pasillo; la primera se adosa a la pared para aprovechar espacio','Cada estantería tiene dos pasillos','Se separan por andenes','No hay pasillos'], e:'La de una en una tiene dos pasillos por estantería (reposición y picking).'},
+    {s:'w8', q:'La colocación de estanterías «de una en una» interesa en…', o:['Almacenes con gran movimiento de mercancía: un pasillo para reposición y otro para picking','Almacenes pequeños','Almacenes automatizados únicamente','Almacenes a cielo abierto'], e:'Si se colocaran de dos en dos se ralentizaría mucho la operativa.'},
+    {s:'w8', q:'Una norma para la creación de pasillos es que…', o:['La dirección sea recta y esté orientada hacia las puertas','Sean siempre curvos','Se orienten en sentidos distintos','Estén siempre junto a las paredes'], e:'Además: el ancho depende de la ocupación, operatividad y medios mecánicos.'},
+    {s:'w8', q:'Las estanterías de un área deben orientarse siempre en un mismo sentido para…', o:['Disminuir las intersecciones entre pasillos y evitar colisiones','Ahorrar iluminación','Aumentar la altura','Reducir el número de muelles'], e:'Apartado 4.4 F.'},
+    {s:'w8', q:'Según el caso práctico 6, ¿qué es más recomendable?', o:['Priorizar un mayor ancho de pasillos (más rapidez, menos daños y accidentes) aunque se pierda algo de capacidad','Ganar capacidad reduciendo pasillos siempre','Eliminar los pasillos','Usar solo estanterías móviles'], e:'Se decidirá en función de las necesidades y actividad del almacén.'},
+    // ---- w9 ----
+    {s:'w9', q:'En el almacén, toda ubicación debe tener…', o:['Una codificación única que la diferencie del resto','El mismo código que su vecina','Un nombre comercial','Un código por cada operario'], e:'Para reconocer rápido y sin errores cada área, pasillo o estantería.'},
+    {s:'w9', q:'¿Quién decide el método de codificación?', o:['Cada empresa, en función del número de almacenes, zonas o estanterías','La ley','El proveedor','El Registro Mercantil'], e:'No existe una codificación perfecta.'},
+    {s:'w9', q:'Los códigos de las ubicaciones se suelen traducir a…', o:['Código de barras, para leerlos con un lector de infrarrojos','Código postal','Código ASCII','Código de color'], e:'Hay que parametrizar todas las ubicaciones con una altura y peso máximo permitidos.'},
+    {s:'w9', q:'En la codificación por estantería o lineal…', o:['Se numeran correlativamente las estanterías, luego los niveles de profundidad y después las alturas desde el suelo','Se numera por pasillos alternando izquierda y derecha','Se codifica por colores','Se numeran solo los pasillos'], e:'Permite recorridos de ida y vuelta en el mismo pasillo.'},
+    {s:'w9', q:'En la codificación por pasillo o peine, los niveles de profundidad se numeran…', o:['Alternativamente: impares a la izquierda y pares a la derecha','Pares a la izquierda e impares a la derecha','Todos a la izquierda','De forma aleatoria'], e:'Cada pasillo solo se recorre en un sentido.'},
+    {s:'w9', q:'En la codificación por pasillo, los pasillos…', o:['Reciben un número consecutivo y solo se recorren en un sentido','Se recorren en ambos sentidos','No se numeran','Se numeran con letras'], e:'Apartado 4.5.'},
+    {s:'w9', q:'Con codificación por estanterías, la coordenada (D, A, 7, 5) significa…', o:['Zona D, estantería A, nivel de profundidad 7, altura 5','Zona D, pasillo A, altura 7, profundidad 5','Estantería D, zona A, profundidad 7, altura 5','Pasillo D, estantería A, altura 7, nivel 5'], e:'Caso práctico 7.'},
+    {s:'w9', q:'Con codificación por pasillo, (D, 2, 7, 5) significa…', o:['Zona D, pasillo 2, profundidad 7 (impar, lado izquierdo) y altura 5','Zona D, estantería 2, altura 7, profundidad 5','Estantería D, pasillo 2, profundidad 7, altura 5','Zona 2, pasillo D'], e:'Actividad 10.'},
+    {s:'w9', q:'Un bac o cubeta es…', o:['Un contenedor diseñado especialmente para meter piezas pequeñas','Un tipo de muelle','Una carretilla','Un pasillo'], e:'Vocabulario del apartado 4.5.'},
+    {s:'w9', q:'En la codificación por estantería, las alturas se numeran…', o:['Empezando por el nivel del suelo y ascendiendo','Empezando por la parte superior','Alternando izquierda y derecha','De forma aleatoria'], e:'Apartado 4.5.'},
+
+    // ---- Verdadero / Falso ----
+    {s:'w1', vf:true, q:'La logística permite disponer de las cosas como, donde y cuando se necesitan.', e:'Verdadero.'},
+    {s:'w1', vf:false, q:'El almacén es hoy solo una instalación de guarda y custodia de stocks.', e:'Falso: se ha convertido en un centro enfocado al servicio al cliente.'},
+    {s:'w2', vf:true, q:'El control cuantitativo de la recepción se hace mediante el cotejo de la mercancía.', e:'Verdadero.'},
+    {s:'w2', vf:false, q:'La recepción termina con la firma del albarán por el cliente.', e:'Falso: termina con la codificación y entrada. La firma del cliente cierra la expedición.'},
+    {s:'w2', vf:true, q:'La ubicación de la mercancía se asigna según su rotación, peso y volumen.', e:'Verdadero.'},
+    {s:'w3', vf:true, q:'La rotura de stock se evita con stocks de seguridad.', e:'Verdadero.'},
+    {s:'w3', vf:false, q:'El picking se hace cuando la mercancía sale en palés completos.', e:'Falso: cuando no sale en palés o unidades de carga completas.'},
+    {s:'w3', vf:true, q:'Los SGA pueden programar alarmas para avisar de los límites de stock.', e:'Verdadero.'},
+    {s:'w4', vf:false, q:'La plataforma de distribución (cross docking) es un tipo de almacén de larga permanencia.', e:'Falso: no es almacén; la mercancía permanece horas.'},
+    {s:'w4', vf:true, q:'El almacén en alquiler es más flexible que el almacén en propiedad.', e:'Verdadero.'},
+    {s:'w4', vf:false, q:'En un almacén convencional casi todas las operaciones las hace un ordenador central.', e:'Falso: eso es el almacén automatizado.'},
+    {s:'w4', vf:true, q:'Un almacén de tránsito almacena la mercancía temporalmente hasta cargarla en el medio de transporte.', e:'Verdadero.'},
+    {s:'w5', vf:true, q:'La ubicación del almacén es una decisión estratégica que no suele modificarse a corto plazo.', e:'Verdadero.'},
+    {s:'w5', vf:false, q:'El método del centro de gravedad pondera las coordenadas por el coste del terreno.', e:'Falso: por la cantidad demandada.'},
+    {s:'w5', vf:true, q:'En la ponderación de factores la puntuación final es Σ(Pᵢ·Wᵢ) ÷ ΣWᵢ.', e:'Verdadero.'},
+    {s:'w6', vf:true, q:'Los accesos en forma de Y ofrecen mayores ventajas.', e:'Verdadero.'},
+    {s:'w6', vf:false, q:'El tráfico en el exterior debe ir en el sentido de las agujas del reloj.', e:'Falso: en sentido contrario a las agujas del reloj.'},
+    {s:'w6', vf:true, q:'Las puertas de acceso de peatones y vehículos deben ser independientes.', e:'Verdadero.'},
+    {s:'w6', vf:false, q:'El número de puestos de muelle debe ser menor que el número de camiones que operan a la vez.', e:'Falso: debe ser igual.'},
+    {s:'w7', vf:true, q:'En el almacén no deben existir rampas; si son necesarias, su pendiente será del 10 al 12 %.', e:'Verdadero.'},
+    {s:'w7', vf:false, q:'La zona de recepción debe estar lo más lejos posible de los muelles.', e:'Falso: próxima a los muelles para facilitar la descarga.'},
+    {s:'w7', vf:true, q:'El método ABC sitúa los productos de mayor rotación más cerca de la salida.', e:'Verdadero.'},
+    {s:'w7', vf:true, q:'En los sistemas JIT se minimiza el almacenamiento.', e:'Verdadero.'},
+    {s:'w7', vf:false, q:'El principio de flexibilidad recomienda no prever futuras modificaciones.', e:'Falso: hay que planificar teniendo en cuenta futuras modificaciones.'},
+    {s:'w8', vf:true, q:'En un almacén en forma de U hay un único muelle para carga y descarga.', e:'Verdadero.'},
+    {s:'w8', vf:false, q:'Las estanterías de una en una tienen un solo pasillo cada una.', e:'Falso: dos pasillos, uno para reposición y otro para picking.'},
+    {s:'w8', vf:true, q:'Los pasillos dividen zonas y facilitan el acceso a las mercancías.', e:'Verdadero.'},
+    {s:'w9', vf:true, q:'Cada ubicación del almacén debe tener una codificación única.', e:'Verdadero.'},
+    {s:'w9', vf:false, q:'En la codificación por pasillo, los números pares se asignan a la izquierda.', e:'Falso: impares a la izquierda y pares a la derecha.'},
+    {s:'w9', vf:true, q:'Los códigos de las ubicaciones suelen traducirse a código de barras.', e:'Verdadero.'},
+
+    // ---- Desarrollo ----
+    {s:'w1', dev:true, q:'Explica qué es la gestión de almacenes y los motivos por los que las empresas disponen de ellos.', a:'La gestión de almacenes se centra en la recepción, el almacenamiento y el movimiento de los productos hasta los puntos de consumo, sin olvidar el tratamiento de la información generada. Se apoya en técnicas logísticas y en un sistema de gestión eficaz que aumente capacidad, productividad y nivel de servicio a un coste aceptable. Motivos: desequilibrios entre oferta y demanda, mejora de la calidad del servicio (menos roturas de stock, mejores plazos), reducción de costes logísticos (rappels y transporte de cargas completas) y complemento al proceso productivo (controles de calidad y stock de materias primas).', k:['Definición de gestión de almacenes','Los 4 motivos','Papel de servicio al cliente']},
+    {s:'w2', dev:true, q:'Describe el proceso de recepción de mercancías.', a:'Se recepciona porque se ha emitido un pedido. Se comprueba que la mercancía que llega (albarán) coincide con la solicitada (pedido); se descarga; se hace un control cuantitativo mediante el cotejo y un control cualitativo extrayendo una muestra del envío. Finaliza con la codificación y entrada de la mercancía una vez dada la conformidad. Debe hacerse con rapidez y exactitud porque la disponibilidad inmediata mejora el nivel de servicio.', k:['Albarán frente a pedido','Descarga','Control cuantitativo y cualitativo','Codificación y entrada']},
+    {s:'w3', dev:true, q:'Explica las funciones de conservación, expedición y control de existencias.', a:'Conservación y manutención: guarda de la mercancía en perfecto estado desde la entrada hasta la salida, con normativa de seguridad e higiene. Expedición: selección de la mercancía (picking), embalaje (protege, precinta y etiqueta), elección del medio de transporte y documentación (albarán y carta de porte); concluye con el albarán firmado por el cliente. Organización y control de existencias: determinar nivel de stock, frecuencia y cantidad de pedido al menor coste, con alarmas del SGA para evitar roturas.', k:['Conservación y seguridad e higiene','Las 3 actividades de la expedición','Albarán firmado','SGA y alarmas']},
+    {s:'w4', dev:true, q:'Clasifica los almacenes según la mercancía almacenada y según su situación geográfica o función logística.', a:'Según la mercancía: materias primas, materiales de repuesto, productos intermedios, productos terminados, mercancías auxiliares, líquida, a granel, gases e información. Según su situación o función: central (cerca de la producción, gran capacidad, todas las referencias), regional (abastece una zona), de consolidación (agrupa pedidos de una zona para ahorrar transporte) y de tránsito (almacena temporalmente hasta cargar en el medio de transporte). La plataforma cross docking no es almacén.', k:['Los 9 tipos por mercancía','Los 4 tipos por función logística','Cross docking']},
+    {s:'w4', dev:true, q:'Compara los almacenes según el régimen jurídico, la estructura y el grado de automatización.', a:'Régimen jurídico: en propiedad (inversión del titular, rentable con uso continuo), en alquiler (flexible) y en leasing (alquiler con opción de compra, pero se pierde flexibilidad al contratarse por un periodo). Estructura: a cielo abierto (sin cubierta, delimitado con valla o pintada) y cubierto (protege de agentes meteorológicos). Automatización: convencional (medios sencillos y mucho personal) y automatizado (casi sin personas, órdenes de un ordenador central, gran altura y pasillos estrechos).', k:['3 regímenes jurídicos con su rasgo','Cielo abierto y cubierto','Convencional y automatizado']},
+    {s:'w5', dev:true, q:'Explica qué aspectos se estudian para ubicar un almacén y los dos métodos de localización.', a:'Es una decisión estratégica. Se estudian: transporte más frecuente, distancias a proveedores y zonas de entrega, competencia, comunicaciones, servicios y suministros, mano de obra, normativa de la zona, coste y revalorización del terreno, beneficios fiscales, superficie para ampliar o aparcar y forma y relieve de la parcela. Métodos: centro de gravedad (media ponderada de coordenadas de los puntos de demanda con la cantidad demandada como ponderación) y ponderación de factores (determinar y ponderar factores, puntuar cada ubicación y calcular Σ(Pᵢ·Wᵢ)/ΣWᵢ).', k:['Decisión estratégica','Al menos 6 aspectos','Fórmulas de los dos métodos']},
+    {s:'w6', dev:true, q:'Describe las zonas externas del almacén: accesos, zonas de carga/descarga y muelles.', a:'Accesos: planificados para evitar interferencias y accidentes; en forma de Y; superficie que soporte camiones; tráfico en sentido contrario a las agujas del reloj; puertas independientes para peatones y vehículos. Zonas de carga/descarga: punto de conexión entre transporte y almacén, amplias y, si es posible, automáticas. Muelles: plataformas de hormigón a la altura de la caja del camión; número según flujos y tiempos, igual al de camiones simultáneos; puertas con cierre metálico o con fuelle de abrigo; seguridad con gancho de fijación y rampas niveladoras.', k:['Accesos en Y y sentido del tráfico','Zonas de carga/descarga','Muelles y tipos de puerta','Normas de seguridad']},
+    {s:'w7', dev:true, q:'Explica las zonas internas del almacén (recepción, almacenamiento, expedición y auxiliares).', a:'Recepción: independiente y próxima a los muelles; zona de control (pedido con albarán), de inspección (muestra) y de transvase de palés. Almacenamiento: donde la mercancía espera su expedición; se decide según peso, volumen y rotación, con acceso sencillo. Expedición: acumula lo que sale; áreas de consolidación, embalaje-etiquetado y control de salidas. Auxiliares: devoluciones, materiales obsoletos, palés vacíos, servicios y oficinas. El layout busca mínimos recorridos y un aprovechamiento eficiente del espacio.', k:['3 zonas de la recepción','Criterios del almacenamiento','3 áreas de expedición','5 zonas auxiliares']},
+    {s:'w7', dev:true, q:'Enumera y explica los principios del layout y las recomendaciones de diseño de un almacén.', a:'Principios: mínima distancia recorrida; accesibilidad (más accesible lo que más rota); espacio cúbico (superficie y volumen); satisfacción y seguridad de los trabajadores (normativa de seguridad e higiene) y flexibilidad (futuras modificaciones). Recomendaciones: una sola planta, máxima capacidad y adaptabilidad, mínimos recorridos, clasificación ABC, acceso fácil, suelos resistentes e higiénicos, buena iluminación, sin rampas (10–12 % si hay) y medidas de seguridad.', k:['Los 5 principios','ABC y mínimos recorridos','Una planta, sin rampas, iluminación']},
+    {s:'w8', dev:true, q:'Compara el almacén en I y en U y explica cómo se colocan las estanterías y los pasillos.', a:'En I (línea recta): muelles de carga y descarga especializados. En U: un único muelle de carga/descarga y flujo semicircular. Pasillos: dividen zonas y facilitan el acceso. Estanterías de dos en dos (cada una se accede por un pasillo; la primera adosada a la pared) o de una en una (dos pasillos por estantería, para reposición y picking, en almacenes de mucho movimiento). Normas: dirección recta hacia las puertas, ancho según ocupación y medios mecánicos y estanterías en un mismo sentido para evitar colisiones.', k:['I y U con su muelle','De dos en dos y de una en una','Normas de los pasillos']},
+    {s:'w9', dev:true, q:'Explica los dos sistemas de codificación de las ubicaciones y pon un ejemplo de coordenada.', a:'Toda ubicación debe tener una codificación única (con código de barras). Por estantería o lineal: se numeran las estanterías correlativamente, después los niveles de profundidad desde la cabecera y las alturas desde el suelo. Por pasillo o peine: cada pasillo tiene número y se recorre en un sentido; los niveles de profundidad se numeran alternando izquierda (impares) y derecha (pares). Ejemplo: (D, A, 7, 5) = zona D, estantería A, profundidad 7, altura 5.', k:['Codificación única y código de barras','Por estantería: orden de numeración','Por pasillo: impares izquierda, pares derecha','Ejemplo de coordenada']}
+  ];
+
+  var TAL_CARDS = [
+    {s:'w1', f:'Logística', b:'Actividad que permite disponer de las cosas como, donde y cuando se necesitan, con rapidez, seguridad y al menor coste posible.'},
+    {s:'w1', f:'Gestión de almacenes', b:'Recepción, almacenamiento y movimiento de productos hasta los puntos de consumo, más el tratamiento de la información.'},
+    {s:'w1', f:'Motivos para tener almacenes', b:'Desequilibrios oferta-demanda, mejora del servicio (menos roturas de stock), reducción de costes (rappels, cargas completas) y complemento al proceso productivo.'},
+    {s:'w1', f:'Rotura de stock', b:'El almacén no tiene stock suficiente para satisfacer la demanda. Se evita con stock de seguridad.'},
+    {s:'w2', f:'Funciones del almacén', b:'Recepción, almacenamiento, conservación y manutención, expedición y organización y control de existencias.'},
+    {s:'w2', f:'Pasos de la recepción', b:'Albarán vs pedido → descarga → control cuantitativo (cotejo) → control cualitativo (muestra) → codificación y entrada.'},
+    {s:'w2', f:'Almacenamiento', b:'Tareas para ubicar la mercancía en la zona más idónea para acceder a ella y localizarla fácilmente (rotación, peso, volumen).'},
+    {s:'w3', f:'Expedición', b:'Selección (picking), embalaje, elección del transporte y documentación (albarán y carta de porte). Concluye con el albarán firmado.'},
+    {s:'w3', f:'Picking', b:'Recogida de mercancía según pedido cuando no se extrae en unidades de carga completas.'},
+    {s:'w3', f:'SGA', b:'Sistema de Gestión del Almacén: asigna ubicaciones y programa alarmas de límites de stock para evitar roturas.'},
+    {s:'w4', f:'Tipos de almacén según la mercancía', b:'Materias primas, repuesto, intermedios, terminados, auxiliares, líquida, a granel, gases e información.'},
+    {s:'w4', f:'Almacén central y regional', b:'Central: cerca de la producción, gran capacidad, todas las referencias. Regional: abastece una zona y sirve a detallistas.'},
+    {s:'w4', f:'Almacén de consolidación y de tránsito', b:'Consolidación: agrupa pedidos de una zona para ahorrar transporte. Tránsito: guarda temporalmente hasta cargar en el medio de transporte.'},
+    {s:'w4', f:'Cross docking', b:'Plataforma de distribución, no almacén: la mercancía permanece horas; se pasa de recepción a expedición sin picking.'},
+    {s:'w4', f:'Régimen jurídico del almacén', b:'Propiedad (inversión propia), alquiler (flexible) y leasing (alquiler con opción de compra, menos flexible).'},
+    {s:'w4', f:'Cielo abierto y cubierto', b:'Cielo abierto: sin cubierta, delimitado con valla o pintada. Cubierto: protege de agentes meteorológicos.'},
+    {s:'w4', f:'Convencional y automatizado', b:'Convencional: medios sencillos y mucho personal. Automatizado: casi sin personas, ordenador central, mucha altura y pasillos estrechos.'},
+    {s:'w5', f:'Ubicación del almacén', b:'Decisión estratégica que no se modifica a corto plazo. Se analizan transporte, distancias, competencia, comunicaciones, normativa, coste y forma del terreno.'},
+    {s:'w5', f:'Centro de gravedad', b:'Media ponderada de las coordenadas de los puntos de demanda: X₀ = Σ(xᵢ·Pᵢ)/ΣPᵢ; Y₀ = Σ(yᵢ·Pᵢ)/ΣPᵢ.'},
+    {s:'w5', f:'Ponderación de factores', b:'Determinar factores, ponderarlos (W), puntuar cada ubicación (P) y calcular Σ(P·W)/ΣW. Gana la mayor puntuación.'},
+    {s:'w6', f:'Accesos al almacén', b:'En forma de Y; superficie que soporte camiones; tráfico en sentido contrario a las agujas del reloj; puertas independientes para peatones y vehículos.'},
+    {s:'w6', f:'Muelles', b:'Plataformas de hormigón a la altura de la caja del camión. Nº de puestos = camiones simultáneos. Puertas con cierre metálico o con fuelle de abrigo.'},
+    {s:'w6', f:'Seguridad en el muelle', b:'Camión fijado con gancho de metal; rampas niveladoras electrohidráulicas o automáticas.'},
+    {s:'w7', f:'Layout', b:'Disposición en planta de las diferentes zonas del almacén.'},
+    {s:'w7', f:'Recomendaciones de diseño', b:'Una planta, máximo aprovechamiento, mínimos recorridos, método ABC, suelos resistentes, buena iluminación, sin rampas (10–12 % si hay).'},
+    {s:'w7', f:'Método ABC', b:'Clasifica el stock por frecuencia de salida: la A (más rotación) se sitúa más cerca de la salida.'},
+    {s:'w7', f:'Zona de recepción', b:'Independiente y próxima a los muelles: control de la mercancía, inspección y transvase de palés.'},
+    {s:'w7', f:'Zona de expedición', b:'Acumula la mercancía que sale: consolidación, embalaje-etiquetado y control de salidas.'},
+    {s:'w7', f:'Zonas auxiliares', b:'Devoluciones, materiales obsoletos, palés vacíos, servicios y oficinas del almacén.'},
+    {s:'w7', f:'Principios del layout', b:'Mínima distancia recorrida, accesibilidad, espacio cúbico, satisfacción y seguridad, y flexibilidad.'},
+    {s:'w8', f:'Almacén en I y en U', b:'I: línea recta con muelles especializados de carga y descarga. U: un único muelle y flujo semicircular.'},
+    {s:'w8', f:'Pasillos', b:'Dividen zonas y facilitan el acceso. Estanterías de dos en dos (un pasillo cada una) o de una en una (dos pasillos: reposición y picking).'},
+    {s:'w9', f:'Codificación de ubicaciones', b:'Cada ubicación tiene un código único, a menudo en código de barras.'},
+    {s:'w9', f:'Codificación por estantería o lineal', b:'Estanterías correlativas → niveles de profundidad desde la cabecera → alturas desde el suelo.'},
+    {s:'w9', f:'Codificación por pasillo o peine', b:'Pasillo numerado y recorrido en un sentido; profundidades alternas: impares a la izquierda, pares a la derecha.'},
+    {s:'w9', f:'Coordenada (D, A, 7, 5)', b:'Zona D, estantería A, nivel de profundidad 7, altura 5.'}
+  ];
+
+  // ---------- Ejercicios de cálculo (localización del almacén) ----------
+  function talFmt(x, d){ var s = (Math.round(x * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d); return s.replace('.', ','); }
+  function talPick(arr){ return arr[rnd(0, arr.length - 1)]; }
+  function talNumItem(id, q, ans, tol, method, steps){
+    return {id:id, s:'calc', inp:true, num:ans, tol:tol, ans:talFmt(ans, 3).replace(/0+$/, '').replace(/,$/, ''), unit:'', q:q, e:steps.join(' · '), proc:{method:method, steps:steps}};
+  }
+  var TAL_CITIES = ['Alba','Bruno','Calvo','Duero','Elda','Fuente','Gáldar','Hita','Jaca','Lugo','Mora','Noia'];
+  function talCgScenarios(){
+    var n = rnd(3, 4), names = sacShuffle(TAL_CITIES).slice(0, n), pts = [], i;
+    for(i = 0; i < n; i++) pts.push({n:names[i], p:rnd(2, 10) * 500, x:rnd(10, 80) / 10, y:rnd(10, 80) / 10});
+    var sp = 0, sx = 0, sy = 0;
+    pts.forEach(function(t){ sp += t.p; sx += t.x * t.p; sy += t.y * t.p; });
+    var txt = pts.map(function(t){ return t.n + ' (P = ' + t.p + '; x = ' + talFmt(t.x, 1) + '; y = ' + talFmt(t.y, 1) + ')'; }).join(' · ');
+    var method = ['Multiplica la coordenada de cada punto por su cantidad demandada P.', 'Suma esos productos.', 'Divide entre la suma de las cantidades demandadas ΣP.'];
+    function steps(c, sum){
+      return [c + '₀ = Σ(' + c.toLowerCase() + 'ᵢ · Pᵢ) ÷ ΣPᵢ',
+              'Numerador: ' + pts.map(function(t){ return t.p + ' × ' + talFmt(c === 'X' ? t.x : t.y, 1); }).join(' + ') + ' = ' + talFmt(sum, 2),
+              'Denominador: ' + pts.map(function(t){ return t.p; }).join(' + ') + ' = ' + sp,
+              c + '₀ = ' + talFmt(sum, 2) + ' ÷ ' + sp + ' = ' + talFmt(sum / sp, 3)];
+    }
+    return [
+      talNumItem('tal:calc:cg-x', 'Centro de gravedad. Puntos de demanda: ' + txt + '. Calcula X₀ (3 decimales).', sx / sp, 0.006, method, steps('X', sx)),
+      talNumItem('tal:calc:cg-y', 'Centro de gravedad. Puntos de demanda: ' + txt + '. Calcula Y₀ (3 decimales).', sy / sp, 0.006, method, steps('Y', sy))
+    ];
+  }
+  var TAL_FACTORS = ['Coste del terreno', 'Proximidad a clientes', 'Impuestos y permisos', 'Accesibilidad', 'Zona comunicada', 'Posibilidad de ampliación', 'Mano de obra', 'Normativa'];
+  function talPfScenarios(){
+    var k = 4, names = sacShuffle(TAL_FACTORS).slice(0, k), wts = [[40, 30, 20, 10], [30, 30, 25, 15], [35, 25, 25, 15], [50, 20, 20, 10]][rnd(0, 3)];
+    wts = sacShuffle(wts);
+    var locs = [talPick(['Móstoles', 'Getafe', 'Alcalá']), talPick(['Coslada', 'Leganés', 'Torrejón'])], sc = [[], []], i, j;
+    for(j = 0; j < 2; j++) for(i = 0; i < k; i++) sc[j].push(rnd(2, 9));
+    var tbl = names.map(function(nm, i){ return nm + ' (' + wts[i] + ') → ' + locs[0] + ' ' + sc[0][i] + ', ' + locs[1] + ' ' + sc[1][i]; }).join(' · ');
+    var method = ['Multiplica la puntuación de la ubicación en cada factor por la ponderación de ese factor.', 'Suma los productos.', 'Divide entre la suma de ponderaciones (si las ponderaciones suman 100, divide entre 100).'];
+    var out = [];
+    for(j = 0; j < 2; j++){
+      var sum = 0, sw = 0;
+      for(i = 0; i < k; i++){ sum += sc[j][i] * wts[i]; sw += wts[i]; }
+      var st = ['Puntuación final = Σ(Pᵢ · Wᵢ) ÷ ΣWᵢ',
+                'Σ(P·W) = ' + names.map(function(nm, i){ return sc[j][i] + '×' + wts[i]; }).join(' + ') + ' = ' + sum,
+                'ΣW = ' + wts.join(' + ') + ' = ' + sw,
+                'Puntuación = ' + sum + ' ÷ ' + sw + ' = ' + talFmt(sum / sw, 2)];
+      out.push(talNumItem('tal:calc:pf', 'Ponderación de factores (ponderación entre paréntesis; puntuación de cada ubicación): ' + tbl + '. Calcula la puntuación final de ' + locs[j] + ' (2 decimales).', sum / sw, 0.006, method, st));
+    }
+    return out;
+  }
+  function talCalcItems(n){
+    var items = [].concat(talCgScenarios(), talCgScenarios(), talPfScenarios(), talPfScenarios(), talCgScenarios());
+    items = sacShuffle(items);
+    return items.slice(0, n || 10);
+  }
+  // Ejercicios del libro (casos 3 y 4 y actividad 6)
+  function talDocItems(){
+    var m1 = ['Multiplica la coordenada de cada punto por su cantidad demandada P.', 'Suma esos productos.', 'Divide entre ΣP.'];
+    var m2 = ['Multiplica la puntuación de cada factor por su ponderación.', 'Suma los productos.', 'Divide entre la suma de ponderaciones (100).'];
+    var cgTxt = 'Caso práctico 3. Cambados (3000; 2,1; 5,9) · El Grove (4000; 3,3; 4,9) · Cangas de Morrazo (2500; 3,7; 6,9) · Vigo (2000; 6,8; 3,0), con (ventas u./mes; X; Y).';
+    function pf(id, label, vals, wts, ans, extra){
+      var sum = 0, i; var parts = [];
+      for(i = 0; i < vals.length; i++){ sum += vals[i] * wts[i]; parts.push(vals[i] + '×' + wts[i]); }
+      var o = talNumItem(id, label, ans, 0.006, m2, ['Σ(P·W) = ' + parts.join(' + ') + ' = ' + sum, 'ΣW = ' + wts.reduce(function(a, b){ return a + b; }, 0), 'Puntuación = ' + sum + ' ÷ 100 = ' + talFmt(sum / 100, 2)]);
+      o.id = 'tal:calc:doc-' + id; return o;
+    }
+    var w4 = [30, 15, 10, 10, 20, 15], w6 = [40, 15, 10, 10, 15, 10];
+    var items = [
+      talNumItem('tal:calc:doc-cgx', cgTxt + ' Calcula X₀ (3 decimales).', 42350 / 11500, 0.006, m1, ['Numerador: 3000×2,1 + 4000×3,3 + 2500×3,7 + 2000×6,8 = 42.350', 'Denominador: 3000 + 4000 + 2500 + 2000 = 11.500', 'X₀ = 42.350 ÷ 11.500 = 3,683']),
+      talNumItem('tal:calc:doc-cgy', cgTxt + ' Calcula Y₀ (3 decimales).', 60550 / 11500, 0.006, m1, ['Numerador: 3000×5,9 + 4000×4,9 + 2500×6,9 + 2000×3,0 = 60.550', 'Denominador: 11.500', 'Y₀ = 60.550 ÷ 11.500 = 5,265']),
+      pf('mostoles', 'Caso práctico 4. Ponderaciones: coste terreno 30, proximidad clientes 15, impuestos-permisos 10, accesibilidad 10, zona comunicada 20, ampliación 15. Puntuaciones de Móstoles: 7, 7, 6, 8, 4, 5. Calcula su puntuación final (2 decimales).', [7, 7, 6, 8, 4, 5], w4, 6.10),
+      pf('coslada', 'Caso práctico 4 (mismas ponderaciones). Puntuaciones de Coslada: 6, 6, 5, 8, 9, 3. Calcula su puntuación final (2 decimales).', [6, 6, 5, 8, 9, 3], w4, 6.25),
+      pf('alcobendas', 'Caso práctico 4 (mismas ponderaciones). Puntuaciones de Alcobendas: 2, 7, 2, 8, 7, 6. Calcula su puntuación final (2 decimales).', [2, 7, 2, 8, 7, 6], w4, 4.95),
+      pf('madrid', 'Actividad 6. Ponderaciones: distancia a clientes 40, mano de obra 15, normativa 10, coste 10, ampliaciones 15, relieve 10. Puntuaciones de Madrid: 8, 6, 4, 3, 4, 6. Calcula su puntuación final (2 decimales).', [8, 6, 4, 3, 4, 6], w6, 6.00),
+      pf('zaragoza', 'Actividad 6 (mismas ponderaciones). Puntuaciones de Zaragoza: 5, 8, 7, 7, 8, 4. Calcula su puntuación final (2 decimales).', [5, 8, 7, 7, 8, 4], w6, 6.20)
+    ];
+    return items;
+  }
+
+  QZ_SETS.tal = {sections:TAL_SECTIONS, notes:TAL_NOTES, qs:TAL_QS, cards:TAL_CARDS, color:'#0E7490', bg:'#ECFEFF', cls:'tal',
+    pill:'<i class="ri-truck-line"></i> Técnicas de almacenamiento',
+    title:'Tema 2: El almacén',
+    notesDesc:'Resumen del tema 2: funciones, tipos, diseño, zonas y codificación del almacén.',
+    backTo:'tal', calcTotal:3 + 7};
 
   // ===================== GPN: GESTIÓN DE UN PEQUEÑO NEGOCIO (Rita) — Temas 1 y 2 =====================
   var GPN_SECTIONS = {
@@ -4787,7 +5247,7 @@
     if(qz === QZ_SETS[k]) return;
     qz = QZ_SETS[k];
     var scr = document.getElementById('sacScreen');
-    scr.classList.remove('sac','vt','fh','iso','ia','gpn'); scr.classList.add(qz.cls);
+    scr.classList.remove('sac','vt','fh','iso','ia','gpn','tal'); scr.classList.add(qz.cls);
     var pill = document.getElementById('qzPill');
     pill.className = 'subject-pill pill-' + qz.cls; pill.innerHTML = qz.pill;
     document.getElementById('qzTitle').textContent = qz.title;
@@ -4927,6 +5387,7 @@
     var st = qLoad();
     var direct = null;
     if(qz.cls === 'fh' && (src === 'conv' || src === 'doc')) direct = (src === 'doc') ? fhDocItems() : fhGenItems(10);
+    if(qz.cls === 'tal' && (src === 'calc' || src === 'doc')) direct = (src === 'doc') ? talDocItems() : talCalcItems(10);
     var base = direct ? [] : qz.qs.filter(function(q){
       if(src==='wrong'){ var r = st[qId(q)]; return !!(r && r.l); }
       if(src==='vf') return q.vf!==undefined;
@@ -5031,11 +5492,18 @@
     if(sacQuiz.answered) return;
     var q = sacQuiz.pool[sacQuiz.i], inp = document.getElementById('sacInp');
     var raw = inp.value.trim().replace(/\s+/g, '');
-    var pre = {2:'b', 8:'o', 16:'x'}[q.base];
-    if(pre) raw = raw.replace(new RegExp('^0' + pre, 'i'), '');
-    if(!raw) return;
-    var re = {2:/^[01]+$/, 8:/^[0-7]+$/, 10:/^\d+$/, 16:/^[0-9a-f]+$/i}[q.base];
-    var ok = re.test(raw) && parseInt(raw, q.base) === q.val;
+    var ok;
+    if(q.num !== undefined){
+      if(!raw) return;
+      var nv = parseFloat(raw.replace(',', '.'));
+      ok = !isNaN(nv) && Math.abs(nv - q.num) <= q.tol;
+    } else {
+      var pre = {2:'b', 8:'o', 16:'x'}[q.base];
+      if(pre) raw = raw.replace(new RegExp('^0' + pre, 'i'), '');
+      if(!raw) return;
+      var re = {2:/^[01]+$/, 8:/^[0-7]+$/, 10:/^\d+$/, 16:/^[0-9a-f]+$/i}[q.base];
+      ok = re.test(raw) && parseInt(raw, q.base) === q.val;
+    }
     sacQuiz.answered = true; inp.disabled = true;
     var cb = document.querySelector('#sacOpts .btn-check'); if(cb) cb.style.display = 'none';
     var hb = document.querySelector('#sacOpts .btn-hint'); if(hb) hb.style.display = 'none';
@@ -5045,15 +5513,17 @@
     var ex = document.getElementById('sacExpl');
     ex.innerHTML = '';
     var d = document.createElement('div'); d.className = 'sac-expl';
-    var b = document.createElement('b'); b.textContent = ok ? '¡Correcto!' : 'Incorrecto. La respuesta es ' + q.ans + fhSubNum(q.base) + '.';
+    var b = document.createElement('b'); b.textContent = ok ? '¡Correcto!' : 'Incorrecto. La respuesta es ' + q.ans + qSub(q) + '.';
     d.appendChild(b);
     d.appendChild(fhProcBlock('Procedimiento paso a paso', q.proc.steps));
     var res = document.createElement('div'); res.style.cssText = 'margin-top:8px;font-weight:700;';
-    res.textContent = 'Resultado: ' + q.ans + fhSubNum(q.base);
+    res.textContent = 'Resultado: ' + q.ans + qSub(q);
     d.appendChild(res);
     ex.appendChild(d);
     sacShowNext();
   }
+
+  function qSub(q){ return q.base ? fhSubNum(q.base) : (q.unit || ''); }
 
   function fhProcBlock(title, lines){
     var w = document.createElement('div'); w.style.marginTop = '8px';
@@ -5149,7 +5619,7 @@
         if(q.dev){
           r.textContent = 'Respuesta modelo: ' + q.a;
         } else if(q.inp){
-          r.textContent = 'Respuesta: ' + q.ans + fhSubNum(q.base) + ' — ' + q.e;
+          r.textContent = 'Respuesta: ' + q.ans + qSub(q) + ' — ' + q.e;
         } else {
           var ok = q.opts.filter(function(o){return o.ok;})[0];
           r.textContent = (wasExam && q.sel === undefined ? 'Sin contestar. ' : '') + 'Correcta: ' + ok.t + ' — ' + q.e;
@@ -5172,11 +5642,12 @@
         var r = st[qId(q)];
         if(r){ seen++; o += r.o; kk += r.k; }
       });
-      if(k === 'prac' && qz.cls === 'fh'){
+      if((k === 'prac' && qz.cls === 'fh') || (k === 'calc' && qz.cls === 'tal')){
+        var pfx = qz.cls === 'fh' ? ['fh:gen:', 'fh:doc:'] : ['tal:calc:'];
         Object.keys(st).forEach(function(id){
-          if(id.indexOf('fh:gen:') === 0 || id.indexOf('fh:doc:') === 0){ seen++; o += st[id].o; kk += st[id].k; }
+          if(pfx.some(function(px){ return id.indexOf(px) === 0; })){ seen++; o += st[id].o; kk += st[id].k; }
         });
-        total = qz.docCount + qz.genTypes;
+        total = qz.cls === 'fh' ? qz.docCount + qz.genTypes : qz.calcTotal;
       }
       totO += o; totK += kk;
       return {k:k, o:o, kk:kk, seen:seen, total:total, pct: (o+kk) ? Math.round(o/(o+kk)*100) : null};
